@@ -1,0 +1,3334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الاختبار التشخيصي القبلي - الفعل المضارع والأفعال المعربة</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-main-title:   40px;
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+
+  --letter-spacing-tight:   1.5px;
+
+  --color-primary-hover:    #9d5a22;
+  --color-secondary-hover:  #f2d489;
+  --color-olive-hover:      #9c9d3a;
+
+  --audio-btn-size:         44px;
+  --audio-btn-radius:       11px;
+  --audio-btn-icon-size:    19px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover  { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+
+.btn-submit {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-submit:hover  { background: var(--color-olive-hover); }
+.btn-submit:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-submit:disabled {
+  background: #c0c19a;
+  color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* زرّ ابدأ الاختبار */
+.btn-start {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 6px 0 var(--color-primary-shadow);
+  font-size: 26px;
+  padding: 16px 44px;
+  min-width: 240px;
+  border-radius: 14px;
+  animation: startBtnPulse 2.2s ease-in-out infinite;
+}
+.btn-start:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 var(--color-primary-shadow);
+}
+.btn-start:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  animation: none;
+}
+@keyframes startBtnPulse {
+  0%, 100% { box-shadow: 0 6px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.35); }
+  50%      { box-shadow: 0 6px 0 var(--color-primary-shadow), 0 0 0 14px rgba(132, 72, 22, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 4px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 4px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.header-title-main {
+  font-size: 1em;
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.2;
+}
+.header-title-sub {
+  font-size: 0.62em;
+  font-weight: var(--font-weight-bold);
+  opacity: 0.92;
+  margin-top: 4px;
+  letter-spacing: 0.3px;
+  line-height: 1.3;
+}
+
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTRO SCREEN
+═══════════════════════════════════════════════════════════════ */
+.intro-screen {
+  position: relative;
+  z-index: 5;
+  display: block;
+  padding: 18px 0 0;
+  background: transparent;
+  animation: introFadeIn 0.5s ease-out;
+}
+@keyframes introFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.intro-welcome-wrap {
+  position: relative;
+  z-index: 5;
+}
+
+/* بطاقة الموضوع */
+.intro-topic-card {
+  margin: 14px 16px 0;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.18);
+}
+.intro-topic-card .q-card-header {
+  margin-bottom: 0;
+}
+
+/* بطاقة التعليمات */
+.intro-instructions-card {
+  margin: 14px 16px 0;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.18);
+}
+.intro-instructions-card .q-card-header {
+  margin-bottom: 0;
+  align-items: flex-start;
+}
+.intro-instructions-card .q-card-title {
+  text-align: justify;
+  line-height: var(--line-height-relaxed);
+}
+
+.intro-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  padding: 0 16px;
+  position: relative;
+  z-index: 5;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FADED PREVIEW — حالة قبل بدء الاختبار
+═══════════════════════════════════════════════════════════════ */
+.faded-preview {
+  opacity: 0.18;
+  filter: blur(1.5px);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity 0.6s ease, filter 0.6s ease;
+}
+.faded-preview .slide:first-child {
+  display: block;
+}
+
+/* عند البدء، نضيف هذه الكلاس على body لإزالة الـ blur */
+.test-started .faded-preview {
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  user-select: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION PROGRESSIVE REVEAL (للسؤال الأول)
+═══════════════════════════════════════════════════════════════ */
+.q-card.hidden-reveal {
+  display: none;
+}
+.q-card.revealing {
+  animation: qCardReveal 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes qCardReveal {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.95); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 700px) {
+  .intro-screen { padding: 14px 0 0; }
+  .intro-topic-card { margin: 12px 10px 0; }
+  .intro-cta { margin-top: 22px; padding: 0 10px; }
+  .btn-start { font-size: 22px; padding: 14px 36px; min-width: 220px; }
+}
+
+@media (max-width: 480px) {
+  .intro-screen { padding: 12px 0 0; }
+  .intro-topic-card { margin: 10px 8px 0; }
+  .intro-instructions-card { margin: 10px 8px 0; }
+  .intro-cta { margin-top: 20px; padding: 0 8px; }
+  .btn-start { font-size: 18px; padding: 13px 24px; min-width: auto; width: 100%; max-width: 320px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+
+.instr-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 0;
+}
+.instr-hint-img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.instr-hint-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION CARD
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+/* ═══ تلوين كرت السؤال عند الإجابة مباشرة ═══ */
+.q-card.q-card-correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
+}
+.q-card.q-card-wrong {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: qCardShake 0.5s;
+}
+@keyframes qCardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+.q-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+  margin-left: 0;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MCQ (Q1) — تحقق فوري عند الاختيار
+═══════════════════════════════════════════════════════════════ */
+.mcq-options { display: grid; gap: 10px; }
+
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.checked-selection {
+  border-color: var(--color-primary);
+  border-width: 3px;
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.25);
+}
+
+/* ═══ ألوان الفيدباك الفوري ═══ */
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: optionPulseCorrect 0.6s ease;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text {
+  color: var(--color-error);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: optionPulseCorrect 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.disabled-option {
+  pointer-events: none;
+  cursor: default;
+}
+@keyframes optionPulseCorrect {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* ═══ فيدباك تحت السؤال ═══ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeInFb 0.3s ease;
+}
+.q-feedback i { margin-left: 4px; }
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.completion-extra {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+@keyframes fadeInFb {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLICK SENTENCES (Q2) — مجرد نقر، بدون تحقق
+═══════════════════════════════════════════════════════════════ */
+.click-sentences-wrap {
+  margin: 14px 16px 0;
+}
+.click-sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.click-sentence {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+}
+.click-sentence:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.12);
+}
+.click-sentence-letter {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.click-sentence-text {
+  flex: 1;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.click-sentence-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: transparent;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.click-sentence.selected {
+  background: var(--color-secondary-light);
+  border-color: var(--color-primary);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.35);
+}
+.click-sentence.selected .click-sentence-check {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.35);
+}
+.click-sentence.selected .click-sentence-check i {
+  animation: checkPop 0.3s ease;
+}
+
+/* ═══ حالات السؤال الثاني (صح/غلط/منكشف) ═══ */
+.click-sentence.correct-sentence {
+  background: #f3f7e3 !important;
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20) !important;
+  pointer-events: none;
+}
+.click-sentence.correct-sentence .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.correct-sentence .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.correct-sentence .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(107, 139, 31, 0.40);
+}
+.click-sentence.wrong-sentence {
+  background: #fbeeea !important;
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  animation: cardShake 0.5s;
+}
+.click-sentence.wrong-sentence .click-sentence-text {
+  color: var(--color-error);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.wrong-sentence .click-sentence-letter {
+  background: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.click-sentence.wrong-sentence .click-sentence-check {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  font-size: 17px;
+  content: '✗';
+}
+.click-sentence.wrong-sentence .click-sentence-check i {
+  display: none;
+}
+.click-sentence.wrong-sentence .click-sentence-check::before {
+  content: '✗';
+  font-weight: 900;
+  font-size: 16px;
+}
+.click-sentence.revealed-sentence {
+  background: #f3f7e3 !important;
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20) !important;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.click-sentence.revealed-sentence .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.revealed-sentence .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.revealed-sentence .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+}
+.click-sentence.disabled-sentence {
+  pointer-events: none;
+  opacity: 0.6;
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.click-sentences-wrap .q-feedback {
+  margin-top: 14px;
+}
+@keyframes checkPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DROPDOWN TABLES (Q3 الجديد)
+═══════════════════════════════════════════════════════════════ */
+.dropdown-tables-wrap {
+  margin: 14px 16px 0;
+}
+.dropdown-sentence-card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  animation: fadeIn 0.4s ease;
+}
+.dropdown-sentence-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+.dropdown-sentence-num {
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 100px;
+  padding: 5px 16px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.dropdown-sentence-text {
+  font-size: 24px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+.dropdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  margin-bottom: 16px;
+}
+.dropdown-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 8px;
+  border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
+}
+.dropdown-row {
+  transition: background 0.3s ease;
+}
+.dropdown-row td {
+  padding: 10px;
+  border: 1.5px solid var(--color-sand);
+  text-align: center;
+  vertical-align: middle;
+}
+.dropdown-word-cell {
+  background: var(--color-secondary-light);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
+}
+.dropdown-select-cell {
+  background: #fff;
+  padding: 12px !important;
+}
+
+/* ═══ Custom Dropdown ═══ */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  font-family: var(--font-family);
+}
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.custom-dropdown.is-open .custom-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.custom-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+}
+.custom-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.custom-dropdown.is-open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.custom-dropdown.is-open .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.custom-dropdown-option {
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.custom-dropdown-option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.custom-dropdown-option:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.custom-dropdown-option:only-child {
+  border-radius: 8px;
+}
+.custom-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.custom-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.custom-dropdown.is-disabled .custom-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ═══ حالات الصف (تطبق على trigger الـ dropdown) ═══ */
+.dropdown-row.correct-row {
+  background: #f3f7e3;
+}
+.dropdown-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.dropdown-row.correct-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+.dropdown-row.wrong-row {
+  background: #fbeeea;
+}
+.dropdown-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.dropdown-row.wrong-row .custom-dropdown-arrow {
+  color: var(--color-error);
+}
+@keyframes dropdownShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.dropdown-row.revealed-row {
+  background: #f3f7e3;
+}
+.dropdown-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.dropdown-row.revealed-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+
+.dropdown-sentence-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 2px dashed var(--color-primary-light);
+}
+.dropdown-sentence-nav .btn-action {
+  min-width: 0;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 20px;
+  border-radius: 50%;
+}
+.dropdown-sentence-nav .btn-action i {
+  font-size: 18px;
+}
+.dropdown-sentence-nav > div:empty {
+  flex: 1;
+}
+.btn-sentence-next:not(:disabled) {
+  animation: nextBtnPulse 2s ease-in-out infinite;
+}
+@keyframes nextBtnPulse {
+  0%, 100% { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.35); }
+  50%      { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 12px rgba(132, 72, 22, 0); }
+}
+
+@media (max-width: 700px) {
+  .dropdown-sentence-card { padding: 14px; }
+  .dropdown-sentence-text { font-size: 21px; }
+  .dropdown-table thead th { font-size: 16px; padding: 10px 6px; }
+  .dropdown-word-cell { font-size: 17px; }
+  .custom-dropdown { max-width: 200px; }
+  .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+  .dropdown-sentence-nav .btn-action { width: 46px; height: 46px; font-size: 18px; }
+  .dropdown-sentence-nav .btn-action i { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
+  .dropdown-sentence-card { padding: 12px; }
+  .dropdown-sentence-text { font-size: 19px; }
+  .dropdown-sentence-num { font-size: 13px; padding: 4px 12px; }
+  .dropdown-table thead th { font-size: 14px; padding: 9px 4px; }
+  .dropdown-word-cell { font-size: 16px; padding: 9px 6px; }
+  .dropdown-select-cell { padding: 8px !important; }
+  .custom-dropdown { max-width: 100%; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+  .dropdown-sentence-nav { gap: 8px; }
+  .dropdown-sentence-nav .btn-action { width: 44px; height: 44px; font-size: 16px; flex: 0 0 auto; padding: 0; gap: 0; }
+  .dropdown-sentence-nav .btn-action i { font-size: 15px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GRAMMAR TABLE (Q3) - الملخص النهائي
+═══════════════════════════════════════════════════════════════ */
+.bank-area {
+  margin: 14px 16px 0;
+}
+.bank-label {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bank-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 16px;
+  min-height: 60px;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+}
+.bank-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+}
+.bank-chip .chip-handle {
+  color: var(--color-light-border);
+  font-size: 13px;
+}
+.bank-chip:not(.placed):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+}
+.bank-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40), 0 6px 16px rgba(132, 72, 22, 0.18);
+}
+.bank-chip.dragging { opacity: 0.4; cursor: grabbing; transform: scale(0.95); }
+.bank-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.bank-chip.placed .chip-handle { display: none; }
+.bank-chip.chip-shake {
+  animation: chipShake 0.5s;
+}
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.grammar-table-wrap {
+  margin: 14px 16px 0;
+  overflow-x: auto;
+  border-radius: 14px;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.grammar-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+}
+
+/* كل الخلايا بحدود كاملة وواضحة */
+.grammar-table th,
+.grammar-table td {
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  border: 1.5px solid var(--color-primary);
+}
+
+/* الهيدر */
+.grammar-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 14px 8px;
+  border: 1.5px solid var(--color-primary-shadow);
+}
+
+/* خلية الجملة الفعلية */
+.grammar-sentence-cell {
+  background: var(--color-secondary-light);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  padding: 16px 14px !important;
+  line-height: var(--line-height-normal);
+}
+
+/* خلايا الإفلات */
+.grammar-drop-cell {
+  padding: 10px !important;
+  background: #fff;
+}
+.grammar-drop-zone {
+  min-height: 56px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  transition: all 0.2s ease;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+.grammar-drop-zone.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+  transform: scale(1.02);
+}
+.grammar-drop-zone.filled {
+  border-style: solid;
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  box-shadow: inset 0 2px 4px rgba(132, 72, 22, 0.08);
+}
+.drop-placeholder {
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-sand);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+.zone-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  padding: 6px 8px;
+  cursor: pointer;
+}
+.zone-content-icon { font-size: 13px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDES
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESULTS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.results-screen {
+  display: none;
+  padding: 28px 20px 40px;
+}
+.results-screen.show { display: block; animation: fadeIn 0.5s ease; }
+
+.results-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.results-trophy {
+  width: 220px;
+  height: 220px;
+  margin: 10px auto 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: trophyPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.results-trophy i {
+  font-size: 100px;
+  color: var(--color-secondary);
+  filter: drop-shadow(0 4px 12px rgba(237, 198, 111, 0.55));
+}
+.results-trophy-img {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 6px 14px rgba(132, 72, 22, 0.28));
+}
+@keyframes trophyPop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.results-title {
+  font-size: clamp(26px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+/* صفّ أزرار النتيجة */
+.results-buttons-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 0 auto 24px;
+  padding: 0 16px;
+  max-width: 560px;
+}
+.results-buttons-row .btn-action {
+  flex: 1;
+  min-width: 200px;
+}
+.results-subtitle {
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  opacity: 0.8;
+}
+
+.score-card-centered {
+  max-width: 460px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  border-radius: 20px;
+  padding: 28px 32px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 12px 32px rgba(132, 72, 22, 0.28);
+  position: relative;
+  overflow: hidden;
+}
+.score-card-centered::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 160px;
+  height: 160px;
+  background: rgba(237, 198, 111, 0.18);
+  border-radius: 50%;
+}
+.score-card-centered::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 180px;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+.score-label-top {
+  position: relative;
+  z-index: 1;
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  opacity: 0.95;
+  margin-bottom: 8px;
+}
+.score-big {
+  position: relative;
+  z-index: 1;
+  font-size: 64px;
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.score-divider {
+  opacity: 0.5;
+  font-size: 50px;
+  font-weight: var(--font-weight-bold);
+}
+.score-total-big {
+  font-size: 44px;
+  opacity: 0.8;
+}
+
+/* زر مراجعة الإجابات */
+.results-actions-top {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 24px;
+}
+.btn-show-review {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-show-review:hover {
+  background: var(--color-olive-hover);
+}
+.btn-show-review:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--color-olive-shadow);
+}
+
+@media (max-width: 700px) {
+  .score-card-centered { padding: 22px 24px; }
+  .score-big { font-size: 52px; }
+  .score-divider { font-size: 40px; }
+  .score-total-big { font-size: 36px; }
+  .score-label-top { font-size: 19px; }
+}
+@media (max-width: 480px) {
+  .score-card-centered { padding: 20px 18px; }
+  .score-big { font-size: 44px; }
+  .score-divider { font-size: 34px; }
+  .score-total-big { font-size: 30px; }
+}
+
+.score-card {
+  max-width: 560px;
+  margin: 0 auto 28px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  border-radius: 18px;
+  padding: 24px 26px;
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(132, 72, 22, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+.score-card::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: rgba(237, 198, 111, 0.18);
+  border-radius: 50%;
+}
+.score-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: -50px;
+  width: 160px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.score-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.score-label {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  opacity: 0.95;
+}
+.score-value {
+  font-size: 48px;
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.score-value .score-total {
+  font-size: 26px;
+  opacity: 0.75;
+}
+.score-percent {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+}
+
+.results-stats {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.stat-pill {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 100px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+}
+.stat-pill i { font-size: 18px; }
+.stat-pill.correct { border-color: var(--color-success); color: var(--color-success); }
+.stat-pill.correct i { color: var(--color-success); }
+.stat-pill.wrong { border-color: var(--color-error); color: var(--color-error); }
+.stat-pill.wrong i { color: var(--color-error); }
+
+.results-review {
+  max-width: 920px;
+  margin: 0 auto 28px;
+}
+.review-title {
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 6px;
+}
+.review-title i { font-size: 20px; }
+
+.review-section {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.review-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px dashed var(--color-primary-light);
+}
+.review-section-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.review-section-title {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+
+.review-item {
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border: 2px solid;
+}
+.review-item:last-child { margin-bottom: 0; }
+.review-item.correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+}
+.review-item.wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+}
+.review-item-q {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.review-item-q i {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.review-item.correct .review-item-q i { color: var(--color-success); }
+.review-item.wrong .review-item-q i { color: var(--color-error); }
+
+.review-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 26px;
+}
+.review-answer {
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: var(--line-height-normal);
+}
+.review-answer-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 2px 10px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+.review-answer.your-answer .review-answer-label {
+  background: rgba(132, 72, 22, 0.10);
+  color: var(--color-primary);
+}
+.review-answer.correct-answer .review-answer-label {
+  background: rgba(107, 139, 31, 0.12);
+  color: var(--color-success);
+}
+.review-answer-value {
+  flex: 1;
+  color: var(--color-ink);
+}
+.review-item.correct .review-answer.your-answer .review-answer-value {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.review-item.wrong .review-answer.your-answer .review-answer-value {
+  color: var(--color-error);
+  text-decoration: line-through;
+  text-decoration-color: rgba(183, 71, 45, 0.45);
+}
+.review-item.wrong .review-answer.correct-answer .review-answer-value {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.review-blank {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* جدول مراجعة السؤال الثالث */
+.review-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  margin-top: 6px;
+}
+.review-table th {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 10px 6px;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  border-radius: 8px;
+}
+.review-table td {
+  padding: 6px;
+  text-align: center;
+  vertical-align: middle;
+}
+.review-table .review-sent {
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  padding: 10px;
+}
+.review-cell {
+  border-radius: 8px;
+  padding: 10px 6px;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  border: 2px solid;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.review-cell.correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.review-cell.wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+}
+.review-cell-your {
+  color: var(--color-error);
+  text-decoration: line-through;
+  font-size: 16px;
+}
+.review-cell-correct {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 17px;
+}
+
+.results-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+@media (max-width: 700px) {
+  .results-screen { padding: 22px 14px 32px; }
+  .results-trophy { width: 190px; height: 190px; }
+  .results-trophy i { font-size: 85px; }
+  .results-trophy-img { width: 190px; height: 190px; }
+  .review-section { padding: 14px; }
+  .review-section-title { font-size: 17px; }
+  .review-item-q { font-size: 16px; }
+  .review-answer { font-size: 15px; }
+  .review-answer-label { font-size: 12px; }
+  .review-table th { font-size: 15px; padding: 9px 5px; }
+  .review-table .review-sent { font-size: 15px; padding: 9px; }
+  .review-cell { font-size: 15px; padding: 9px 5px; }
+  .review-cell-your { font-size: 14px; }
+  .review-cell-correct { font-size: 15px; }
+}
+
+@media (max-width: 480px) {
+  .results-screen { padding: 18px 10px 28px; }
+  .results-buttons-row { gap: 10px; padding: 0 8px; }
+  .results-buttons-row .btn-action { min-width: 0; font-size: 14px; padding: 10px 8px; gap: 4px; }
+  .review-section { padding: 12px; }
+  .review-item { padding: 10px 12px; }
+  .review-answers { padding-right: 12px; }
+  .review-table th { font-size: 14px; padding: 8px 4px; }
+  .review-table .review-sent { font-size: 14px; padding: 8px; }
+  .review-cell { font-size: 14px; padding: 8px 4px; }
+  .review-cell-your { font-size: 13px; }
+  .review-cell-correct { font-size: 14px; }
+}
+
+/* ═══ Q3 summary stats في صفحة المراجعة ═══ */
+.q3-summary-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+.q3-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  border: 2px solid;
+}
+.q3-stat-pill i { font-size: 15px; }
+.q3-stat-pill.ok {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.q3-stat-pill.warn {
+  background: #fffaf0;
+  border-color: var(--color-secondary-shadow);
+  color: var(--color-primary-shadow);
+}
+
+/* ═══ جدول مراجعة Q3 - تنسيق محسن ═══ */
+.q3-review-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-family: var(--font-family);
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  border: 2px solid var(--color-primary);
+}
+.q3-review-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 8px;
+  text-align: center;
+  border-right: 1.5px solid var(--color-sand);
+  border-bottom: 1.5px solid var(--color-sand);
+}
+.q3-review-table thead th:first-child {
+  border-right: none;
+}
+.q3-review-table tbody td {
+  padding: 10px 8px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1.5px solid var(--color-sand);
+  background: #fff;
+}
+/* أول صف من كل جملة - فاصل علوي بنفس اللون */
+.q3-review-table tr.sentence-start td {
+  border-top: 1.5px solid var(--color-sand);
+}
+/* خلية الجملة - merged */
+.q3-review-sent-cell {
+  background: var(--color-secondary-light) !important;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  border-left: 3px solid var(--color-secondary) !important;
+  padding: 12px 10px !important;
+  line-height: var(--line-height-normal);
+  width: 28%;
+}
+/* خلية الكلمة */
+.q3-review-word {
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fffaf3 !important;
+  width: 22%;
+}
+/* خلية النوع الصحيح */
+.q3-review-type {
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 22%;
+}
+/* خلية الحالة */
+.q3-review-status {
+  width: 28%;
+  padding: 6px !important;
+}
+.q3-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: var(--font-weight-extrabold);
+  border: 1.5px solid;
+  line-height: 1.3;
+}
+.q3-status-badge i { font-size: 13px; }
+.q3-status-badge.ok-first {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.q3-status-badge.ok-later {
+  background: #fffaf0;
+  border-color: var(--color-secondary-shadow);
+  color: var(--color-primary-shadow);
+}
+.q3-status-badge.revealed {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+.q3-status-badge.missed {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+@media (max-width: 700px) {
+  .q3-review-table thead th { font-size: 14px; padding: 10px 6px; }
+  .q3-review-table tbody td { padding: 9px 6px; }
+  .q3-review-sent-cell { font-size: 15px; padding: 10px 8px !important; }
+  .q3-review-word { font-size: 14px; }
+  .q3-review-type { font-size: 14px; }
+  .q3-status-badge { font-size: 12px; padding: 6px 9px; gap: 4px; }
+}
+@media (max-width: 480px) {
+  .q3-summary-stats { flex-direction: column; align-items: stretch; }
+  .q3-stat-pill { font-size: 13px; padding: 7px 12px; gap: 6px; justify-content: center; }
+  .q3-stat-pill i { font-size: 12px; }
+  .q3-review-table thead th { font-size: 12px; padding: 8px 3px; }
+  .q3-review-table tbody td { padding: 7px 3px; }
+  .q3-review-sent-cell { font-size: 13px; padding: 8px 5px !important; width: 25%; }
+  .q3-review-word { font-size: 13px; }
+  .q3-review-type { font-size: 13px; }
+  .q3-status-badge { font-size: 11px; padding: 5px 7px; gap: 3px; }
+  .q3-status-badge i { font-size: 10px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE GENERAL
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 84px; height: 84px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row,
+  .q-card,
+  .bank-area,
+  .grammar-table-wrap { margin-left: 10px; margin-right: 10px; }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 70px; height: 70px; }
+  .task-header-title { font-size: 26px !important; }
+
+  .q-card { padding: 16px; }
+  .q-card-title { font-size: 19px; }
+  .mcq-option-text { font-size: 18px; }
+
+  .click-sentence-text { font-size: 18px; }
+  .click-sentence { padding: 14px 16px; gap: 12px; }
+  .click-sentence-letter { width: 32px; height: 32px; font-size: 16px; }
+
+  .bank-chip { font-size: 16px; padding: 9px 14px; }
+  .grammar-table thead th { font-size: 16px; padding: 12px 6px; }
+  .grammar-sentence-cell { font-size: 16px; padding: 14px 10px !important; }
+  .grammar-drop-cell { padding: 8px !important; }
+  .grammar-drop-zone { min-height: 50px; }
+  .zone-content { font-size: 15px; }
+  .drop-placeholder { font-size: 12px; }
+
+  .task-instr-text { font-size: 19px; }
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 58px; height: 58px; }
+  .task-header-title { font-size: 22px !important; }
+
+  .task-instr-row,
+  .q-card,
+  .bank-area,
+  .grammar-table-wrap { margin-left: 8px; margin-right: 8px; }
+
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  .instr-hint { gap: 10px; }
+  .instr-hint-img { width: 36px; height: 36px; }
+  .instr-hint-text { font-size: 16px; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .q-card { padding: 14px; }
+  .q-card-title { font-size: 17px; }
+
+  .mcq-option-text { font-size: 16px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+
+  .click-sentence-text { font-size: 16px; }
+  .click-sentence { padding: 12px 14px; gap: 10px; }
+  .click-sentence-letter { width: 30px; height: 30px; font-size: 15px; }
+
+  .bank-chip { font-size: 15px; padding: 8px 12px; }
+  .grammar-table thead th { font-size: 14px; padding: 10px 4px; }
+  .grammar-sentence-cell { font-size: 14px; padding: 12px 6px !important; }
+  .grammar-drop-cell { padding: 6px !important; }
+  .grammar-drop-zone { min-height: 48px; padding: 4px 6px; }
+  .zone-content { font-size: 14px; padding: 4px 6px; }
+  .drop-placeholder { font-size: 11px; }
+
+  /* الأزرار جنب بعض على نفس السطر */
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action {
+    font-size: 14px;
+    padding: 10px 10px;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 50px; height: 50px; }
+  .task-header-title { font-size: 18px !important; }
+  .header-title-sub { font-size: 0.66em; }
+  .q-card-title { font-size: 16px; }
+  .mcq-option-text { font-size: 15px; }
+  .click-sentence-text { font-size: 15px; }
+  .bank-chip { font-size: 14px; padding: 7px 10px; }
+  .grammar-table thead th { font-size: 13px; padding: 8px 3px; }
+  .grammar-sentence-cell { font-size: 13px; padding: 10px 4px !important; }
+  .grammar-drop-cell { padding: 5px !important; }
+  .zone-content { font-size: 13px; }
+  .drop-placeholder { font-size: 10px; }
+  .btn-action { font-size: 13px; padding: 9px 6px; }
+  .btn-start { font-size: 17px; padding: 12px 20px; }
+}
+
+@media (hover: none) {
+  .mcq-option-label:hover {
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+  .bank-chip:not(.placed):hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+  }
+  .click-sentence:hover {
+    transform: none;
+    box-shadow: none;
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+
+  .bank-chip {
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    min-height: 48px;
+  }
+  .grammar-drop-zone { min-height: 52px; }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+.verb-highlight {
+  color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ Header (يظهر دائماً) ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/X7OrJAGUaFDf_TSC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title" id="headerTitle">
+          <div class="header-title-main">الاختبارُ التّشخيصيُّ</div>
+          <div class="header-title-sub">الفعل المضارع والأفعال المعربة</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap" id="progressBarWrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ INTRO SCREEN (يحتوي بطاقة الترحيب + الأسئلة الباهتة خلفها) ═══ -->
+    <div class="intro-screen" id="introScreen">
+
+      <!-- بطاقة الترحيب (تختفي بعد البدء) -->
+      <div class="intro-welcome-wrap" id="introWelcomeWrap">
+        <!-- بطاقة التعليمات -->
+        <div class="q-card intro-instructions-card">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للتعليمات">
+              <i class="fas fa-volume-high"></i>
+            </button>
+           <p class="q-card-title">
+  عزيزي الطّالبَ، صُمِّمَ هذا الاختبارُ التّشخيصيُّ لمساعدتِكَ على التعرّفِ إلى مستوى فهمِكَ قبلَ البدءِ بالتعلّمِ.
+  أجبْ عن الأسئلةِ جميعِها بتركيزٍ ودقّةٍ.
+</p>
+          </div>
+        </div>
+
+        <div class="intro-cta">
+          <button class="btn-action btn-start" onclick="startTest()">
+            <i class="fas fa-play"></i> ابدأِ الاختبارَ
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ Instruction Row ═══ -->
+    <div class="task-instr-row" id="instrRow" style="display: none;">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمع للتعليمات">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText">
+          <strong>السّؤالُ الأوّلُ:</strong> أختارُ الإجابةَ الصّحيحةَ فيما يأتي.
+        </p>
+        <div class="instr-hint" id="instrHint" style="display:none;">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/i7t_Mq6Gv8mJq6Fm.png" alt="" class="instr-hint-img">
+          <span class="instr-hint-text" id="instrHintText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container faded-preview" id="slidesContainer"></div>
+
+    <!-- ═══ RESULTS SCREEN ═══ -->
+    <div class="results-screen" id="resultsScreen">
+      <div class="results-header">
+        <div class="results-trophy">
+          <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/XdQoaNp7J_ClWUvZ.png" alt="" class="results-trophy-img">
+        </div>
+        <h2 class="results-title">انتهى الاختبارُ!</h2>
+      </div>
+
+      <div class="results-buttons-row">
+        <button class="btn-action btn-show-review" onclick="toggleReview()" id="showReviewBtn">
+          <i class="fas fa-eye"></i> <span id="reviewBtnText">مراجعةُ الإجاباتِ</span>
+        </button>
+        <button class="btn-action btn-restart" onclick="restartActivity()">
+          <i class="fas fa-redo"></i> إعادةُ الاختبارِ
+        </button>
+      </div>
+
+      <div class="results-review" id="resultsReview" style="display: none;">
+        <div class="review-title">
+          <i class="fas fa-clipboard-check"></i>
+          مراجعةُ الإجاباتِ
+        </div>
+        <div id="reviewContainer"></div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav" style="display: none;">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  /* ══════════════════════════════════════════════════════════════
+     DATA
+  ══════════════════════════════════════════════════════════════ */
+  const SLIDE_DATA = {
+  1: {
+    title: "السّؤالُ الأوّلُ",
+    type: "mcq",
+    instr: "<strong>السّؤالُ الأوّلُ:</strong> أختارُ الإجابةَ الصّحيحةَ فيما يأتي.",
+    questions: [
+      {
+        q: "قالَ لي أخي: «أنا أرسمُ لوحةً»، ولم أفهم، هل يقصد:",
+        options: [
+          "أ. أنّهُ أنهى رسمَ اللوحةِ؟",
+          "ب. أنّهُ لمْ يَزلْ يرسمُ اللوحةَ؟",
+          "ج. أنّهُ سوفَ يرسمها لاحقًا؟"
+        ],
+        correct: 1,
+        customFeedback: "أحسنتَ! إذنْ فالفعلُ المضارعُ يدلُّ على الزّمنِ الحاضرِ أو المستقبلِ القريبِ."
+      },
+      {
+        q: "حروفُ المضارعةِ أربعةٌ، اجتمعتْ في كلمةٍ واحدةٍ. أيُّ الكلماتِ الآتيةِ تجمعُها؟",
+        options: [
+          "أ. تأتين",
+          "ب. نأتي",
+          "ج. أجد"
+        ],
+        correct: 1
+      },
+      {
+        q: "إذا أضفنا حرفَ المضارعةِ «ن» إلى الفعلِ الماضي «لعبَ» يصبحُ:",
+        options: [
+          "أ. نلعبُ",
+          "ب. نكتبُ",
+          "ج. يلعبُ",
+          "د. لعبَ"
+        ],
+        correct: 0
+      },
+      {
+        q: "إذا أضفنا حرفَ المضارعةِ «أ» إلى الفعلِ الماضي «درسَ» يصبحُ:",
+        options: [
+          "أ. يدرسُ",
+          "ب. أدرسُ",
+          "ج. ندرسُ",
+          "د. درسَ"
+        ],
+        correct: 1
+      },
+      {
+        q: "إذا أضفنا حرفَ المضارعةِ «ت» إلى الفعلِ الماضي «كتبَ» يصبحُ:",
+        options: [
+          "أ. يكتبُ",
+          "ب. نكتبُ",
+          "ج. تكتبُ",
+          "د. كتبَ"
+        ],
+        correct: 2
+      },
+      {
+        q: "إذا أضفنا حرفَ المضارعةِ «ي» إلى الفعلِ الماضي «فهمَ» يصبحُ:",
+        options: [
+          "أ. أفهمُ",
+          "ب. نفهمُ",
+          "ج. يفهمُ",
+          "د. فهمَ"
+        ],
+        correct: 2
+      }
+    ]
+  },
+  2: {
+    title: "السّؤالُ الثّاني",
+    type: "click",
+    instr: "<strong>السّؤالُ الثّاني:</strong> يتميّزُ الفعلُ المضارعُ بأنّهُ يقبلُ دخولَ «سوفَ» عليه. أنقرُ على الأفعالِ المضارعةِ فقط.",
+    sentences: [
+      { letter: "أ", text: "يصافحُ",  isCorrect: true  },
+      { letter: "ب", text: "تذكَّرَ",  isCorrect: false },
+      { letter: "ج", text: "نسيَ",    isCorrect: false },
+      { letter: "د", text: "نزورُ",   isCorrect: true  },
+      { letter: "ه", text: "العَبْ",  isCorrect: false },
+      { letter: "و", text: "تُلاعبُ", isCorrect: true  },
+      { letter: "ز", text: "أنادي",   isCorrect: true  }
+    ],
+    completionFeedback: "نلاحظُ أنّ الأفعالَ الّتي تقبلُ «سوفَ» هي أفعالٌ مضارعةٌ."
+  },
+  3: {
+    title: "السّؤالُ الثّالثُ",
+    type: "mcq",
+    instr: "<strong>السّؤالُ الثّالثُ:</strong> أميّزُ الأفعالَ المعربةَ من الأفعالِ المبنيّةِ.",
+    questions: [
+      { q: "<span class=\"verb-highlight\">نَظِّمْ</span> وقتَكَ.",                                                options: ["أ. مُعرَبٌ", "ب. مَبنيٌّ"], correct: 1 },
+      { q: "<span class=\"verb-highlight\">يَنْتَشِرُ</span> الشَّذا.",                                              options: ["أ. مُعرَبٌ", "ب. مَبنيٌّ"], correct: 0 },
+      { q: "<span class=\"verb-highlight\">فازَ</span> المُجْتَهِدُ.",                                              options: ["أ. مُعرَبٌ", "ب. مَبنيٌّ"], correct: 1 },
+      { q: "<span class=\"verb-highlight\">اصْنَعْ</span> مَعروفًا.",                                               options: ["أ. مُعرَبٌ", "ب. مَبنيٌّ"], correct: 1 },
+      { q: "<span class=\"verb-highlight\">يَتَرَقْرَقُ</span> الماءُ.",                                             options: ["أ. مُعرَبٌ", "ب. مَبنيٌّ"], correct: 0 },
+      { q: "لمْ <span class=\"verb-highlight\">يتردّدْ</span> الفلّاحُ في الدّفاعِ عن محصولِهِ.",                    options: ["أ. مُعرَبٌ", "ب. مَبنيٌّ"], correct: 0 }
+    ]
+  }
+};
+
+const TOTAL_SLIDES = 3;
+  const MAX_ATTEMPTS = 3;
+  let currentSlide = 1;
+
+  // State معمَّم: لكل سلايد حالته الخاصّة مفهرسةً برقمِ السّلايد، حسب نوعِه.
+  //   mcq:             { type, answers:{qIdx->selIdx}, attempts:{qIdx->count}, status:{qIdx->{type,attempts}} }
+  //   click:           { type, attempts, completed, correctSelected:Set, selected:Set, revealed }
+  //   dropdown_tables: { type, currentSentence, sentencesCompleted:[], cells:{key->{selected,attempts,status}} }
+  const slideState = {};
+
+  function initSlideState() {
+    for (let i = 1; i <= TOTAL_SLIDES; i++) {
+      const data = SLIDE_DATA[i];
+      if (!data) continue;
+      if (data.type === 'mcq') {
+        slideState[i] = { type: 'mcq', answers: {}, attempts: {}, status: {} };
+      } else if (data.type === 'click') {
+        slideState[i] = { type: 'click', attempts: 0, completed: false, correctSelected: new Set(), selected: new Set(), revealed: false };
+      } else if (data.type === 'dropdown_tables') {
+        slideState[i] = { type: 'dropdown_tables', currentSentence: 0, sentencesCompleted: [], cells: {} };
+      }
+    }
+  }
+
+  const Q3_LABELS = {
+    fel: 'فعل',
+    fael: 'فاعل',
+    mafool: 'مفعول به',
+    none: 'لا شيء مما ذُكر'
+  };
+
+  /* ══════════════════════════════════════════════════════════════
+     UTILITIES
+  ══════════════════════════════════════════════════════════════ */
+  function toArabic(num) {
+    const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return num.toString().split('').map(d => arabic[d] || d).join('');
+  }
+
+  function isInZone(el, x, y) {
+    const r = el.getBoundingClientRect();
+    return x > r.left && x < r.right && y > r.top && y < r.bottom;
+  }
+
+  function toggleSimpleAudio(btn) {
+    btn.classList.toggle('state-playing');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     START TEST
+  ══════════════════════════════════════════════════════════════ */
+  function startTest() {
+    const introWrap = document.getElementById('introWelcomeWrap');
+    introWrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    introWrap.style.opacity = '0';
+    introWrap.style.transform = 'translateY(-12px)';
+
+    setTimeout(() => {
+      // إخفاء بطاقة الترحيب
+      document.getElementById('introScreen').style.display = 'none';
+
+      // إظهار شريط التعليمات
+      document.getElementById('instrRow').style.display = '';
+
+      // إزالة الحالة الباهتة عن السلايدز
+      document.getElementById('slidesContainer').classList.remove('faded-preview');
+
+      // إظهار شريط التنقل
+      document.getElementById('taskNav').style.display = '';
+
+      // إعادة تشغيل انيميشن أوّلِ بطاقةٍ في السّلايد الأوّل (إن كان من نوع mcq)
+      if (SLIDE_DATA[1] && SLIDE_DATA[1].type === 'mcq') {
+        const firstCard = document.querySelector('#qContainer-1 .q-card[data-q-idx="0"]');
+        if (firstCard) {
+          firstCard.classList.remove('revealing');
+          void firstCard.offsetWidth;
+          firstCard.classList.add('revealing');
+        }
+      }
+
+      updateProgressBar();
+      updateNavButtons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 400);
+  }
+
+  function hideAllMCQExceptFirst(slideIdx) {
+    const cards = document.querySelectorAll(`#qContainer-${slideIdx} .q-card`);
+    cards.forEach((card, idx) => {
+      if (idx === 0) {
+        card.classList.remove('hidden-reveal');
+        card.classList.add('revealing');
+      } else {
+        card.classList.add('hidden-reveal');
+      }
+    });
+  }
+
+  function revealNextMCQ(slideIdx, currentQIdx) {
+    const nextCard = document.querySelector(`#qContainer-${slideIdx} .q-card[data-q-idx="${currentQIdx + 1}"]`);
+    if (nextCard) {
+      nextCard.classList.remove('hidden-reveal');
+      // إعادة تشغيل الانيميشن
+      nextCard.classList.remove('revealing');
+      void nextCard.offsetWidth;
+      nextCard.classList.add('revealing');
+      setTimeout(() => {
+        nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 200);
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     BUILD ALL SLIDES
+  ══════════════════════════════════════════════════════════════ */
+  function buildAllSlides() {
+    const container = document.getElementById('slidesContainer');
+    let html = '';
+
+    for (let i = 1; i <= TOTAL_SLIDES; i++) {
+      const data = SLIDE_DATA[i];
+      html += `<div class="slide" data-slide="${i}">`;
+
+      if (data.type === 'mcq') {
+        html += `<div class="questions-container" id="qContainer-${i}"></div>`;
+      } else if (data.type === 'click') {
+        html += `
+          <div class="click-sentences-wrap">
+            <div class="click-sentences" id="clickSentences-${i}">
+        `;
+        data.sentences.forEach((s, idx) => {
+          html += `
+            <div class="click-sentence" data-idx="${idx}" data-correct="${s.isCorrect}">
+              <div class="click-sentence-letter">${s.letter}</div>
+              <div class="click-sentence-text">${s.text}</div>
+              <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+            </div>
+          `;
+        });
+        html += `
+            </div>
+            <div class="q-feedback" id="fb-q${i}"></div>
+          </div>
+        `;
+      } else if (data.type === 'dropdown_tables') {
+        html += `<div class="dropdown-tables-wrap" id="dropdownTablesWrap-${i}">`;
+        data.sentences.forEach((sent, sIdx) => {
+          html += `
+            <div class="dropdown-sentence-card" data-sent-idx="${sIdx}" ${sIdx === 0 ? '' : 'style="display:none;"'}>
+              <div class="dropdown-sentence-header">
+                <div class="dropdown-sentence-text">${sent.text}</div>
+              </div>
+              <table class="dropdown-table">
+                <thead>
+                  <tr>
+                    <th>الكلمةُ</th>
+                    <th>اختَرْ نوعَها</th>
+                  </tr>
+                </thead>
+                <tbody>
+          `;
+          sent.words.forEach((w, wIdx) => {
+            html += `
+              <tr class="dropdown-row" data-sent-idx="${sIdx}" data-word-idx="${wIdx}" data-correct="${w.correct}">
+                <td class="dropdown-word-cell">${w.word}</td>
+                <td class="dropdown-select-cell">
+                  <div class="custom-dropdown" data-sent-idx="${sIdx}" data-word-idx="${wIdx}">
+                    <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+                      <span class="custom-dropdown-value">— اختَرْ —</span>
+                      <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+                    </button>
+                    <ul class="custom-dropdown-menu" role="listbox">
+                      <li class="custom-dropdown-option" data-value="fel" role="option">فعل</li>
+                      <li class="custom-dropdown-option" data-value="fael" role="option">فاعل</li>
+                      <li class="custom-dropdown-option" data-value="mafool" role="option">مفعول به</li>
+                      <li class="custom-dropdown-option" data-value="none" role="option">لا شيء مما ذُكر</li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            `;
+          });
+          html += `
+                </tbody>
+              </table>
+              <div class="dropdown-sentence-nav">
+                ${sIdx > 0 ? `<button class="btn-action btn-nav btn-sentence-prev" onclick="goToSentence(${i}, ${sIdx - 1})" aria-label="الجملة السابقة"><i class="fas fa-arrow-right"></i></button>` : '<div></div>'}
+                ${sIdx < data.sentences.length - 1 ? `<button class="btn-action btn-nav btn-sentence-next" data-sent-idx="${sIdx}" onclick="goToSentence(${i}, ${sIdx + 1})" disabled aria-label="الجملة التالية"><i class="fas fa-arrow-left"></i></button>` : '<div></div>'}
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      html += `</div>`;
+    }
+
+    container.innerHTML = html;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     SLIDE 1 — MCQ (تحقق فوري عند الاختيار)
+  ══════════════════════════════════════════════════════════════ */
+  function renderMCQQuestions(slideIdx) {
+    const data = SLIDE_DATA[slideIdx];
+    if (!data || data.type !== 'mcq') return;
+    const container = document.getElementById(`qContainer-${slideIdx}`);
+    if (!container) return;
+    const state = slideState[slideIdx];
+
+    let html = '';
+    data.questions.forEach((qData, qIdx) => {
+      let optionsHtml = '';
+      qData.options.forEach((opt, i) => {
+        optionsHtml += `
+          <label class="mcq-option-label">
+            <input type="radio" name="q-${slideIdx}-${qIdx}" value="${i}">
+            <span class="mcq-option-text">${opt}</span>
+          </label>
+        `;
+      });
+
+      html += `
+        <div class="q-card" data-q-idx="${qIdx}">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للسؤال">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title"><span class="q-num-inline">${toArabic(qIdx + 1)}.</span> ${qData.q}</p>
+          </div>
+          <div class="mcq-options">
+            ${optionsHtml}
+          </div>
+          <div class="q-feedback" id="fb-q${slideIdx}-${qIdx}"></div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+    // Attach listeners — تحقق فوري مع 3 محاولات
+    data.questions.forEach((qData, qIdx) => {
+      // تهيئة عداد المحاولات
+      if (state.attempts[qIdx] === undefined) state.attempts[qIdx] = 0;
+
+      container.querySelectorAll(`input[name="q-${slideIdx}-${qIdx}"]`).forEach(input => {
+        input.addEventListener('change', () => {
+          // لو السؤال متجاوب عليه صح من قبل، تجاهل
+          if (state.answers[qIdx] !== undefined) return;
+          // لو تجاوز الحد الأقصى للمحاولات، تجاهل
+          if (state.attempts[qIdx] >= MAX_ATTEMPTS) return;
+
+          state.attempts[qIdx]++;
+          const selectedIdx = parseInt(input.value);
+          const correctIdx = qData.correct;
+          const isCorrect = selectedIdx === correctIdx;
+
+          const card = input.closest('.q-card');
+          const labels = card.querySelectorAll('.mcq-option-label');
+          const inputs = card.querySelectorAll('input[type="radio"]');
+          const fb = document.getElementById(`fb-q${slideIdx}-${qIdx}`);
+
+          // امسح أي حالات سابقة
+          labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+          if (isCorrect) {
+            // ✅ صح - الكرت كله يصير أخضر
+            state.answers[qIdx] = selectedIdx;
+            state.status[qIdx] = { type: 'correct', attempts: state.attempts[qIdx] };
+            labels.forEach((label, i) => {
+              if (i === correctIdx) label.classList.add('correct-option');
+              inputs[i].disabled = true;
+              label.classList.add('disabled-option');
+            });
+            card.classList.add('q-card-correct');
+            fb.className = 'q-feedback show-correct';
+            const successMsg = qData.customFeedback || 'أحسنتَ! إجابةٌ صحيحةٌ.';
+            fb.innerHTML = `<i class="fas fa-check-circle"></i> ${successMsg}`;
+
+            // FIX: بعد إظهار رسالة النجاح، نخفي رسالة الفيدباك فقط بعد مهلة قصيرة.
+            // الخيار الصحيح يبقى مظللاً بالأخضر بدون أي تغيير — لا نلمس correct-option
+            // ولا q-card-correct ولا أي تنسيق/أنميشن، نمسح نص الرسالة فقط.
+            setTimeout(() => {
+              fb.className = 'q-feedback';
+              fb.innerHTML = '';
+            }, 1500);
+
+            // إظهار السؤال التالي تلقائياً
+            revealNextMCQ(slideIdx, qIdx);
+            updateNavButtons();
+          } else {
+            // ❌ غلط - الكرت كله يصير أحمر مع shake
+            labels.forEach((label, i) => {
+              if (i === selectedIdx) label.classList.add('wrong-option');
+            });
+            card.classList.add('q-card-wrong');
+
+            if (state.attempts[qIdx] >= MAX_ATTEMPTS) {
+              // ٣ محاولات → اكشف الإجابة الصحيحة، الكرت يصير أخضر
+              state.answers[qIdx] = correctIdx;
+              state.status[qIdx] = { type: 'revealed', attempts: MAX_ATTEMPTS };
+              labels.forEach((label, i) => {
+                label.classList.remove('wrong-option');
+                if (i === correctIdx) label.classList.add('revealed');
+                inputs[i].disabled = true;
+                label.classList.add('disabled-option');
+              });
+              card.classList.remove('q-card-wrong');
+              card.classList.add('q-card-correct');
+              fb.className = 'q-feedback show-correct';
+              fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ!';
+              revealNextMCQ(slideIdx, qIdx);
+              updateNavButtons();
+            } else {
+              // أقل من 3 محاولات: فيدباك أحمر + رجوع الخيار والكرت طبيعي
+              fb.className = 'q-feedback show-wrong';
+              fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+              setTimeout(() => {
+                labels.forEach(l => l.classList.remove('wrong-option'));
+                inputs.forEach(inp => { inp.checked = false; });
+                card.classList.remove('q-card-wrong');
+                fb.className = 'q-feedback';
+                fb.innerHTML = '';
+              }, 1500);
+            }
+          }
+        });
+      });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     SLIDE 2 — CLICK SENTENCES (تحقق فوري + 3 محاولات)
+  ══════════════════════════════════════════════════════════════ */
+  function renderClickSentences(slideIdx) {
+    const data = SLIDE_DATA[slideIdx];
+    if (!data || data.type !== 'click') return;
+    const wrap = document.getElementById(`clickSentences-${slideIdx}`);
+    if (!wrap) return;
+    const state = slideState[slideIdx];
+    const totalCorrect = data.sentences.filter(s => s.isCorrect).length;
+
+    wrap.querySelectorAll('.click-sentence').forEach(sent => {
+      sent.addEventListener('click', () => {
+        if (state.completed || state.revealed) return;
+
+        const idx = parseInt(sent.dataset.idx);
+        const isCorrectAnswer = sent.dataset.correct === 'true';
+        const fb = document.getElementById(`fb-q${slideIdx}`);
+
+        // لو هذه الجملة من الإجابات الصحيحة المختارة، تجاهل
+        if (state.correctSelected.has(idx)) return;
+
+        state.attempts++;
+
+        if (isCorrectAnswer) {
+          // ✅ نقر على جملة فعلية (صحيحة)
+          state.correctSelected.add(idx);
+          state.selected.add(String(idx));
+          sent.classList.remove('selected');
+          sent.classList.add('correct-sentence');
+
+          if (state.correctSelected.size === totalCorrect) {
+            // اكتمل الكل
+            state.completed = true;
+            let msg = 'ممتازٌ! حدّدْتَ جميعَ الجملِ الفعليّةِ بشكلٍ صحيحٍ.';
+            if (data.completionFeedback) {
+              msg += `<br><span class="completion-extra">${data.completionFeedback}</span>`;
+            }
+            fb.className = 'q-feedback show-correct';
+            fb.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+            // قفل باقي الجمل
+            wrap.querySelectorAll('.click-sentence').forEach(s => {
+              if (!s.classList.contains('correct-sentence')) {
+                s.classList.add('disabled-sentence');
+              }
+            });
+          } else {
+            // فيه إجابات صحيحة كمان
+            fb.className = 'q-feedback show-correct';
+            fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! هناكَ إجابةٌ أخرى صحيحةٌ، تابعْ.';
+          }
+          updateNavButtons();
+        } else {
+          // ❌ نقر على جملة اسمية (غلط)
+          sent.classList.add('wrong-sentence');
+
+          if (state.attempts >= MAX_ATTEMPTS) {
+            // ٣ محاولات → اكشف الإجابات الصحيحة المتبقية
+            state.revealed = true;
+            state.completed = true;
+            setTimeout(() => {
+              sent.classList.remove('wrong-sentence');
+              // اكشف كل الإجابات الصحيحة اللي لسا ما اتحددت
+              wrap.querySelectorAll('.click-sentence').forEach(s => {
+                const sIdx = parseInt(s.dataset.idx);
+                const sCorrect = s.dataset.correct === 'true';
+                if (sCorrect && !state.correctSelected.has(sIdx)) {
+                  s.classList.add('revealed-sentence');
+                  state.selected.add(String(sIdx));
+                } else if (!sCorrect) {
+                  s.classList.add('disabled-sentence');
+                }
+              });
+              let msg = 'أحسنتَ على المحاولةِ!';
+              if (data.completionFeedback) {
+                msg += `<br><span class="completion-extra">${data.completionFeedback}</span>`;
+              }
+              fb.className = 'q-feedback show-correct';
+              fb.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+              updateNavButtons();
+            }, 800);
+          } else {
+            // أقل من 3 محاولات: شيل التحديد + فيدباك + رجوع طبيعي
+            fb.className = 'q-feedback show-wrong';
+            fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+            setTimeout(() => {
+              sent.classList.remove('wrong-sentence', 'selected');
+              fb.className = 'q-feedback';
+              fb.innerHTML = '';
+            }, 1500);
+          }
+        }
+      });
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     SLIDE 3 — DROPDOWN TABLES (3 محاولات لكل خانة)
+  ══════════════════════════════════════════════════════════════ */
+  // Labels للعرض
+  const Q3_OPTION_LABELS = {
+    fel: 'فعل',
+    fael: 'فاعل',
+    mafool: 'مفعول به',
+    none: 'لا شيء مما ذُكر'
+  };
+
+  // إغلاق أي dropdown مفتوح عند الضغط خارجَه — يُسجَّل مرّةً واحدةً لكلّ الصّفحة
+  function initDropdownGlobalClose() {
+    document.addEventListener('click', (e) => {
+      document.querySelectorAll('.custom-dropdown.is-open').forEach(dd => {
+        if (!dd.contains(e.target)) {
+          dd.classList.remove('is-open');
+          dd.querySelector('.custom-dropdown-trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  }
+
+  function renderDropdownTables(slideIdx) {
+    const data = SLIDE_DATA[slideIdx];
+    if (!data || data.type !== 'dropdown_tables') return;
+    const wrap = document.getElementById(`dropdownTablesWrap-${slideIdx}`);
+    if (!wrap) return;
+    const state = slideState[slideIdx];
+
+    wrap.querySelectorAll('.custom-dropdown').forEach(dd => {
+      const sIdx = parseInt(dd.dataset.sentIdx);
+      const wIdx = parseInt(dd.dataset.wordIdx);
+      const key = sIdx + '-' + wIdx;
+      const trigger = dd.querySelector('.custom-dropdown-trigger');
+      const valueSpan = dd.querySelector('.custom-dropdown-value');
+
+      // تهيئة state للخانة
+      if (!state.cells[key]) {
+        state.cells[key] = { selected: null, attempts: 0, status: null };
+      }
+
+      // فتح/إغلاق الـ dropdown
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (dd.classList.contains('is-disabled')) return;
+        // أغلق الباقي ضمن نفس السّلايد
+        wrap.querySelectorAll('.custom-dropdown.is-open').forEach(other => {
+          if (other !== dd) {
+            other.classList.remove('is-open');
+            other.querySelector('.custom-dropdown-trigger').setAttribute('aria-expanded', 'false');
+          }
+        });
+        // تبديل
+        const wasOpen = dd.classList.contains('is-open');
+        dd.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', !wasOpen);
+      });
+
+      // اختيار option
+      dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const selectedValue = opt.dataset.value;
+          const labelText = Q3_OPTION_LABELS[selectedValue];
+
+          // أغلق الـ dropdown
+          dd.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+
+          handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelText, valueSpan);
+        });
+      });
+    });
+  }
+
+  function handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelText, valueSpan) {
+    const key = sIdx + '-' + wIdx;
+    const state = slideState[slideIdx].cells[key];
+    // لو الإجابة مقفلة (صح أو انكشفت)، تجاهل
+    if (state.status === 'correct' || state.status === 'revealed') return;
+    // لو تجاوز الحد الأقصى للمحاولات، تجاهل
+    if (state.attempts >= MAX_ATTEMPTS) return;
+
+    state.attempts++;
+    const row = dd.closest('.dropdown-row');
+    const correctValue = row.dataset.correct;
+    const isCorrect = selectedValue === correctValue;
+
+    // عرض الاختيار
+    valueSpan.textContent = labelText;
+
+    // امسح حالات سابقة
+    row.classList.remove('correct-row', 'wrong-row', 'revealed-row');
+
+    if (isCorrect) {
+      // ✅ صح
+      state.selected = selectedValue;
+      state.status = 'correct';
+      row.classList.add('correct-row');
+      dd.classList.add('is-disabled');
+      checkSentenceComplete(slideIdx, sIdx);
+    } else {
+      // ❌ غلط
+      row.classList.add('wrong-row');
+
+      if (state.attempts >= MAX_ATTEMPTS) {
+        // ٣ محاولات → اكشف الإجابة الصحيحة
+        state.selected = correctValue;
+        state.status = 'revealed';
+        setTimeout(() => {
+          row.classList.remove('wrong-row');
+          row.classList.add('revealed-row');
+          valueSpan.textContent = Q3_OPTION_LABELS[correctValue];
+          dd.classList.add('is-disabled');
+          checkSentenceComplete(slideIdx, sIdx);
+        }, 800);
+      } else {
+        // أقل من 3 محاولات: رجوع للقائمة الفاضية بعد لحظة
+        setTimeout(() => {
+          row.classList.remove('wrong-row');
+          valueSpan.textContent = '— اختَرْ —';
+        }, 1200);
+      }
+    }
+  }
+
+  function checkSentenceComplete(slideIdx, sIdx) {
+    const data = SLIDE_DATA[slideIdx];
+    const state = slideState[slideIdx];
+    const sent = data.sentences[sIdx];
+    const allDone = sent.words.every((w, wIdx) => {
+      const key = sIdx + '-' + wIdx;
+      const cell = state.cells[key];
+      return cell && (cell.status === 'correct' || cell.status === 'revealed');
+    });
+    if (allDone) {
+      state.sentencesCompleted[sIdx] = true;
+      // تفعيل زر "الجملة التالية" لو موجود (ضمن نفس السّلايد)
+      const wrap = document.getElementById(`dropdownTablesWrap-${slideIdx}`);
+      const card = wrap ? wrap.querySelector(`.dropdown-sentence-card[data-sent-idx="${sIdx}"]`) : null;
+      if (card) {
+        const nextBtn = card.querySelector('.btn-sentence-next');
+        if (nextBtn) nextBtn.disabled = false;
+      }
+      updateNavButtons();
+    }
+  }
+
+  function goToSentence(slideIdx, targetIdx) {
+    const data = SLIDE_DATA[slideIdx];
+    if (targetIdx < 0 || targetIdx >= data.sentences.length) return;
+    const wrap = document.getElementById(`dropdownTablesWrap-${slideIdx}`);
+    if (!wrap) return;
+    wrap.querySelectorAll('.dropdown-sentence-card').forEach(card => {
+      const idx = parseInt(card.dataset.sentIdx);
+      card.style.display = idx === targetIdx ? '' : 'none';
+    });
+    slideState[slideIdx].currentSentence = targetIdx;
+    // scroll للأعلى
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  /* ══════════════════════════════════════════════════════════════
+     NAVIGATION
+  ══════════════════════════════════════════════════════════════ */
+  function goToSlide(idx) {
+    if (idx < 1 || idx > TOTAL_SLIDES) return;
+
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+    currentSlide = idx;
+
+    const data = SLIDE_DATA[idx];
+    const instrText = document.getElementById('instrText');
+    const instrHint = document.getElementById('instrHint');
+    const instrHintText = document.getElementById('instrHintText');
+
+    instrText.innerHTML = data.instr;
+    if (data.hint) {
+      instrHintText.textContent = data.hint;
+      instrHint.style.display = 'flex';
+    } else {
+      instrHint.style.display = 'none';
+    }
+
+    const audioBtn = document.getElementById('instrAudioBtn');
+    if (audioBtn) audioBtn.classList.remove('state-playing');
+
+    updateProgressBar();
+    updateNavButtons();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextSlide() {
+    if (currentSlide < TOTAL_SLIDES) {
+      goToSlide(currentSlide + 1);
+    } else {
+      submitTest();
+    }
+  }
+  function prevSlide() {
+    if (currentSlide > 1) goToSlide(currentSlide - 1);
+  }
+
+  function updateProgressBar() {
+    const pct = (currentSlide / TOTAL_SLIDES) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  function updateNavButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (currentSlide === 1) {
+      prevBtn.style.visibility = 'hidden';
+    } else {
+      prevBtn.style.visibility = '';
+    }
+
+    if (currentSlide === TOTAL_SLIDES) {
+      nextBtn.innerHTML = 'إنهاءُ الاختبارِ';
+      nextBtn.classList.add('btn-submit');
+      nextBtn.classList.remove('btn-nav');
+      nextBtn.disabled = !isAllAnswered();
+    } else {
+      nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+      nextBtn.classList.add('btn-nav');
+      nextBtn.classList.remove('btn-submit');
+      // التّحقّق من إكمال السّؤال الحاليّ قبل السّماحِ بالانتقال
+      nextBtn.disabled = !isCurrentSlideAnswered();
+    }
+  }
+
+  /* التّحقّق من إكمال سلايدٍ معيّنٍ حسب نوعِه */
+  function isSlideAnswered(idx) {
+    const data = SLIDE_DATA[idx];
+    const state = slideState[idx];
+    if (!data || !state) return true;
+    if (data.type === 'mcq') {
+      // كلّ فروع السّؤال أُجيب عنها
+      return data.questions.every((q, qIdx) => state.answers[qIdx] !== undefined);
+    }
+    if (data.type === 'click') {
+      // اكتمل (أجاب صح أو انكشفت الإجابات بعد 3 محاولات)
+      return state.completed;
+    }
+    if (data.type === 'dropdown_tables') {
+      // كلّ الجملِ أُكملت
+      return data.sentences.every((s, sIdx) => state.sentencesCompleted[sIdx]);
+    }
+    return true;
+  }
+
+  /* التّحقّق من إكمال السّؤال الحاليّ فقط */
+  function isCurrentSlideAnswered() {
+    return isSlideAnswered(currentSlide);
+  }
+
+  /* التّحقّق من إكمال جميع أسئلة الاختبار */
+  function isAllAnswered() {
+    for (let i = 1; i <= TOTAL_SLIDES; i++) {
+      if (!isSlideAnswered(i)) return false;
+    }
+    return true;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     SUBMIT & RESULTS
+  ══════════════════════════════════════════════════════════════ */
+  function calculateResults() {
+    let correctCount = 0;
+    let wrongCount = 0;
+    const slides = []; // نتيجةٌ لكلّ سلايدٍ بالتّرتيب، مُوسومةٌ بنوعِها
+
+    for (let i = 1; i <= TOTAL_SLIDES; i++) {
+      const data = SLIDE_DATA[i];
+      const state = slideState[i];
+      if (!data || !state) continue;
+
+      if (data.type === 'mcq') {
+        // كلّ فرعٍ نقطةٌ واحدةٌ، يُحتسب صحيحاً فقط إذا كان status.type === 'correct'
+        const questions = [];
+        data.questions.forEach((qData, qIdx) => {
+          const status = state.status[qIdx]; // { type, attempts } أو undefined
+          const isCorrect = status && status.type === 'correct';
+          if (isCorrect) correctCount++; else wrongCount++;
+          questions.push({
+            q: qData.q,
+            options: qData.options,
+            userAns: state.answers[qIdx],
+            correctAns: qData.correct,
+            isCorrect: isCorrect,
+            status: status
+          });
+        });
+        slides.push({ idx: i, type: 'mcq', title: data.title, questions: questions });
+      } else if (data.type === 'click') {
+        const details = [];
+        data.sentences.forEach((s, idx) => {
+          const isSelected = state.selected.has(String(idx));
+          const shouldBeSelected = s.isCorrect;
+          details.push({
+            letter: s.letter,
+            text: s.text,
+            isSelected: isSelected,
+            shouldBeSelected: shouldBeSelected,
+            isCorrect: isSelected === shouldBeSelected
+          });
+        });
+        // اعتبره صح إذا أكمل بدون كشف
+        const slideCorrect = state.completed && !state.revealed;
+        if (slideCorrect) correctCount++; else wrongCount++;
+        slides.push({ idx: i, type: 'click', title: data.title, isCorrect: slideCorrect, revealed: state.revealed, attempts: state.attempts, details: details });
+      } else if (data.type === 'dropdown_tables') {
+        const details = [];
+        let firstTryCount = 0;
+        let revealedCount = 0;
+        let totalCells = 0;
+        data.sentences.forEach((sent, sIdx) => {
+          const sentResult = { sentence: sent.text, words: [] };
+          sent.words.forEach((w, wIdx) => {
+            const key = sIdx + '-' + wIdx;
+            const cell = state.cells[key];
+            totalCells++;
+            if (cell && cell.status === 'correct' && cell.attempts === 1) firstTryCount++;
+            if (cell && cell.status === 'revealed') revealedCount++;
+            sentResult.words.push({
+              word: w.word,
+              correctAns: w.correct,
+              userAns: cell ? cell.selected : null,
+              attempts: cell ? cell.attempts : 0,
+              status: cell ? cell.status : null
+            });
+          });
+          details.push(sentResult);
+        });
+        // اعتبره صح إذا كل الخانات تمت بـ status: correct (من أول مرة أو حتى لو بعد محاولات)
+        const allCorrect = data.sentences.every((sent, sIdx) =>
+          sent.words.every((w, wIdx) => {
+            const cell = state.cells[sIdx + '-' + wIdx];
+            return cell && cell.status === 'correct';
+          })
+        );
+        if (allCorrect) correctCount++; else wrongCount++;
+        slides.push({ idx: i, type: 'dropdown_tables', title: data.title, firstTryCount: firstTryCount, revealedCount: revealedCount, totalCells: totalCells, details: details });
+      }
+    }
+
+    return { correctCount: correctCount, wrongCount: wrongCount, slides: slides };
+  }
+
+  function submitTest() {
+    const results = calculateResults();
+    showResults(results);
+  }
+
+  function showResults(results) {
+    // Hide test UI
+    document.getElementById('instrRow').style.display = 'none';
+    document.getElementById('slidesContainer').style.display = 'none';
+    document.getElementById('taskNav').style.display = 'none';
+    document.getElementById('progressFill').style.width = '100%';
+
+    // Show results
+    const screen = document.getElementById('resultsScreen');
+    screen.classList.add('show');
+
+    // مراجعة الإجابات (مخفية أولاً)
+    renderReview(results);
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleReview() {
+    const review = document.getElementById('resultsReview');
+    const btn = document.getElementById('showReviewBtn');
+    const btnText = document.getElementById('reviewBtnText');
+    const isHidden = review.style.display === 'none';
+
+    if (isHidden) {
+      review.style.display = '';
+      review.style.animation = 'fadeIn 0.4s ease';
+      btn.innerHTML = '<i class="fas fa-eye-slash"></i> <span id="reviewBtnText">إخفاءُ المراجعةِ</span>';
+      setTimeout(() => {
+        review.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    } else {
+      review.style.display = 'none';
+      btn.innerHTML = '<i class="fas fa-eye"></i> <span id="reviewBtnText">مراجعةُ الإجاباتِ</span>';
+    }
+  }
+
+  function renderReview(results) {
+    const container = document.getElementById('reviewContainer');
+    let html = '';
+
+    results.slides.forEach((slide, order) => {
+      const sectionNum = toArabic(order + 1);
+
+      if (slide.type === 'mcq') {
+        html += `
+          <div class="review-section">
+            <div class="review-section-header">
+              <div class="review-section-num">${sectionNum}</div>
+              <div class="review-section-title">${slide.title} &mdash; الاختيارُ من متعدّدٍ</div>
+            </div>
+        `;
+        slide.questions.forEach((item, idx) => {
+          const correctAnsText = item.options[item.correctAns];
+
+          // بناء رسالة الحالة بناءً على عدد المحاولات
+          let statusMsg = '';
+          if (item.status) {
+            if (item.status.type === 'correct') {
+              if (item.status.attempts === 1) {
+                statusMsg = 'إجابةٌ صحيحةٌ من أوّلِ محاولةٍ';
+              } else if (item.status.attempts === 2) {
+                statusMsg = 'إجابةٌ صحيحةٌ بعدَ محاولتينِ';
+              } else {
+                statusMsg = `إجابةٌ صحيحةٌ بعدَ ${toArabic(item.status.attempts)} محاولاتٍ`;
+              }
+            } else if (item.status.type === 'revealed') {
+              statusMsg = `لم تُجبْ بشكلٍ صحيحٍ بعدَ ${toArabic(MAX_ATTEMPTS)} محاولاتٍ`;
+            }
+          } else {
+            statusMsg = 'لم تجبْ';
+          }
+
+          html += `
+            <div class="review-item ${item.isCorrect ? 'correct' : 'wrong'}">
+              <div class="review-item-q">
+                <i class="fas ${item.isCorrect ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>
+                <span><strong>${toArabic(idx + 1)}.</strong> ${item.q}</span>
+              </div>
+              <div class="review-answers">
+                <div class="review-answer your-answer">
+                  <span class="review-answer-label">${statusMsg}</span>
+                </div>
+                <div class="review-answer correct-answer">
+                  <span class="review-answer-label">${item.isCorrect ? 'الإجابةُ' : 'الصّحيحةُ'}</span>
+                  <span class="review-answer-value">${correctAnsText}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+
+      } else if (slide.type === 'click') {
+        html += `
+          <div class="review-section">
+            <div class="review-section-header">
+              <div class="review-section-num">${sectionNum}</div>
+              <div class="review-section-title">${slide.title} &mdash; النّقرُ على الإجاباتِ الصّحيحةِ</div>
+            </div>
+        `;
+
+        // رسالة عامة عن أداء السؤال
+        if (slide.isCorrect) {
+          html += `<div class="q3-summary-stats"><div class="q3-stat-pill ok"><i class="fas fa-check"></i> حدّدْتَ الإجاباتِ الصّحيحةَ بشكلٍ صحيحٍ</div></div>`;
+        } else if (slide.revealed) {
+          html += `<div class="q3-summary-stats"><div class="q3-stat-pill warn"><i class="fas fa-check"></i> تعرّفتَ على الإجاباتِ بعدَ ${toArabic(MAX_ATTEMPTS)} محاولاتٍ</div></div>`;
+        }
+
+        slide.details.forEach(item => {
+          let status, statusClass, hint;
+          if (item.shouldBeSelected) {
+            // إجابة صحيحة كان يجب تحديدها
+            if (item.isSelected) {
+              status = '<i class="fas fa-circle-check"></i>';
+              statusClass = 'correct';
+              hint = '<strong>إجابةٌ صحيحةٌ</strong> &mdash; حدّدْتَها بشكلٍ صحيحٍ';
+            } else {
+              status = '<i class="fas fa-circle-xmark"></i>';
+              statusClass = 'wrong';
+              hint = '<strong>إجابةٌ صحيحةٌ</strong> &mdash; لم تحدّدْها';
+            }
+          } else {
+            // إجابة غير صحيحة كان يجب تركها
+            if (item.isSelected) {
+              status = '<i class="fas fa-circle-xmark"></i>';
+              statusClass = 'wrong';
+              hint = '<strong>إجابةٌ غيرُ صحيحةٍ</strong> &mdash; حدّدْتَها بالخطأ';
+            } else {
+              status = '<i class="fas fa-circle-check"></i>';
+              statusClass = 'correct';
+              hint = '<strong>إجابةٌ غيرُ صحيحةٍ</strong> &mdash; لم تحدّدْها (صحيحٌ)';
+            }
+          }
+
+          html += `
+            <div class="review-item ${statusClass}">
+              <div class="review-item-q">
+                ${status}
+                <span><strong>${item.letter}.</strong> ${item.text}</span>
+              </div>
+              <div class="review-answers">
+                <div class="review-answer your-answer">
+                  <span class="review-answer-value">${hint}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+
+      } else if (slide.type === 'dropdown_tables') {
+        html += `
+          <div class="review-section">
+            <div class="review-section-header">
+              <div class="review-section-num">${sectionNum}</div>
+              <div class="review-section-title">${slide.title} &mdash; استخراجُ الفعلِ والفاعلِ والمفعولِ بهِ</div>
+            </div>
+        `;
+
+        // ملخص عام للسؤال
+        html += `
+          <div class="q3-summary-stats">
+            <div class="q3-stat-pill ok"><i class="fas fa-check"></i> ${toArabic(slide.firstTryCount)} كلماتٍ من أوّلِ محاولةٍ</div>
+            ${slide.revealedCount > 0 ? `<div class="q3-stat-pill warn"><i class="fas fa-check"></i> تعرّفتَ على ${toArabic(slide.revealedCount)} كلماتٍ بعدَ ٣ محاولاتٍ</div>` : ''}
+          </div>
+        `;
+
+        html += `
+          <div style="overflow-x: auto;">
+            <table class="q3-review-table">
+              <thead>
+                <tr>
+                  <th>الجملةُ</th>
+                  <th>الكلمةُ</th>
+                  <th>نوعُها</th>
+                  <th>حالةُ إجابتِكَ</th>
+                </tr>
+              </thead>
+              <tbody>
+        `;
+
+        slide.details.forEach((sentResult) => {
+          sentResult.words.forEach((w, wIdx) => {
+            const correctLabel = Q3_LABELS[w.correctAns];
+            let badgeHtml;
+            if (w.status === 'correct') {
+              if (w.attempts === 1) {
+                badgeHtml = `<span class="q3-status-badge ok-first"><i class="fas fa-check"></i> من أوّلِ محاولةٍ</span>`;
+              } else if (w.attempts === 2) {
+                badgeHtml = `<span class="q3-status-badge ok-later"><i class="fas fa-check"></i> بعدَ محاولتينِ</span>`;
+              } else {
+                badgeHtml = `<span class="q3-status-badge ok-later"><i class="fas fa-check"></i> بعدَ ٣ محاولاتٍ</span>`;
+              }
+            } else if (w.status === 'revealed') {
+              badgeHtml = `<span class="q3-status-badge revealed"><i class="fas fa-check"></i> تعرّفتَ عليها بعدَ ٣ محاولاتٍ</span>`;
+            } else {
+              badgeHtml = `<span class="q3-status-badge missed"><i class="fas fa-xmark"></i> لم تُجِبْ</span>`;
+            }
+            const isFirstWord = wIdx === 0;
+            html += `
+              <tr class="${isFirstWord ? 'sentence-start' : ''}">
+                ${isFirstWord ? `<td class="q3-review-sent-cell" rowspan="${sentResult.words.length}">${sentResult.sentence}</td>` : ''}
+                <td class="q3-review-word">${w.word}</td>
+                <td class="q3-review-type">${correctLabel}</td>
+                <td class="q3-review-status">${badgeHtml}</td>
+              </tr>
+            `;
+          });
+        });
+
+        html += `
+              </tbody>
+            </table>
+          </div>
+          </div>
+        `;
+      }
+    });
+
+    container.innerHTML = html;
+  }
+
+  function restartActivity() {
+    location.reload();
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════════════════════════ */
+  initSlideState();
+  buildAllSlides();
+  // تفعيل السلايد الأول من البداية ليظهر باهت خلف بطاقة الترحيب
+  document.querySelector('.slide[data-slide="1"]').classList.add('active');
+  // إغلاق القوائم المنسدلة عند النقر خارجَها — يُسجَّل مرّةً واحدةً
+  initDropdownGlobalClose();
+  // ترسيمُ كلِّ سلايدٍ حسب نوعِه (أيُّ عددٍ، أيُّ نوعٍ، أيُّ ترتيبٍ)
+  for (let i = 1; i <= TOTAL_SLIDES; i++) {
+    const data = SLIDE_DATA[i];
+    if (!data) continue;
+    if (data.type === 'mcq') {
+      renderMCQQuestions(i);
+      // إخفاء كل الأسئلة عدا الأول (حتى وقت الـ preview)
+      hideAllMCQExceptFirst(i);
+    } else if (data.type === 'click') {
+      renderClickSentences(i);
+    } else if (data.type === 'dropdown_tables') {
+      renderDropdownTables(i);
+    }
+  }
+</script>
+
+</body>
+</html>

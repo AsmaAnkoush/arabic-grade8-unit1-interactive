@@ -1,0 +1,20 @@
+# Word/Office temp lock files
+~$*
+*.tmp
+*.bak
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+# Editor folders
+.vscode/
+.idea/
+# Node
+node_modules/
+# Logs
+*.log
+# Claude Code local config (not part of project content)
+.claude/
+# Leftover temp scripts from interactive sessions (root-level only)
+/_*.js
+/_*.txt

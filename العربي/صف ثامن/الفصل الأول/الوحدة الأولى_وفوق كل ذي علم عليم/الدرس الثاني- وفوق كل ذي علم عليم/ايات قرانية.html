@@ -1,0 +1,4748 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>آياتٌ قرآنيّةٌ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-secondary-hover:  #f2d489;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-olive-hover:      #9c9d3a;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-main-title:   40px;
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+
+  /* Reading card (ported as-is from "أهمية الوحدة") */
+  --reading-card-radius:      16px;
+  --reading-card-border:      2px solid var(--color-secondary);
+  --reading-text-size:        clamp(17px, 1.9vw, 21px);
+  --reading-text-line-height: 2;
+  --reading-active-bg:        #fffaf3;
+  --reading-active-glow:      0 0 0 2px rgba(132, 72, 22, 0.12), 0 6px 20px rgba(132, 72, 22, 0.08);
+  --reading-highlight-bg:     rgba(237, 198, 111, 0.45);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+  /* visible (was hidden): يسمحُ للقائمة المنسدلة بالظهور كاملةً دون قصٍّ.
+     الرأسُ يدوّرُ زواياه العليا بنفسِه (border-radius: 17px 17px 0 0). */
+  overflow: visible;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+.instr-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 0;
+}
+.instr-hint-img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.instr-hint-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PASSAGE + Word Playback
+═══════════════════════════════════════════════════════════════ */
+.passage-block {
+  background: var(--color-paper);
+  border: 2px solid var(--color-secondary);
+  border-radius: 16px;
+  margin: 14px 16px 0;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+  animation: passageFadeIn 0.6s ease-out;
+}
+@keyframes passageFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.passage-body {
+  padding: 20px 24px 22px;
+  font-size: 22px;
+  line-height: var(--line-height-reading);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-semibold);
+  text-align: justify;
+  /* صندوق قراءة قابل للتمرير — مطابق لـ .reading-text-area في "أهمية الوحدة" */
+  max-height: clamp(240px, 38vh, 360px);
+  overflow-y: auto;
+  position: relative;
+  scroll-behavior: smooth;
+  scroll-padding: 76px 0;
+  -webkit-overflow-scrolling: touch;
+  /* RTL: قلب الحاوية إلى LTR ليظهر شريط التمرير على اليمين؛ المحتوى يعود RTL أدناه */
+  direction: ltr;
+  /* Firefox: شريط تمرير رفيع بثيم بنّي/ذهبي */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-primary-light);
+}
+.passage-body p {
+  margin: 0;
+}
+/* استعادة اتجاه RTL للمحتوى الفعلي */
+.passage-body > p { direction: rtl; }
+.passage-body::-webkit-scrollbar { width: 9px; }
+.passage-body::-webkit-scrollbar-track {
+  background: var(--color-primary-light);
+  border-radius: 999px;
+  margin: 4px 0;
+}
+.passage-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--color-secondary), var(--color-primary));
+  border: 2px solid var(--color-primary-light);
+  border-radius: 999px;
+}
+.passage-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--color-secondary-shadow), var(--color-primary-shadow));
+}
+.passage-word {
+  display: inline-block;
+  padding: 0 2px;
+  border-radius: 6px;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.passage-word.is-active {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 2px 6px rgba(237, 198, 111, 0.45);
+}
+.passage-word.is-read {
+  color: var(--color-primary-shadow);
+  opacity: 0.75;
+}
+.ayah-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary-light) 0%, var(--color-secondary) 100%);
+  border: 1.5px solid var(--color-secondary-shadow);
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: var(--font-weight-extrabold);
+  font-family: var(--font-family);
+  margin: 0 3px;
+  vertical-align: middle;
+  box-shadow: 0 1px 3px rgba(132, 72, 22, 0.18);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* AUDIO CONTROL BAR */
+.passage-audio-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 18px 20px;
+  flex-wrap: wrap;
+  border-top: 1px dashed var(--color-secondary);
+  margin-top: 4px;
+}
+.audio-ctrl-spacer {
+  width: 22px;
+  flex-shrink: 0;
+}
+.audio-ctrl-btn {
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-extrabold);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1;
+}
+.audio-ctrl-side {
+  width: 40px;
+  height: 40px;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 15px;
+  box-shadow: 0 3px 0 var(--color-sand);
+}
+.audio-ctrl-side:hover { background: #e8ddd2; }
+.audio-ctrl-side:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--color-sand); }
+.audio-ctrl-main {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 17px;
+  min-width: 110px;
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--color-primary-shadow);
+}
+.audio-ctrl-main:hover { background: var(--color-primary-hover); }
+.audio-ctrl-main:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-ctrl-main:not(.is-playing) {
+  animation: audioPulseAttract 2.2s ease-in-out infinite;
+}
+@keyframes audioPulseAttract {
+  0%, 100% { box-shadow: 0 4px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.35); }
+  50%      { box-shadow: 0 4px 0 var(--color-primary-shadow), 0 0 0 10px rgba(132, 72, 22, 0); }
+}
+.audio-ctrl-main.is-playing {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 4px 0 var(--color-secondary-shadow);
+  animation: none;
+}
+.audio-ctrl-main.is-playing:hover { background: var(--color-secondary-hover); }
+.audio-ctrl-main.is-playing:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--color-secondary-shadow); }
+.audio-ctrl-restart {
+  height: 40px;
+  padding: 0 18px;
+  font-size: 17px;
+  min-width: 110px;
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 4px 0 var(--color-olive-shadow);
+}
+.audio-ctrl-restart:hover { background: var(--color-olive-hover); }
+.audio-ctrl-restart:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--color-olive-shadow); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDES
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DRAG & DROP CHIPS (shared by Q2a, Q6)
+═══════════════════════════════════════════════════════════════ */
+.match-expr-bank {
+  background: transparent;
+  border: none;
+  margin: 14px 16px 0;
+  overflow: visible;
+}
+.match-chips-area {
+  display: flex; flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding: 16px 18px;
+  min-height: 60px;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  background: transparent;
+}
+.match-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 11px 16px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  white-space: normal;
+  line-height: var(--line-height-normal);
+  text-align: center;
+  max-width: 100%;
+}
+.chip-handle {
+  color: var(--color-light-border);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.match-chip:not(.placed):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+}
+.match-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40), 0 6px 16px rgba(132, 72, 22, 0.18);
+  transform: translateY(-2px);
+}
+.match-chip.dragging { opacity: 0.4; cursor: grabbing; }
+.match-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.match-chip.placed .chip-handle { display: none; }
+.match-chip.chip-shake { animation: chipShake 0.5s; }
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* Compact variant for the 13-pair matching bank */
+.match-chips-area.compact .match-chip {
+  font-size: 15px;
+  padding: 8px 12px;
+  min-height: 38px;
+  gap: 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   VERSE CARD (passage shown above drag questions)
+═══════════════════════════════════════════════════════════════ */
+.verse-card {
+  background: var(--color-paper);
+  border: 2px solid var(--color-secondary);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin: 14px 16px 0;
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+  animation: passageFadeIn 0.6s ease-out;
+}
+/* ═══════════════════════════════════════════════════════════════
+   EXTRACTION SLOTS (Q2a)
+═══════════════════════════════════════════════════════════════ */
+.extract-panel {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 14px;
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.extract-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 1.4fr;
+  gap: 14px;
+  align-items: stretch;
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.extract-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.20);
+}
+.extract-slot {
+  min-height: 70px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+}
+.extract-slot.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+  transform: scale(1.01);
+}
+.extract-slot.filled {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: #4d6618;
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 2px 8px rgba(107, 139, 31, 0.15);
+  cursor: default;
+}
+.extract-slot-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--color-sand);
+  font-weight: var(--font-weight-semibold);
+  pointer-events: none;
+}
+.extract-slot-placeholder i { font-size: 13px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   STAGE REVEAL (used to reveal Q2b after Q2a completes)
+═══════════════════════════════════════════════════════════════ */
+.stage {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.6s ease;
+}
+.stage.revealed {
+  opacity: 1;
+  max-height: 6000px;
+  overflow: visible;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  60%  { transform: translateY(0) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback i { margin-left: 4px; }
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 16px 0;
+  flex-wrap: wrap;
+}
+.slide-controls .btn-action {
+  min-width: 140px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD + MCQ
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+.q-card-verse {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 10px 0 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: center;
+}
+
+.mcq-options { display: grid; gap: 10px; }
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text { color: var(--color-error); }
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLASSIFY (Q3: الرحمة / الضراء)
+═══════════════════════════════════════════════════════════════ */
+.classify-bank {
+  background: transparent;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  min-height: 60px;
+}
+.classify-categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 14px 16px 0;
+}
+.classify-category {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  min-height: 220px;
+}
+.classify-category.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.classify-category-title {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.20);
+}
+.classify-category-drop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+  padding: 4px;
+  border-radius: 8px;
+}
+.classify-category-placeholder {
+  font-size: 14px;
+  color: var(--color-sand);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  padding: 22px 8px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.classify-category-placeholder i { font-size: 14px; }
+.classify-category.has-items .classify-category-placeholder { display: none; }
+
+.classify-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  line-height: var(--line-height-normal);
+}
+.classify-chip:not(.placed):hover {
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+.classify-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40);
+  transform: translateY(-2px);
+}
+.classify-chip.dragging { opacity: 0.4; cursor: grabbing; }
+.classify-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.classify-chip.chip-shake { animation: chipShake 0.5s; }
+
+.classify-zone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(107, 139, 31, 0.10);
+  border: 2px solid var(--color-success);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: #4d6618;
+  line-height: var(--line-height-normal);
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.classify-zone-chip i {
+  color: var(--color-success);
+  font-size: 13px;
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLICK-SELECT (Q4 ideas)
+═══════════════════════════════════════════════════════════════ */
+.click-sentences-wrap { margin: 14px 16px 0; }
+.click-sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.click-sentence {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.click-sentence:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.12);
+}
+.click-sentence-letter {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 17px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.click-sentence-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.click-sentence-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: transparent;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.click-sentence.selected {
+  background: var(--color-secondary-light);
+  border-color: var(--color-primary);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.35);
+}
+.click-sentence.selected .click-sentence-check {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.35);
+}
+.click-sentence.selected .click-sentence-check i { animation: checkPop 0.3s ease; }
+@keyframes checkPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.click-sentence.locked { pointer-events: none; }
+.click-sentence.reveal-correct {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.click-sentence.reveal-correct .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.reveal-correct .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(107, 139, 31, 0.40);
+}
+/* REVIEW: هذا الملفُّ يستخدمُ reveal-correct/reveal-miss (لا correct-sentence/wrong-sentence) — أُضيفتِ القواعدُ لها */
+.click-sentence.reveal-correct .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.reveal-miss {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+  animation: cardShake 0.5s;
+}
+.click-sentence.reveal-miss .click-sentence-letter {
+  background: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.click-sentence.reveal-miss .click-sentence-text {
+  color: var(--color-error);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.reveal-miss .click-sentence-check {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  font-size: 17px;
+}
+.click-sentence.reveal-miss .click-sentence-check i {
+  display: none;
+}
+.click-sentence.reveal-miss .click-sentence-check::before {
+  content: '✗';
+  font-weight: 900;
+  font-size: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q5 SYNONYM INPUT
+═══════════════════════════════════════════════════════════════ */
+.synonym-prompt {
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: center;
+  margin: 8px 0 6px;
+}
+.synonym-prompt strong { color: var(--color-primary); }
+.synonym-followup {
+  font-size: 23px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  text-align: center;
+  margin: 14px 0 14px;
+  line-height: var(--line-height-relaxed);
+}
+.synonym-followup strong { color: var(--color-primary); }
+.synonym-input-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0 4px;
+}
+.synonym-input {
+  width: 100%;
+  max-width: 240px;
+  min-height: 48px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  background: #fff;
+  outline: none;
+  text-align: center;
+  direction: rtl;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.synonym-input::placeholder {
+  color: var(--color-light-border);
+  font-weight: var(--font-weight-semibold);
+}
+.synonym-input:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.22);
+  background: #fffaf0;
+}
+.synonym-input.is-correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+}
+.synonym-input.is-wrong {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  animation: cardShake 0.4s;
+}
+.synonym-input:disabled { cursor: not-allowed; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Q7 WRITING / REFLECTION SUBSYSTEM (.q7-*)
+   ═══ تمَّ ضبطُ القياساتِ لتظهرَ بوكساتُ الإجابةِ والإجابةِ النّموذجيّةِ
+       بشكلٍ صحيحٍ على جميعِ أحجامِ الشّاشاتِ، وأنْ تكونَ متناسقةً
+       داخلَ بطاقةِ السّؤالِ الثّاني (Q2b) دونَ تجاوزٍ أو انكماشٍ. ═══
+═══════════════════════════════════════════════════════════════ */
+.q7-pairs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 16px auto 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+.q7-pair {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.q7-pair-label {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.q7-pair-label .label-num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.q7-textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  background: #fff;
+  line-height: var(--line-height-relaxed);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  display: block;
+  text-align: right;
+  direction: rtl;
+  box-sizing: border-box;
+}
+.q7-textarea::placeholder {
+  color: var(--color-light-border);
+  font-weight: var(--font-weight-semibold);
+}
+.q7-textarea:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.22);
+  background: #fffaf0;
+}
+.q7-textarea.state-filled {
+  border-color: var(--color-primary);
+  background: #fff;
+}
+.q7-textarea:disabled {
+  background: var(--color-primary-light);
+  color: var(--color-ink);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q5 RELATION CHOICES (ترادف / تضاد)
+═══════════════════════════════════════════════════════════════ */
+.q5-relation-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px 0 8px;
+}
+.q5-relation-btn {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 10px 22px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 3px 0 var(--color-light-border);
+  min-width: 140px;
+  min-height: 48px;
+}
+.q5-relation-btn i {
+  font-size: 17px;
+  color: var(--color-primary);
+  transition: all 0.2s ease;
+}
+.q5-relation-btn:hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 var(--color-light-border);
+}
+.q5-relation-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--color-light-border);
+}
+.q5-relation-btn.selected-correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: pulse-correct 0.6s ease;
+}
+.q5-relation-btn.selected-correct i { color: var(--color-success); }
+.q5-relation-btn.selected-wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  box-shadow: 0 3px 0 #7d2f1d;
+  animation: cardShake 0.5s;
+}
+.q5-relation-btn.selected-wrong i { color: var(--color-error); }
+.q5-relation-btn.disabled {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.q5-stage {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.6s ease;
+}
+.q5-stage.revealed {
+  opacity: 1;
+  max-height: 1000px;
+  overflow: visible;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (max-width: 480px) {
+  .q5-relation-choices { gap: 10px; }
+  .q5-relation-btn { font-size: 16px; padding: 9px 18px; min-width: 120px; min-height: 44px; gap: 8px; }
+  .q5-relation-btn i { font-size: 15px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q7 ANSWER WRAP — POPUP MODAL STYLE
+═══════════════════════════════════════════════════════════════ */
+.q7-show-answer-btn {
+  margin-top: 14px;
+  align-self: center;
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: var(--font-weight-extrabold) !important;
+  padding: 10px 18px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 5px 0 var(--color-primary-shadow) !important;
+  min-width: 140px !important;
+  border: none !important;
+  animation: showAnswerAttract 2.4s ease-in-out infinite;
+}
+.q7-show-answer-btn:hover {
+  background: var(--color-primary-hover) !important;
+}
+.q7-show-answer-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--color-primary-shadow) !important;
+}
+.q7-show-answer-btn i {
+  margin-left: 4px;
+  font-size: 15px;
+}
+.q7-show-answer-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+/* Subtle attractor pulse (master's audioPulseAttract pattern — radiating
+   ring at 50% only, returning to flat at 0/100%). Calmer than a brightness
+   pulse and consistent with the project's idle-CTA visual language. */
+@keyframes showAnswerAttract {
+  0%, 100% { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.30); }
+  50%      { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 10px rgba(132, 72, 22, 0); }
+}
+.q7-answer-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(58, 36, 16, 0.65);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  gap: 0;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.q7-answer-wrap[style*="flex"] {
+  display: flex !important;
+}
+.q7-answer-modal {
+  background: #fffdf8;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 18px 18px 20px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-sizing: border-box;
+}
+.q7-modal-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+.q7-modal-close:hover {
+  background: var(--color-error);
+  transform: scale(1.08) rotate(90deg);
+  box-shadow: 0 3px 0 #7d2f1d;
+}
+.q7-modal-close:active {
+  transform: scale(0.95) rotate(90deg);
+  box-shadow: 0 1px 0 var(--color-primary-shadow);
+}
+.q7-modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 50px 12px;
+  border-bottom: 2px dashed var(--color-primary-light);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+.q7-modal-audio {
+  flex-shrink: 0;
+}
+.q7-modal-title {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: right;
+  line-height: 1.4;
+  flex: 1;
+}
+@media (max-width: 480px) {
+  .q7-modal-title-wrap { padding: 4px 44px 12px; gap: 10px; align-items: center; }
+  .q7-modal-title { font-size: 19px; }
+}
+
+/* ═══ لوحةُ الإجاباتِ متعدّدةُ الخطواتِ (overlay + خطوات + تنقّل) ═══ */
+.q7-answer-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(58, 36, 16, 0.65);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+.q7-modal-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.q7-modal-step {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+.q7-modal-step.active {
+  display: flex;
+  animation: stepFadeIn 0.4s ease;
+}
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.q7-modal-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 0 4px;
+}
+.q7-modal-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.q7-modal-arrow:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+.q7-modal-arrow:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.q7-modal-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.q7-modal-arrow i { font-size: 13px; }
+.q7-modal-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.q7-modal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  transition: all 0.3s ease;
+}
+.q7-modal-dot.active {
+  background: var(--color-primary);
+  transform: scale(1.3);
+}
+
+.q7-answer-section {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  /* لا يسمحُ للوحةِ المتعدّدةِ بضغطِ المقاطعِ وقصِّ النّصِّ (المودال يُمرَّرُ بدلًا من ذلك) */
+  flex-shrink: 0;
+}
+/* إخفاء ثقوب الدفتر (الإجابة في المودال — لا نحتاج تأثيرَ ورقةِ الدّفترِ) */
+.q7-answer-section::before {
+  display: none;
+}
+/* بوكس الإجابة النموذجية — هوية بصرية مميزة عن بوكس "إجابتُكَ" */
+.q7-answer-section.suggested {
+  border: 2px solid var(--color-primary);
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  position: relative;
+}
+.q7-answer-label {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 8px 12px;
+  border-radius: 0;
+  box-shadow: none;
+  line-height: 1.3;
+  width: 100%;
+  max-width: 100%;
+  z-index: auto;
+  white-space: normal;
+  text-align: center;
+  border-bottom: 2px solid var(--color-secondary-shadow);
+  box-sizing: border-box;
+}
+.q7-answer-section.suggested .q7-answer-label {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-shadow) 100%);
+  color: #fff;
+  box-shadow: none;
+  border-bottom: 2px solid var(--color-primary-shadow);
+  letter-spacing: 0.5px;
+}
+.q7-answer-label img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  margin: 0;
+}
+.q7-answer-label i {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.q7-answer-section.suggested .q7-answer-label i {
+  color: var(--color-secondary);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+/* دبّوس الورق */
+.q7-pin {
+  display: none !important;
+}
+/* نص الإجابة */
+.q7-answer-text {
+  font-size: 16px;
+  color: var(--color-ink);
+  line-height: 1.8;
+  font-weight: var(--font-weight-semibold);
+  padding: 12px 14px;
+  text-align: right;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  display: block;
+}
+.q7-answer-text:empty::before {
+  content: '— لمْ تكتبْ شيئًا —';
+  color: var(--color-sand);
+  font-style: italic;
+  font-weight: var(--font-weight-semibold);
+}
+.q7-answer-text:empty::before {
+  content: '— لمْ تكتبْ شيئًا —';
+  color: var(--color-sand);
+  font-style: italic;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q6 MATCHING (13 pairs)
+═══════════════════════════════════════════════════════════════ */
+.match-pairs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 14px 16px 0;
+}
+.match-pair {
+  display: grid;
+  grid-template-columns: minmax(110px, 1fr) 1.4fr;
+  gap: 8px;
+  align-items: stretch;
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 8px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.match-pair-word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: center;
+  padding: 8px 10px;
+  line-height: var(--line-height-normal);
+}
+.match-pair-slot {
+  min-height: 50px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-sand);
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  line-height: var(--line-height-normal);
+}
+.match-pair-slot.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+  transform: scale(1.02);
+}
+.match-pair-slot.filled {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.12);
+  color: #4d6618;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 15px;
+  cursor: default;
+}
+.match-pair-slot-placeholder {
+  pointer-events: none;
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.match-pair-slot-placeholder i { font-size: 12px; }
+
+/* كشفٌ تدريجيٌّ لأسئلةِ السؤالِ السادسِ على دفعاتٍ (٣ كلّ مرّةٍ) — تُزال المخفيّةُ
+   تمامًا من التخطيطِ (لا فراغ)، وتظهرُ الدفعةُ التاليةُ بانسيابٍ. لا يغيّرُ التصميمَ. */
+.match-pair.q6-batch-hidden,
+.match-chip.q6-batch-hidden { display: none !important; }
+.match-pair.q6-reveal,
+.match-chip.q6-reveal { animation: q6RevealIn 0.4s ease both; }
+@keyframes q6RevealIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  display: none;
+  width: 100%;
+}
+.success-screen.show {
+  display: block;
+  animation: fadeIn 0.6s ease;
+}
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.55) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 34px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-subtitle {
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  max-width: 560px;
+  margin: 0 auto;
+}
+.complete-restart {
+  margin-top: 28px;
+}
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(320px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .passage-block, .verse-card, .match-expr-bank,
+  .classify-bank, .classify-categories, .extract-panel, .q-feedback,
+  .match-pairs-grid, .click-sentences-wrap {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 26px !important; }
+  .task-instr-text { font-size: 19px; }
+  .instr-hint { gap: 10px; }
+  .instr-hint-img { width: 36px; height: 36px; }
+  .instr-hint-text { font-size: 16px; }
+  .passage-body { font-size: 19px; padding: 16px 18px 18px; }
+  .verse-card { font-size: 20px; padding: 18px 20px; }
+  .match-chip { font-size: 16px; padding: 10px 14px; min-height: 44px; }
+
+  .extract-row { grid-template-columns: 1fr; gap: 10px; }
+  .extract-label { font-size: 16px; padding: 10px 12px; }
+  .extract-slot { min-height: 60px; font-size: 16px; }
+
+  .classify-categories { gap: 10px; }
+  .classify-category { min-height: 180px; padding: 12px; }
+  .classify-category-title { font-size: 17px; padding: 9px 12px; }
+  .classify-chip { font-size: 16px; padding: 9px 12px; }
+
+  .click-sentence-text { font-size: 18px; }
+  .click-sentence { padding: 12px 14px; gap: 12px; }
+  .click-sentence-letter { width: 32px; height: 32px; font-size: 16px; }
+
+  .synonym-prompt { font-size: 19px; }
+  .synonym-followup { font-size: 21px; }
+  .synonym-input { font-size: 19px; min-height: 46px; max-width: 220px; }
+
+  /* ═══ Q2b تعديلاتُ القياساتِ للشّاشاتِ المتوسّطةِ ═══ */
+  .q7-pairs-grid { max-width: 100%; padding: 0 4px; gap: 28px; }
+  .q7-pair-label { font-size: 18px; margin-bottom: 12px; padding-bottom: 7px; }
+  .q7-pair-label .label-num { width: 28px; height: 28px; font-size: 15px; }
+  .q7-textarea { font-size: 18px; min-height: 110px; padding: 12px 14px; }
+  .q7-answer-modal { padding: 14px; max-width: 100%; }
+  .q7-modal-title { font-size: 15px; }
+  .q7-answer-text { font-size: 14px; padding: 10px 12px; line-height: 1.75; }
+  .q7-answer-section { border-radius: 10px; }
+  .q7-answer-label { font-size: 14px; padding: 6px 11px; gap: 6px; }
+  .q7-answer-label img { width: 17px; height: 17px; margin: 0; }
+  .q7-answer-wrap { gap: 16px; margin-top: 14px; }
+
+  .match-pairs-grid { grid-template-columns: 1fr; gap: 8px; }
+  .match-pair { grid-template-columns: minmax(100px, 0.9fr) 1.4fr; }
+  .match-pair-word { font-size: 16px; }
+  .match-pair-slot { font-size: 14px; min-height: 46px; }
+
+  .q-card-verse { font-size: 17px; padding: 11px 13px; line-height: 1.7; }
+  .mcq-option-text { font-size: 18px; line-height: 1.6; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 22px !important; }
+  .task-instr-row, .passage-block, .verse-card, .match-expr-bank,
+  .classify-bank, .classify-categories, .extract-panel, .q-feedback,
+  .match-pairs-grid, .click-sentences-wrap {
+    margin-left: 8px; margin-right: 8px;
+  }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  .instr-hint-img { width: 32px; height: 32px; }
+  .instr-hint-text { font-size: 15px; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .passage-body { font-size: 17px; padding: 14px 16px 16px; max-height: 260px; }
+  .passage-audio-bar { gap: 6px; padding: 12px 14px 16px; }
+  .audio-ctrl-spacer { width: 12px; }
+  .audio-ctrl-side { width: 36px; height: 36px; font-size: 14px; }
+  .audio-ctrl-main, .audio-ctrl-restart { height: 36px; font-size: 15px; padding: 0 14px; min-width: 95px; }
+  .verse-card { font-size: 18px; padding: 16px 18px; }
+
+  .match-chip { font-size: 15px; padding: 9px 12px; }
+  .match-chips-area { padding: 12px 14px; gap: 10px; }
+
+  .extract-panel { padding: 10px; }
+  .extract-row { padding: 10px; }
+  .extract-label { font-size: 15px; padding: 9px 11px; }
+  .extract-slot { font-size: 15px; min-height: 56px; padding: 8px 10px; }
+
+  .classify-categories { grid-template-columns: 1fr; gap: 10px; }
+  .classify-category { min-height: 150px; padding: 10px; }
+  .classify-category-title { font-size: 16px; }
+  .classify-chip { font-size: 15px; padding: 8px 10px; }
+
+  .click-sentence-text { font-size: 17px; }
+  .click-sentence { padding: 11px 13px; gap: 10px; }
+  .click-sentence-letter { width: 30px; height: 30px; font-size: 15px; }
+
+  .synonym-prompt { font-size: 17px; }
+  .synonym-followup { font-size: 19px; }
+  .synonym-input { font-size: 18px; min-height: 44px; max-width: 100%; }
+
+  /* ═══ Q2b تعديلاتُ القياساتِ للشّاشاتِ الصّغيرةِ ═══ */
+  .q7-pairs-grid { max-width: 100%; padding: 0 2px; gap: 20px; margin-top: 14px; }
+  .q7-pair-label { font-size: 17px; margin-bottom: 8px; gap: 8px; }
+  .q7-pair-label .label-num { width: 26px; height: 26px; font-size: 14px; }
+  .q7-textarea { font-size: 17px; min-height: 100px; padding: 11px 12px; }
+  .q7-answer-section { border-radius: 10px; }
+  .q7-answer-label {
+    font-size: 13px;
+    padding: 5px 10px;
+    gap: 6px;
+  }
+  .q7-answer-label img { width: 15px; height: 15px; margin: 0; }
+  .q7-answer-text { font-size: 13px; padding: 10px 12px; line-height: 1.75; }
+  .q7-answer-wrap { gap: 14px; margin-top: 12px; }
+  .q7-show-answer-btn { font-size: 16px !important; padding: 10px 16px !important; min-width: 130px !important; }
+  .q7-show-answer-btn img { width: 20px; height: 20px; }
+  .q7-answer-modal { padding: 12px; border-width: 2px; }
+  .q7-modal-title { font-size: 14px; }
+  .q7-modal-arrow { width: 30px; height: 30px; }
+  .q7-modal-arrow i { font-size: 11px; }
+
+  .q-card-verse { font-size: 16px; padding: 10px 12px; line-height: 1.65; }
+  .mcq-option-text { font-size: 16px; line-height: 1.55; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+
+  .match-pair { grid-template-columns: minmax(96px, 0.9fr) 1.3fr; padding: 6px; }
+  .match-pair-word { font-size: 15px; padding: 7px 9px; }
+  .match-pair-slot { font-size: 13px; min-height: 42px; }
+
+  .complete-wrap { padding: 36px 18px 50px; }
+  .trophy-img { width: 180px; height: 180px; }
+  .trophy-glow { width: 260px; height: 260px; }
+  .complete-title { font-size: 26px; }
+  .complete-subtitle { font-size: 17px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+  .slide-controls {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .slide-controls .btn-action { flex: 1; min-width: 0; width: auto; }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .passage-body { font-size: 16px; }
+  .verse-card { font-size: 17px; }
+  .q7-textarea { font-size: 16px; min-height: 90px; }
+  .synonym-input { font-size: 18px; }
+
+  /* ═══ Q2b تعديلاتُ القياساتِ للشّاشاتِ الصّغيرةِ جدًّا ═══ */
+  .q7-answer-label { font-size: 14px; padding: 7px 10px; }
+  .q7-answer-label img { width: 18px; height: 18px; }
+  .q7-answer-text { font-size: 14px; padding: 11px 12px; line-height: 1.7; }
+  .q7-show-answer-btn { font-size: 15px !important; padding: 9px 14px !important; min-width: 120px !important; }
+  .q7-show-answer-btn img { width: 18px; height: 18px; }
+}
+
+@media (hover: none) {
+  .match-chip:not(.placed):hover,
+  .classify-chip:not(.placed):hover,
+  .click-sentence:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+    background: #fffaf3;
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.05s !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   READING CARD — منقول كما هو من "أهمية الوحدة" (نفس النظام تمامًا)
+   أزرار التحكم مُنطّقة تحت .reading-controls لتفادي التعارض مع .btn-restart
+   الموجود مسبقًا في هذا الملف.
+═══════════════════════════════════════════════════════════════ */
+.reading-card {
+  background: var(--color-paper);
+  border: var(--reading-card-border);
+  border-radius: var(--reading-card-radius);
+  margin: 14px 16px;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: passageFadeIn 0.6s ease-out;
+}
+.reading-card.active {
+  border-color: var(--color-primary);
+  box-shadow: var(--reading-active-glow);
+}
+.reading-text-area {
+  background: var(--color-paper);
+  max-height: clamp(240px, 38vh, 360px);
+  overflow-y: auto;
+  padding: 18px 22px 22px;
+  position: relative;
+  scroll-behavior: smooth;
+  scroll-padding: 76px 0;
+  -webkit-overflow-scrolling: touch;
+  direction: ltr;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) transparent;
+}
+.reading-text-area > .reading-paragraph { direction: rtl; }
+.reading-text-area::-webkit-scrollbar { width: 5px; }
+.reading-text-area::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+  margin: 4px 0;
+}
+.reading-text-area::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 999px;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  opacity: 0.7;
+}
+.reading-text-area::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary-shadow);
+  opacity: 1;
+}
+.reading-text-area::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary);
+  opacity: 1;
+}
+.reading-text-area::before {
+  content: none;
+}
+.reading-paragraph {
+  border-radius: 8px;
+  margin-bottom: 0;
+  padding: 4px 14px 4px 12px;
+  position: relative;
+  transition: background 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+}
+.reading-paragraph.seen { filter: none; opacity: 1; }
+.reading-paragraph.unplayed {
+  /* تَمَّ إزالةُ التّمويهِ والشّفافيّةِ */
+}
+.reading-paragraph:last-child { margin-bottom: 0; }
+.reading-paragraph.active {
+  background: var(--reading-active-bg);
+  /* تَمَّ إزالةُ الشّريطِ الجانبيِّ */
+}
+/* رأسُ القراءة داخل الصندوق وفي أعلاه: الاستعاذة (يمين) ومرجعُ السورة (يسار) بصفٍّ واحدٍ */
+/* صفٌّ أفقيٌّ واحدٌ (flex) بلا التفاف: مرجعُ السورةِ على اليسار، والاستعاذةُ متوسّطةٌ
+   بصريًّا في المساحةِ المتبقّيةِ. (direction:rtl يضع المرجعَ — وهو الثاني في DOM — يسارًا) */
+.reading-header {
+  direction: rtl;
+  margin: 0 0 12px;
+}
+.reading-istiadha {
+  direction: rtl;
+  text-align: center;
+  white-space: nowrap;
+  margin: 0 0 10px;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--reading-text-size);
+  line-height: var(--reading-text-line-height);
+}
+/* زخرفةٌ حول الاستعاذة بأقواسِ المصحفِ ﴿ ﴾ — بنفسِ البنيِّ الداكنِ لنصِّ الاستعاذةِ، أكبرُ وأوضحُ.
+   عناصرُ pseudo (لا أبناءٌ) لتبقى بعد تفريغِ النصِّ في buildReadingModel. */
+.reading-istiadha::before,
+.reading-istiadha::after {
+  color: var(--color-primary);
+  font-family: var(--font-family);
+  font-size: 1.2em;
+  font-weight: var(--font-weight-extrabold);
+  vertical-align: middle;
+}
+.reading-istiadha::before { content: "\FD3F"; margin-inline-end: 0.55em; }
+.reading-istiadha::after  { content: "\FD3E"; margin-inline-start: 0.55em; }
+.surah-ref {
+  direction: rtl;
+  text-align: left;
+  white-space: nowrap;
+  margin: 0;
+  color: var(--color-primary);
+  font-family: var(--font-family);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 16px;
+  letter-spacing: 0.3px;
+}
+/* سطر "صدق الله العظيم" الختاميُّ داخل صندوق القراءة بعد الآيات */
+.reading-sadaqa {
+  direction: rtl;
+  text-align: center;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--reading-text-size);
+  line-height: var(--reading-text-line-height);
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-secondary);
+}
+.para-text {
+  color: var(--color-ink);
+  font-size: var(--reading-text-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--reading-text-line-height);
+  text-align: justify;
+  word-break: break-word;
+}
+.word {
+  border-radius: 4px;
+  display: inline;
+  padding: 1px 3px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.word.highlight {
+  background: var(--reading-highlight-bg);
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+}
+.reading-controls {
+  background: transparent;
+  border-radius: 0 0 var(--reading-card-radius) var(--reading-card-radius);
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 2.5vw, 12px);
+  justify-content: center;
+  align-items: center;
+  padding: 12px 14px 18px;
+  margin: -14px 16px 14px;
+  position: relative;
+  z-index: 5;
+}
+.reading-controls .btn-play,
+.reading-controls .btn-restart {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 2.2vw, 19px);
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: 1.2;
+}
+.reading-controls .btn-play {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.reading-controls .btn-play:hover { background: var(--color-primary-hover); }
+.reading-controls .btn-play:active { box-shadow: 0 3px 0 var(--color-primary-shadow); transform: translateY(2px); }
+.reading-controls .btn-play.is-playing {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.reading-controls .btn-play.is-playing:hover { background: var(--color-secondary-hover); }
+.reading-controls .btn-play.is-playing:active { box-shadow: 0 3px 0 var(--color-secondary-shadow); transform: translateY(2px); }
+.reading-controls .btn-restart {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.reading-controls .btn-restart:hover { background: var(--color-olive-hover); }
+.reading-controls .btn-restart:active { box-shadow: 0 3px 0 var(--color-olive-shadow); transform: translateY(2px); }
+.reading-controls .btn-seek {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s ease, border-color 0.1s ease, transform 0.1s ease;
+  box-shadow: 0 3px 0 var(--color-sand);
+}
+.reading-controls .btn-seek:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+.reading-controls .btn-seek:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--color-sand);
+}
+.reading-controls .btn-seek:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.controls-spacer {
+  width: clamp(16px, 5vw, 22px);
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .reading-card, .reading-controls { margin-left: 10px; margin-right: 10px; }
+  .reading-text-area { max-height: 320px; padding: 16px 18px 20px; }
+  .reading-text-area::before { bottom: 20px; right: 18px; top: 16px; }
+  .reading-paragraph { margin-bottom: 0; padding: 4px 14px 4px 10px; }
+  .para-text { line-height: 1.95; text-align: right; font-size: 18px; }
+  .reading-controls { padding: 10px 12px 14px; gap: 8px; }
+}
+@media (max-width: 560px) {
+  .reading-controls .btn-play, .reading-controls .btn-restart { font-size: 15px; min-width: 100px; padding: 10px 14px; }
+  .reading-controls .btn-seek { width: 42px; height: 42px; min-width: 42px; font-size: 16px; }
+  .reading-text-area::before { display: none; }
+}
+@media (max-width: 480px) {
+  .reading-card, .reading-controls { margin-left: 8px; margin-right: 8px; }
+  .reading-text-area { max-height: 260px; padding: 12px 12px 15px; }
+  .reading-paragraph { margin-bottom: 0; padding: 4px 10px; }
+  .para-text { font-size: 17px; line-height: 1.85; }
+  .reading-controls { gap: 6px; padding: 10px 8px 14px; flex-wrap: nowrap; }
+  .reading-controls .btn-play, .reading-controls .btn-restart { font-size: 14px; min-width: 88px; padding: 9px 10px; gap: 4px; }
+  .reading-controls .btn-seek { width: 38px; height: 38px; min-width: 38px; font-size: 14px; }
+  .controls-spacer { display: none; }
+}
+@media (max-width: 360px) {
+  .para-text { font-size: 16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q2 CLASSIFICATION (نُقل كما هو من نظام التصنيف في "أهمية الوحدة" Q6،
+   مع تغيير البادئة q6→q2c لتفادي التعارض). نفس التصميم/التفاعل تمامًا.
+═══════════════════════════════════════════════════════════════ */
+.q2c-cards-wrap {
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.q2c-card {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.06);
+}
+.q2c-card.q2c-hidden { display: none; }
+.q2c-card.q2c-reveal { animation: q2cCardReveal 0.45s ease both; }
+@keyframes q2cCardReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.q2c-card-letter {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 17px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.25);
+}
+.q2c-card-text {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+}
+.q2c-card-select {
+  min-width: 220px;
+}
+.q2c-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  font-family: var(--font-family);
+}
+.q2c-dropdown-trigger {
+  width: 100%;
+  padding: 11px 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.q2c-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.q2c-dropdown.is-open .q2c-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.q2c-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.q2c-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.q2c-dropdown.is-open .q2c-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.q2c-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.q2c-dropdown.is-open .q2c-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.q2c-dropdown-option {
+  padding: 11px 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.q2c-dropdown-option + .q2c-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.q2c-dropdown-option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.q2c-dropdown-option:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.q2c-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.q2c-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.q2c-dropdown.is-disabled .q2c-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+.q2c-card.correct-card {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f7faea;
+  box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18);
+}
+.q2c-card.correct-card .q2c-card-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35);
+}
+.q2c-card.correct-card .q2c-card-text {
+  color: var(--color-success);
+}
+.q2c-card.correct-card .q2c-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q2c-card.correct-card .q2c-dropdown-arrow {
+  color: var(--color-success);
+}
+.q2c-card.wrong-card {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  animation: chipShake 0.5s ease;
+}
+.q2c-card.wrong-card .q2c-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+}
+.q2c-card.wrong-card .q2c-dropdown-arrow {
+  color: var(--color-error);
+}
+.q2c-card.revealed-card {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f7faea;
+  box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18);
+  animation: pulse-q2c-correct 0.6s ease;
+}
+.q2c-card.revealed-card .q2c-card-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35);
+}
+.q2c-card.revealed-card .q2c-card-text {
+  color: var(--color-success);
+}
+.q2c-card.revealed-card .q2c-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q2c-card.revealed-card .q2c-dropdown-arrow {
+  color: var(--color-success);
+}
+@keyframes pulse-q2c-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+@media (max-width: 700px) {
+  /* الرقمُ بجانبِ العبارةِ بمسافةٍ متقاربةٍ متوازنةٍ، والقائمةُ المنسدلةُ بعرضٍ كاملٍ تحتهما */
+  .q2c-card {
+    padding: 14px;
+    column-gap: 10px;
+    row-gap: 10px;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "letter text"
+      "select select";
+    align-items: center;
+  }
+  .q2c-card-letter { grid-area: letter; width: 34px; height: 34px; font-size: 15px; }
+  .q2c-card-text { grid-area: text; font-size: 17px; }
+  .q2c-card-select { grid-area: select; min-width: 0; width: 100%; margin-top: 2px; }
+  /* عناوينُ التّصنيفِ طويلةٌ: اجعلِ القيمةَ تملأُ عرضَ الزرِّ كاملًا (لا تضييق) */
+  .q2c-dropdown-trigger { font-size: 16px; padding: 10px 14px; justify-content: space-between; }
+  .q2c-dropdown-value { flex: 1; text-align: center; }
+  .q2c-dropdown-option { font-size: 16px; padding: 10px 14px; line-height: 1.5; }
+}
+@media (max-width: 480px) {
+  .q2c-cards-wrap { margin-left: 8px; margin-right: 8px; gap: 10px; }
+  .q2c-card { padding: 12px; gap: 10px; }
+  .q2c-card-letter { width: 30px; height: 30px; font-size: 14px; }
+  .q2c-card-text { font-size: 16px; line-height: 1.7; }
+  .q2c-dropdown-trigger { font-size: 15px; padding: 9px 12px; }
+  .q2c-dropdown-option { font-size: 15px; padding: 9px 12px; }
+}
+
+/* توحيدُ عنوانِ السّؤالِ الأوّلِ (سلايد 2) ومحاذاةُ زرِّ السّمّاعةِ على الجوّالِ */
+@media (max-width: 700px) {
+  [data-slide="2"] .q-card-title {
+    font-size: 19px;
+  }
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+  [data-slide="3"] .q-card-title {
+    font-size: 19px;
+  }
+  [data-slide="3"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="3"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="3"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+  /* تَوحيدُ خطوطِ Q4 (سلايد 5) وَ Q5 (سلايد 6) على الموبايل */
+  [data-slide="5"] .q-card-title,
+  [data-slide="6"] .q-card-title {
+    font-size: 19px;
+  }
+  [data-slide="5"] .q-card-header,
+  [data-slide="6"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="5"] .q-card-header .audio-btn,
+  [data-slide="6"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="5"] .q-card-header .q-card-title,
+  [data-slide="6"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+  [data-slide="5"] .click-sentence-text {
+    font-size: 17px;
+  }
+}
+@media (max-width: 480px) {
+  [data-slide="2"] .q-card-title {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+  [data-slide="3"] .q-card-title {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  [data-slide="3"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="3"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="3"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+  /* تَوحيدُ خطوطِ Q4 (سلايد 5) وَ Q5 (سلايد 6) على الشّاشاتِ الصّغيرةِ */
+  [data-slide="5"] .q-card-title,
+  [data-slide="6"] .q-card-title {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  [data-slide="5"] .q-card-header,
+  [data-slide="6"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="5"] .q-card-header .audio-btn,
+  [data-slide="6"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="5"] .q-card-header .q-card-title,
+  [data-slide="6"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+  [data-slide="5"] .click-sentence-text {
+    font-size: 16px;
+  }
+  [data-slide="5"] .click-sentence-letter {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+  [data-slide="5"] .click-sentence-check {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">آياتٌ قرآنيّةٌ</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Instruction Row ═══ -->
+    <div class="task-instr-row" id="instrRow">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText">
+          أستمعُ لقراءةِ الآياتِ القرآنيّةِ الكريمةِ، ثمَّ أقرؤها قراءةً سليمةً.
+        </p>
+        <div class="instr-hint" id="instrHint" style="display:none;">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/i7t_Mq6Gv8mJq6Fm.png" alt="" class="instr-hint-img">
+          <span class="instr-hint-text" id="instrHintText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 1: الاستماعُ للآياتِ                          -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+        <article class="reading-card" data-reading-card>
+          <div class="reading-text-area" id="readingTextArea"></div>
+        </article>
+
+        <div class="reading-controls">
+          <button class="btn-seek" type="button" id="readBackBtn" aria-label="إلى الوراء" title="إلى الوراء ٥ ثوانٍ">
+            <i class="fas fa-step-forward"></i>
+          </button>
+          <button class="btn-play" type="button" id="readPlayBtn">
+            <i class="fas fa-play"></i>
+            <span>تشغيلٌ</span>
+          </button>
+          <button class="btn-seek" type="button" id="readForwardBtn" aria-label="إلى الأمام" title="إلى الأمام ٥ ثوانٍ">
+            <i class="fas fa-step-backward"></i>
+          </button>
+          <div class="controls-spacer"></div>
+          <button class="btn-restart" type="button" id="readRestartBtn">
+            <i class="fas fa-redo"></i>
+            <span>إعادةٌ</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 2: السّؤالُ الأوّلُ (MCQ)                       -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="2">
+        <div class="q-card" id="qCard-q1">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السُّؤالُ الأوّلُ:</strong> المقصودُ في قولِهِ تعالى:
+            </p>
+          </div>
+          <div class="q-card-verse">
+            «مَّنۡ عَمِلَ صَٰلِحٗا فَلِنَفۡسِهِۦۖ وَمَنۡ أَسَآءَ فَعَلَيۡهَا»
+          </div>
+          <div class="mcq-options">
+            <label class="mcq-option-label">
+              <input type="radio" name="q1" value="0">
+              <span class="mcq-option-text">أ. أنَّ العملَ الصّالحَ هو للهِ وحدَهُ.</span>
+            </label>
+            <label class="mcq-option-label">
+              <input type="radio" name="q1" value="1">
+              <span class="mcq-option-text">ب. أنَّ العملَ الطّالحَ هو من عندِ الشّيطانِ.</span>
+            </label>
+            <label class="mcq-option-label">
+              <input type="radio" name="q1" value="2">
+              <span class="mcq-option-text">ج. أنَّ الجزاءَ من جنسِ العملِ، سواءً كانَ في العملِ الصّالحِ أمْ في الإساءةِ.</span>
+            </label>
+          </div>
+          <div class="q-feedback" id="fb-q1"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 3: السّؤالُ الثّاني (استخراج + كتابة)            -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="3">
+
+        <div class="verse-card" id="q2VerseCard">
+          «۞إِلَيۡهِ يُرَدُّ عِلۡمُ ٱلسَّاعَةِۚ وَمَا تَخۡرُجُ مِن ثَمَرَٰتٖ مِّنۡ أَكۡمَامِهَا وَمَا تَحۡمِلُ مِنۡ أُنثَىٰ وَلَا تَضَعُ إِلَّا بِعِلۡمِهِۦۚ وَيَوۡمَ يُنَادِيهِمۡ أَيۡنَ شُرَكَآءِي قَالُوٓاْ ءَاذَنَّٰكَ مَامِنَّا مِن شَهِيدٖ»
+        </div>
+
+        <!-- بطاقاتُ التّصنيفِ بالقوائمِ المنسدلةِ (نفس نظام التصنيف في "أهمية الوحدة") -->
+        <div class="q2c-cards-wrap" id="q2cCardsWrap"></div>
+
+        <div class="q-feedback" id="fb-q2a"></div>
+
+        <!-- المرحلةُ الثّانيةُ: ChatGPT الكتابيّةُ — تظهرُ بعدَ إكمالِ الاستخراجِ -->
+        <div class="stage" id="q2bStage">
+          <div class="q-card" id="qCard-q2b">
+            <div class="q-card-header">
+              <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+                <i class="fas fa-volume-high"></i>
+              </button>
+              <p class="q-card-title">
+                أذهبُ إلى «ChatGPT» وأسألُهُ عن معنى كلمةِ «تَضَعُ».
+              </p>
+            </div>
+
+            <div class="q7-pairs-grid">
+
+            <div class="q7-pair">
+              <label class="q7-pair-label" for="ta-q2b-1">
+                <span class="label-num">١</span>
+                <span>المعنى الّذي حصلتُ عليهِ من ChatGPT:</span>
+              </label>
+              <textarea class="q7-textarea" id="ta-q2b-1" placeholder="اكتبْ المعنى الّذي حصلتَ عليهِ..." oninput="updateQ2bWriting(this, 1)" autocomplete="off" spellcheck="false"></textarea>
+              <div class="q7-answer-wrap" id="answer-q2b-1" style="display:none;"></div>
+            </div>
+
+            <div class="q7-pair">
+              <label class="q7-pair-label" for="ta-q2b-2">
+                <span class="label-num">٢</span>
+                <span>صيغةُ السّؤالِ الّتي طرحتُها عليهِ:</span>
+              </label>
+              <textarea class="q7-textarea" id="ta-q2b-2" placeholder="اكتبْ صيغةَ السّؤالِ الّتي طرحتَها..." oninput="updateQ2bWriting(this, 2)" autocomplete="off" spellcheck="false"></textarea>
+              <div class="q7-answer-wrap" id="answer-q2b-2" style="display:none;"></div>
+            </div>
+
+            <div class="q7-pair">
+              <label class="q7-pair-label" for="ta-q2b-3">
+                <span class="label-num">٣</span>
+                <span>صيغةُ السّؤالِ الأنسبُ للحصولِ على المعنى «تَلِدُ»:</span>
+              </label>
+              <textarea class="q7-textarea" id="ta-q2b-3" placeholder="اكتبْ صيغةَ السّؤالِ الأنسبَ..." oninput="updateQ2bWriting(this, 3)" autocomplete="off" spellcheck="false"></textarea>
+              <div class="q7-answer-wrap" id="answer-q2b-3" style="display:none;"></div>
+            </div>
+
+            </div>
+            <!-- /.q7-pairs-grid -->
+
+            <div class="q-feedback" id="fb-q2b"></div>
+          </div>
+
+          <div class="slide-controls">
+            <button class="btn-action btn-restart btn-sm" onclick="resetQ2b()">
+              <i class="fas fa-redo"></i> إعادةٌ
+            </button>
+            <button class="btn-action btn-check btn-sm" id="checkQ2bBtn" onclick="checkQ2b()">
+              <i class="fas fa-check"></i> تحقّقْ
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 4: السّؤالُ الثّالثُ (تصنيفُ مفرداتٍ)            -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="4">
+
+        <div class="verse-card">
+          «وَلَئِنۡ أَذَقۡنَٰهُ رَحۡمَةٗ مِّنَّا مِنۢ بَعۡدِ ضَرَّآءَ مَسَّتۡهُ لَيَقُولَنَّ هَٰذَا لِي»
+        </div>
+
+        <!-- بطاقاتُ التّصنيفِ بالقوائمِ المنسدلةِ (نفس نظام التصنيف في السؤال الثاني) -->
+        <div class="q2c-cards-wrap" id="q3cCardsWrap"></div>
+
+        <div class="q-feedback" id="fb-q3"></div>
+
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 5: السّؤالُ الرّابعُ (أفكارُ الآياتِ — اختيارُ متعدّدٍ) -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="5">
+        <div class="q-card" id="qCard-q4">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السُّؤالُ الرّابعُ:</strong> أضغطُ على الأفكارِ الّتي وردتْ في الآياتِ.
+            </p>
+          </div>
+
+          <div class="click-sentences-wrap">
+            <div class="click-sentences" id="q4Sentences">
+              <div class="click-sentence" data-letter="أ" data-correct="true">
+                <div class="click-sentence-letter">أ</div>
+                <div class="click-sentence-text">الجزاءُ من جنسِ العملِ، واللهُ لا يظلمُ أحدًا.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="ب" data-correct="false">
+                <div class="click-sentence-letter">ب</div>
+                <div class="click-sentence-text">حثُّ المجتمعِ على الوَحدةِ.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="ج" data-correct="true">
+                <div class="click-sentence-letter">ج</div>
+                <div class="click-sentence-text">إحاطةُ علمِ اللهِ وعظيمُ قدرتِهِ.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="د" data-correct="true">
+                <div class="click-sentence-letter">د</div>
+                <div class="click-sentence-text">طبعُ الإنسانِ والدّخولُ في النّفسِ البشريّةِ.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="هـ" data-correct="false">
+                <div class="click-sentence-letter">هـ</div>
+                <div class="click-sentence-text">تحذيرُ المسلمينَ من التّفرقةِ والتّجزئةِ.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="و" data-correct="false">
+                <div class="click-sentence-letter">و</div>
+                <div class="click-sentence-text">ترابطُ المسلمينَ وأبناءِ المجتمعِ فيما بينهم.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="ز" data-correct="true">
+                <div class="click-sentence-letter">ز</div>
+                <div class="click-sentence-text">وعدُ اللهِ أنْ يكشفَ للنّاسِ الحقَّ.</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="q-feedback" id="fb-q4"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 6: السّؤالُ الخامسُ (العلاقة + المرادف)           -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="6">
+        <div class="q-card" id="qCard-q5">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السُّؤالُ الخامسُ:</strong> ما العلاقةُ بين «يَؤُوسٞ» و«قَنُوطٞ»؟
+            </p>
+          </div>
+
+          <div class="q5-relation-choices" id="q5RelationChoices">
+            <button class="q5-relation-btn" data-rel="synonym" onclick="chooseQ5Relation(this)">
+              <i class="fas fa-equals"></i>
+              <span>التَّرادُفُ</span>
+            </button>
+            <button class="q5-relation-btn" data-rel="antonym" onclick="chooseQ5Relation(this)">
+              <i class="fas fa-not-equal"></i>
+              <span>التَّضادُّ</span>
+            </button>
+          </div>
+
+          <div class="q5-stage" id="q5Stage">
+            <p class="synonym-followup">
+              بالتّالي يكونُ معنى <strong>«يَقۡنَطُ»</strong> هو:
+            </p>
+
+            <div class="synonym-input-wrap">
+              <input type="text"
+                     class="synonym-input"
+                     id="q5Input"
+                     placeholder="اكتبِ الفعلَ هنا..."
+                     autocomplete="off"
+                     spellcheck="false"
+                     dir="rtl">
+            </div>
+          </div>
+
+          <div class="q-feedback" id="fb-q5"></div>
+
+          <div class="q5-check-row" style="display:flex; justify-content:center; margin-top: 14px;">
+            <button class="btn-action btn-check btn-sm" id="checkQ5Btn" onclick="checkQ5()" style="display: none;">
+              <i class="fas fa-check"></i> تحقّقْ
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 7: السّؤالُ السّادسُ (التّوصيلُ بين الكلمةِ ومعناها) -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="7">
+
+        <!-- بنكُ المعاني -->
+        <div class="match-expr-bank">
+          <div class="match-chips-area compact" id="q6Bank"></div>
+        </div>
+
+        <!-- شبكةُ الكلماتِ + خاناتُ الإفلاتِ -->
+        <div class="match-pairs-grid" id="q6Grid"></div>
+
+        <div class="q-feedback" id="fb-q6"></div>
+
+      </div>
+
+    </div>
+
+    <!-- ═══ شاشةُ الإنهاءِ ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart" onclick="restartActivity()">
+            <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════════════════════ */
+function toArabic(num) {
+  const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num.toString().split('').map(d => arabic[d] || d).join('');
+}
+function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+function isInZone(el, x, y) {
+  const r = el.getBoundingClientRect();
+  return x > r.left && x < r.right && y > r.top && y < r.bottom;
+}
+function stripTashkeel(s) {
+  // Standard tashkeel (U+064B–U+065F) + superscript alif (U+0670) + tatweel (U+0640)
+  // + Quranic annotation marks (U+06D6–U+06ED). Excludes Eastern digits (U+0660–U+0669).
+  return (s || '').replace(/[ً-ٟـٰۖ-ۭ]/g, '');
+}
+/* _unused_stripTashkeel_old removed — kept here as placeholder for diff */
+function __dead__(s) {
+  return (s || '').replace(/[ً-ٰٟـ]/g, '');
+}
+function normalizeArabic(s) {
+  return stripTashkeel(s).replace(/\s+/g, '').trim();
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function wordCount(s) {
+  return (s || '').trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+const MAX_ATTEMPTS = 3;
+
+/* ══════════════════════════════════════════════════════════════
+   GENERIC DRAG SUBSYSTEM
+   Wires HTML5 drag, touch-with-clone, and click-to-place onto
+   a set of chips and a set of zones. Validation + side-effects
+   are delegated to the caller via callbacks.
+═══════════════════════════════════════════════════════════════ */
+function makeDragSystem(opts) {
+  const {
+    chipsSel, zoneSel,
+    isBlocked = () => false,
+    isChipPlaced = (c) => c.classList.contains('placed'),
+    isZoneFilled = () => false,
+    onAttempt,
+    hoveredClass = 'hovered',
+    cloneStyle = ''
+  } = opts;
+
+  let dragEl = null;
+  let touchClone = null;
+  let touchEl = null;
+  let touchHasMoved = false;
+  let touchStartX = 0, touchStartY = 0;
+  let selectedChip = null;
+
+  // Auto-scroll during HTML5 drag
+  document.addEventListener('dragover', (e) => {
+    if (!dragEl) return;
+    const vh = window.innerHeight;
+    const edge = 80, speed = 12;
+    if (e.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+    else if (e.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+  });
+
+  function bindChip(chip) {
+    chip.addEventListener('click', () => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      document.querySelectorAll(chipsSel + '.selected').forEach(c => {
+        if (c !== chip) c.classList.remove('selected');
+      });
+      if (selectedChip === chip) {
+        chip.classList.remove('selected');
+        selectedChip = null;
+      } else {
+        chip.classList.add('selected');
+        selectedChip = chip;
+      }
+    });
+
+    chip.addEventListener('dragstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) { e.preventDefault(); return; }
+      dragEl = chip;
+      chip.classList.add('dragging');
+      chip.dataset.dropped = 'no';
+      e.dataTransfer.effectAllowed = 'move';
+      try {
+        e.dataTransfer.setDragImage(chip, chip.offsetWidth / 2, chip.offsetHeight / 2);
+      } catch(err) {}
+    });
+    chip.addEventListener('dragend', () => {
+      chip.classList.remove('dragging');
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      if (chip.dataset.dropped === 'no') {
+        chip.classList.add('chip-shake');
+        setTimeout(() => chip.classList.remove('chip-shake'), 500);
+      }
+      delete chip.dataset.dropped;
+      dragEl = null;
+    });
+
+    chip.addEventListener('touchstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchHasMoved = false;
+      touchEl = chip;
+    }, { passive: true });
+
+    chip.addEventListener('touchmove', (e) => {
+      if (!touchEl) return;
+      const t = e.touches[0];
+      const dx = Math.abs(t.clientX - touchStartX);
+      const dy = Math.abs(t.clientY - touchStartY);
+      if (!touchHasMoved && (dx > 10 || dy > 10)) {
+        touchHasMoved = true;
+        const rect = touchEl.getBoundingClientRect();
+        touchClone = touchEl.cloneNode(true);
+        touchClone.style.cssText = `
+          position: fixed; top: ${t.clientY - rect.height/2}px; left: ${t.clientX - rect.width/2}px;
+          width: ${rect.width}px; z-index: 9999; opacity: 0.92; pointer-events: none;
+          transform: scale(1.03); box-shadow: 0 12px 30px rgba(132, 72, 22, 0.35); transition: none;
+          background: #fff; border: 2px solid var(--color-primary); border-radius: 12px;
+          font-family: 'Scheherazade', serif; ${cloneStyle}
+        `;
+        document.body.appendChild(touchClone);
+        touchEl.style.opacity = '0.3';
+      }
+      if (touchHasMoved && touchClone) {
+        e.preventDefault();
+        const rect = touchClone.getBoundingClientRect();
+        touchClone.style.top = (t.clientY - rect.height/2) + 'px';
+        touchClone.style.left = (t.clientX - rect.width/2) + 'px';
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.toggle(hoveredClass, isInZone(zone, t.clientX, t.clientY) && !isZoneFilled(zone));
+        });
+        const vh = window.innerHeight;
+        const edge = 80, speed = 12;
+        if (t.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+        else if (t.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+      }
+    }, { passive: false });
+
+    chip.addEventListener('touchend', (e) => {
+      if (!touchEl) return;
+      if (touchHasMoved && touchClone) {
+        const t = e.changedTouches[0];
+        let dropped = false;
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.remove(hoveredClass);
+          if (!dropped && !isZoneFilled(zone) && isInZone(zone, t.clientX, t.clientY)) {
+            onAttempt(touchEl, zone);
+            dropped = true;
+          }
+        });
+        if (!dropped) {
+          touchEl.style.opacity = '';
+          touchEl.classList.add('chip-shake');
+          const ref = touchEl;
+          setTimeout(() => ref && ref.classList && ref.classList.remove('chip-shake'), 500);
+        }
+        touchClone.remove();
+        touchClone = null;
+      } else {
+        touchEl.style.opacity = '';
+      }
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+
+    chip.addEventListener('touchcancel', () => {
+      if (touchClone) { touchClone.remove(); touchClone = null; }
+      if (touchEl) touchEl.style.opacity = '';
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+  }
+
+  function bindZone(zone) {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (!isZoneFilled(zone)) zone.classList.add(hoveredClass);
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove(hoveredClass));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove(hoveredClass);
+      if (isZoneFilled(zone)) return;
+      if (dragEl) {
+        dragEl.dataset.dropped = 'yes';
+        onAttempt(dragEl, zone);
+      }
+    });
+    zone.addEventListener('click', () => {
+      if (isBlocked() || isZoneFilled(zone)) return;
+      if (selectedChip && !isChipPlaced(selectedChip)) {
+        onAttempt(selectedChip, zone);
+        selectedChip.classList.remove('selected');
+        selectedChip = null;
+      }
+    });
+  }
+
+  document.querySelectorAll(chipsSel).forEach(bindChip);
+  document.querySelectorAll(zoneSel).forEach(bindZone);
+
+  return {
+    rebindChips: () => {
+      document.querySelectorAll(chipsSel).forEach(bindChip);
+    },
+    clearSelected: () => {
+      if (selectedChip) selectedChip.classList.remove('selected');
+      selectedChip = null;
+    }
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PASSAGE (slide 1) — word-sync simulation
+═══════════════════════════════════════════════════════════════ */
+const PASSAGE_PARAGRAPHS = [
+  { text: "مَّنۡ عَمِلَ صَٰلِحٗا فَلِنَفۡسِهِۦۖ وَمَنۡ أَسَآءَ فَعَلَيۡهَاۗ وَمَا رَبُّكَ بِظَلَّٰمٖ لِّلۡعَبِيدِ", ayah: "٤٦" },
+  { text: "۞إِلَيۡهِ يُرَدُّ عِلۡمُ ٱلسَّاعَةِۚ وَمَا تَخۡرُجُ مِن ثَمَرَٰتٖ مِّنۡ أَكۡمَامِهَا وَمَا تَحۡمِلُ مِنۡ أُنثَىٰ وَلَا تَضَعُ إِلَّا بِعِلۡمِهِۦۚ وَيَوۡمَ يُنَادِيهِمۡ أَيۡنَ شُرَكَآءِي قَالُوٓاْ ءَاذَنَّٰكَ مَامِنَّا مِن شَهِيدٖ", ayah: "٤٧" },
+  { text: "وَضَلَّ عَنۡهُم مَّا كَانُواْ يَدۡعُونَ مِن قَبۡلُۖ وَظَنُّواْ مَا لَهُم مِّن مَّحِيصٖ", ayah: "٤٨" },
+  { text: "لَّا يَسۡـَٔمُ ٱلۡإِنسَٰنُ مِن دُعَآءِ ٱلۡخَيۡرِ وَإِن مَّسَّهُ ٱلشَّرُّ فَيَـُٔوسٞ قَنُوطٞ", ayah: "٤٩" },
+  { text: "وَلَئِنۡ أَذَقۡنَٰهُ رَحۡمَةٗ مِّنَّا مِنۢ بَعۡدِ ضَرَّآءَ مَسَّتۡهُ لَيَقُولَنَّ هَٰذَا لِي وَمَآ أَظُنُّ ٱلسَّاعَةَ قَآئِمَةٗ وَلَئِن رُّجِعۡتُ إِلَىٰ رَبِّيٓ إِنَّ لِي عِندَهُۥ لَلۡحُسۡنَىٰۚ فَلَنُنَبِّئَنَّ ٱلَّذِينَ كَفَرُواْ بِمَا عَمِلُواْ وَلَنُذِيقَنَّهُم مِّنۡ عَذَابٍ غَلِيظٖ", ayah: "٥٠" },
+  { text: "وَإِذَآ أَنۡعَمۡنَا عَلَى ٱلۡإِنسَٰنِ أَعۡرَضَ وَنَـَٔا بِجَانِبِهِۦ وَإِذَا مَسَّهُ ٱلشَّرُّ فَذُو دُعَآءٍ عَرِيضٖ", ayah: "٥١" },
+  { text: "قُلۡ أَرَءَيۡتُمۡ إِن كَانَ مِنۡ عِندِ ٱللَّهِ ثُمَّ كَفَرۡتُم بِهِۦ مَنۡ أَضَلُّ مِمَّنۡ هُوَ فِي شِقَاقِۭ بَعِيدٖ", ayah: "٥٢" },
+  { text: "سَنُرِيهِمۡ ءَايَٰتِنَا فِي ٱلۡأٓفَاقِ وَفِيٓ أَنفُسِهِمۡ حَتَّىٰ يَتَبَيَّنَ لَهُمۡ أَنَّهُ ٱلۡحَقُّۗ أَوَلَمۡ يَكۡفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَيۡءٖ شَهِيدٌ", ayah: "٥٣" },
+  { text: "أَلَآ إِنَّهُمۡ فِي مِرۡيَةٖ مِّن لِّقَآءِ رَبِّهِمۡۗ أَلَآ إِنَّهُۥ بِكُلِّ شَيۡءٖ مُّحِيطُۢ", ayah: "٥٤" }
+];
+// يبني محتوى القراءة من بيانات الآيات (المحتوى القرآني يبقى كما هو دون تغيير).
+// • الاستعاذة سطرٌ مستقلٌّ في الأعلى (ليست من الآيات).
+// • الآيات تُعرض كفقرةٍ واحدةٍ متّصلةٍ بأسلوب المصحف، مع علامة نهاية الآية ﴿﴾.
+function renderReadingParagraphs() {
+  const area = document.getElementById('readingTextArea');
+  if (!area) return;
+  const versesHtml = PASSAGE_PARAGRAPHS.map(p => `${p.text} ﴿${p.ayah}﴾`).join(' ');
+  // رأسُ القراءة داخل الصندوق وفي أعلاه: الاستعاذة يمينًا، ومرجعُ السورة يسارًا.
+  // "صدق الله العظيم" سطرٌ ختاميٌّ في الأسفل. لا الرأسُ ولا الختامُ من عناصر
+  // .reading-paragraph، فلا يدخلان في تمييز الكلمات/التشغيل.
+  const header =
+    '<div class="reading-header">' +
+      '<p class="reading-istiadha">أعوذُ باللهِ من الشيطانِ الرجيمِ</p>' +
+      '<div class="surah-ref">سورة فصلت | الآيات ٤٦–٥٤</div>' +
+    '</div>';
+  area.innerHTML =
+    header +
+    `<div class="reading-paragraph" data-para="1"><p class="para-text">${versesHtml}</p></div>` +
+    `<p class="reading-sadaqa">صدق الله العظيم</p>`;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   READING — نظام word-sync منقول كما هو من "أهمية الوحدة"
+═══════════════════════════════════════════════════════════════ */
+const WORD_DURATION_MS = 400;
+const SEEK_WORDS = 12; // ~5 ثوانٍ
+
+const readingState = {
+  words: [],
+  paragraphs: [],
+  currentIdx: 0,
+  intervalId: null,
+  playing: false,
+  finished: false
+};
+
+function buildReadingModel() {
+  const paragraphElements = document.querySelectorAll('.reading-paragraph');
+  readingState.paragraphs = [];
+  readingState.words = [];
+
+  // يبدأ التشغيل من الاستعاذة: تُلَفُّ كلماتُها وتُضافُ أوّلًا في تسلسل التمييز
+  // (تتبع حالةَ الفقرة 0 حتى لا يتغيّر سلوكُ عرضِ الآيات).
+  const istiadhaEl = document.querySelector('.reading-istiadha');
+  if (istiadhaEl) {
+    const itokens = istiadhaEl.textContent.trim().replace(/\s+/g, ' ').split(' ').filter(Boolean);
+    istiadhaEl.textContent = '';
+    itokens.forEach((token, i) => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = token;
+      istiadhaEl.appendChild(span);
+      readingState.words.push({ element: span, paragraphIndex: 0 });
+      if (i < itokens.length - 1) istiadhaEl.appendChild(document.createTextNode(' '));
+    });
+  }
+
+  paragraphElements.forEach((paraEl, paraIdx) => {
+    const textEl = paraEl.querySelector('.para-text');
+    if (!textEl) return;
+    readingState.paragraphs.push({ element: paraEl });
+    const tokens = textEl.textContent.trim().replace(/\s+/g, ' ').split(' ').filter(Boolean);
+    textEl.textContent = '';
+    tokens.forEach((token, i) => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.textContent = token;
+      textEl.appendChild(span);
+      readingState.words.push({ element: span, paragraphIndex: paraIdx });
+      if (i < tokens.length - 1) textEl.appendChild(document.createTextNode(' '));
+    });
+  });
+}
+
+function setReadingParagraphState(activeParaIdx) {
+  readingState.paragraphs.forEach((para, idx) => {
+    para.element.classList.remove('active', 'seen', 'unplayed');
+    if (activeParaIdx < 0) {
+      para.element.classList.add('unplayed');
+    } else if (idx < activeParaIdx) {
+      para.element.classList.add('seen');
+    } else if (idx === activeParaIdx) {
+      para.element.classList.add('active');
+    } else {
+      para.element.classList.add('unplayed');
+    }
+  });
+}
+
+function setAllReadingSeen() {
+  readingState.paragraphs.forEach(p => {
+    p.element.classList.remove('active', 'unplayed');
+    p.element.classList.add('seen');
+  });
+}
+
+function highlightWord(idx) {
+  readingState.words.forEach((w) => {
+    w.element.classList.remove('highlight');
+  });
+  if (idx >= 0 && idx < readingState.words.length) {
+    const w = readingState.words[idx];
+    w.element.classList.add('highlight');
+    setReadingParagraphState(w.paragraphIndex);
+    scrollWordIntoView(w.element);
+  }
+}
+
+function scrollWordIntoView(wordEl) {
+  const area = document.querySelector('.reading-text-area');
+  if (!area || !wordEl) return;
+  const containerRect = area.getBoundingClientRect();
+  const wordRect = wordEl.getBoundingClientRect();
+  const upper = containerRect.top + area.clientHeight * 0.28;
+  const lower = containerRect.top + area.clientHeight * 0.72;
+  if (wordRect.top >= upper && wordRect.bottom <= lower) return;
+  const targetTop = area.scrollTop + (wordRect.top - containerRect.top) - area.clientHeight * 0.42;
+  area.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+}
+
+function updateReadingButtons() {
+  const playBtn = document.getElementById('readPlayBtn');
+  const card = document.querySelector('.reading-card');
+  if (!playBtn) return;
+  const icon = playBtn.querySelector('i');
+  const label = playBtn.querySelector('span');
+  if (readingState.playing) {
+    playBtn.classList.add('is-playing');
+    if (icon) icon.className = 'fas fa-pause';
+    if (label) label.textContent = 'إيقافٌ';
+    if (card) card.classList.add('active');
+  } else {
+    playBtn.classList.remove('is-playing');
+    if (icon) icon.className = 'fas fa-play';
+    if (label) label.textContent = 'تشغيلٌ';
+  }
+  const backBtn = document.getElementById('readBackBtn');
+  const fwdBtn = document.getElementById('readForwardBtn');
+  if (backBtn) backBtn.disabled = readingState.currentIdx <= 0;
+  if (fwdBtn) fwdBtn.disabled = readingState.currentIdx >= readingState.words.length - 1;
+}
+
+function readingTick() {
+  if (readingState.currentIdx >= readingState.words.length) {
+    readingStop(true);
+    return;
+  }
+  highlightWord(readingState.currentIdx);
+  readingState.currentIdx++;
+  updateReadingButtons();
+}
+
+function readingPlay() {
+  if (readingState.playing) return;
+  if (readingState.finished || readingState.currentIdx >= readingState.words.length) {
+    readingState.currentIdx = 0;
+    readingState.finished = false;
+  }
+  readingState.playing = true;
+  readingTick();
+  readingState.intervalId = setInterval(readingTick, WORD_DURATION_MS);
+  updateReadingButtons();
+}
+
+function readingPause() {
+  if (readingState.intervalId) clearInterval(readingState.intervalId);
+  readingState.intervalId = null;
+  readingState.playing = false;
+  updateReadingButtons();
+}
+
+function readingStop(autoEnded) {
+  if (readingState.intervalId) clearInterval(readingState.intervalId);
+  readingState.intervalId = null;
+  readingState.playing = false;
+  if (autoEnded) {
+    readingState.finished = true;
+    readingState.words.forEach(w => w.element.classList.remove('highlight'));
+    setAllReadingSeen();
+  }
+  updateReadingButtons();
+}
+
+function readingToggle() {
+  if (readingState.playing) readingPause();
+  else readingPlay();
+}
+
+function readingSeek(deltaWords) {
+  const newIdx = Math.max(0, Math.min(readingState.words.length - 1, readingState.currentIdx + deltaWords));
+  readingState.currentIdx = newIdx;
+  readingState.finished = false;
+  highlightWord(newIdx);
+  updateReadingButtons();
+}
+
+function readingRestart() {
+  readingPause();
+  readingState.words.forEach(w => w.element.classList.remove('highlight'));
+  setReadingParagraphState(-1);
+  readingState.currentIdx = 0;
+  readingState.finished = false;
+  const area = document.querySelector('.reading-text-area');
+  if (area) area.scrollTop = 0;
+  readingPlay();
+}
+
+function initReading() {
+  renderReadingParagraphs();
+  buildReadingModel();
+  document.getElementById('readPlayBtn').addEventListener('click', readingToggle);
+  document.getElementById('readBackBtn').addEventListener('click', () => readingSeek(-SEEK_WORDS));
+  document.getElementById('readForwardBtn').addEventListener('click', () => readingSeek(SEEK_WORDS));
+  document.getElementById('readRestartBtn').addEventListener('click', readingRestart);
+  updateReadingButtons();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q1 — MCQ (3 attempts → auto-reveal)
+═══════════════════════════════════════════════════════════════ */
+const Q1_CORRECT = 2;
+const q1State = { attempts: 0, isCorrect: false };
+
+function initQ1() {
+  document.querySelectorAll('input[name="q1"]').forEach(input => {
+    input.addEventListener('change', () => handleQ1Answer(parseInt(input.value)));
+  });
+}
+function handleQ1Answer(selectedIdx) {
+  if (q1State.isCorrect) return;
+  if (q1State.attempts >= MAX_ATTEMPTS) return;
+  q1State.attempts++;
+
+  const card = document.getElementById('qCard-q1');
+  const labels = card.querySelectorAll('.mcq-option-label');
+  const inputs = card.querySelectorAll('input[type="radio"]');
+  const fb = document.getElementById('fb-q1');
+  const isCorrect = selectedIdx === Q1_CORRECT;
+
+  labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    q1State.isCorrect = true;
+    labels.forEach((l, i) => {
+      if (i === Q1_CORRECT) l.classList.add('correct-option');
+      inputs[i].disabled = true;
+      l.classList.add('disabled');
+    });
+    card.classList.remove('incorrect');
+    card.classList.add('correct');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    labels.forEach((l, i) => {
+      if (i === selectedIdx) l.classList.add('wrong-option');
+    });
+    card.classList.add('incorrect');
+    setTimeout(() => card.classList.remove('incorrect'), 600);
+
+    if (q1State.attempts >= MAX_ATTEMPTS) {
+      labels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === Q1_CORRECT) l.classList.add('revealed');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      card.classList.remove('incorrect');
+      card.classList.add('correct');
+      q1State.isCorrect = true;
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      updateNavButtons();
+      updateProgressBar();
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('wrong-option'));
+        inputs.forEach(i => { i.checked = false; });
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q2a — التصنيف بالقوائم المنسدلة (منقول من نظام Q6 في "أهمية الوحدة"،
+   بادئة q2c/Q2A لتفادي التعارض). يبقى q2aState.completed كنقطةِ ربطٍ
+   مع تبويبِ الشّريحةِ ومرحلةِ Q2b.
+═══════════════════════════════════════════════════════════════ */
+const Q2A_LABELS = {
+  hour:   'علمُ اللهِ بالسّاعةِ',
+  fruits: 'علمُ اللهِ بما في أوعيةِ الثّمارِ',
+  female: 'علمُ اللهِ بجنسِ المولودِ وهوَ في باطنِ أمِّهِ'
+};
+const Q2A_ITEMS = [
+  { text: 'إِلَيۡهِ يُرَدُّ عِلۡمُ ٱلسَّاعَةِ',                cat: 'hour',   cid: 'q2c1' },
+  { text: 'وَمَا تَخۡرُجُ مِن ثَمَرَٰتٖ مِّنۡ أَكۡمَامِهَا', cat: 'fruits', cid: 'q2c2' },
+  { text: 'وَمَا تَحۡمِلُ مِنۡ أُنثَىٰ',                     cat: 'female', cid: 'q2c3' }
+];
+const Q2A_MAX_ATTEMPTS = 3;
+const Q2A_BATCH = 2;
+const q2aState = { rows: {}, completed: false };
+
+function buildQ2a() {
+  const wrap = document.getElementById('q2cCardsWrap');
+  if (!wrap) return;
+  const letters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
+  const shuffled = [...Q2A_ITEMS].sort(() => Math.random() - 0.5);
+
+  let html = '';
+  shuffled.forEach((item, idx) => {
+    q2aState.rows[item.cid] = { selected: null, attempts: 0, status: null };
+    html += `
+      <div class="q2c-card" data-cid="${item.cid}" data-correct="${item.cat}">
+        <span class="q2c-card-letter">${letters[idx] || (idx + 1)}</span>
+        <div class="q2c-card-text">${item.text}</div>
+        <div class="q2c-card-select">
+          <div class="q2c-dropdown" data-cid="${item.cid}">
+            <button type="button" class="q2c-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="q2c-dropdown-value">اختَرْ التّصنيفَ</span>
+              <i class="fas fa-chevron-down q2c-dropdown-arrow"></i>
+            </button>
+            <ul class="q2c-dropdown-menu" role="listbox">
+              <li class="q2c-dropdown-option" data-value="hour"   role="option">${Q2A_LABELS.hour}</li>
+              <li class="q2c-dropdown-option" data-value="fruits" role="option">${Q2A_LABELS.fruits}</li>
+              <li class="q2c-dropdown-option" data-value="female" role="option">${Q2A_LABELS.female}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.q2c-card').forEach((card, i) => {
+    if (i >= Q2A_BATCH) card.classList.add('q2c-hidden');
+  });
+  initQ2aDropdowns();
+}
+
+function maybeRevealNextQ2a() {
+  const wrap = document.getElementById('q2cCardsWrap');
+  if (!wrap) return;
+  const cards = Array.from(wrap.querySelectorAll('.q2c-card'));
+  const visible = cards.filter(c => !c.classList.contains('q2c-hidden'));
+  const allVisibleResolved = visible.every(c => {
+    const s = q2aState.rows[c.dataset.cid];
+    return s && (s.status === 'correct' || s.status === 'revealed');
+  });
+  if (!allVisibleResolved) return;
+  const hidden = cards.filter(c => c.classList.contains('q2c-hidden'));
+  hidden.slice(0, Q2A_BATCH).forEach(c => {
+    c.classList.remove('q2c-hidden');
+    c.classList.add('q2c-reveal');
+    c.addEventListener('animationend', function onReveal() {
+      c.classList.remove('q2c-reveal');
+      c.removeEventListener('animationend', onReveal);
+    });
+  });
+}
+
+function initQ2aDropdowns() {
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.q2c-dropdown.is-open').forEach(dd => {
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('is-open');
+        dd.querySelector('.q2c-dropdown-trigger').setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  document.querySelectorAll('.q2c-dropdown').forEach(dd => {
+    const cid = dd.dataset.cid;
+    const trigger = dd.querySelector('.q2c-dropdown-trigger');
+    const valueSpan = dd.querySelector('.q2c-dropdown-value');
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      document.querySelectorAll('.q2c-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          other.querySelector('.q2c-dropdown-trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', !wasOpen);
+    });
+
+    dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedValue = opt.dataset.value;
+        const labelText = Q2A_LABELS[selectedValue];
+        dd.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        handleQ2aSelection(dd, cid, selectedValue, labelText, valueSpan);
+      });
+    });
+  });
+}
+
+function handleQ2aSelection(dd, cid, selectedValue, labelText, valueSpan) {
+  const state = q2aState.rows[cid];
+  if (!state) return;
+  if (state.status === 'correct' || state.status === 'revealed') return;
+  if (state.attempts >= Q2A_MAX_ATTEMPTS) return;
+
+  state.attempts++;
+  const card = dd.closest('.q2c-card');
+  const correctValue = card.dataset.correct;
+  const isCorrect = selectedValue === correctValue;
+  const fb = document.getElementById('fb-q2a');
+
+  valueSpan.textContent = labelText;
+  card.classList.remove('correct-card', 'wrong-card', 'revealed-card');
+
+  if (isCorrect) {
+    state.selected = selectedValue;
+    state.status = 'correct';
+    card.classList.add('correct-card');
+    dd.classList.add('is-disabled');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تصنيفٌ صحيحٌ.';
+    checkQ2aComplete(fb);
+  } else {
+    card.classList.add('wrong-card');
+    fb.className = 'q-feedback show-wrong';
+    fb.innerHTML = '<i class="fas fa-times-circle"></i> تصنيفٌ غيرُ مناسبٍ، حاولْ مرّةً أخرى.';
+
+    if (state.attempts >= Q2A_MAX_ATTEMPTS) {
+      state.selected = correctValue;
+      state.status = 'revealed';
+      setTimeout(() => {
+        card.classList.remove('wrong-card');
+        card.classList.add('revealed-card');
+        valueSpan.textContent = Q2A_LABELS[correctValue];
+        dd.classList.add('is-disabled');
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! هذا هو التّصنيفُ الصّحيحُ.';
+        checkQ2aComplete(fb);
+      }, 900);
+    } else {
+      setTimeout(() => {
+        card.classList.remove('wrong-card');
+        valueSpan.textContent = 'اختَرْ التّصنيفَ';
+        if (!q2aState.completed) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1400);
+    }
+  }
+}
+
+function checkQ2aComplete(fb) {
+  maybeRevealNextQ2a();
+  const allDone = Q2A_ITEMS.every(item => {
+    const s = q2aState.rows[item.cid];
+    return s && (s.status === 'correct' || s.status === 'revealed');
+  });
+  if (allDone) {
+    q2aState.completed = true;
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! أحسنتَ تصنيفَ جميعِ العباراتِ.';
+    revealQ2bStage();
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    setTimeout(() => {
+      if (!q2aState.completed) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 1500);
+  }
+}
+function revealQ2bStage() {
+  const stage = document.getElementById('q2bStage');
+  if (stage && !stage.classList.contains('revealed')) {
+    setTimeout(() => {
+      stage.classList.add('revealed');
+      stage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 600);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q2b — ChatGPT reflection writing
+═══════════════════════════════════════════════════════════════ */
+const Q2B_MODEL = {
+  1: {
+    title: 'المعنى الّذي حصلتُ عليهِ من ChatGPT',
+    answer: 'تَلِدُ، أي تُخرِجُ ما في بطنِها من ولدٍ. وهذا هو المعنى المرادُ في الآيةِ، في سياقِ ولادةِ الإناثِ.'
+  },
+  2: {
+    title: 'صيغةُ السّؤالِ الّتي طرحتُها عليهِ',
+    answer: '«ما معنى كلمةِ تَضَعُ في اللغةِ العربيّةِ؟» — وهو سؤالٌ عامٌّ قد يُعطي عدّةَ معانٍ مختلفةٍ دونَ تحديدِ المعنى الدّقيقِ المُرادِ.'
+  },
+  3: {
+    title: 'صيغةُ السّؤالِ الأنسبُ للحصولِ على المعنى «تَلِدُ»',
+    answer: '«ما معنى تَضَعُ في قولِهِ تعالى: ﴿وَمَا تَحْمِلُ مِنْ أُنْثَىٰ وَلَا تَضَعُ إِلَّا بِعِلْمِهِ﴾؟» — تحديدُ السّياقِ القرآنيِّ يوجِّهُ المساعدَ إلى المعنى الدّقيقِ.'
+  }
+};
+
+const q2bState = {
+  1: { text: '', wc: 0, checked: false, timeoutId: null },
+  2: { text: '', wc: 0, checked: false, timeoutId: null },
+  3: { text: '', wc: 0, checked: false, timeoutId: null },
+  isCorrect: false,
+  completed: false,
+  timeoutId: null
+};
+
+function updateQ2bWriting(textarea, idx) {
+  const value = textarea.value.trim();
+  q2bState[idx].text = value;
+  q2bState[idx].wc = value ? value.split(/\s+/).length : 0;
+  if (value) textarea.classList.add('state-filled');
+  else textarea.classList.remove('state-filled');
+}
+
+function checkQ2b() {
+  const fb = document.getElementById('fb-q2b');
+
+  // التَّحقّقُ من تعبئةِ جميعِ الحقولِ
+  if (!q2bState[1].text || !q2bState[2].text || !q2bState[3].text) {
+    fb.className = 'q-feedback show-info';
+    fb.innerHTML = '<i class="fas fa-circle-info"></i> اكتبْ في جميعِ الحقولِ قبلَ التَّحقّقِ.';
+    setTimeout(() => {
+      if (fb.classList.contains('show-info')) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 2000);
+    return;
+  }
+
+  fb.className = 'q-feedback show-correct';
+  fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! اطَّلعْ على الإجاباتِ النّموذجيّةِ.';
+
+  // قَفلُ الحقولِ
+  for (let i = 1; i <= 3; i++) {
+    const t = document.getElementById('ta-q2b-' + i);
+    if (t) t.disabled = true;
+    q2bState[i].checked = true;
+  }
+  q2bState.isCorrect = true;
+  q2bState.completed = true;  // ← شرطُ تفعيلِ زرِّ "التّالي" في updateNavButtons (case 3)
+  document.getElementById('checkQ2bBtn').disabled = true;
+  if (typeof updateNavButtons === 'function') updateNavButtons();
+  if (typeof updateProgressBar === 'function') updateProgressBar();
+
+  q2bState[1].timeoutId = setTimeout(() => {
+    // إخفاءُ صناديقِ الكتابةِ
+    for (let i = 1; i <= 3; i++) {
+      const t = document.getElementById('ta-q2b-' + i);
+      if (t) t.style.display = 'none';
+    }
+
+    // بناءُ لوحةٍ متعدّدةِ الخطواتِ داخلَ answer-q2b-1
+    const wrap = document.getElementById('answer-q2b-1');
+    const TOTAL_STEPS = 3;
+
+    let stepsHtml = '<div class="q7-modal-steps">';
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const userText = q2bState[i].text || '— لمْ تكتبْ شيئًا —';
+      stepsHtml += `
+        <div class="q7-modal-step ${i === 1 ? 'active' : ''}" data-step="${i}">
+          <div class="q7-modal-title-wrap">
+            <button class="audio-btn q7-modal-audio" aria-label="استمعْ للإجابةِ"><i class="fas fa-volume-high"></i></button>
+            <div class="q7-modal-title">${Q2B_MODEL[i].title}</div>
+          </div>
+          <div class="q7-answer-section">
+            <div class="q7-answer-label">
+              <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/cLOqhfvns725Nq4e.png" alt="">
+              إجابتُكَ
+            </div>
+            <div class="q7-answer-text">${userText.replace(/</g, '&lt;')}</div>
+          </div>
+          <div class="q7-answer-section suggested">
+            <div class="q7-answer-label">
+              <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt="">
+              الإجابةُ النّموذجيّةُ
+            </div>
+            <div class="q7-answer-text">${Q2B_MODEL[i].answer}</div>
+          </div>
+        </div>
+      `;
+    }
+    stepsHtml += '</div>';
+
+    const navHtml = `
+      <div class="q7-modal-nav">
+        <button class="q7-modal-arrow q7-arrow-prev" aria-label="السّابق" disabled><i class="fas fa-arrow-right"></i></button>
+        <div class="q7-modal-dots">
+          ${[1, 2, 3].map(n => `<span class="q7-modal-dot ${n === 1 ? 'active' : ''}" data-dot="${n}"></span>`).join('')}
+        </div>
+        <button class="q7-modal-arrow q7-arrow-next" aria-label="التّالي"><i class="fas fa-arrow-left"></i></button>
+      </div>
+    `;
+
+    wrap.innerHTML = `
+      <div class="q7-answer-modal">
+        <button class="q7-modal-close" aria-label="إغلاق"><i class="fas fa-times"></i></button>
+        ${stepsHtml}
+        ${navHtml}
+      </div>
+    `;
+    wrap.style.display = 'flex';
+
+    // ربطُ الأحداثِ
+    wrap.querySelector('.q7-modal-close').onclick = () => { wrap.style.display = 'none'; };
+    wrap.querySelectorAll('.q7-modal-audio').forEach(btn => { btn.onclick = () => toggleSimpleAudio(btn); });
+    wrap.onclick = (e) => { if (e.target === wrap) wrap.style.display = 'none'; };
+
+    const prevArrow = wrap.querySelector('.q7-arrow-prev');
+    const nextArrow = wrap.querySelector('.q7-arrow-next');
+    let currentStep = 1;
+
+    function showStep(step) {
+      if (step < 1 || step > TOTAL_STEPS) return;
+      currentStep = step;
+      wrap.querySelectorAll('.q7-modal-step').forEach(s => s.classList.remove('active'));
+      const targetEl = wrap.querySelector(`.q7-modal-step[data-step="${step}"]`);
+      if (targetEl) targetEl.classList.add('active');
+      wrap.querySelectorAll('.q7-modal-dot').forEach(d => d.classList.remove('active'));
+      const dot = wrap.querySelector(`.q7-modal-dot[data-dot="${step}"]`);
+      if (dot) dot.classList.add('active');
+      prevArrow.disabled = (step === 1);
+      nextArrow.disabled = (step === TOTAL_STEPS);
+    }
+    prevArrow.onclick = () => showStep(currentStep - 1);
+    nextArrow.onclick = () => showStep(currentStep + 1);
+
+    // زرٌّ مركزيٌّ "اطّلعْ على الإجاباتِ النّموذجيّةِ" تحتَ الحقولِ
+    const grid = document.querySelector('[data-slide="3"] .q7-pairs-grid');
+    if (grid && !document.querySelector('[data-slide="3"] .q7-show-answer-btn')) {
+      const row = document.createElement('div');
+      row.className = 'q7-show-answer-row';
+      row.style.cssText = 'display:flex; justify-content:center;';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'btn-action btn-check btn-sm q7-show-answer-btn';
+      showBtn.innerHTML = '<img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt=""> اطّلعْ على الإجاباتِ النّموذجيّةِ';
+      showBtn.onclick = () => { wrap.style.display = 'flex'; };
+      row.appendChild(showBtn);
+      grid.insertAdjacentElement('afterend', row);
+    }
+
+    fb.style.display = 'none';
+    fb.className = 'q-feedback';
+    fb.innerHTML = '';
+    q2bState[1].timeoutId = null;
+    // إعادةُ تحديثِ زرِّ التّالي للتّأكّدِ
+    if (typeof updateNavButtons === 'function') updateNavButtons();
+    if (typeof updateProgressBar === 'function') updateProgressBar();
+  }, 2000);
+}
+
+function resetQ2b() {
+  const fb = document.getElementById('fb-q2b');
+
+  if (q2bState[1].timeoutId) {
+    clearTimeout(q2bState[1].timeoutId);
+    q2bState[1].timeoutId = null;
+  }
+
+  for (let i = 1; i <= 3; i++) {
+    const t = document.getElementById('ta-q2b-' + i);
+    if (t) {
+      t.value = '';
+      t.disabled = false;
+      t.style.display = '';
+      t.classList.remove('state-filled');
+    }
+    const wrap = document.getElementById('answer-q2b-' + i);
+    if (wrap) {
+      wrap.style.display = 'none';
+      wrap.onclick = null;
+      wrap.innerHTML = '';
+    }
+    q2bState[i] = { text: '', wc: 0, checked: false, timeoutId: null };
+  }
+
+  // أَزِلْ الزرَّ المركزيَّ
+  const showRow = document.querySelector('[data-slide="3"] .q7-show-answer-row');
+  if (showRow) showRow.remove();
+
+  fb.style.display = '';
+  fb.className = 'q-feedback';
+  fb.innerHTML = '';
+
+  const checkBtn = document.getElementById('checkQ2bBtn');
+  if (checkBtn) checkBtn.disabled = false;
+
+  q2bState.isCorrect = false;
+  q2bState.completed = false;
+
+  if (typeof updateNavButtons === 'function') updateNavButtons();
+  if (typeof updateProgressBar === 'function') updateProgressBar();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q3 — Classification: الرّحمةُ / الضّرّاءُ
+═══════════════════════════════════════════════════════════════ */
+/* تصنيفٌ بالقوائمِ المنسدلةِ — نفس مكوّنِ السؤال الثاني (.q2c-*)، بحالةٍ مستقلّةٍ q3.
+   الربطُ مُنطّقٌ ضمن #q3cCardsWrap حتى لا يتعارضَ مع قوائمِ السؤال الثاني. */
+const Q3C_LABELS = {
+  mercy:    'الرَّحْمَةُ',
+  hardship: 'الضَّرَّاءُ'
+};
+const Q3C_ITEMS = [
+  { text: 'الصِّحَّةُ',  cat: 'mercy',    cid: 'q3c1' },
+  { text: 'العافيةُ',   cat: 'mercy',    cid: 'q3c2' },
+  { text: 'الرِّزقُ',   cat: 'mercy',    cid: 'q3c3' },
+  { text: 'البلاءُ',    cat: 'hardship', cid: 'q3c4' },
+  { text: 'الفقرُ',     cat: 'hardship', cid: 'q3c5' },
+  { text: 'الشِّدَّةُ', cat: 'hardship', cid: 'q3c6' }
+];
+const Q3_MAX_ATTEMPTS = 3;
+const Q3_BATCH = 2;
+const q3State = { rows: {}, completed: false };
+
+function buildQ3() {
+  const wrap = document.getElementById('q3cCardsWrap');
+  if (!wrap) return;
+  const letters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
+  const shuffled = [...Q3C_ITEMS].sort(() => Math.random() - 0.5);
+
+  let html = '';
+  shuffled.forEach((item, idx) => {
+    q3State.rows[item.cid] = { selected: null, attempts: 0, status: null };
+    html += `
+      <div class="q2c-card" data-cid="${item.cid}" data-correct="${item.cat}">
+        <span class="q2c-card-letter">${letters[idx] || (idx + 1)}</span>
+        <div class="q2c-card-text">${item.text}</div>
+        <div class="q2c-card-select">
+          <div class="q2c-dropdown" data-cid="${item.cid}">
+            <button type="button" class="q2c-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="q2c-dropdown-value">اختَرْ التّصنيفَ</span>
+              <i class="fas fa-chevron-down q2c-dropdown-arrow"></i>
+            </button>
+            <ul class="q2c-dropdown-menu" role="listbox">
+              <li class="q2c-dropdown-option" data-value="mercy"    role="option">${Q3C_LABELS.mercy}</li>
+              <li class="q2c-dropdown-option" data-value="hardship" role="option">${Q3C_LABELS.hardship}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.q2c-card').forEach((card, i) => {
+    if (i >= Q3_BATCH) card.classList.add('q2c-hidden');
+  });
+  initQ3Dropdowns();
+}
+
+function maybeRevealNextQ3() {
+  const wrap = document.getElementById('q3cCardsWrap');
+  if (!wrap) return;
+  const cards = Array.from(wrap.querySelectorAll('.q2c-card'));
+  const visible = cards.filter(c => !c.classList.contains('q2c-hidden'));
+  const allVisibleResolved = visible.every(c => {
+    const s = q3State.rows[c.dataset.cid];
+    return s && (s.status === 'correct' || s.status === 'revealed');
+  });
+  if (!allVisibleResolved) return;
+  const hidden = cards.filter(c => c.classList.contains('q2c-hidden'));
+  hidden.slice(0, Q3_BATCH).forEach(c => {
+    c.classList.remove('q2c-hidden');
+    c.classList.add('q2c-reveal');
+    c.addEventListener('animationend', function onReveal() {
+      c.classList.remove('q2c-reveal');
+      c.removeEventListener('animationend', onReveal);
+    });
+  });
+}
+
+function initQ3Dropdowns() {
+  // الربطُ مقصورٌ على قوائمِ السؤالِ الثالثِ (إغلاقُ النقرِ خارجَها يتكفّلُ بهِ مستمعُ السؤالِ الثاني العامُّ على .q2c-dropdown)
+  document.querySelectorAll('#q3cCardsWrap .q2c-dropdown').forEach(dd => {
+    const cid = dd.dataset.cid;
+    const trigger = dd.querySelector('.q2c-dropdown-trigger');
+    const valueSpan = dd.querySelector('.q2c-dropdown-value');
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      document.querySelectorAll('.q2c-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          other.querySelector('.q2c-dropdown-trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', !wasOpen);
+    });
+
+    dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedValue = opt.dataset.value;
+        const labelText = Q3C_LABELS[selectedValue];
+        dd.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        handleQ3Selection(dd, cid, selectedValue, labelText, valueSpan);
+      });
+    });
+  });
+}
+
+function handleQ3Selection(dd, cid, selectedValue, labelText, valueSpan) {
+  const state = q3State.rows[cid];
+  if (!state) return;
+  if (state.status === 'correct' || state.status === 'revealed') return;
+  if (state.attempts >= Q3_MAX_ATTEMPTS) return;
+
+  state.attempts++;
+  const card = dd.closest('.q2c-card');
+  const correctValue = card.dataset.correct;
+  const isCorrect = selectedValue === correctValue;
+  const fb = document.getElementById('fb-q3');
+
+  valueSpan.textContent = labelText;
+  card.classList.remove('correct-card', 'wrong-card', 'revealed-card');
+
+  if (isCorrect) {
+    state.selected = selectedValue;
+    state.status = 'correct';
+    card.classList.add('correct-card');
+    dd.classList.add('is-disabled');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تصنيفٌ صحيحٌ.';
+    checkQ3Complete(fb);
+  } else {
+    card.classList.add('wrong-card');
+    fb.className = 'q-feedback show-wrong';
+    fb.innerHTML = '<i class="fas fa-times-circle"></i> تصنيفٌ غيرُ مناسبٍ، حاولْ مرّةً أخرى.';
+
+    if (state.attempts >= Q3_MAX_ATTEMPTS) {
+      state.selected = correctValue;
+      state.status = 'revealed';
+      setTimeout(() => {
+        card.classList.remove('wrong-card');
+        card.classList.add('revealed-card');
+        valueSpan.textContent = Q3C_LABELS[correctValue];
+        dd.classList.add('is-disabled');
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! هذا هو التّصنيفُ الصّحيحُ.';
+        checkQ3Complete(fb);
+      }, 900);
+    } else {
+      setTimeout(() => {
+        card.classList.remove('wrong-card');
+        valueSpan.textContent = 'اختَرْ التّصنيفَ';
+        if (!q3State.completed) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1400);
+    }
+  }
+}
+
+function checkQ3Complete(fb) {
+  maybeRevealNextQ3();
+  const allDone = Q3C_ITEMS.every(item => {
+    const s = q3State.rows[item.cid];
+    return s && (s.status === 'correct' || s.status === 'revealed');
+  });
+  if (allDone) {
+    q3State.completed = true;
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! ميّزتَ بينَ الرَّحمةِ والضَّرّاءِ بشكلٍ صحيحٍ.';
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    setTimeout(() => {
+      if (!q3State.completed) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 1500);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q4 — Click-select (multi-answer ideas) with 3-attempt rule
+═══════════════════════════════════════════════════════════════ */
+const Q4_CORRECT_LETTERS = ['أ', 'ج', 'د', 'ز'];
+const Q4_TOTAL_CORRECT = Q4_CORRECT_LETTERS.length;
+const q4State = { attempts: 0, completed: false, revealed: false, correctSelected: new Set() };
+
+function initQ4() {
+  document.querySelectorAll('#q4Sentences .click-sentence').forEach(sent => {
+    sent.addEventListener('click', () => handleQ4CardTap(sent));
+  });
+}
+
+function handleQ4CardTap(sent) {
+  if (q4State.completed || q4State.revealed) return;
+  if (sent.classList.contains('reveal-correct')) return; // مقفلةٌ صحيحةٌ مسبقًا
+  const fb = document.getElementById('fb-q4');
+  const isCorrect = sent.dataset.correct === 'true';
+
+  if (isCorrect) {
+    // ✅ تخضرّ فورًا وتُقفَل
+    sent.classList.remove('reveal-miss');
+    sent.classList.add('reveal-correct', 'locked');
+    q4State.correctSelected.add(sent.dataset.letter);
+
+    if (q4State.correctSelected.size === Q4_TOTAL_CORRECT) {
+      // اكتملتِ الإجاباتُ الصّحيحةُ الأربعُ → نجاحٌ نهائيٌّ يبقى ظاهرًا
+      q4State.completed = true;
+      document.querySelectorAll('#q4Sentences .click-sentence').forEach(s => s.classList.add('locked'));
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! أحسنتَ تحديدَ الأفكارِ الواردةِ في الآياتِ.';
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    }
+  } else {
+    // ❌ تحمرّ وتهتزّ، ثمّ ترجعُ طبيعيّةً بعدَ 1.5s
+    q4State.attempts++;
+    sent.classList.remove('reveal-miss');
+    void sent.offsetWidth;  // إعادةُ تشغيلِ الاهتزازِ في كلِّ محاولةٍ
+    sent.classList.add('reveal-miss');
+
+    if (q4State.attempts >= MAX_ATTEMPTS) {
+      // ٣ محاولاتٍ خاطئةٍ → بعدَ 3s تظهرُ كلُّ البطاقاتِ الصّحيحةِ خضراءَ
+      q4State.revealed = true;
+      q4State.completed = true;
+      setTimeout(() => {
+        document.querySelectorAll('#q4Sentences .click-sentence').forEach(s => {
+          s.classList.remove('reveal-miss', 'selected');
+          s.classList.add('locked');
+          if (s.dataset.correct === 'true') s.classList.add('reveal-correct');
+        });
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! هذهِ هي الأفكارُ الصّحيحةُ.';
+        if (typeof updateNavButtons === 'function') updateNavButtons();
+        if (typeof updateProgressBar === 'function') updateProgressBar();
+      }, 3000);
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> حاولْ مرّةً أخرى.';
+      setTimeout(() => {
+        sent.classList.remove('reveal-miss');
+        if (!q4State.completed && fb.classList.contains('show-wrong')) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q5 — Relation choice (ترادف/تضاد) + Synonym writing (يَيْأَسُ)
+═══════════════════════════════════════════════════════════════ */
+const Q5_EXPECTED_VARIANTS = ['ييأس', 'يأس'];
+const Q5_CORRECT_RELATION = 'synonym';
+const q5State = { attempts: 0, completed: false, relationChosen: false, relationAttempts: 0 };
+
+function chooseQ5Relation(btn) {
+  if (q5State.relationChosen) return;
+  const rel = btn.dataset.rel;
+  const isCorrect = rel === Q5_CORRECT_RELATION;
+  const fb = document.getElementById('fb-q5');
+  const allBtns = document.querySelectorAll('.q5-relation-btn');
+
+  if (isCorrect) {
+    q5State.relationChosen = true;
+    btn.classList.add('selected-correct');
+    allBtns.forEach(b => { if (b !== btn) b.classList.add('disabled'); });
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! العلاقةُ بينَهما هي التَّرادُفُ.';
+    setTimeout(() => {
+      document.getElementById('q5Stage').classList.add('revealed');
+      fb.className = 'q-feedback';
+      fb.innerHTML = '';
+      const inp = document.getElementById('q5Input');
+      if (inp) inp.focus();
+      // إظهارُ زرِّ "تحقّقْ" بعدَ ظهورِ صندوقِ الكتابةِ
+      const checkBtn = document.getElementById('checkQ5Btn');
+      if (checkBtn) checkBtn.style.display = '';
+    }, 1100);
+  } else {
+    q5State.relationAttempts++;
+    btn.classList.add('selected-wrong');
+    fb.className = 'q-feedback show-wrong';
+    fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+    if (q5State.relationAttempts >= 2) {
+      // كشف الإجابة الصحيحة بعد محاولتين
+      q5State.relationChosen = true;
+      allBtns.forEach(b => {
+        b.classList.remove('selected-wrong');
+        b.classList.add('disabled');
+        if (b.dataset.rel === Q5_CORRECT_RELATION) {
+          b.classList.add('selected-correct');
+        }
+      });
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> الإجابةُ الصّحيحةُ هي التَّرادُفُ.';
+      setTimeout(() => {
+        document.getElementById('q5Stage').classList.add('revealed');
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+        const inp = document.getElementById('q5Input');
+        if (inp) inp.focus();
+        // إظهارُ زرِّ "تحقّقْ" بعدَ ظهورِ صندوقِ الكتابةِ (مسارُ الكَشفِ بعدَ محاولتينِ)
+        const checkBtn = document.getElementById('checkQ5Btn');
+        if (checkBtn) checkBtn.style.display = '';
+      }, 1400);
+    } else {
+      setTimeout(() => {
+        btn.classList.remove('selected-wrong');
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+function checkQ5() {
+  if (q5State.completed) return;
+  if (q5State.attempts >= MAX_ATTEMPTS) return;
+
+  const input = document.getElementById('q5Input');
+  const fb = document.getElementById('fb-q5');
+  const card = document.getElementById('qCard-q5');
+  const raw = input.value.trim();
+
+  if (!raw) {
+    fb.className = 'q-feedback show-info';
+    fb.innerHTML = '<i class="fas fa-circle-info"></i> اكتُبْ إجابتَكَ في الصّندوقِ قبلَ التّحقّقِ.';
+    return;
+  }
+
+  q5State.attempts++;
+  const norm = normalizeArabic(raw);
+  const isCorrect = Q5_EXPECTED_VARIANTS.some(v => normalizeArabic(v) === norm);
+
+  input.classList.remove('is-wrong', 'is-correct');
+
+  if (isCorrect) {
+    q5State.completed = true;
+    input.value = 'يَيْأَسُ';
+    input.disabled = true;
+    input.classList.add('is-correct');
+    card.classList.add('correct');
+    document.getElementById('checkQ5Btn').disabled = true;
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! «يَقْنَطُ» تعني «يَيْأَسُ».';
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    input.classList.add('is-wrong');
+    setTimeout(() => input.classList.remove('is-wrong'), 600);
+    card.classList.add('incorrect');
+    setTimeout(() => card.classList.remove('incorrect'), 600);
+
+    if (q5State.attempts >= MAX_ATTEMPTS) {
+      q5State.completed = true;
+      input.value = 'يَيْأَسُ';
+      input.disabled = true;
+      input.classList.add('is-correct');
+      card.classList.remove('incorrect');
+      card.classList.add('correct');
+      document.getElementById('checkQ5Btn').disabled = true;
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! الإجابةُ الصّحيحةُ هي «يَيْأَسُ».';
+      updateNavButtons();
+      updateProgressBar();
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1800);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q6 — Matching 13 pairs
+═══════════════════════════════════════════════════════════════ */
+const Q6_PAIRS = [
+  { word: 'يُرَدُّ',                meaning: 'يَرجِعُ',                          cid: 'q6m1' },
+  { word: 'أكمامُ',                 meaning: 'أوعيةُ الثّمارِ',                   cid: 'q6m2' },
+  { word: 'تَضَعُ',                 meaning: 'تَلِدُ',                           cid: 'q6m3' },
+  { word: 'آذنّاكَ',                meaning: 'أسمعناكَ وأعلمناكَ',                cid: 'q6m4' },
+  { word: 'مَحيصٌ',                 meaning: 'فرارٌ من النّار',                   cid: 'q6m5' },
+  { word: 'يسأمُ',                  meaning: 'يملُّ',                            cid: 'q6m6' },
+  { word: 'مَسّهُ الشّرُ',          meaning: 'أصابهُ المرضُ والفقرُ',             cid: 'q6m7' },
+  { word: 'قائِمةٌ',                meaning: 'آتيةٌ',                            cid: 'q6m8' },
+  { word: 'فلنُنبِئَنَّ',           meaning: 'فلنُخبِرَنَّ',                     cid: 'q6m9' },
+  { word: 'أعرَضَ عن شُكرِ اللهِ',  meaning: 'ابتعدَ عن شُكرِ اللهِ',             cid: 'q6m10' },
+  { word: 'شِقاقٌ',                 meaning: 'خِلافُ',                           cid: 'q6m11' },
+  { word: 'آياتٌ',                  meaning: 'مُعجزاتٌ وعلاماتٌ',                 cid: 'q6m12' },
+  { word: 'مِريَةٌ',                meaning: 'شَكٌ',                             cid: 'q6m13' }
+];
+const q6State = { placed: {}, completed: false };
+
+// تقدّمٌ بمجموعاتٍ من ٤؛ وإذا بقيَ في المجموعةِ الأخيرةِ عنصرٌ واحدٌ فقط فيُدمَجُ مع
+// المجموعةِ السابقةِ (مثال: ٤+٥ بدلًا من ٤+٤+١).
+const Q6_BATCH = 4;
+const _q6RawGroups = Math.ceil(Q6_PAIRS.length / Q6_BATCH);
+const Q6_TOTAL_GROUPS = (Q6_PAIRS.length % Q6_BATCH === 1 && _q6RawGroups > 1) ? _q6RawGroups - 1 : _q6RawGroups;
+let q6CurrentGroup = 0;
+function q6BatchOf(i) {
+  let b = Math.floor(i / Q6_BATCH);
+  if (b >= Q6_TOTAL_GROUPS) b = Q6_TOTAL_GROUPS - 1; // ادمجِ العنصرَ المفردَ الأخيرَ مع المجموعةِ السابقةِ
+  return b;
+}
+const q6BatchByCid = {};
+Q6_PAIRS.forEach((p, i) => { q6BatchByCid[p.cid] = q6BatchOf(i); });
+
+function buildQ6() {
+  const bank = document.getElementById('q6Bank');
+  const grid = document.getElementById('q6Grid');
+
+  const shuffledMeanings = shuffle(Q6_PAIRS);
+  bank.innerHTML = shuffledMeanings.map(p => `
+    <div class="match-chip" draggable="true" data-cid="${p.cid}" data-meaning="${p.meaning}" data-batch="${q6BatchByCid[p.cid]}">
+      <i class="fas fa-grip-vertical chip-handle"></i>
+      <span>${p.meaning}</span>
+    </div>
+  `).join('');
+
+  // الكلماتُ تظهرُ بترتيبٍ ثابتٍ (غيرُ مخلوطٍ) لتسهيلِ القراءةِ
+  grid.innerHTML = Q6_PAIRS.map((p, i) => `
+    <div class="match-pair" data-batch="${q6BatchOf(i)}">
+      <div class="match-pair-word">${p.word}</div>
+      <div class="match-pair-slot" data-correct-cid="${p.cid}">
+        <span class="match-pair-slot-placeholder"><i class="fas fa-hand-pointer"></i>اسحبْ أو انقرْ</span>
+      </div>
+    </div>
+  `).join('');
+
+  // أظهرْ المجموعةَ الأولى فقط (٤)، وأخفِ الباقي تمامًا من التخطيطِ
+  q6CurrentGroup = 0;
+  bank.querySelectorAll('.match-chip').forEach(c => { if (c.dataset.batch !== '0') c.classList.add('q6-batch-hidden'); });
+  grid.querySelectorAll('.match-pair').forEach(r => { if (r.dataset.batch !== '0') r.classList.add('q6-batch-hidden'); });
+}
+
+function revealQ6El(el) {
+  el.classList.remove('q6-batch-hidden');
+  el.classList.add('q6-reveal');
+  el.addEventListener('animationend', function onR() {
+    el.classList.remove('q6-reveal');
+    el.removeEventListener('animationend', onR);
+  });
+}
+// عند حلِّ المجموعةِ المرئيّةِ: أخفِها وأظهرِ التاليةَ في نفسِ المكانِ؛ وبعدَ آخرِ
+// مجموعةٍ اعرضْ كلَّ الكلماتِ معًا (حالةُ مراجعةٍ نهائيّةٍ).
+function maybeRevealNextQ6() {
+  const grid = document.getElementById('q6Grid');
+  const bank = document.getElementById('q6Bank');
+  if (!grid || !bank) return;
+  const visibleRows = Array.from(grid.querySelectorAll('.match-pair:not(.q6-batch-hidden)'));
+  if (!visibleRows.length) return;
+  const allResolved = visibleRows.every(r => {
+    const slot = r.querySelector('.match-pair-slot');
+    return slot && slot.classList.contains('filled');
+  });
+  if (!allResolved) return;
+
+  if (q6CurrentGroup < Q6_TOTAL_GROUPS - 1) {
+    const cur = String(q6CurrentGroup);
+    const next = String(q6CurrentGroup + 1);
+    grid.querySelectorAll('.match-pair[data-batch="' + cur + '"]').forEach(el => el.classList.add('q6-batch-hidden'));
+    bank.querySelectorAll('.match-chip[data-batch="' + cur + '"]').forEach(el => el.classList.add('q6-batch-hidden'));
+    grid.querySelectorAll('.match-pair[data-batch="' + next + '"]').forEach(revealQ6El);
+    bank.querySelectorAll('.match-chip[data-batch="' + next + '"]').forEach(revealQ6El);
+    q6CurrentGroup++;
+  } else {
+    // آخرُ مجموعةٍ اكتملت → اعرضْ جميعَ الكلماتِ معًا للمراجعةِ
+    grid.querySelectorAll('.match-pair.q6-batch-hidden').forEach(revealQ6El);
+    bank.querySelectorAll('.match-chip.q6-batch-hidden').forEach(revealQ6El);
+  }
+}
+function initQ6Drag() {
+  makeDragSystem({
+    chipsSel: '#q6Bank .match-chip',
+    zoneSel: '.match-pair-slot',
+    isBlocked: () => q6State.completed,
+    isZoneFilled: (z) => z.classList.contains('filled'),
+    onAttempt: placeQ6Chip,
+    cloneStyle: 'padding: 8px 12px; font-size: 15px; font-weight: 700;'
+  });
+}
+function placeQ6Chip(chip, slot) {
+  if (q6State.completed) return;
+  if (chip.classList.contains('placed')) return;
+  if (slot.classList.contains('filled')) return;
+
+  const chipCid = chip.dataset.cid;
+  const slotCorrectCid = slot.dataset.correctCid;
+  const meaning = chip.dataset.meaning;
+  const fb = document.getElementById('fb-q6');
+
+  if (chipCid === slotCorrectCid) {
+    chip.classList.add('placed');
+    chip.classList.remove('selected');
+    chip.style.opacity = '';
+    slot.classList.add('filled');
+    slot.innerHTML = `<span><i class="fas fa-check" style="margin-left:6px;"></i>${meaning}</span>`;
+    q6State.placed[chipCid] = true;
+
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! توصيلٌ صحيحٌ.';
+
+    // كشفٌ تدريجيٌّ: لو حُلّت الدفعةُ المرئيّةُ، أظهرِ الدفعةَ التاليةَ
+    maybeRevealNextQ6();
+
+    if (Object.keys(q6State.placed).length === Q6_PAIRS.length) {
+      q6State.completed = true;
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! وصلتَ جميعَ الكلماتِ بمعانيها.';
+      updateNavButtons();
+      updateProgressBar();
+    } else {
+      setTimeout(() => {
+        if (!q6State.completed) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1300);
+    }
+  } else {
+    chip.style.opacity = '';
+    chip.classList.remove('selected');
+    chip.classList.add('chip-shake');
+    setTimeout(() => chip.classList.remove('chip-shake'), 500);
+    fb.className = 'q-feedback show-wrong';
+    fb.innerHTML = '<i class="fas fa-times-circle"></i> هذا المعنى لا يناسبُ هذهِ الكلمةَ، حاولْ مرّةً أخرى.';
+    setTimeout(() => {
+      fb.className = 'q-feedback';
+      fb.innerHTML = '';
+    }, 1800);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+function showSuccessScreen() {
+  document.querySelector('.slides-container').style.display = 'none';
+  document.getElementById('instrRow').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('taskNav').style.display = 'none';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(launchConfetti, 400);
+}
+function launchConfetti() {
+  const wrap = document.getElementById('completeWrap');
+  const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+  for (let i = 0; i < 36; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const sz = 8 + Math.random() * 12;
+    dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+      colors[~~(Math.random() * colors.length)] +
+      ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+      'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+      'animation-delay:' + (Math.random() * 0.9) + 's';
+    wrap.appendChild(dot);
+    setTimeout(() => dot.remove(), 3500);
+  }
+}
+function restartActivity() { location.reload(); }
+
+/* ══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+let currentSlide = 1;
+const TOTAL_SLIDES = 7;
+
+function goToSlide(idx) {
+  if (idx < 1 || idx > TOTAL_SLIDES) return;
+  if (currentSlide === 1 && idx !== 1 && readingState.playing) readingPause();
+
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+  currentSlide = idx;
+
+  const instrRow = document.getElementById('instrRow');
+  const instrText = document.getElementById('instrText');
+  const instrHint = document.getElementById('instrHint');
+  const instrHintText = document.getElementById('instrHintText');
+  const instrAudioBtn = document.getElementById('instrAudioBtn');
+  if (instrAudioBtn) instrAudioBtn.classList.remove('state-playing');
+
+  // Slides whose question text lives inside their own card hide the global instr row
+  const hideInstr = [2, 5, 6];
+  instrRow.style.display = hideInstr.includes(idx) ? 'none' : '';
+
+  if (idx === 1) {
+    instrText.innerHTML = 'أستمعُ لقراءةِ الآياتِ القرآنيّةِ الكريمةِ، ثمَّ أقرؤها قراءةً سليمةً.';
+    instrHint.style.display = 'none';
+  } else if (idx === 3) {
+    instrText.innerHTML = '<strong>السُّؤالُ الثّاني:</strong> أقرأُ الآيةَ ثمَّ أصنِّفُ كلَّ عبارةٍ بحسبِ ما تدلُّ عليهِ، باختيارِ التّصنيفِ المناسبِ من القائمةِ المنسدلةِ.';
+    instrHint.style.display = 'none';
+  } else if (idx === 4) {
+    instrText.innerHTML = '<strong>السُّؤالُ الثّالثُ:</strong> أوضّحُ الفرقَ بينَ <strong>الرَّحمةِ</strong> و<strong>الضَّرّاءِ</strong> باختيارِ التّصنيفِ المناسبِ لكلِّ كلمةٍ من القائمةِ المنسدلةِ.';
+    instrHint.style.display = 'none';
+  } else if (idx === 7) {
+    instrText.innerHTML = '<strong>السُّؤالُ السّادسُ:</strong> أختارُ المعنى المناسبَ لكلِّ كلمةٍ.';
+    instrHintText.textContent = 'اسحبِ المعنى وأفلِتْهُ بجانبِ الكلمةِ المناسبةِ، أو انقرْ عليهِ ثمَّ انقرْ على الخانةِ.';
+    instrHint.style.display = 'flex';
+  }
+
+  updateProgressBar();
+  updateNavButtons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function nextSlide() {
+  if (currentSlide < TOTAL_SLIDES) goToSlide(currentSlide + 1);
+  else showSuccessScreen();
+}
+function prevSlide() {
+  if (currentSlide > 1) goToSlide(currentSlide - 1);
+}
+function updateNavButtons() {
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.style.visibility = currentSlide === 1 ? 'hidden' : '';
+
+  if (currentSlide === TOTAL_SLIDES) {
+    nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+  } else {
+    nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     COMPLETION-GATING — the "التّالي" button stays disabled until the
+     current slide is correctly completed. Mirrors the official project
+     interaction philosophy from the reference activities (slide-by-slide
+     gated progression). Slide 1 (listening) is exempt — the student can
+     proceed without playing the audio.
+  ═══════════════════════════════════════════════════════════════ */
+  switch (currentSlide) {
+    case 1: nextBtn.disabled = false; break;
+    case 2: nextBtn.disabled = !q1State.isCorrect; break;
+    case 3: nextBtn.disabled = !(q2aState.completed && q2bState.completed); break;
+    case 4: nextBtn.disabled = !q3State.completed; break;
+    case 5: nextBtn.disabled = !q4State.completed; break;
+    case 6: nextBtn.disabled = !q5State.completed; break;
+    case 7: nextBtn.disabled = !q6State.completed; break;
+  }
+}
+function updateProgressBar() {
+  let pct = 0;
+  switch (currentSlide) {
+    case 1: pct = 5; break;
+    case 2: pct = q1State.isCorrect ? 20 : 10; break;
+    case 3:
+      if (q2aState.completed && q2bState.completed) pct = 40;
+      else if (q2aState.completed) pct = 32;
+      else pct = 25;
+      break;
+    case 4: pct = q3State.completed ? 55 : 45; break;
+    case 5: pct = q4State.completed ? 72 : 60; break;
+    case 6: pct = q5State.completed ? 86 : 78; break;
+    case 7: pct = q6State.completed ? 100 : 92; break;
+  }
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NO-PERSISTENCE GUARANTEE
+   This activity must ALWAYS start from a clean empty state on every
+   load/reload/refresh/reopen. No localStorage, no sessionStorage, no
+   cookies, no IndexedDB anywhere — verified above. The only remaining
+   risk is browser-level form-state restoration (textarea/radio values
+   that survive a soft reload or back/forward cache). The two defenses:
+   (1) resetActivityInputs() runs at init to overwrite any restored
+       values with empty defaults BEFORE any other JS state initializes.
+   (2) A pageshow listener detects the BFCache restore path and forces
+       a full reload, guaranteeing a fresh JS evaluation.
+═══════════════════════════════════════════════════════════════ */
+function resetActivityInputs() {
+  document.querySelectorAll('textarea').forEach(t => {
+    t.value = '';
+    t.disabled = false;
+    t.classList.remove('state-filled', 'is-correct', 'is-wrong');
+  });
+  document.querySelectorAll('input[type="text"]').forEach(i => {
+    i.value = '';
+    i.disabled = false;
+    i.classList.remove('state-filled', 'is-correct', 'is-wrong');
+  });
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(c => {
+    c.checked = false;
+    c.disabled = false;
+  });
+}
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    // Page restored from BFCache — force a clean reload so JS state
+    // is freshly evaluated and no answers survive from the prior session.
+    window.location.reload();
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+resetActivityInputs();
+initReading();
+buildQ2a();
+buildQ3();
+buildQ6();
+initQ6Drag();
+initQ1();
+initQ4();
+updateNavButtons();
+updateProgressBar();
+</script>
+
+</body>
+</html>

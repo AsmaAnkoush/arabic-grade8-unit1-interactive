@@ -1,0 +1,1974 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مفهومُ الإعرابِ والبناءِ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — مطابِقةٌ للقالبِ
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-secondary-hover:  #f2d489;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-olive-hover:      #9c9d3a;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-main-title:   40px;
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL + HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+  overflow: hidden;
+}
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+.instr-hint { display: flex; align-items: center; gap: 12px; padding: 6px 0 0; }
+.instr-hint-img { width: 42px; height: 42px; flex-shrink: 0; object-fit: contain; }
+.instr-hint-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE VISIBILITY
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+.q-card-verse {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 10px 0 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION-WIDE SUB-HEADING (section heading inside slide)
+═══════════════════════════════════════════════════════════════ */
+.section-sub-title {
+  background: var(--color-secondary-light);
+  border: 2px solid var(--color-secondary);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin: 14px 16px 0;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  line-height: var(--line-height-tight);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback i { margin-left: 4px; }
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAGE REVEAL — animation primitive
+   قبلَ الكَشفِ: العنصرُ display:none فلا يَحجزُ ارتفاعًا ولا حشوًا.
+   عندَ الكَشفِ: يَنتقلُ إلى display:block ويَظهرُ بحركةٍ متصاعدةٍ.
+   لا يَحجزُ أيَّ مساحةٍ مَخفيّةٍ مسبقًا — توسُّعٌ تصاعديٌّ حقيقيٌّ.
+═══════════════════════════════════════════════════════════════ */
+.stage-reveal {
+  display: none;
+}
+.stage-reveal.revealed {
+  display: block;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  60%  { transform: translateY(0) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 1 — مفهومُ الإعرابِ والبناءِ (concept exploration)
+   نمطٌ مستوحًى من concept-map الموجودِ في القالبِ:
+   جملٌ تَحوي كلمةً ملوَّنةً قابلةً للنّقرِ → كشفُ صياغاتِ الكلمةِ
+   تدريجيًّا → ثُمَّ كشفُ الخلاصةِ → ثُمَّ التّعريفُ الكاملُ.
+═══════════════════════════════════════════════════════════════ */
+.concept-panel {
+  background: var(--color-paper);
+  border: 2px solid var(--color-secondary);
+  border-radius: 16px;
+  padding: 18px 18px 22px;
+  margin: 14px 16px 0;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+}
+
+/* ─── إرشادٌ افتتاحيٌّ — يُحاكي بطاقةَ التّعليماتِ الرّسميّةَ في
+   القالبِ (.task-instr-row): شبكةٌ بعمودينِ (زرُّ السّمّاعةِ + المحتوى)،
+   خلفيّةُ primary-light مع حافّةٍ يمنى بلونِ primary. كتلةٌ مستقلّةٌ
+   خارجَ بطاقةِ المجموعتينِ. زرُّ السّمّاعةِ الرّسميُّ كما هو في القالبِ. */
+.concept-intro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 16px 22px;
+  margin: 14px 16px 0;
+}
+.concept-intro-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.concept-intro-line {
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: right;
+}
+.concept-intro-main {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+}
+.concept-intro-hint {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  opacity: 0.9;
+}
+.concept-intro-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.concept-group + .concept-group {
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 2px dashed var(--color-primary-light);
+  transition: margin-top 0.45s ease, padding-top 0.45s ease;
+}
+/* بعدَ كَشفِ أيِّ شرحٍ في المجموعةِ الأولى، يَتمدَّدُ الفاصلُ تلقائيًّا */
+.concept-group:has(.stage-reveal.revealed) + .concept-group {
+  margin-top: 22px;
+  padding-top: 22px;
+}
+.concept-group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  line-height: var(--line-height-tight);
+}
+.concept-group-title .num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+  line-height: 1;
+}
+.concept-group-hint {
+  font-size: 15px;
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 12px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.concept-group-hint i { color: var(--color-secondary-shadow); }
+.concept-sentences {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 4px;
+  padding: 0;
+  transition: margin-bottom 0.45s ease;
+}
+/* بعدَ كَشفِ أيِّ بطاقةِ صِيغةٍ في المجموعةِ، تَتمدَّدُ المسافةُ تحتَ الجملِ */
+.concept-group:has(.stage-reveal.revealed) .concept-sentences {
+  margin-bottom: 12px;
+}
+.concept-sentence {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.concept-sentence-num {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 19px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.concept-sentence-text { flex: 1; }
+
+/* الكلمةُ الملوّنةُ القابلةُ للنّقرِ — تَبقى دائمًا الطّبقةَ التّفاعليّةَ
+   العُلْيا. لا نَستعملُ pointer-events: none — قَفلُ تَكرارِ النّقرِ
+   يَتمُّ في JS عبرَ if (el.classList.contains('clicked')) return؛
+   بهذا حتّى لو دخلَ .clicked الحالةَ لأيِّ سببٍ، يَبقى العنصرُ
+   حَيًّا في hit-testing فلا يَنكسرُ التّفاعلُ. */
+.concept-highlight {
+  display: inline-block;
+  position: relative;
+  z-index: 10;
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  padding: 2px 10px;
+  border-radius: 8px;
+  border: 1.5px dashed var(--color-secondary);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0 2px;
+}
+.concept-highlight:hover {
+  background: var(--color-secondary);
+}
+.concept-highlight.clicked {
+  background: rgba(107, 139, 31, 0.18);
+  color: #4d6618;
+  border-color: var(--color-success);
+  border-style: solid;
+  cursor: default;
+}
+
+/* صفُّ بطاقاتِ الصّيغِ المستخرجةِ — يَنطوي تمامًا قبلَ التّفاعلِ */
+.concept-forms-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 auto;
+  max-width: 460px;
+  width: 100%;
+  transition: margin 0.45s ease;
+}
+.concept-forms-row:has(> .stage-reveal.revealed) {
+  margin: 10px auto 0;
+}
+.concept-form-card {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 9px 8px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  line-height: var(--line-height-tight);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.05);
+}
+.concept-form-card.stage-reveal.revealed {
+  border-color: var(--color-success);
+  background: linear-gradient(135deg, #fffaf3 0%, #f3f7e3 100%);
+  box-shadow: 0 4px 12px rgba(107, 139, 31, 0.18);
+}
+
+/* بطاقةُ الخلاصةِ — الـ margin يُستردُّ بعدَ الكَشفِ فقط */
+.concept-conclusion {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-tight);
+  max-width: 520px;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  border: 2px solid var(--color-primary-shadow);
+}
+.concept-conclusion.stage-reveal.revealed {
+  margin: 12px auto 0;
+}
+
+/* بطاقةُ القاعدةِ — صندوقٌ واحدٌ خفيفٌ، أيقونةُ المصباحِ بجوارِ
+   الكلمةِ "القاعدةُ" على يمينِ السّطرِ (RTL)، والشّرحُ مُتدفّقٌ في
+   نفسِ الصّندوقِ. لا حافّةٌ داكنةٌ ولا بانرٌ علويٌّ منفصلٌ.
+   ملاحظةٌ مهمّةٌ: لا نَضعُ display هنا — البطاقةُ مَخفيّةٌ افتراضيًّا
+   عبرَ .stage-reveal { display: none }. يُضافُ display: flex فقط
+   عندَ تَنشيطِ صنفِ .revealed (بعدَ إتمامِ التّفاعلِ). */
+.concept-explanation {
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  padding: 14px 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+/* الكشفُ يُفعِّلُ display:flex + يَستردُّ الـ margin — تُغلِّبُ هذهِ
+   القاعدةُ الـ display: block العامَّ في .stage-reveal.revealed بسببِ
+   أَعلى نَوعيّةٍ (specificity = 0,3,0). */
+.concept-explanation.stage-reveal.revealed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 14px 0 0;
+}
+/* سطرُ النّتيجةِ ("فهي بذلك اسمٌ ...") مدموجٌ في أعلى صندوقِ القاعدةِ نفسِه */
+.concept-result-line {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  padding-bottom: 10px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+.concept-rule-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+/* أيقونةُ المصباحِ — نفسُ أيقونةِ "الإجابةِ النّموذجيّةِ" الرّسميّةِ
+   في المشروعِ (ملفُ PNG ذاتُه)، إعادةُ استخدامٍ كاملةٍ بلا أيِّ تعديلٍ. */
+.concept-rule-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  margin-top: 2px;
+  filter: drop-shadow(0 1px 2px rgba(132, 72, 22, 0.18));
+}
+.concept-rule-text {
+  flex: 1;
+  margin: 0;
+  font-size: 17px;
+  color: var(--color-ink);
+  line-height: 1.8;
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.concept-rule-text strong {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  margin-left: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TF ROW SYSTEM (Q1 — نعم/لا)
+   مطابِقٌ لـ listening-and-questions-reference
+═══════════════════════════════════════════════════════════════ */
+.tf-block { margin: 0 0 12px; }
+.tf-block:last-of-type { margin-bottom: 0; }
+.tf-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  transition: all 0.3s ease;
+}
+.tf-row.correct {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.tf-row.wrong {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+  animation: cardShake 0.5s;
+}
+.tf-statement {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+.tf-num {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.1em;
+  margin-left: 6px;
+}
+.tf-options { display: flex; gap: 10px; flex-shrink: 0; }
+.tf-option { cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
+.tf-option input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.tf-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--color-light-border);
+  background: #fff;
+  color: var(--color-light-border);
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 rgba(132, 72, 22, 0.10);
+}
+.tf-option:hover .tf-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(132, 72, 22, 0.15);
+}
+.tf-icon-true:hover  { border-color: var(--color-success); color: var(--color-success); }
+.tf-icon-false:hover { border-color: var(--color-error);   color: var(--color-error); }
+.tf-row.correct .tf-option.picked-correct .tf-icon,
+.tf-option.picked-correct .tf-icon {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  box-shadow: 0 2px 0 #4d6618;
+}
+.tf-option.picked-wrong .tf-icon {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.tf-row.locked .tf-option:not(.picked-correct) { opacity: 0.4; pointer-events: none; }
+.tf-row.locked .tf-option.picked-correct { pointer-events: none; }
+.tf-row.locked { pointer-events: none; }
+.tf-row.locked.correct { pointer-events: auto; }
+.tf-option .tf-label-text {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-shadow);
+  margin-top: 4px;
+}
+
+/* تغذيةٌ راجعةٌ مفصّلةٌ لكلِّ صفٍّ — مَخفيّةٌ افتراضيًّا عبرَ
+   .stage-reveal { display: none }. لا نَضعُ display هنا.
+   عندَ إضافةِ .revealed بَعدَ إجابةِ الطّالبِ، يَصبحُ flex
+   (نَوعيّةٌ أعلى: 0,3,0 تَتغلَّبُ على .stage-reveal.revealed العامِّ). */
+.tf-row-feedback {
+  margin: 8px 4px 0;
+  padding: 12px 16px;
+  background: #f3f7e3;
+  border: 2px solid var(--color-success);
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: #3f5a14;
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+  align-items: flex-start;
+  gap: 10px;
+}
+.tf-row-feedback.stage-reveal.revealed {
+  display: flex;
+}
+.tf-row-feedback i {
+  color: var(--color-success);
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLASSIFY CHIPS + bank + zone-chip (مشتركٌ مع القالبِ)
+═══════════════════════════════════════════════════════════════ */
+.classify-bank {
+  background: transparent;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  min-height: 60px;
+}
+.classify-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: var(--font-family);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  line-height: var(--line-height-normal);
+}
+.classify-chip:not(.placed):hover {
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+.classify-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40);
+  transform: translateY(-2px);
+}
+.classify-chip.dragging { opacity: 0.4; cursor: grabbing; }
+.classify-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.classify-chip.chip-shake { animation: chipShake 0.5s; }
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q2 — الجملةُ كَمَصدرٍ للسّحبِ + صندوقُ "الكلماتِ المبنيّةِ"
+   كلُّ كلمةٍ في الجملةِ قابلةٌ للسّحبِ مباشرةً. الصّندوقُ يَبدأُ فارغًا
+   ثمَّ يَستقبلُ الكلماتِ المسحوبةَ ديناميكيًّا.
+═══════════════════════════════════════════════════════════════ */
+.q-card-verse.extract-sentence {
+  text-align: right;
+  line-height: 2.3;
+  padding: 16px 20px;
+}
+.q-card-verse.extract-sentence .word {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 0 1px;
+  border-radius: 6px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: none;
+}
+.q-card-verse.extract-sentence .word:not(.punct):not(.placed):hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.14);
+}
+.q-card-verse.extract-sentence .word.selected {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-secondary);
+}
+.q-card-verse.extract-sentence .word.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+.q-card-verse.extract-sentence .word.placed {
+  background: var(--color-primary-light);
+  color: var(--color-light-border);
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.q-card-verse.extract-sentence .word.chip-shake {
+  animation: chipShake 0.5s;
+}
+.q-card-verse.extract-sentence .word.punct {
+  cursor: default;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q2 — صندوقُ "الكلماتِ المبنيّةِ" + اختيارُ النّوعِ (drag + MCQ)
+═══════════════════════════════════════════════════════════════ */
+.builtwords-wrap {
+  margin: 14px 16px 0;
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.builtwords-title {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 16px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.20);
+}
+.builtwords-target {
+  min-height: 130px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.builtwords-target.hovered {
+  background: var(--color-secondary-light);
+}
+.builtwords-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--color-sand);
+  font-weight: var(--font-weight-semibold);
+  padding: 30px 8px;
+  pointer-events: none;
+}
+.builtwords-target.has-items .builtwords-placeholder { display: none; }
+
+.placed-builtword {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #fffaf3;
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 10px 14px;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.placed-builtword.row-correct {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+}
+.placed-builtword-text {
+  background: #F7E3B4; /* ذهبيٌّ دافئٌ أفتحُ وأنعمُ من --color-secondary، أناقةً أكثرَ */
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 19px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  min-width: 70px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: var(--line-height-normal);
+}
+.placed-builtword-prompt {
+  font-size: 16px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-shadow);
+  flex-shrink: 0;
+}
+.placed-builtword-types {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-right: auto;
+}
+/* تُضافُ تَدريجيًّا بعدَ اكتمالِ مرحلةِ الاستخراجِ — تَظهرُ بمؤثّرٍ
+   متناغمٍ مع باقي عناصرِ المشروعِ (chipPopIn). */
+.placed-builtword-types.is-revealing,
+.placed-builtword-prompt.is-revealing {
+  animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.type-choice-btn {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 7px 16px;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 0 var(--color-light-border);
+  min-width: 64px;
+}
+.type-choice-btn:hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--color-light-border);
+}
+.type-choice-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--color-light-border);
+}
+.type-choice-btn.picked-correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.type-choice-btn.picked-wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+  animation: cardShake 0.5s;
+}
+.type-choice-btn.revealed {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.type-choice-btn.disabled { pointer-events: none; opacity: 0.55; }
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — جدولُ التّمييزِ (grammar table)
+═══════════════════════════════════════════════════════════════ */
+.grammar-table {
+  margin: 14px 16px 0;
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.grammar-table-header {
+  display: grid;
+  grid-template-columns: 1.4fr 1.1fr 1.5fr;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.grammar-header-cell {
+  padding: 10px 8px;
+  border-left: 1px solid rgba(255,255,255,0.25);
+  line-height: var(--line-height-tight);
+}
+.grammar-header-cell:last-child { border-left: none; }
+.grammar-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1.1fr 1.5fr;
+  border-top: 1.5px solid var(--color-primary-light);
+  align-items: stretch;
+  transition: background 0.2s ease;
+}
+.grammar-row:nth-child(even) { background: #fffaf3; }
+.grammar-row.row-complete {
+  background: rgba(107, 139, 31, 0.06);
+}
+.grammar-cell {
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-left: 1.5px solid var(--color-primary-light);
+  font-family: var(--font-family);
+  line-height: var(--line-height-normal);
+}
+.grammar-cell:last-child { border-left: none; }
+.grammar-cell.sentence-cell {
+  background: var(--color-secondary-light);
+}
+/* الجملةُ كاملةً داخلَ الخانةِ — مع تمييزِ الفعلِ المستهدفِ فقط
+   بقصدِ التّحليلِ اللّغويِّ الطّبيعيِّ، دونَ فصلِ شظايا. */
+.grammar-sentence {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+  text-align: center;
+}
+.grammar-verb-mark {
+  display: inline-block;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: var(--font-weight-extrabold);
+  padding: 2px 10px;
+  border-radius: 6px;
+  margin: 0 2px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.16);
+}
+.grammar-cell.choice-cell {
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 8px;
+}
+.grammar-choice-btn {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 0 var(--color-light-border);
+}
+.grammar-choice-btn:hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--color-light-border);
+}
+.grammar-choice-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--color-light-border); }
+.grammar-choice-btn.picked-correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.grammar-choice-btn.picked-wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+  animation: cardShake 0.5s;
+}
+.grammar-choice-btn.revealed {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.grammar-choice-btn.disabled { pointer-events: none; opacity: 0.55; }
+
+/* ─── Q3: تدفُّقٌ تدريجيٌّ ببطاقاتٍ (Duolingo-style) — يُعيدُ استخدامَ
+   أزرارِ الاختيارِ وحالاتِ النّجاحِ ومؤثّرِ الكشفِ (chipPopIn) القائمةَ.
+   بطاقةٌ واحدةٌ نشِطةٌ في كلِّ مرّةٍ؛ المكتملةُ تَنطوي مُقفلةً فوقَها.
+   التّخطيطُ: شارةُ تسلسلٍ مرقّمةٌ + جملةٌ بارزةٌ + قسما إجابةٍ منظّمانِ. */
+.q3-cards {
+  margin: 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.q3-card {
+  position: relative;
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 18px 16px 16px;
+  box-shadow: 0 6px 16px rgba(132, 72, 22, 0.07);
+  transition: padding 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.q3-card.is-locked { display: none; }
+.q3-card.is-revealing { animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+/* البطاقةُ المحلولةُ تُسحَبُ من التّدفّقِ فورًا — دونَ تلاشٍ يَترُكُ وميضًا */
+.q3-card.is-collapsed { display: none; }
+
+/* الجملةُ: حاويةٌ ناعمةٌ بارزةٌ في الوسطِ، بمسافةٍ واضحةٍ عن منطقةِ الإجابةِ */
+.q3-card-sentence {
+  background: var(--color-secondary-light);
+  border: 1.5px solid #f1e0c2;
+  border-radius: 12px;
+  padding: 16px 14px;
+  text-align: center;
+  margin: 4px 0 14px;
+}
+.q3-card-sentence .grammar-sentence { font-size: 20px; }
+
+/* قسمُ الإجابةِ: بطاقةٌ فرعيّةٌ منظّمةٌ (عنوانٌ + صفُّ أزرارٍ متوازنٍ) */
+.q3-step {
+  margin-top: 10px;
+  background: #fffaf3;
+  border: 1px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 10px 12px 12px;
+}
+.q3-step.is-hidden { display: none; }
+.q3-step.is-revealing { animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.q3-step-label {
+  display: block;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  text-align: center;
+}
+/* خانةُ الاختيارِ تُعيدُ استخدامَ .choice-cell لكنْ بصفٍّ متوازنٍ مُتمَركزٍ:
+   يَملأُ العرضَ على الجوّالِ، ويُحدَّدُ عرضُ الأزرارِ على الشّاشاتِ الكبيرةِ. */
+.q3-card .grammar-cell.choice-cell {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+.q3-card .grammar-cell.choice-cell .grammar-choice-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 230px;
+  padding: 13px 8px;
+  font-size: 18px;
+  text-align: center;
+}
+/* عنوانُ الخانةِ المحقونُ (::before) خاصٌّ بمظهرِ الجدولِ على الجوّالِ —
+   نُلغيهِ داخلَ البطاقاتِ لوجودِ q3-step-label صريحٍ (تجنُّبُ التّكرارِ). */
+.q3-card .grammar-cell.choice-cell::before { content: none; }
+
+/* ─── الحالةُ المكتملةُ: بطاقةٌ مُدمَجةٌ أنيقةٌ — رقمٌ يتحوّلُ لعلامةِ نجاحٍ،
+   جملةٌ صغيرةٌ، ثمَّ ملخّصُ إجابةٍ مُدمَجٌ على هيئةِ حبّاتٍ. ─── */
+.q3-card.done {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.08);
+  padding: 12px 14px;
+  box-shadow: 0 3px 9px rgba(107, 139, 31, 0.12);
+}
+.q3-card.done .q3-card-sentence {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 0 8px;
+  text-align: start;
+}
+.q3-card.done .q3-card-sentence .grammar-sentence { font-size: 16px; }
+.q3-card.done .q3-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 4px 14px 0 0;
+}
+.q3-card.done .q3-step-label {
+  margin-bottom: 0;
+  font-size: 13px;
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-bold);
+}
+.q3-card.done .grammar-cell.choice-cell { display: inline-flex; width: auto; }
+.q3-card.done .grammar-choice-btn.disabled { display: none; }
+.q3-card.done .grammar-choice-btn {
+  flex: 0 0 auto;
+  font-size: 13px;
+  padding: 4px 12px;
+  pointer-events: none;
+  animation: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE CONTROLS
+═══════════════════════════════════════════════════════════════ */
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 16px 0;
+  flex-wrap: wrap;
+}
+.slide-controls .btn-action { min-width: 140px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen { display: none; width: 100%; }
+.success-screen.show { display: block; animation: fadeIn 0.6s ease; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 34px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart { margin-top: 28px; }
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(320px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .q-feedback, .concept-panel, .concept-intro,
+  .classify-bank, .builtwords-wrap, .grammar-table, .section-sub-title {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 8px 18px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 10px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 48px; height: 48px; }
+  .task-header-title { font-size: 24px !important; }
+  .task-instr-text { font-size: 19px; }
+  .instr-hint-img { width: 36px; height: 36px; }
+  .instr-hint-text { font-size: 16px; }
+
+  .concept-intro { padding: 14px 18px; gap: 5px; }
+  .concept-intro-main { font-size: 21px; }
+  .concept-intro-hint { font-size: 17px; }
+  .concept-intro-icon { width: 28px; height: 28px; }
+  .concept-group-title { font-size: 20px; }
+  .concept-group-title .num { width: 32px; height: 32px; font-size: 19px; }
+  .concept-sentence { font-size: 18px; padding: 11px 14px; }
+  .concept-form-card { font-size: 19px; padding: 8px 6px; }
+  .concept-conclusion { font-size: 19px; padding: 11px 16px; }
+  .concept-explanation { padding: 12px 14px; gap: 10px; }
+  .concept-rule-icon { width: 24px; height: 24px; margin-top: 2px; }
+  .concept-rule-text { font-size: 16px; line-height: 1.75; }
+
+  .tf-statement { font-size: 18px; }
+  .tf-icon { width: 40px; height: 40px; font-size: 18px; }
+  .tf-row-feedback { font-size: 16px; padding: 11px 14px; }
+
+  .classify-chip { font-size: 17px; padding: 9px 14px; }
+  .placed-builtword-text { font-size: 17px; padding: 5px 12px; }
+  .type-choice-btn { font-size: 15px; padding: 6px 12px; min-width: 56px; }
+
+  .grammar-table-header { font-size: 15px; }
+  .grammar-sentence { font-size: 16px; }
+  .grammar-verb-mark { font-size: 16px; padding: 2px 8px; }
+  .grammar-choice-btn { font-size: 14px; padding: 5px 10px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+
+  /* توحيدُ الطّباعةِ + محاذاةُ السّمّاعةِ على الجوّالِ — يَتغلَّبُ على القيمِ أعلاه */
+  .concept-intro { align-items: flex-start; gap: 12px; }
+  .concept-intro .audio-btn { margin-top: 2px; }
+  .concept-intro-main { font-size: 19px; line-height: 1.6; }
+  .concept-intro-hint { font-size: 16px; }
+  .concept-intro-icon { width: 20px; height: 20px; }
+  .concept-group-title { font-size: 19px; }
+  .concept-group-title .num { font-size: 16px; }
+  .concept-sentence-text { font-size: 17px; line-height: 1.85; }
+  .concept-sentence-num { font-size: 14px; }
+  .concept-form-card { font-size: 17px; padding: 8px 14px; }
+  .concept-rule-text { font-size: 16px; line-height: 1.7; }
+  .concept-result-line { font-size: 16px; }
+}
+
+@media (max-width: 540px) {
+  .grammar-table-header,
+  .grammar-row {
+    grid-template-columns: 1fr;
+  }
+  .grammar-table-header { display: none; }
+  .grammar-cell {
+    border-left: none;
+    border-bottom: 1.5px solid var(--color-primary-light);
+    padding: 10px;
+  }
+  .grammar-cell:last-child { border-bottom: none; }
+  .grammar-row { border-top-width: 4px; }
+  .grammar-cell.sentence-cell {
+    justify-content: center;
+  }
+  .grammar-cell.choice-cell::before {
+    content: attr(data-cell-label);
+    display: inline-block;
+    font-size: 13px;
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-primary);
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 6px 14px; }
+  .task-header-content { grid-template-columns: 56px 1fr 56px; gap: 8px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 42px; height: 42px; }
+  .task-header-title { font-size: 20px !important; }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  .instr-hint-img { width: 32px; height: 32px; }
+  .instr-hint-text { font-size: 15px; }
+  .concept-intro { padding: 12px 14px; gap: 4px; margin-left: 8px; margin-right: 8px; }
+  .concept-intro-main { font-size: 18px; gap: 8px; }
+  .concept-intro-hint { font-size: 15px; gap: 8px; }
+  .concept-intro-icon { width: 24px; height: 24px; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .section-sub-title { font-size: 18px; padding: 10px 14px; }
+  .concept-intro-line { font-size: 17px; gap: 8px; }
+  .concept-intro-icon { width: 24px; height: 24px; }
+  .concept-group-title { font-size: 18px; }
+  .concept-group-title .num { width: 30px; height: 30px; font-size: 17px; }
+  .concept-sentence { font-size: 17px; padding: 10px 12px; gap: 8px; }
+  .concept-sentence-num { width: 28px; height: 28px; font-size: 17px; }
+  .concept-forms-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 100%; }
+  .concept-form-card { font-size: 18px; padding: 8px 4px; border-radius: 8px; }
+  .concept-conclusion { font-size: 17px; }
+  .concept-explanation { padding: 11px 13px; gap: 8px; }
+  .concept-rule-icon { width: 22px; height: 22px; margin-top: 2px; }
+  .concept-rule-text { font-size: 15px; line-height: 1.75; }
+  .concept-highlight { padding: 1px 8px; font-size: 1em; }
+
+  .tf-row { padding: 10px 12px; gap: 10px; }
+  .tf-statement { font-size: 17px; }
+  .tf-icon { width: 38px; height: 38px; font-size: 17px; }
+  .tf-row-feedback { font-size: 15px; padding: 10px 12px; }
+
+  .classify-chip { font-size: 16px; padding: 8px 12px; }
+  .builtwords-title { font-size: 17px; padding: 9px 14px; }
+  .placed-builtword { padding: 9px 12px; gap: 8px; }
+  .placed-builtword-text { font-size: 16px; padding: 5px 10px; min-width: 60px; }
+  .placed-builtword-prompt { font-size: 14px; }
+  .type-choice-btn { font-size: 14px; padding: 6px 10px; min-width: 50px; }
+
+  .complete-wrap { padding: 36px 18px 50px; }
+  .trophy-img { width: 180px; height: 180px; }
+  .trophy-glow { width: 260px; height: 260px; }
+  .complete-title { font-size: 26px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+
+  /* تصغيرٌ أكبرُ للجوّالِ الصّغيرِ — يَتغلَّبُ على القيمِ أعلاه */
+  .concept-intro { gap: 10px; }
+  .concept-intro .audio-btn { margin-top: 1px; }
+  .concept-intro-main { font-size: 17px; line-height: 1.55; }
+  .concept-intro-hint { font-size: 14px; }
+  .concept-intro-icon { width: 18px; height: 18px; }
+  .concept-group-title { font-size: 17px; }
+  .concept-group-title .num { font-size: 14px; }
+  .concept-sentence-text { font-size: 16px; line-height: 1.75; }
+  .concept-sentence-num { font-size: 13px; }
+  .concept-form-card { font-size: 15px; padding: 7px 12px; }
+  .concept-rule-text { font-size: 14px; line-height: 1.65; }
+  .concept-result-line { font-size: 15px; }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .concept-sentence { font-size: 16px; }
+  .tf-statement { font-size: 16px; }
+}
+
+@media (hover: none) {
+  .classify-chip:not(.placed):hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+    background: #fffaf3;
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.05s !important;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">مفهومُ الإعرابِ والبناءِ</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 1: مفهومُ الإعرابِ والبناءِ (concept exploration)  -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+
+        <!-- ─── إرشادٌ افتتاحيٌّ مستقلٌّ — بطاقةُ تعليماتٍ رسميّةٌ ─── -->
+        <div class="concept-intro">
+          <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+            <i class="fas fa-volume-high"></i>
+          </button>
+          <div class="concept-intro-content">
+            <p class="concept-intro-line concept-intro-main">أتأمّلُ المجموعتينِ الآتيتينِ، وألاحظُ الكلماتِ الملوّنة.</p>
+            <p class="concept-intro-line concept-intro-hint">
+              <img class="concept-intro-icon" src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/aVXVk4J4GI9yrkKy.png" alt="">
+              <span>ثمَّ أنقرُ على الكلماتِ الملوّنةِ لمعرفةِ موقعِها الإعرابيِّ.</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="concept-panel">
+
+          <!-- ─── المجموعةُ الأولى: الدّار → اسمٌ مُعرب ─── -->
+          <div class="concept-group" id="conceptGroup1">
+            <div class="concept-group-title">
+              <span class="num">١</span>
+              المجموعةُ الأولى
+            </div>
+
+            <ul class="concept-sentences">
+              <li class="concept-sentence">
+                <span class="concept-sentence-num">١</span>
+                <span class="concept-sentence-text">مررنا على <span class="concept-highlight" data-group="g1" data-idx="0">دارِ</span> الحبيبِ فردَّنا عن الدّارِ قانونُ الأعادي وسورُها</span>
+              </li>
+              <li class="concept-sentence">
+                <span class="concept-sentence-num">٢</span>
+                <span class="concept-sentence-text"><span class="concept-highlight" data-group="g1" data-idx="1">الدّارُ</span> واسعةٌ.</span>
+              </li>
+              <li class="concept-sentence">
+                <span class="concept-sentence-num">٣</span>
+                <span class="concept-sentence-text">بنينا <span class="concept-highlight" data-group="g1" data-idx="2">الدّارَ</span> لتكون مساحةَ الأمانِ.</span>
+              </li>
+            </ul>
+
+            <div class="concept-forms-row">
+              <div class="concept-form-card stage-reveal" id="g1-form-0">دارِ</div>
+              <div class="concept-form-card stage-reveal" id="g1-form-1">الدّارُ</div>
+              <div class="concept-form-card stage-reveal" id="g1-form-2">الدّارَ</div>
+            </div>
+
+            <div class="concept-explanation stage-reveal" id="g1-explanation">
+              <p class="concept-result-line">فهي بذلك اسمٌ مُعرب.</p>
+              <div class="concept-rule-row">
+                <img class="concept-rule-icon" src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt="">
+                <p class="concept-rule-text">
+                  <strong>القاعدةُ:</strong>
+                  الاسمُ المعرب هو الّذي تتغيرُ حركةُ آخرهِ بتغيّرِ موقعه الإعرابيّ.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── المجموعةُ الثّانيةُ: هذهِ → اسمٌ مبنيّ — تظهرُ بعدَ إتمامِ الأولى ─── -->
+          <div class="concept-group stage-reveal" id="conceptGroup2">
+            <div class="concept-group-title">
+              <span class="num">٢</span>
+              المجموعةُ الثّانيةُ
+            </div>
+
+            <ul class="concept-sentences">
+              <li class="concept-sentence">
+                <span class="concept-sentence-num">١</span>
+                <span class="concept-sentence-text">على <span class="concept-highlight" data-group="g2" data-idx="0">هذهِ</span> الأرضِ ما يستحقُ الحياةِ</span>
+              </li>
+              <li class="concept-sentence">
+                <span class="concept-sentence-num">٢</span>
+                <span class="concept-sentence-text"><span class="concept-highlight" data-group="g2" data-idx="1">هذهِ</span> أرضٌ خصبةٌ.</span>
+              </li>
+              <li class="concept-sentence">
+                <span class="concept-sentence-num">٣</span>
+                <span class="concept-sentence-text">زرعتُ <span class="concept-highlight" data-group="g2" data-idx="2">هذهِ</span> الأرضَ.</span>
+              </li>
+            </ul>
+
+            <div class="concept-forms-row">
+              <div class="concept-form-card stage-reveal" id="g2-form-0">هذهِ</div>
+              <div class="concept-form-card stage-reveal" id="g2-form-1">هذهِ</div>
+              <div class="concept-form-card stage-reveal" id="g2-form-2">هذهِ</div>
+            </div>
+
+            <div class="concept-explanation stage-reveal" id="g2-explanation">
+              <p class="concept-result-line">فهي بذلك اسمٌ مبنيّ.</p>
+              <div class="concept-rule-row">
+                <img class="concept-rule-icon" src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt="">
+                <p class="concept-rule-text">
+                  <strong>القاعدةُ:</strong>
+                  الاسمُ المَبْنيُّ هُوَ الاسْمُ الَّذي لا تتغيَّرُ حركةُ آخرِهِ بِتَغَيُّرِ مَوْقِعِهِ الإعْرابِيِّ، بَلْ يَلْزَمُ حَرَكَةً واحِدَةً.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+    <!-- /.slides-container -->
+
+    <!-- ═══ شاشةُ الإنهاءِ — داخلَ task-app أسفلَ الـ header ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart" onclick="restartConceptActivity()">
+            <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <!-- زرٌ مَخفيٌّ — النّشاطُ صفحةٌ واحدةٌ، لا حاجةَ لِزرِّ السّابقِ -->
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()" disabled>
+          إنهاءُ النّشاطِ
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+
+const conceptState = {
+  g1: { clicked: [false, false, false], complete: false },
+  g2: { clicked: [false, false, false], complete: false }
+};
+
+function initConceptHighlights() {
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('.concept-highlight');
+    if (el) handleConceptClick(el);
+  });
+}
+
+function handleConceptClick(el) {
+  if (el.classList.contains('clicked')) return;
+  const group = el.dataset.group;
+  const idx = parseInt(el.dataset.idx);
+  el.classList.add('clicked');
+  conceptState[group].clicked[idx] = true;
+  const formCard = document.getElementById(`${group}-form-${idx}`);
+  if (formCard && !formCard.classList.contains('revealed')) {
+    formCard.classList.add('revealed');
+  }
+  const allClicked = conceptState[group].clicked.every(v => v);
+  if (allClicked && !conceptState[group].complete) {
+    conceptState[group].complete = true;
+    const explanation = document.getElementById(`${group}-explanation`);
+    setTimeout(() => { if (explanation) explanation.classList.add('revealed'); }, 600);
+    if (group === 'g1') {
+      setTimeout(() => {
+        const g2 = document.getElementById('conceptGroup2');
+        if (g2 && !g2.classList.contains('revealed')) g2.classList.add('revealed');
+      }, 1200);
+    }
+  }
+
+  // تحديثُ شريطِ التّقدّمِ وزرِّ الإنهاءِ
+  updateProgressBar();
+  updateNavButton();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   شريطُ التّقدّمِ + حالةُ زرِّ الإنهاءِ
+═══════════════════════════════════════════════════════════════ */
+function updateProgressBar() {
+  const fill = document.getElementById('progressFill');
+  if (!fill) return;
+
+  // نَحسبُ النّسبةَ بناءً على عددِ النّقراتِ المُكتملةِ
+  const totalClicks = 6;  // ٣ كلماتٍ في كلِّ مجموعةٍ × ٢
+  const g1Done = conceptState.g1.clicked.filter(v => v).length;
+  const g2Done = conceptState.g2.clicked.filter(v => v).length;
+  const completedClicks = g1Done + g2Done;
+  const pct = (completedClicks / totalClicks) * 100;
+
+  fill.style.width = pct + '%';
+}
+
+function updateNavButton() {
+  const nextBtn = document.getElementById('nextBtn');
+  if (!nextBtn) return;
+
+  const allComplete = conceptState.g1.complete && conceptState.g2.complete;
+  nextBtn.disabled = !allComplete;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   إنهاءُ النّشاطِ + شاشةُ النّجاحِ
+═══════════════════════════════════════════════════════════════ */
+function nextSlide() {
+  // التّحقّقُ من إكمالِ النّشاطِ
+  if (!conceptState.g1.complete || !conceptState.g2.complete) return;
+
+  // أَخفِ محتوى التّطبيقِ (مع إبقاءِ الـ header + progress-bar ظاهرَين)
+  const slidesContainer = document.querySelector('.slides-container');
+  if (slidesContainer) slidesContainer.style.display = 'none';
+
+  const taskNav = document.getElementById('taskNav');
+  if (taskNav) taskNav.style.display = 'none';
+
+  // أَظهِرْ شاشةَ النّجاحِ
+  const successScreen = document.getElementById('successScreen');
+  if (successScreen) {
+    successScreen.classList.add('show');
+    successScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // إطلاقُ تَأثيرِ الـ confetti إنْ كانتْ الدّالةُ موجودةً
+  if (typeof launchConfetti === 'function') {
+    setTimeout(launchConfetti, 400);
+  }
+
+  // تعبئةُ شريطِ التّقدّمِ بالكاملِ
+  const fill = document.getElementById('progressFill');
+  if (fill) fill.style.width = '100%';
+}
+
+function restartConceptActivity() {
+  // إعادةُ تَعيينِ الحالةِ
+  conceptState.g1 = { clicked: [false, false, false], complete: false };
+  conceptState.g2 = { clicked: [false, false, false], complete: false };
+
+  // إزالةُ class 'clicked' من كلِّ الكلماتِ
+  document.querySelectorAll('.concept-highlight.clicked').forEach(el => {
+    el.classList.remove('clicked');
+  });
+
+  // إخفاءُ كلِّ stage-reveal.revealed (ما عدا conceptGroup1 الّتي تبقى ظاهرةً)
+  document.querySelectorAll('.stage-reveal.revealed').forEach(el => {
+    if (el.id !== 'conceptGroup1') el.classList.remove('revealed');
+  });
+
+  // إخفاءُ شاشةِ النّجاحِ
+  const successScreen = document.getElementById('successScreen');
+  if (successScreen) successScreen.classList.remove('show');
+
+  // إعادةُ إظهارِ المحتوى + nav
+  const slidesContainer = document.querySelector('.slides-container');
+  if (slidesContainer) slidesContainer.style.display = '';
+
+  const taskNav = document.getElementById('taskNav');
+  if (taskNav) taskNav.style.display = '';
+
+  // إعادةُ تَعيينِ شريطِ التّقدّمِ والزرِّ
+  updateProgressBar();
+  updateNavButton();
+
+  // التّمريرُ للأعلى
+  document.querySelector('.task-app').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function launchConfetti() {
+  const wrap = document.getElementById('completeWrap');
+  const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+  for (let i = 0; i < 36; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const sz = 8 + Math.random() * 12;
+    dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+      colors[~~(Math.random() * colors.length)] +
+      ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+      'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+      'animation-delay:' + (Math.random() * 0.9) + 's';
+    wrap.appendChild(dot);
+    setTimeout(() => dot.remove(), 3500);
+  }
+}
+
+window.addEventListener('pageshow', function(e) { if (e.persisted) window.location.reload(); });
+
+initConceptHighlights();
+updateProgressBar();
+updateNavButton();
+</script>
+</body>
+</html>

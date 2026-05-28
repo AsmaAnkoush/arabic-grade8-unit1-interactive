@@ -1,0 +1,3455 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تدريباتٌ على الإعرابِ والبناءِ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — مطابِقةٌ للقالبِ
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-secondary-hover:  #f2d489;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-olive-hover:      #9c9d3a;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --q2t-border:             1.5px solid var(--color-light-border);
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-main-title:   40px;
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+  overflow-x: hidden;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL + HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+  /* REVIEW: visible (كان hidden) كي لا تُقصَّ القوائمُ المنسدلةُ؛ الـ border-radius يَكفي للتّدويرِ */
+  overflow: visible;
+}
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+.instr-hint { display: flex; align-items: center; gap: 12px; padding: 6px 0 0; }
+.instr-hint-img { width: 42px; height: 42px; flex-shrink: 0; object-fit: contain; }
+.instr-hint-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE VISIBILITY
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+.q-card-verse {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 10px 0 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION-WIDE SUB-HEADING (section heading inside slide)
+═══════════════════════════════════════════════════════════════ */
+.section-sub-title {
+  background: var(--color-secondary-light);
+  border: 2px solid var(--color-secondary);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin: 14px 16px 0;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  line-height: var(--line-height-tight);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback i { margin-left: 4px; }
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAGE REVEAL — animation primitive
+   قبلَ الكَشفِ: العنصرُ display:none فلا يَحجزُ ارتفاعًا ولا حشوًا.
+   عندَ الكَشفِ: يَنتقلُ إلى display:block ويَظهرُ بحركةٍ متصاعدةٍ.
+   لا يَحجزُ أيَّ مساحةٍ مَخفيّةٍ مسبقًا — توسُّعٌ تصاعديٌّ حقيقيٌّ.
+═══════════════════════════════════════════════════════════════ */
+.stage-reveal {
+  display: none;
+}
+.stage-reveal.revealed {
+  display: block;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  60%  { transform: translateY(0) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SECTION 1 — مفهومُ الإعرابِ والبناءِ (concept exploration)
+   نمطٌ مستوحًى من concept-map الموجودِ في القالبِ:
+   جملٌ تَحوي كلمةً ملوَّنةً قابلةً للنّقرِ → كشفُ صياغاتِ الكلمةِ
+   تدريجيًّا → ثُمَّ كشفُ الخلاصةِ → ثُمَّ التّعريفُ الكاملُ.
+═══════════════════════════════════════════════════════════════ */
+.concept-panel {
+  background: var(--color-paper);
+  border: 2px solid var(--color-secondary);
+  border-radius: 16px;
+  padding: 18px 18px 22px;
+  margin: 14px 16px 0;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+}
+
+/* ─── إرشادٌ افتتاحيٌّ — يُحاكي بطاقةَ التّعليماتِ الرّسميّةَ في
+   القالبِ (.task-instr-row): شبكةٌ بعمودينِ (زرُّ السّمّاعةِ + المحتوى)،
+   خلفيّةُ primary-light مع حافّةٍ يمنى بلونِ primary. كتلةٌ مستقلّةٌ
+   خارجَ بطاقةِ المجموعتينِ. زرُّ السّمّاعةِ الرّسميُّ كما هو في القالبِ. */
+.concept-intro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 16px 22px;
+  margin: 14px 16px 0;
+}
+.concept-intro-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.concept-intro-line {
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: right;
+}
+.concept-intro-main {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+}
+.concept-intro-hint {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  opacity: 0.9;
+}
+.concept-intro-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: inline-block;
+}
+.concept-group + .concept-group {
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 2px dashed var(--color-primary-light);
+  transition: margin-top 0.45s ease, padding-top 0.45s ease;
+}
+/* بعدَ كَشفِ أيِّ شرحٍ في المجموعةِ الأولى، يَتمدَّدُ الفاصلُ تلقائيًّا */
+.concept-group:has(.stage-reveal.revealed) + .concept-group {
+  margin-top: 22px;
+  padding-top: 22px;
+}
+.concept-group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  line-height: var(--line-height-tight);
+}
+.concept-group-title .num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+  line-height: 1;
+}
+.concept-group-hint {
+  font-size: 15px;
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 12px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.concept-group-hint i { color: var(--color-secondary-shadow); }
+.concept-sentences {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0 0 4px;
+  padding: 0;
+  transition: margin-bottom 0.45s ease;
+}
+/* بعدَ كَشفِ أيِّ بطاقةِ صِيغةٍ في المجموعةِ، تَتمدَّدُ المسافةُ تحتَ الجملِ */
+.concept-group:has(.stage-reveal.revealed) .concept-sentences {
+  margin-bottom: 12px;
+}
+.concept-sentence {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.concept-sentence-num {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 19px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.concept-sentence-text { flex: 1; }
+
+/* الكلمةُ الملوّنةُ القابلةُ للنّقرِ — تَبقى دائمًا الطّبقةَ التّفاعليّةَ
+   العُلْيا. لا نَستعملُ pointer-events: none — قَفلُ تَكرارِ النّقرِ
+   يَتمُّ في JS عبرَ if (el.classList.contains('clicked')) return؛
+   بهذا حتّى لو دخلَ .clicked الحالةَ لأيِّ سببٍ، يَبقى العنصرُ
+   حَيًّا في hit-testing فلا يَنكسرُ التّفاعلُ. */
+.concept-highlight {
+  display: inline-block;
+  position: relative;
+  z-index: 10;
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  padding: 2px 10px;
+  border-radius: 8px;
+  border: 1.5px dashed var(--color-secondary);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 0 2px;
+}
+.concept-highlight:hover {
+  background: var(--color-secondary);
+}
+.concept-highlight.clicked {
+  background: rgba(107, 139, 31, 0.18);
+  color: #4d6618;
+  border-color: var(--color-success);
+  border-style: solid;
+  cursor: default;
+}
+
+/* صفُّ بطاقاتِ الصّيغِ المستخرجةِ — يَنطوي تمامًا قبلَ التّفاعلِ */
+.concept-forms-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 auto;
+  max-width: 460px;
+  width: 100%;
+  transition: margin 0.45s ease;
+}
+.concept-forms-row:has(> .stage-reveal.revealed) {
+  margin: 10px auto 0;
+}
+.concept-form-card {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 9px 8px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  line-height: var(--line-height-tight);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.05);
+}
+.concept-form-card.stage-reveal.revealed {
+  border-color: var(--color-success);
+  background: linear-gradient(135deg, #fffaf3 0%, #f3f7e3 100%);
+  box-shadow: 0 4px 12px rgba(107, 139, 31, 0.18);
+}
+
+/* بطاقةُ الخلاصةِ — الـ margin يُستردُّ بعدَ الكَشفِ فقط */
+.concept-conclusion {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 12px;
+  padding: 12px 18px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-tight);
+  max-width: 520px;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  border: 2px solid var(--color-primary-shadow);
+}
+.concept-conclusion.stage-reveal.revealed {
+  margin: 12px auto 0;
+}
+
+/* بطاقةُ القاعدةِ — صندوقٌ واحدٌ خفيفٌ، أيقونةُ المصباحِ بجوارِ
+   الكلمةِ "القاعدةُ" على يمينِ السّطرِ (RTL)، والشّرحُ مُتدفّقٌ في
+   نفسِ الصّندوقِ. لا حافّةٌ داكنةٌ ولا بانرٌ علويٌّ منفصلٌ.
+   ملاحظةٌ مهمّةٌ: لا نَضعُ display هنا — البطاقةُ مَخفيّةٌ افتراضيًّا
+   عبرَ .stage-reveal { display: none }. يُضافُ display: flex فقط
+   عندَ تَنشيطِ صنفِ .revealed (بعدَ إتمامِ التّفاعلِ). */
+.concept-explanation {
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  padding: 14px 18px;
+  width: 100%;
+  box-sizing: border-box;
+}
+/* الكشفُ يُفعِّلُ display:flex + يَستردُّ الـ margin — تُغلِّبُ هذهِ
+   القاعدةُ الـ display: block العامَّ في .stage-reveal.revealed بسببِ
+   أَعلى نَوعيّةٍ (specificity = 0,3,0). */
+.concept-explanation.stage-reveal.revealed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 14px 0 0;
+}
+/* سطرُ النّتيجةِ ("فهي بذلك اسمٌ ...") مدموجٌ في أعلى صندوقِ القاعدةِ نفسِه */
+.concept-result-line {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  padding-bottom: 10px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+.concept-rule-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+/* أيقونةُ المصباحِ — نفسُ أيقونةِ "الإجابةِ النّموذجيّةِ" الرّسميّةِ
+   في المشروعِ (ملفُ PNG ذاتُه)، إعادةُ استخدامٍ كاملةٍ بلا أيِّ تعديلٍ. */
+.concept-rule-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  margin-top: 2px;
+  filter: drop-shadow(0 1px 2px rgba(132, 72, 22, 0.18));
+}
+.concept-rule-text {
+  flex: 1;
+  margin: 0;
+  font-size: 17px;
+  color: var(--color-ink);
+  line-height: 1.8;
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.concept-rule-text strong {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  margin-left: 4px;
+  letter-spacing: 0.3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TF ROW SYSTEM (Q1 — صح/خطأ)
+   مطابِقٌ لـ listening-and-questions-reference
+═══════════════════════════════════════════════════════════════ */
+.tf-block { margin: 0 0 12px; }
+.tf-block:last-of-type { margin-bottom: 0; }
+.tf-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  transition: all 0.3s ease;
+}
+.tf-row.correct {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.tf-row.wrong {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+  animation: cardShake 0.5s;
+}
+.tf-statement {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+.tf-num {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.1em;
+  margin-left: 6px;
+}
+.tf-options { display: flex; gap: 10px; flex-shrink: 0; }
+.tf-option { cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
+.tf-option input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.tf-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--color-light-border);
+  background: #fff;
+  color: var(--color-light-border);
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 rgba(132, 72, 22, 0.10);
+}
+.tf-option:hover .tf-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(132, 72, 22, 0.15);
+}
+.tf-icon-true:hover  { border-color: var(--color-success); color: var(--color-success); }
+.tf-icon-false:hover { border-color: var(--color-error);   color: var(--color-error); }
+.tf-row.correct .tf-option.picked-correct .tf-icon,
+.tf-option.picked-correct .tf-icon {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  box-shadow: 0 2px 0 #4d6618;
+}
+.tf-option.picked-wrong .tf-icon {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.tf-row.locked .tf-option:not(.picked-correct) { opacity: 0.4; pointer-events: none; }
+.tf-row.locked .tf-option.picked-correct { pointer-events: none; }
+.tf-row.locked { pointer-events: none; }
+.tf-row.locked.correct { pointer-events: auto; }
+.tf-option .tf-label-text {
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-shadow);
+  margin-top: 4px;
+}
+
+/* تغذيةٌ راجعةٌ مفصّلةٌ لكلِّ صفٍّ — مَخفيّةٌ افتراضيًّا عبرَ
+   .stage-reveal { display: none }. لا نَضعُ display هنا.
+   عندَ إضافةِ .revealed بَعدَ إجابةِ الطّالبِ، يَصبحُ flex
+   (نَوعيّةٌ أعلى: 0,3,0 تَتغلَّبُ على .stage-reveal.revealed العامِّ). */
+.tf-row-feedback {
+  margin: 8px 4px 0;
+  padding: 12px 16px;
+  background: #f3f7e3;
+  border: 2px solid var(--color-success);
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: #3f5a14;
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+  align-items: flex-start;
+  gap: 10px;
+}
+.tf-row-feedback.stage-reveal.revealed {
+  display: flex;
+}
+.tf-row-feedback i {
+  color: var(--color-success);
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLASSIFY CHIPS + bank + zone-chip (مشتركٌ مع القالبِ)
+═══════════════════════════════════════════════════════════════ */
+.classify-bank {
+  background: transparent;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  min-height: 60px;
+}
+.classify-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: var(--font-family);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  line-height: var(--line-height-normal);
+}
+.classify-chip:not(.placed):hover {
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+.classify-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40);
+  transform: translateY(-2px);
+}
+.classify-chip.dragging { opacity: 0.4; cursor: grabbing; }
+.classify-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.classify-chip.chip-shake { animation: chipShake 0.5s; }
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* ضمانُ أنّ القوائمَ المنسدلةَ تَملأُ عرضَ حاويتِها ولا تَتجاوزُها */
+.grammar-cell.choice-cell {
+  position: relative;
+  width: auto;
+  max-width: 180px;
+  min-width: 130px;
+  font-family: var(--font-family);
+}
+.grammar-cell.choice-cell {
+  box-sizing: border-box;
+}
+.grammar-cell.choice-cell .grammar-dropdown-trigger {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — جدولُ التّمييزِ (grammar table)
+═══════════════════════════════════════════════════════════════ */
+.grammar-table {
+  margin: 14px 16px 0;
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.grammar-table-header {
+  display: grid;
+  grid-template-columns: 1.4fr 1.1fr 1.5fr;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+.grammar-header-cell {
+  padding: 10px 8px;
+  border-left: 1px solid rgba(255,255,255,0.25);
+  line-height: var(--line-height-tight);
+}
+.grammar-header-cell:last-child { border-left: none; }
+.grammar-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1.1fr 1.5fr;
+  border-top: 1.5px solid var(--color-primary-light);
+  align-items: stretch;
+  transition: background 0.2s ease;
+}
+.grammar-row:nth-child(even) { background: #fffaf3; }
+.grammar-row.row-complete {
+  background: rgba(107, 139, 31, 0.06);
+}
+.grammar-cell {
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-left: 1.5px solid var(--color-primary-light);
+  font-family: var(--font-family);
+  line-height: var(--line-height-normal);
+}
+.grammar-cell:last-child { border-left: none; }
+.grammar-cell.sentence-cell {
+  background: var(--color-secondary-light);
+}
+/* الجملةُ كاملةً داخلَ الخانةِ — مع تمييزِ الفعلِ المستهدفِ فقط
+   بقصدِ التّحليلِ اللّغويِّ الطّبيعيِّ، دونَ فصلِ شظايا. */
+.grammar-sentence {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+  text-align: center;
+}
+.grammar-verb-mark {
+  display: inline-block;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.05em;
+  padding: 3px 12px;
+  border-radius: 8px;
+  margin: 0 3px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.16);
+}
+.grammar-cell.choice-cell {
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 8px;
+}
+.grammar-choice-btn {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 6px 12px;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 0 var(--color-light-border);
+}
+.grammar-choice-btn:hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--color-light-border);
+}
+.grammar-choice-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--color-light-border); }
+.grammar-choice-btn.picked-correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.grammar-choice-btn.picked-wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+  animation: cardShake 0.5s;
+}
+.grammar-choice-btn.revealed {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.grammar-choice-btn.disabled { pointer-events: none; opacity: 0.55; }
+
+/* ─── Q3: تدفُّقٌ تدريجيٌّ ببطاقاتٍ (Duolingo-style) — يُعيدُ استخدامَ
+   أزرارِ الاختيارِ وحالاتِ النّجاحِ ومؤثّرِ الكشفِ (chipPopIn) القائمةَ.
+   بطاقةٌ واحدةٌ نشِطةٌ في كلِّ مرّةٍ؛ المكتملةُ تَنطوي مُقفلةً فوقَها.
+   التّخطيطُ: شارةُ تسلسلٍ مرقّمةٌ + جملةٌ بارزةٌ + قسما إجابةٍ منظّمانِ. */
+.q3-cards {
+  margin: 16px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.q3-card {
+  position: relative;
+  /* الخلفيّةُ/الحدودُ/الظّلُّ أُزيلتْ — تُعرَّفُ في كتلةِ التّبسيطِ القسريِّ أسفلَ الملفِّ */
+}
+.q3-card.is-locked { display: none; }
+.q3-card.is-revealing { animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+/* البطاقةُ المحلولةُ تُسحَبُ من التّدفّقِ فورًا — دونَ تلاشٍ يَترُكُ وميضًا */
+.q3-card.is-collapsed { display: none; }
+
+/* الجملةُ: حاويةٌ ناعمةٌ بارزةٌ في الوسطِ، بمسافةٍ واضحةٍ عن منطقةِ الإجابةِ */
+.q3-card-sentence {
+  /* صندوقُ الجملةِ أُزيلَ — يُبسَّطُ في كتلةِ التّبسيطِ القسريِّ أسفلَ الملفِّ */
+}
+.q3-card-sentence .grammar-sentence { font-size: 20px; }
+
+/* قسمُ الإجابةِ: بطاقةٌ فرعيّةٌ منظّمةٌ (عنوانٌ + صفُّ أزرارٍ متوازنٍ) */
+.q3-step {
+  /* صندوقُ الخطوةِ أُزيلَ — يُبسَّطُ في كتلةِ التّبسيطِ القسريِّ أسفلَ الملفِّ */
+}
+.q3-step.is-hidden { display: none; }
+.q3-step.is-revealing { animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.q3-step-label {
+  display: block;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-bottom: 10px;
+  text-align: center;
+}
+/* خانةُ الاختيارِ تُعيدُ استخدامَ .choice-cell لكنْ بصفٍّ متوازنٍ مُتمَركزٍ:
+   يَملأُ العرضَ على الجوّالِ، ويُحدَّدُ عرضُ الأزرارِ على الشّاشاتِ الكبيرةِ. */
+.q3-card .grammar-cell.choice-cell {
+  position: relative;
+  border: none;
+  padding: 0;
+  width: auto;
+  max-width: 180px;
+  min-width: 130px;
+  font-family: var(--font-family);
+}
+.q3-card .grammar-cell.choice-cell .grammar-choice-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 230px;
+  padding: 13px 8px;
+  font-size: 18px;
+  text-align: center;
+}
+/* عنوانُ الخانةِ المحقونُ (::before) خاصٌّ بمظهرِ الجدولِ على الجوّالِ —
+   نُلغيهِ داخلَ البطاقاتِ لوجودِ q3-step-label صريحٍ (تجنُّبُ التّكرارِ). */
+.q3-card .grammar-cell.choice-cell::before { content: none; }
+
+/* ═══════════════════════════════════════════
+   Q3 — قائمةٌ منسدلةٌ للاختيارِ (نوعُ الفعلِ + علامةُ البناءِ/الإعرابِ)
+═══════════════════════════════════════════ */
+.grammar-dropdown-trigger {
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  font-family: var(--font-family);
+  white-space: nowrap;
+}
+.grammar-dropdown-trigger:hover { border-color: var(--color-primary); }
+.grammar-cell.choice-cell.is-open .grammar-dropdown-trigger { border-color: var(--color-primary); }
+.grammar-dropdown-value { flex: 1; text-align: right; }
+.grammar-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 12px;
+  margin-right: 8px;
+  transition: transform 0.2s ease;
+}
+.grammar-cell.choice-cell.is-open .grammar-dropdown-arrow { transform: rotate(180deg); }
+.grammar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.15);
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+  max-height: 240px;
+  overflow-y: auto;
+}
+.grammar-cell.choice-cell.is-open .grammar-dropdown-menu { display: block; }
+.grammar-dropdown-option {
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: right;
+  transition: background 0.15s ease;
+  font-family: var(--font-family);
+  white-space: normal;
+  word-wrap: break-word;
+}
+.grammar-dropdown-option + .grammar-dropdown-option { border-top: 1px solid var(--color-light-border); }
+.grammar-dropdown-option:hover { background: var(--color-primary-light); }
+
+/* حالاتُ التَّلوينِ */
+.grammar-cell.choice-cell.is-correct .grammar-dropdown-trigger {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  pointer-events: none;
+}
+.grammar-cell.choice-cell.is-correct .grammar-dropdown-arrow { display: none; }
+.grammar-cell.choice-cell.is-wrong .grammar-dropdown-trigger {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  animation: q3Shake 0.5s ease;
+}
+@keyframes q3Shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+/* ─── الحالةُ المكتملةُ: بطاقةٌ مُدمَجةٌ أنيقةٌ — رقمٌ يتحوّلُ لعلامةِ نجاحٍ،
+   جملةٌ صغيرةٌ، ثمَّ ملخّصُ إجابةٍ مُدمَجٌ على هيئةِ حبّاتٍ. ─── */
+.q3-card.done {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.08);
+  padding: 12px 14px;
+  box-shadow: 0 3px 9px rgba(107, 139, 31, 0.12);
+}
+.q3-card.done .q3-card-sentence {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 0 8px;
+  text-align: start;
+}
+.q3-card.done .q3-card-sentence .grammar-sentence { font-size: 16px; }
+.q3-card.done .q3-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 4px 14px 0 0;
+}
+.q3-card.done .q3-step-label {
+  margin-bottom: 0;
+  font-size: 13px;
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-bold);
+}
+.q3-card.done .grammar-cell.choice-cell { display: inline-flex; width: auto; max-width: none; margin: 0; }
+.q3-card.done .grammar-dropdown-trigger {
+  font-size: 13px;
+  padding: 4px 12px;
+  pointer-events: none;
+  animation: none;
+}
+.q3-card.done .grammar-dropdown-arrow { display: none; }
+.q3-card.done .grammar-dropdown-menu { display: none !important; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE CONTROLS
+═══════════════════════════════════════════════════════════════ */
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 16px 0;
+  flex-wrap: wrap;
+}
+.slide-controls .btn-action { min-width: 140px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen { display: none; width: 100%; }
+.success-screen.show { display: block; animation: fadeIn 0.6s ease; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 34px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart { margin-top: 28px; }
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(320px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .q-feedback, .concept-panel, .concept-intro,
+  .classify-bank, .grammar-table, .section-sub-title {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 24px !important; }
+  .task-instr-text { font-size: 19px; }
+  .instr-hint-img { width: 36px; height: 36px; }
+  .instr-hint-text { font-size: 16px; }
+
+  .concept-intro { padding: 14px 18px; gap: 5px; }
+  .concept-intro-main { font-size: 21px; }
+  .concept-intro-hint { font-size: 17px; }
+  .concept-intro-icon { width: 28px; height: 28px; }
+  .concept-group-title { font-size: 20px; }
+  .concept-group-title .num { width: 32px; height: 32px; font-size: 19px; }
+  .concept-sentence { font-size: 18px; padding: 11px 14px; }
+  .concept-form-card { font-size: 19px; padding: 8px 6px; }
+  .concept-conclusion { font-size: 19px; padding: 11px 16px; }
+  .concept-explanation { padding: 12px 14px; gap: 10px; }
+  .concept-rule-icon { width: 24px; height: 24px; margin-top: 2px; }
+  .concept-rule-text { font-size: 16px; line-height: 1.75; }
+
+  .tf-statement { font-size: 18px; }
+  .tf-icon { width: 40px; height: 40px; font-size: 18px; }
+  .tf-row-feedback { font-size: 16px; padding: 11px 14px; }
+
+  .classify-chip { font-size: 17px; padding: 9px 14px; }
+
+  .grammar-table-header { font-size: 15px; }
+  .grammar-sentence { font-size: 16px; }
+  .grammar-verb-mark { font-size: 16px; padding: 2px 8px; }
+  .grammar-choice-btn { font-size: 14px; padding: 5px 10px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+
+  /* توحيدُ طباعةِ عناوينِ الأسئلةِ + محاذاةُ السّمّاعةِ لأعلى العنوانِ على الجوّالِ */
+  [data-slide="1"] .q-card-title,
+  [data-slide="2"] .q-card-title,
+  [data-slide="3"] .q-card-title {
+    font-size: 19px;
+  }
+  [data-slide="1"] .q-card-header,
+  [data-slide="2"] .q-card-header,
+  [data-slide="3"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="2"] .q-card-header .audio-btn,
+  [data-slide="3"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="2"] .q-card-header .q-card-title,
+  [data-slide="3"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+
+  /* Q3 — تصغيرُ القائمةِ المنسدلةِ */
+  .grammar-cell.choice-cell .grammar-dropdown-trigger { font-size: 14px; padding: 8px 11px; }
+  .grammar-dropdown-option { font-size: 14px; padding: 8px 10px; }
+}
+
+@media (max-width: 540px) {
+  .grammar-table-header,
+  .grammar-row {
+    grid-template-columns: 1fr;
+  }
+  .grammar-table-header { display: none; }
+  .grammar-cell {
+    border-left: none;
+    border-bottom: 1.5px solid var(--color-primary-light);
+    padding: 10px;
+  }
+  .grammar-cell:last-child { border-bottom: none; }
+  .grammar-row { border-top-width: 4px; }
+  .grammar-cell.sentence-cell {
+    justify-content: center;
+  }
+  .grammar-cell.choice-cell::before {
+    content: attr(data-cell-label);
+    display: inline-block;
+    font-size: 13px;
+    font-weight: var(--font-weight-extrabold);
+    color: var(--color-primary);
+    margin-left: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 20px !important; }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  .instr-hint-img { width: 32px; height: 32px; }
+  .instr-hint-text { font-size: 15px; }
+  .concept-intro { padding: 12px 14px; gap: 4px; margin-left: 8px; margin-right: 8px; }
+  .concept-intro-main { font-size: 18px; gap: 8px; }
+  .concept-intro-hint { font-size: 15px; gap: 8px; }
+  .concept-intro-icon { width: 24px; height: 24px; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .section-sub-title { font-size: 18px; padding: 10px 14px; }
+  .concept-intro-line { font-size: 17px; gap: 8px; }
+  .concept-intro-icon { width: 24px; height: 24px; }
+  .concept-group-title { font-size: 18px; }
+  .concept-group-title .num { width: 30px; height: 30px; font-size: 17px; }
+  .concept-sentence { font-size: 17px; padding: 10px 12px; gap: 8px; }
+  .concept-sentence-num { width: 28px; height: 28px; font-size: 17px; }
+  .concept-forms-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 100%; }
+  .concept-form-card { font-size: 18px; padding: 8px 4px; border-radius: 8px; }
+  .concept-conclusion { font-size: 17px; }
+  .concept-explanation { padding: 11px 13px; gap: 8px; }
+  .concept-rule-icon { width: 22px; height: 22px; margin-top: 2px; }
+  .concept-rule-text { font-size: 15px; line-height: 1.75; }
+  .concept-highlight { padding: 1px 8px; font-size: 1em; }
+
+  .tf-row { padding: 10px 12px; gap: 10px; }
+  .tf-statement { font-size: 17px; }
+  .tf-icon { width: 38px; height: 38px; font-size: 17px; }
+  .tf-row-feedback { font-size: 15px; padding: 10px 12px; }
+
+  .classify-chip { font-size: 16px; padding: 8px 12px; }
+
+  .complete-wrap { padding: 36px 18px 50px; }
+  .trophy-img { width: 180px; height: 180px; }
+  .trophy-glow { width: 260px; height: 260px; }
+  .complete-title { font-size: 26px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+
+  /* تصغيرٌ أكبرُ لعناوينِ الأسئلةِ على الجوّالِ الصّغيرِ + محاذاةُ السّمّاعةِ */
+  [data-slide="1"] .q-card-title,
+  [data-slide="2"] .q-card-title,
+  [data-slide="3"] .q-card-title {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  [data-slide="1"] .q-card-header,
+  [data-slide="2"] .q-card-header,
+  [data-slide="3"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="2"] .q-card-header .audio-btn,
+  [data-slide="3"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="2"] .q-card-header .q-card-title,
+  [data-slide="3"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+
+  .grammar-cell.choice-cell .grammar-dropdown-trigger { font-size: 13px; padding: 7px 10px; }
+  .grammar-dropdown-option { font-size: 13px; padding: 7px 9px; }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .concept-sentence { font-size: 16px; }
+  .tf-statement { font-size: 16px; }
+}
+
+@media (hover: none) {
+  .classify-chip:not(.placed):hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+    background: #fffaf3;
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.05s !important;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   Q3 FLAT DESIGN — FORCED OVERRIDES
+   هذه القواعدُ تُلغي أيَّ بوكساتٍ متبقّيةٍ من الإصداراتِ السّابقةِ
+═══════════════════════════════════════════ */
+.q3-card-sentence {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 1.7;
+  text-align: right;
+}
+.grammar-sentence {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  display: inline !important;
+}
+.grammar-verb-mark {
+  color: var(--color-primary) !important;
+  font-weight: var(--font-weight-extrabold) !important;
+  font-size: 1.05em !important;
+  background: rgba(237, 198, 111, 0.30) !important;
+  padding: 3px 12px !important;
+  border-radius: 8px !important;
+  border: none !important;
+}
+
+.q3-step,
+.q3-step-type,
+.q3-step-mark {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.q3-step.is-hidden,
+.q3-step-mark.is-hidden {
+  display: none !important;
+}
+.q3-step-label {
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
+/* الـ grammar-cell الخارجيُّ (الحاويةُ) بدون أيِّ صندوقٍ */
+.grammar-cell {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+/* فقط .grammar-cell.choice-cell يحملُ الـ dropdown — أبقِ تَنسيقَه كما هو */
+
+/* مستوياتُ q3-card الخارجيِّ — تبسيطٌ كاملٌ */
+.q3-card {
+  background: transparent !important;
+  border: 1.5px dashed var(--color-light-border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+.q3-card.is-locked {
+  opacity: 0.45;
+  pointer-events: none;
+  filter: grayscale(0.3);
+}
+.q3-card.is-active {
+  border-color: var(--color-primary) !important;
+  border-style: solid !important;
+}
+.q3-card.is-completed {
+  border-color: var(--color-success) !important;
+  border-style: solid !important;
+  background: rgba(107, 139, 31, 0.04) !important;
+}
+.q3-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+/* الموبايل */
+@media (max-width: 700px) {
+  .q3-card { padding: 12px 14px !important; gap: 10px !important; }
+  .q3-card-sentence { font-size: 18px !important; }
+  .q3-step-label { font-size: 14px !important; }
+}
+@media (max-width: 480px) {
+  .q3-card { padding: 11px 12px !important; gap: 9px !important; }
+  .q3-card-sentence { font-size: 16px !important; }
+  .q3-step { gap: 8px !important; }
+  .q3-step-label { font-size: 13px !important; }
+}
+
+/* ═══════════════════════════════════════════
+   Q3 — رقمُ البطاقةِ + تَخطيطٌ أفقيٌّ (الجملةُ + الخياراتُ جنبًا إلى جنبٍ)
+═══════════════════════════════════════════ */
+.q3-card {
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 14px !important;
+  position: relative;
+}
+.q3-card-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  margin-top: 2px;
+}
+.q3-card.is-completed .q3-card-num {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+}
+.q3-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  min-width: 0;
+}
+.q3-card-content .q3-card-sentence {
+  flex: 0 1 auto;
+  margin-left: 8px;
+}
+.q3-card-content .q3-step {
+  flex: 0 1 auto;
+}
+
+/* الموبايل: عمودٌ بدلَ صفٍّ — الرّقمُ يَبقى على الجانبِ */
+@media (max-width: 700px) {
+  .q3-card { gap: 10px !important; }
+  .q3-card-num { width: 32px; height: 32px; min-width: 32px; font-size: 16px; }
+  .q3-card-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .q3-card-content .q3-card-sentence,
+  .q3-card-content .q3-step { flex: 0 0 auto; }
+}
+@media (max-width: 480px) {
+  .q3-card-num { width: 28px; height: 28px; min-width: 28px; font-size: 14px; box-shadow: 0 2px 0 var(--color-primary-shadow); }
+  .q3-card.is-completed .q3-card-num { box-shadow: 0 2px 0 #4d6618; }
+}
+
+/* ═══════════════════════════════════════════
+   Q3 — جدولُ تَمييزِ الأفعالِ (تَخطيطٌ تَدريجيٌّ — منقولٌ عن نمطِ T1)
+═══════════════════════════════════════════ */
+.q3t-table-wrap { margin: 14px 0 0; }
+.q3t-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  border: 2px solid var(--color-primary);
+  background: #fff;
+}
+.q3t-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 10px;
+  text-align: center;
+  border: 1.5px solid var(--color-primary-shadow);
+}
+.q3t-row { transition: opacity 0.4s ease, background 0.3s ease; }
+.q3t-row.is-hidden { display: none; }
+.q3t-row.is-revealing { animation: q3tRowSlideIn 0.5s ease; }
+@keyframes q3tRowSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.q3t-row-feedback-row.is-hidden { display: none; }
+.q3t-row.row-done { background: rgba(107, 139, 31, 0.06); }
+.q3t-row td {
+  padding: 12px 10px;
+  border: 1.5px solid var(--color-sand);
+  vertical-align: middle;
+}
+.q3t-sentence-cell {
+  background: var(--color-secondary-light);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 1.9;
+  text-align: right;
+  width: 50%;
+  padding: 14px 16px !important;
+}
+.q3t-type-cell { background: #fff; width: 25%; padding: 10px !important; }
+.q3t-mark-cell { background: #fff; width: 25%; padding: 10px !important; }
+
+/* ── القائمةُ المنسدلةُ العامّةُ (مشتركةٌ) ── */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  font-family: var(--font-family);
+}
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.custom-dropdown.is-open .custom-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.custom-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+  font-size: inherit;
+  font-weight: var(--font-weight-bold);
+}
+.custom-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.custom-dropdown.is-open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.custom-dropdown.is-open .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/* Drop-up mode — toggled via JS when there isn't enough space below */
+.custom-dropdown.drop-up .custom-dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(8px);
+}
+.custom-dropdown.drop-up.is-open .custom-dropdown-menu {
+  transform: translateY(0);
+}
+.custom-dropdown-option {
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.custom-dropdown-option:first-child { border-radius: 8px 8px 0 0; }
+.custom-dropdown-option:last-child { border-radius: 0 0 8px 8px; }
+.custom-dropdown-option:only-child { border-radius: 8px; }
+.custom-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.custom-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.custom-dropdown.is-disabled .custom-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* حالاتُ النّجاحِ/الخطأِ لقائمتَي النّوعِ والعلامةِ */
+.q3t-type-dropdown.is-correct .custom-dropdown-trigger,
+.q3t-mark-dropdown.is-correct .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background-color: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q3t-type-dropdown.is-correct .custom-dropdown-arrow,
+.q3t-mark-dropdown.is-correct .custom-dropdown-arrow { color: var(--color-success); }
+.q3t-type-dropdown.is-wrong .custom-dropdown-trigger,
+.q3t-mark-dropdown.is-wrong .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background-color: #fbeeea;
+  color: var(--color-error);
+  animation: chipShake 0.5s;
+}
+.q3t-type-dropdown.is-wrong .custom-dropdown-arrow,
+.q3t-mark-dropdown.is-wrong .custom-dropdown-arrow { color: var(--color-error); }
+
+/* ═══════════════════════════════════════════
+   Q3 — فيدباك الصّفِّ: responsive
+═══════════════════════════════════════════ */
+.q3t-row-feedback-row {
+  background: transparent;
+}
+.q3t-feedback-cell {
+  padding: 0 16px !important;
+  border: none !important;
+  background: transparent !important;
+  text-align: center;
+}
+.q3t-row-feedback {
+  display: none;
+  max-width: 720px;
+  width: auto;
+  box-sizing: border-box;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+  text-align: center;
+  margin: 8px auto;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+.q3t-row-feedback i {
+  margin-left: 6px;
+  font-size: 16px;
+  vertical-align: middle;
+}
+.q3t-row-feedback.show-correct {
+  display: block;
+  background: #f3f7e3;
+  color: var(--color-success);
+  border: 1.5px solid var(--color-success);
+}
+.q3t-row-feedback.show-wrong {
+  display: block;
+  background: #fbeeea;
+  color: var(--color-error);
+  border: 1.5px solid var(--color-error);
+}
+.q3t-row-feedback.show-info {
+  display: block;
+  background: #fff4e5;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-secondary);
+}
+
+/* حدودُ صفِّ الفيدباك — لا تَكسرُ شبكةَ الجدولِ */
+.q3t-table .q3t-row-feedback-row td {
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: var(--q2t-border, 1.5px solid var(--color-light-border)) !important;
+  border-top: none !important;
+}
+.q3t-table .q3t-row-feedback-row.is-hidden {
+  display: none;
+}
+.q3t-table .q3t-row-feedback-row:last-child td {
+  border-bottom: none !important;
+}
+
+/* الجدولُ يَتكيّفُ مع الشّاشاتِ الضّيّقةِ دونَ تجاوزٍ أفقيٍّ */
+.q3t-table-wrap {
+  width: 100%;
+  overflow: visible;
+}
+.q3t-table {
+  width: 100%;
+  table-layout: auto;
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .q3t-table-wrap { margin: 10px 6px 0; }
+  .q3t-table thead th { font-size: 13px; padding: 9px 5px; }
+  .q3t-row td { padding: 9px 6px; }
+  .q3t-sentence-cell { font-size: 19px; line-height: 1.75; width: 45%; padding: 12px 10px !important; }
+  .q3t-type-cell, .q3t-mark-cell { width: auto; padding: 7px !important; }
+  .custom-dropdown { max-width: 100%; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 8px 10px; }
+  .custom-dropdown-option { font-size: 15px; padding: 8px 10px; }
+  .q3t-row-feedback {
+    font-size: 13px;
+    padding: 8px 12px;
+    line-height: 1.45;
+    margin: 6px auto;
+    max-width: 100%;
+  }
+  .q3t-row-feedback i {
+    font-size: 14px;
+    margin-left: 5px;
+  }
+  .q3t-feedback-cell { padding: 0 8px !important; }
+}
+@media (max-width: 480px) {
+  .q3t-sentence-cell { font-size: 17px; line-height: 1.65; padding: 10px 8px !important; }
+  .custom-dropdown-trigger { font-size: 12px; padding: 7px 8px; }
+  .custom-dropdown-option { font-size: 12px; padding: 7px 8px; }
+  .q3t-row-feedback {
+    font-size: 12px;
+    padding: 7px 10px;
+    line-height: 1.4;
+    margin: 5px auto;
+    max-width: 100%;
+  }
+  .q3t-row-feedback i {
+    font-size: 13px;
+    margin-left: 4px;
+  }
+  .q3t-feedback-cell { padding: 0 6px !important; }
+  .q3t-table { font-size: 13px; }
+  .q3t-table thead th { font-size: 13px; padding: 8px 6px; }
+  .q3t-table tbody td { padding: 9px 6px; }
+}
+@media (max-width: 360px) {
+  .q3t-row-feedback {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   Q2 — نَقرُ الكلماتِ المبنيّةِ في مكانِها (التّصنيفُ في جدولٍ أسفلَ الجملةِ)
+═══════════════════════════════════════════ */
+#q2Sentence {
+  display: block;
+  text-align: right;
+  line-height: 2;
+  font-size: 22px;
+}
+#q2Sentence .word {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  padding: 0 4px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: var(--font-weight-bold);
+  border: 1.5px solid transparent;
+  line-height: 1.4;
+}
+#q2Sentence .word:hover:not(.is-correct):not(.is-disabled):not(.punct) {
+  background: rgba(237, 198, 111, 0.25);
+}
+#q2Sentence .word.punct {
+  cursor: default;
+  pointer-events: none;
+  padding: 4px 2px;
+}
+#q2Sentence .word.is-correct {
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-color: var(--color-success);
+  cursor: default;
+  pointer-events: none;
+}
+#q2Sentence .word.is-wrong {
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: q2WordShake 0.5s ease;
+}
+#q2Sentence .word.is-disabled {
+  pointer-events: none;
+}
+#q2Sentence .word.reveal-glow {
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-color: var(--color-success);
+  animation: q2WordReveal 0.6s ease;
+}
+@keyframes q2WordShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes q2WordReveal {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* ═══════════════════════════════════════════
+   Q2 — جدولُ التصنيفِ بعدَ إكمالِ الاستخراجِ
+═══════════════════════════════════════════ */
+.q2-classify-stage {
+  margin-top: 18px;
+  padding: 16px;
+  background: #fffaf3;
+  border: var(--q2t-border);
+  border-radius: 14px;
+  animation: q2StageFadeIn 0.5s ease-out;
+}
+@keyframes q2StageFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.q2-classify-title {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin: 0 0 14px 0;
+  text-align: center;
+}
+/* ═══════════════════════════════════════════
+   Q2 — جدولُ التصنيفِ: حدودٌ موحَّدةٌ على كلِّ الجوانبِ
+═══════════════════════════════════════════ */
+.q2-classify-table-wrap {
+  border: var(--q2t-border);
+  border-radius: 10px;
+  background: #fff;
+  position: relative;
+}
+.q2-classify-table {
+  width: 100%;
+  border-collapse: collapse;  /* ← هذا يُلغي الفراغاتِ بينَ الحدودِ */
+  border-spacing: 0;
+  font-family: var(--font-family);
+  margin: 0;
+}
+
+/* الرّأسُ */
+.q2-classify-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 16px;
+  padding: 10px 12px;
+  text-align: center;
+  border-bottom: var(--q2t-border);
+  border-left: var(--q2t-border);
+}
+.q2-classify-table thead th:last-child {
+  border-left: none;  /* لا يوجدُ عمودٌ بعدَ آخرِ خليّةٍ */
+}
+
+/* الجسمُ */
+.q2-classify-table tbody td {
+  padding: 12px;
+  background: #fff;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: var(--q2t-border);
+  border-left: var(--q2t-border);
+  position: relative;
+  overflow: visible;
+}
+.q2-classify-table tbody tr {
+  position: relative;
+}
+.q2-classify-table tbody {
+  position: relative;
+}
+.q2-classify-table tbody td:last-child {
+  border-left: none;
+}
+.q2-classify-table tbody tr:last-child td {
+  border-bottom: none;  /* الحدُّ السّفليُّ للجدولِ يأتي من الحاويةِ */
+}
+
+/* كَشفٌ تَدريجيٌّ: كلمتانِ في كلِّ مرّةٍ */
+.q2-classify-table tbody tr.is-hidden {
+  display: none;
+}
+.q2-classify-table tbody tr.q2c-row {
+  animation: q2RowFadeIn 0.5s ease-out;
+}
+@keyframes q2RowFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.q2-classify-word {
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════
+   Q2 Classify Dropdown — responsive on all screen sizes
+═══════════════════════════════════════════ */
+.q2c-dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 180px;
+  margin: 0 auto;
+  font-family: var(--font-family);
+}
+.q2c-dropdown-trigger {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--color-light-border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  font-family: var(--font-family);
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+.q2c-dropdown-trigger:hover { border-color: var(--color-primary); }
+.q2c-dropdown.is-open .q2c-dropdown-trigger { border-color: var(--color-primary); }
+
+.q2c-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 11px;
+  transition: transform 0.2s ease;
+}
+.q2c-dropdown.is-open .q2c-dropdown-arrow { transform: rotate(180deg); }
+
+.q2c-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(132, 72, 22, 0.18);
+  z-index: 1000;
+  display: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.q2c-dropdown.is-open .q2c-dropdown-menu { display: block; }
+
+.q2c-dropdown-option {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+.q2c-dropdown-option + .q2c-dropdown-option {
+  border-top: 1px solid var(--color-light-border);
+}
+.q2c-dropdown-option:hover { background: var(--color-primary-light); }
+
+.q2c-dropdown.is-correct .q2c-dropdown-trigger {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  pointer-events: none;
+}
+.q2c-dropdown.is-wrong .q2c-dropdown-trigger {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  animation: q2WordShake 0.5s ease; /* REVIEW: المواصفةُ ذكرتْ q2Shake لكنّه غيرُ مُعرَّفٍ؛ q2WordShake مكافئٌ ومُعرَّفٌ */
+}
+
+@media (max-width: 700px) {
+  .q2c-dropdown { max-width: 150px; }
+  .q2c-dropdown-trigger { font-size: 14px; padding: 7px 10px; }
+  .q2c-dropdown-option { font-size: 13px; padding: 7px 10px; }
+  .q2c-dropdown-arrow { font-size: 10px; }
+}
+@media (max-width: 480px) {
+  .q2c-dropdown { max-width: 120px; }
+  .q2c-dropdown-trigger { font-size: 13px; padding: 6px 8px; }
+  .q2c-dropdown-option { font-size: 12px; padding: 6px 8px; }
+  .q2c-dropdown-arrow { font-size: 9px; }
+}
+@media (max-width: 360px) {
+  .q2c-dropdown { max-width: 100px; }
+  .q2c-dropdown-trigger { font-size: 12px; padding: 5px 7px; }
+  .q2c-dropdown-option { font-size: 11px; padding: 5px 7px; }
+}
+
+/* أحجامُ الأعمدةِ — تَمنعُ انكماشَ عمودِ القائمةِ المنسدلةِ على الجوّالِ */
+.q2-classify-table thead th:first-child,
+.q2-classify-table tbody td:first-child {
+  width: 40%;
+}
+.q2-classify-table thead th:last-child,
+.q2-classify-table tbody td:last-child {
+  width: 60%;
+}
+
+/* تَنسيقاتُ الجدولِ غيرُ الخاصّةِ بالقائمةِ المنسدلةِ (عناوينُ + خلايا + كلماتٌ) */
+@media (max-width: 700px) {
+  .q2-classify-title { font-size: 16px; }
+  .q2-classify-table thead th { font-size: 14px; padding: 8px 10px; }
+  .q2-classify-table tbody td { padding: 10px; }
+  .q2-classify-word { font-size: 17px; }
+}
+@media (max-width: 480px) {
+  .q2-classify-stage { padding: 12px; }
+  .q2-classify-title { font-size: 15px; }
+  .q2-classify-table thead th { font-size: 13px; padding: 7px 8px; }
+  .q2-classify-table tbody td { padding: 9px 6px; }
+  .q2-classify-word { font-size: 16px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">تدريباتٌ على الإعرابِ والبناءِ</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Instruction Row ═══ -->
+    <div class="task-instr-row" id="instrRow" style="display:none;">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText"></p>
+        <div class="instr-hint" id="instrHint" style="display:none;">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/i7t_Mq6Gv8mJq6Fm.png" alt="" class="instr-hint-img">
+          <span class="instr-hint-text" id="instrHintText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 1: تدريباتٌ — السّؤالُ الأوّلُ (صح/خطأ)            -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+
+        <div class="q-card" id="qCard-q1">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الأوّلُ:</strong> أضعُ إشارةَ (✓) أمامَ العبارةِ الصّحيحةِ، وإشارةَ (✗) أمامَ العبارةِ الخاطئةِ.
+            </p>
+          </div>
+
+          <div class="tf-block" data-tf-idx="0">
+            <div class="tf-row" data-tf-correct="true">
+              <div class="tf-statement">
+                <span class="tf-num">أ.</span>
+                حروفُ المعاني تأتي دائمًا مبنيةٌ
+              </div>
+              <div class="tf-options">
+                <label class="tf-option" title="صحيحة">
+                  <input type="radio" name="q1-0" value="true">
+                  <span class="tf-icon tf-icon-true"><i class="fas fa-check"></i></span>
+                </label>
+                <label class="tf-option" title="خاطئة">
+                  <input type="radio" name="q1-0" value="false">
+                  <span class="tf-icon tf-icon-false"><i class="fas fa-xmark"></i></span>
+                </label>
+              </div>
+            </div>
+            <div class="tf-row-feedback stage-reveal" id="fb-q1-0">
+              <i class="fas fa-circle-check"></i>
+              <span>أحسنت، وحروف المعاني مثل: حروف الجر، العطف، النداء، النصب، الجزم.</span>
+            </div>
+          </div>
+
+          <div class="tf-block" data-tf-idx="1">
+            <div class="tf-row" data-tf-correct="false">
+              <div class="tf-statement">
+                <span class="tf-num">ب.</span>
+                الأسماءُ الموصولة جميعها مبنية
+              </div>
+              <div class="tf-options">
+                <label class="tf-option" title="صحيحة">
+                  <input type="radio" name="q1-1" value="true">
+                  <span class="tf-icon tf-icon-true"><i class="fas fa-check"></i></span>
+                </label>
+                <label class="tf-option" title="خاطئة">
+                  <input type="radio" name="q1-1" value="false">
+                  <span class="tf-icon tf-icon-false"><i class="fas fa-xmark"></i></span>
+                </label>
+              </div>
+            </div>
+            <div class="tf-row-feedback stage-reveal" id="fb-q1-1">
+              <i class="fas fa-circle-check"></i>
+              <span>هي كذلك للمفرد والجمع، ولكنّها تصبح مُعربةً في حالة المثنّى مثل: اللذانِ، اللذينِ.</span>
+            </div>
+          </div>
+
+          <div class="tf-block" data-tf-idx="2">
+            <div class="tf-row" data-tf-correct="true">
+              <div class="tf-statement">
+                <span class="tf-num">ج.</span>
+                الأسماءُ مُعظمها مُعرب
+              </div>
+              <div class="tf-options">
+                <label class="tf-option" title="صحيحة">
+                  <input type="radio" name="q1-2" value="true">
+                  <span class="tf-icon tf-icon-true"><i class="fas fa-check"></i></span>
+                </label>
+                <label class="tf-option" title="خاطئة">
+                  <input type="radio" name="q1-2" value="false">
+                  <span class="tf-icon tf-icon-false"><i class="fas fa-xmark"></i></span>
+                </label>
+              </div>
+            </div>
+            <div class="tf-row-feedback stage-reveal" id="fb-q1-2">
+              <i class="fas fa-circle-check"></i>
+              <span>أحسنت، فالقليل من الأسماء مبنيّ مثل أسماء الإشارة والاستفهام والضمائر والأسماء الموصولة (باستثناء ما يُستخدم للمثنى).</span>
+            </div>
+          </div>
+
+          <div class="tf-block" data-tf-idx="3">
+            <div class="tf-row" data-tf-correct="true">
+              <div class="tf-statement">
+                <span class="tf-num">د.</span>
+                الأفعالُ الماضية وأفعالُ الأمر جميعها مبنيّ
+              </div>
+              <div class="tf-options">
+                <label class="tf-option" title="صحيحة">
+                  <input type="radio" name="q1-3" value="true">
+                  <span class="tf-icon tf-icon-true"><i class="fas fa-check"></i></span>
+                </label>
+                <label class="tf-option" title="خاطئة">
+                  <input type="radio" name="q1-3" value="false">
+                  <span class="tf-icon tf-icon-false"><i class="fas fa-xmark"></i></span>
+                </label>
+              </div>
+            </div>
+            <div class="tf-row-feedback stage-reveal" id="fb-q1-3">
+              <i class="fas fa-circle-check"></i>
+              <span>أحسنتَ! إجابةٌ صحيحةٌ.</span>
+            </div>
+          </div>
+
+          <div class="q-feedback" id="fb-q1" style="margin:14px 0 0;"></div>
+        </div>
+
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 3: السّؤالُ الثّاني (سحبٌ + اختيارُ النّوعِ)        -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="2">
+
+        <div class="q-card" id="qCard-q2">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّاني:</strong> انقُرْ على الكلماتِ المبنيّةِ في الجملةِ التّاليةِ، ثمَّ اخْتَرْ نوعَ كلٍّ منها.
+            </p>
+          </div>
+
+          <!-- الجملةُ — تُبنى من JS عبرَ Q2_WORDS (نَقرٌ في المكانِ + قائمةُ تصنيفٍ بجانبِ كلِّ كلمةٍ) -->
+          <div class="q-card-verse extract-sentence" id="q2Sentence"></div>
+
+          <!-- جدولُ تصنيفِ الكلماتِ المستَخرَجةِ — يَظهرُ بعدَ إكمالِ الاستخراجِ -->
+          <div class="q2-classify-stage" id="q2ClassifyStage" style="display:none;">
+            <h3 class="q2-classify-title">صنِّفْ نوعَ كلِّ كلمةٍ مبنيّةٍ:</h3>
+            <div class="q2-classify-table-wrap" id="q2ClassifyTableWrap"></div>
+          </div>
+
+          <div class="q-feedback" id="fb-q2"></div>
+        </div>
+
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 4: السّؤالُ الثّالثُ (جدولُ التّمييزِ)              -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="3">
+
+        <div class="q-card" id="qCard-q3">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّالثُ:</strong> ميِّزْ بينَ الأفعالِ المبنيّةِ والمعربةِ، وحدِّدْ علامةَ كلٍّ منها.
+            </p>
+          </div>
+
+          <div class="q3t-table-wrap" id="q3TableWrap"></div>
+
+          <div class="q-feedback" id="fb-q3"></div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.slides-container -->
+
+    <!-- ═══ شاشةُ الإنهاءِ ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart" onclick="restartActivity()">
+            <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// إزالةُ مُعرّفِ localStorage القديمِ (لم يَعدْ مُستخدَمًا)
+try { localStorage.removeItem('q2OnboardingDone'); } catch (e) {}
+
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES — مطابِقةٌ للقالبِ
+═══════════════════════════════════════════════════════════════ */
+function toArabic(num) {
+  const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num.toString().split('').map(d => arabic[d] || d).join('');
+}
+function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const MAX_ATTEMPTS = 3;
+
+/* ══════════════════════════════════════════════════════════════
+   Q1 — TF rows (صح/خطأ) — مع تغذيةٍ راجعةٍ لكلِّ صفٍّ
+═══════════════════════════════════════════════════════════════ */
+const Q1_ROWS = 4;
+const q1State = {
+  answered: [false, false, false, false],
+  attempts: [0, 0, 0, 0],
+  allCorrect: false
+};
+
+function initQ1() {
+  document.querySelectorAll('.tf-block').forEach(block => {
+    const idx = parseInt(block.dataset.tfIdx);
+    block.querySelectorAll('input[type="radio"]').forEach(input => {
+      input.addEventListener('change', () => handleQ1Answer(idx, input.value === 'true', input));
+    });
+  });
+}
+
+function handleQ1Answer(rowIdx, userAnswer, inputEl) {
+  if (q1State.answered[rowIdx]) return;
+  if (q1State.attempts[rowIdx] >= MAX_ATTEMPTS) return;
+  q1State.attempts[rowIdx]++;
+
+  const block = document.querySelector(`.tf-block[data-tf-idx="${rowIdx}"]`);
+  const row = block.querySelector('.tf-row');
+  const correctAnswer = row.dataset.tfCorrect === 'true';
+  const card = document.getElementById('qCard-q1');
+  const rowFb = document.getElementById(`fb-q1-${rowIdx}`);
+  const cardFb = document.getElementById('fb-q1');
+  const isCorrect = userAnswer === correctAnswer;
+  const pickedLabel = inputEl.closest('.tf-option');
+
+  row.querySelectorAll('.tf-option').forEach(o => o.classList.remove('picked-correct', 'picked-wrong'));
+
+  if (isCorrect) {
+    q1State.answered[rowIdx] = true;
+    pickedLabel.classList.add('picked-correct');
+    row.classList.add('correct', 'locked');
+    row.classList.remove('wrong');
+    if (rowFb) rowFb.classList.add('revealed');
+
+    const allDone = q1State.answered.every(a => a);
+    if (allDone) {
+      q1State.allCorrect = true;
+      card.classList.add('correct');
+      cardFb.className = 'q-feedback show-correct';
+      cardFb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! أتممتَ التّمييزَ بنجاحٍ.';
+      updateNavButtons();
+      updateProgressBar();
+    }
+  } else {
+    pickedLabel.classList.add('picked-wrong');
+    row.classList.add('wrong');
+    card.classList.add('incorrect');
+    setTimeout(() => {
+      row.classList.remove('wrong');
+      card.classList.remove('incorrect');
+    }, 600);
+
+    if (q1State.attempts[rowIdx] >= MAX_ATTEMPTS) {
+      q1State.answered[rowIdx] = true;
+      row.querySelectorAll('.tf-option').forEach(o => o.classList.remove('picked-correct', 'picked-wrong'));
+      const correctInput = row.querySelector(`input[value="${correctAnswer}"]`);
+      const correctLabel = correctInput.closest('.tf-option');
+      correctLabel.classList.add('picked-correct');
+      row.classList.add('correct', 'locked');
+      if (rowFb) rowFb.classList.add('revealed');
+
+      const allDone = q1State.answered.every(a => a);
+      if (allDone) {
+        q1State.allCorrect = true;
+        card.classList.add('correct');
+        cardFb.className = 'q-feedback show-correct';
+        cardFb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجاباتِ الصّحيحةِ.';
+        updateNavButtons();
+        updateProgressBar();
+      }
+    } else {
+      cardFb.className = 'q-feedback show-wrong';
+      cardFb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        pickedLabel.classList.remove('picked-wrong');
+        inputEl.checked = false;
+        cardFb.className = 'q-feedback';
+        cardFb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q2 — نَقرٌ على الكلماتِ المبنيّةِ في الجملةِ + قائمةُ تصنيفٍ بجانبِها
+═══════════════════════════════════════════════════════════════ */
+const Q2_WORDS = [
+  { text: 'قالَ',      built: true,  type: 'فعل', cid: 'q2w1' },
+  { text: 'غسان',      built: false, cid: 'q2w2' },
+  { text: 'كنفاني',    built: false, cid: 'q2w3' },
+  { text: 'مرةً',      built: false, cid: 'q2w4' },
+  { text: ':',          punct: true },
+  { text: 'الإنسانُ',  built: false, cid: 'q2w5' },
+  { text: 'في',         built: true,  type: 'حرف', cid: 'q2w6' },
+  { text: 'نهايةِ',    built: false, cid: 'q2w7' },
+  { text: 'الأمرِ',    built: false, cid: 'q2w8' },
+  { text: 'قضيةٌ',     built: false, cid: 'q2w9' },
+  { text: '،',          punct: true },
+  { text: 'و',          built: true,  type: 'حرف', cid: 'q2w10' },
+  { text: 'كانَ',      built: true,  type: 'فعل', cid: 'q2w11' },
+  { text: 'ذلكَ',      built: true,  type: 'اسم', cid: 'q2w12' },
+  { text: 'على',       built: true,  type: 'حرف', cid: 'q2w13' },
+  { text: 'لسانِ',     built: false, cid: 'q2w14' },
+  { text: 'شخصيةِ',    built: false, cid: 'q2w15' },
+  { text: 'خلدون',     built: false, cid: 'q2w16' },
+  { text: '.',          punct: true }
+];
+const Q2_BUILT_WORDS = Q2_WORDS.filter(w => w.built);
+const Q2_TYPE_OPTIONS = ['فعل', 'اسم', 'حرف'];
+const Q2_MAX_ATTEMPTS = 3;
+
+const q2State = {
+  extracted: {},       // cid → true (كلمةٌ مبنيّةٌ نُقرتْ بنجاحٍ)
+  typeAnswered: {},    // cid → true (تَمَّ اختيارُ النّوعِ الصّحيحِ)
+  typeAttempts: {},    // cid → number
+  wrongClicks: 0,
+  classifyShown: false, // هل ظَهرَ جدولُ التّصنيفِ بعدَ إكمالِ الاستخراجِ
+  currentGroup: 0,      // مجموعةُ الكلمتينِ الحاليّةِ في جدولِ التّصنيفِ (٠، ١، ٢)
+  completed: false
+};
+
+function getRemainingBuiltCount() {
+  return Q2_BUILT_WORDS.filter(w => !q2State.extracted[w.cid]).length;
+}
+
+function toArabicDigits(num) {
+  const map = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  return String(num).split('').map(d => map[parseInt(d)] || d).join('');
+}
+
+function buildQ2Sentence() {
+  const container = document.getElementById('q2Sentence');
+  if (!container) return;
+
+  let html = '';
+  Q2_WORDS.forEach(w => {
+    if (w.punct) {
+      html += `<span class="word punct">${w.text}</span> `;
+      return;
+    }
+    html += `<span class="word" data-cid="${w.cid}">${w.text}</span> `;
+  });
+  container.innerHTML = html;
+
+  container.querySelectorAll('.word:not(.punct)').forEach(wordEl => {
+    wordEl.addEventListener('click', () => handleQ2WordClick(wordEl));
+  });
+}
+
+function handleQ2WordClick(wordEl) {
+  if (q2State.completed) return;
+  if (wordEl.classList.contains('is-correct') || wordEl.classList.contains('is-disabled')) return;
+
+  const cid = wordEl.dataset.cid;
+  const wordData = Q2_WORDS.find(w => w.cid === cid);
+  if (!wordData) return;
+
+  const isCorrect = !!wordData.built;
+  const fb = document.getElementById('fb-q2');
+
+  if (isCorrect) {
+    wordEl.classList.add('is-correct');
+    q2State.extracted[cid] = true;
+
+    const remaining = getRemainingBuiltCount();
+    if (remaining > 0 && fb) {
+      // فيدباك تَشجيعيٌّ مع العدِّ التَّنازليِّ — مؤشّرُ تقدُّمٍ إيجابيٌّ لا تحذيرُ محاولاتٍ
+      let msg;
+      if (remaining === 1) {
+        msg = 'أحسنتَ! تَبقّتْ كلمةٌ مبنيّةٌ واحدةٌ.';
+      } else if (remaining === 2) {
+        msg = 'أحسنتَ! تَبقّتْ كلمتانِ مبنيّتانِ.';
+      } else {
+        msg = `أحسنتَ! تَبقّتْ ${toArabicDigits(remaining)} كلماتٍ مبنيّةٍ.`;
+      }
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+      setTimeout(() => {
+        if (fb && !q2State.completed) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 2500);
+    }
+
+    checkQ2ExtractionComplete();
+  } else {
+    q2State.wrongClicks++;
+    wordEl.classList.remove('is-wrong');
+    void wordEl.offsetWidth;
+    wordEl.classList.add('is-wrong');
+
+    if (q2State.wrongClicks >= Q2_MAX_ATTEMPTS) {
+      if (fb) {
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> سَنُظهرُ الكلماتِ المبنيّةَ. تَأمَّلْها جيّدًا.';
+      }
+      setTimeout(() => {
+        revealAllQ2BuiltWords();
+        if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+      }, 3000);
+    } else {
+      if (fb) {
+        fb.className = 'q-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> هذِهِ الكلمةُ ليستْ مَبنيّةً. حاولْ مرّةً أخرى.';
+      }
+      setTimeout(() => {
+        wordEl.classList.remove('is-wrong');
+        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+      }, 1500);
+    }
+  }
+}
+
+function revealAllQ2BuiltWords() {
+  const container = document.getElementById('q2Sentence');
+  if (!container) return;
+  Q2_BUILT_WORDS.forEach((w, i) => {
+    if (q2State.extracted[w.cid]) return;
+    const el = container.querySelector(`.word[data-cid="${w.cid}"]`);
+    if (!el) return;
+    setTimeout(() => {
+      el.classList.add('reveal-glow');
+      setTimeout(() => {
+        el.classList.remove('reveal-glow');
+        el.classList.add('is-correct');
+        q2State.extracted[w.cid] = true;
+        // REVIEW: الفحصُ يُستدعى هنا (لا في نهايةِ الدّالةِ) لأنّ الاستخراجَ يَجري عبرَ مؤقّتاتٍ غيرِ متزامنةٍ
+        checkQ2ExtractionComplete();
+      }, 600);
+    }, i * 600);
+  });
+  container.querySelectorAll('.word:not(.is-correct):not(.punct)').forEach(el => el.classList.add('is-disabled'));
+}
+
+/* ══════════════════════════════════════════════════════════════
+   جدولُ التَّصنيفِ — يَظهرُ بعدَ إكمالِ استخراجِ كلِّ الكلماتِ المبنيّةِ
+═══════════════════════════════════════════════════════════════ */
+function checkQ2ExtractionComplete() {
+  const allExtracted = Q2_BUILT_WORDS.every(w => q2State.extracted[w.cid]);
+  if (allExtracted && !q2State.classifyShown) {
+    q2State.classifyShown = true;
+    const fb = document.getElementById('fb-q2');
+    if (fb) {
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! استخرجتَ جميعَ الكلماتِ المبنيّةِ. الآنَ صنِّفْ نوعَ كلٍّ منها.';
+    }
+    setTimeout(() => {
+      showQ2ClassifyStage();
+      setTimeout(() => {
+        if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+      }, 2500);
+    }, 800);
+  }
+}
+
+function showQ2ClassifyStage() {
+  buildQ2ClassifyTable();
+  const stage = document.getElementById('q2ClassifyStage');
+  if (stage) {
+    stage.style.display = 'block';
+    stage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function buildQ2ClassifyTable() {
+  const wrap = document.getElementById('q2ClassifyTableWrap');
+  if (!wrap) return;
+
+  let html = '<table class="q2-classify-table"><thead><tr>';
+  html += '<th>الكلمةُ المبنيّةُ</th>';
+  html += '<th>النّوعُ</th>';
+  html += '</tr></thead><tbody>';
+
+  Q2_BUILT_WORDS.forEach((w, i) => {
+    const groupIdx = Math.floor(i / 2);
+    const hiddenClass = groupIdx === 0 ? '' : ' is-hidden';
+    html += `
+      <tr data-cid="${w.cid}" data-group="${groupIdx}" class="q2c-row${hiddenClass}">
+        <td><span class="q2-classify-word">${w.text}</span></td>
+        <td>
+          <div class="q2c-dropdown" data-cid="${w.cid}">
+            <button type="button" class="q2c-dropdown-trigger">
+              <span class="q2c-dropdown-value">اخْتَرْ النّوعَ</span>
+              <i class="fas fa-chevron-down q2c-dropdown-arrow"></i>
+            </button>
+            <div class="q2c-dropdown-menu">
+              ${Q2_TYPE_OPTIONS.map(opt => `<div class="q2c-dropdown-option" data-value="${opt}">${opt}</div>`).join('')}
+            </div>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  // ربطُ الأحداثِ
+  wrap.querySelectorAll('.q2c-dropdown').forEach(dd => {
+    const trigger = dd.querySelector('.q2c-dropdown-trigger');
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-correct')) return;
+      wrap.querySelectorAll('.q2c-dropdown.is-open').forEach(o => { if (o !== dd) o.classList.remove('is-open'); });
+      dd.classList.toggle('is-open');
+    });
+    dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        handleQ2ClassifyPick(dd, opt.dataset.value);
+        dd.classList.remove('is-open');
+      });
+    });
+  });
+
+  // إغلاقُ القوائمِ بالنّقرِ خارجَها
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.q2c-dropdown')) {
+      document.querySelectorAll('.q2c-dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+    }
+  });
+}
+
+function handleQ2ClassifyPick(dropdown, value) {
+  const cid = dropdown.dataset.cid;
+  const wordData = Q2_WORDS.find(w => w.cid === cid);
+  if (!wordData || !wordData.built) return;
+  if (q2State.typeAnswered[cid]) return;
+  q2State.typeAttempts[cid] = (q2State.typeAttempts[cid] || 0) + 1;
+
+  const valueLabel = dropdown.querySelector('.q2c-dropdown-value');
+  if (valueLabel) valueLabel.textContent = value;
+
+  const isCorrect = (value === wordData.type);
+  const fb = document.getElementById('fb-q2');
+
+  if (isCorrect) {
+    dropdown.classList.remove('is-wrong');
+    dropdown.classList.add('is-correct');
+    q2State.typeAnswered[cid] = true;
+    checkRevealNextQ2Group();
+    maybeCompleteQ2();
+  } else {
+    dropdown.classList.remove('is-correct');
+    void dropdown.offsetWidth;
+    dropdown.classList.add('is-wrong');
+
+    if (q2State.typeAttempts[cid] >= Q2_MAX_ATTEMPTS) {
+      setTimeout(() => {
+        dropdown.classList.remove('is-wrong');
+        dropdown.classList.add('is-correct');
+        if (valueLabel) valueLabel.textContent = wordData.type;
+        q2State.typeAnswered[cid] = true;
+        checkRevealNextQ2Group();
+        maybeCompleteQ2();
+      }, 1500);
+    } else {
+      if (fb) {
+        fb.className = 'q-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> نوعٌ غيرُ صحيحٍ. حاولْ مرّةً أخرى!';
+      }
+      setTimeout(() => {
+        dropdown.classList.remove('is-wrong');
+        if (valueLabel) valueLabel.textContent = 'اخْتَرْ النّوعَ';
+        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+      }, 1500);
+    }
+  }
+}
+
+function checkRevealNextQ2Group() {
+  const currentGroupWords = Q2_BUILT_WORDS.filter((w, i) => Math.floor(i / 2) === q2State.currentGroup);
+  const allCurrentDone = currentGroupWords.every(w => q2State.typeAnswered[w.cid]);
+  if (!allCurrentDone) return;
+
+  const totalGroups = Math.ceil(Q2_BUILT_WORDS.length / 2);
+  if (q2State.currentGroup >= totalGroups - 1) return;  // آخرُ مجموعةٍ — لا شيءَ بعدَها
+
+  q2State.currentGroup++;
+  // أَظهرِ الصّفوفَ الجديدةَ بعدَ تأخيرٍ بسيطٍ
+  setTimeout(() => {
+    document.querySelectorAll(`.q2c-row[data-group="${q2State.currentGroup}"]`).forEach(row => {
+      row.classList.remove('is-hidden');
+    });
+    // فيدباك تَشجيعيٌّ
+    const fb = document.getElementById('fb-q2');
+    if (fb && !q2State.completed) {
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تابعْ مع الكلمتينِ التّاليتينِ.';
+      setTimeout(() => {
+        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+      }, 2500);
+    }
+  }, 700);
+}
+
+function maybeCompleteQ2() {
+  const allTyped = Q2_BUILT_WORDS.every(w => q2State.typeAnswered[w.cid]);
+  if (!allTyped) return;
+  q2State.completed = true;
+  const fb = document.getElementById('fb-q2');
+  if (fb) {
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! أتممتَ تحديدَ الكلماتِ المبنيّةِ ونوعِها.';
+  }
+  if (typeof updateNavButtons === 'function') updateNavButtons();
+  if (typeof updateProgressBar === 'function') updateProgressBar();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q3 — جدولُ تَمييزِ الأفعالِ المبنيّةِ والمعربةِ (تَخطيطٌ تَدريجيٌّ مثلَ T1)
+═══════════════════════════════════════════════════════════════ */
+const Q3_ROWS = [
+  { sentenceHtml: '<span class="grammar-verb-mark">نَظِّمْ</span> وَقتكَ',      type: 'مبني', mark: 'السكون' },
+  { sentenceHtml: '<span class="grammar-verb-mark">ينتشرُ</span> الشّذا',       type: 'معرب', mark: 'الضمة'  },
+  { sentenceHtml: '<span class="grammar-verb-mark">فازَ</span> المجتهدُ',        type: 'مبني', mark: 'الفتحة' },
+  { sentenceHtml: '<span class="grammar-verb-mark">اصنعْ</span> معروفًا',       type: 'مبني', mark: 'السكون' },
+  { sentenceHtml: '<span class="grammar-verb-mark">يترقرقُ</span> الماءُ',      type: 'معرب', mark: 'الضمة'  }
+];
+
+const Q3_MAX_ATTEMPTS = 3;
+const Q3_TYPE_OPTIONS = ['مبني', 'معرب'];
+const Q3_MARK_OPTIONS = ['السكون', 'الفتحة', 'الضمة'];
+
+const q3State = {
+  currentRow: 0,
+  completed: false,
+  rows: Q3_ROWS.map(() => ({
+    typeAttempts: 0,
+    markAttempts: 0,
+    typeAnswered: false,
+    markAnswered: false,
+    completed: false
+  }))
+};
+
+function buildQ3Table() {
+  const wrap = document.getElementById('q3TableWrap');
+  if (!wrap) return;
+
+  let html = '<table class="q3t-table"><thead><tr>';
+  html += '<th>الجملةُ</th>';
+  html += '<th>نوعُ الفعلِ</th>';
+  html += '<th>العلامةُ</th>';
+  html += '</tr></thead><tbody>';
+
+  Q3_ROWS.forEach((row, idx) => {
+    const hiddenClass = idx < 2 ? '' : ' is-hidden';
+    html += `
+      <tr class="q3t-row${hiddenClass}" data-row="${idx}">
+        <td class="q3t-sentence-cell">${idx + 1} - ${row.sentenceHtml}</td>
+        <td class="q3t-type-cell">
+          <div class="custom-dropdown q3t-type-dropdown" data-row="${idx}">
+            <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="custom-dropdown-value">اخْتَرْ النّوعَ</span>
+              <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+            </button>
+            <ul class="custom-dropdown-menu" role="listbox">
+              ${Q3_TYPE_OPTIONS.map(opt => `<li class="custom-dropdown-option" data-value="${opt}" role="option">${opt}</li>`).join('')}
+            </ul>
+          </div>
+        </td>
+        <td class="q3t-mark-cell">
+          <div class="custom-dropdown q3t-mark-dropdown is-disabled" data-row="${idx}">
+            <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="custom-dropdown-value">اخْتَرْ العلامةَ</span>
+              <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+            </button>
+            <ul class="custom-dropdown-menu" role="listbox">
+              ${Q3_MARK_OPTIONS.map(opt => `<li class="custom-dropdown-option" data-value="${opt}" role="option">${opt}</li>`).join('')}
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr class="q3t-row-feedback-row${hiddenClass}" data-row="${idx}">
+        <td colspan="3" class="q3t-feedback-cell">
+          <div class="q3t-row-feedback" id="q3Feedback-${idx}"></div>
+        </td>
+      </tr>
+    `;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  // ربطُ المعالجاتِ — dropdowns
+  wrap.querySelectorAll('.custom-dropdown').forEach(dd => {
+    const trigger = dd.querySelector('.custom-dropdown-trigger');
+    const rowIdx = parseInt(dd.dataset.row);
+    const isType = dd.classList.contains('q3t-type-dropdown');
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      wrap.querySelectorAll('.custom-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open', 'drop-up');
+          const t = other.querySelector('.custom-dropdown-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', !wasOpen);
+
+      // Check available space and flip direction if needed
+      if (!wasOpen) {
+        const menu = dd.querySelector('.custom-dropdown-menu');
+        if (menu) {
+          const triggerRect = trigger.getBoundingClientRect();
+          const spaceBelow = window.innerHeight - triggerRect.bottom;
+          const spaceAbove = triggerRect.top;
+          const menuHeight = menu.scrollHeight || 200;
+          if (spaceBelow < menuHeight + 16 && spaceAbove > spaceBelow) {
+            dd.classList.add('drop-up');
+          } else {
+            dd.classList.remove('drop-up');
+          }
+        }
+      } else {
+        dd.classList.remove('drop-up');
+      }
+    });
+
+    dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const value = opt.dataset.value;
+        dd.classList.remove('is-open', 'drop-up');
+        trigger.setAttribute('aria-expanded', 'false');
+        if (isType) {
+          handleQ3TypePick(rowIdx, value);
+        } else {
+          handleQ3MarkPick(rowIdx, value);
+        }
+      });
+    });
+  });
+
+  // إغلاقٌ بالنّقرِ خارجَ القائمةِ
+  document.addEventListener('click', () => {
+    wrap.querySelectorAll('.custom-dropdown.is-open').forEach(dd => {
+      dd.classList.remove('is-open', 'drop-up');
+      const t = dd.querySelector('.custom-dropdown-trigger');
+      if (t) t.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+function handleQ3TypePick(rowIdx, value) {
+  const rs = q3State.rows[rowIdx];
+  if (rs.typeAnswered || rs.typeAttempts >= Q3_MAX_ATTEMPTS) return;
+  rs.typeAttempts++;
+
+  const wrap = document.getElementById('q3TableWrap');
+  const dd = wrap.querySelector(`.q3t-type-dropdown[data-row="${rowIdx}"]`);
+  const valueLabel = dd.querySelector('.custom-dropdown-value');
+  const fb = document.getElementById(`q3Feedback-${rowIdx}`);
+  const expected = Q3_ROWS[rowIdx].type;
+  const isCorrect = (value === expected);
+
+  valueLabel.textContent = value;
+
+  if (isCorrect) {
+    dd.classList.remove('is-wrong');
+    dd.classList.add('is-correct', 'is-disabled');
+    rs.typeAnswered = true;
+    const markDd = wrap.querySelector(`.q3t-mark-dropdown[data-row="${rowIdx}"]`);
+    if (markDd) markDd.classList.remove('is-disabled');
+    if (fb) {
+      fb.className = 'q3t-row-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! حدِّدِ العلامةَ الآنَ.';
+    }
+    setTimeout(() => { if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; } }, 2500);
+  } else {
+    dd.classList.remove('is-correct');
+    void dd.offsetWidth;
+    dd.classList.add('is-wrong');
+
+    if (rs.typeAttempts >= Q3_MAX_ATTEMPTS) {
+      setTimeout(() => {
+        dd.classList.remove('is-wrong');
+        dd.classList.add('is-correct', 'is-disabled');
+        valueLabel.textContent = expected;
+        rs.typeAnswered = true;
+        const markDd = wrap.querySelector(`.q3t-mark-dropdown[data-row="${rowIdx}"]`);
+        if (markDd) markDd.classList.remove('is-disabled');
+        if (fb) {
+          fb.className = 'q3t-row-feedback show-correct';
+          fb.innerHTML = `<i class="fas fa-check-circle"></i> الإجابةُ الصّحيحةُ: ${expected}.`;
+        }
+        setTimeout(() => { if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; } }, 3000);
+      }, 1500);
+    } else {
+      if (fb) {
+        fb.className = 'q3t-row-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      }
+      setTimeout(() => {
+        dd.classList.remove('is-wrong');
+        valueLabel.textContent = 'اخْتَرْ النّوعَ';
+        if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+      }, 1500);
+    }
+  }
+}
+
+function handleQ3MarkPick(rowIdx, value) {
+  const rs = q3State.rows[rowIdx];
+  if (rs.markAnswered || rs.markAttempts >= Q3_MAX_ATTEMPTS) return;
+  rs.markAttempts++;
+
+  const wrap = document.getElementById('q3TableWrap');
+  const dd = wrap.querySelector(`.q3t-mark-dropdown[data-row="${rowIdx}"]`);
+  const valueLabel = dd.querySelector('.custom-dropdown-value');
+  const fb = document.getElementById(`q3Feedback-${rowIdx}`);
+  const expected = Q3_ROWS[rowIdx].mark;
+  const isCorrect = (value === expected);
+
+  valueLabel.textContent = value;
+
+  if (isCorrect) {
+    dd.classList.remove('is-wrong');
+    dd.classList.add('is-correct', 'is-disabled');
+    rs.markAnswered = true;
+    rs.completed = true;
+    if (fb) {
+      fb.className = 'q3t-row-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! أكملتَ هذا الفعلَ.';
+    }
+    setTimeout(() => {
+      if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+      revealNextQ3Row(rowIdx);
+    }, 2500);
+  } else {
+    dd.classList.remove('is-correct');
+    void dd.offsetWidth;
+    dd.classList.add('is-wrong');
+
+    if (rs.markAttempts >= Q3_MAX_ATTEMPTS) {
+      setTimeout(() => {
+        dd.classList.remove('is-wrong');
+        dd.classList.add('is-correct', 'is-disabled');
+        valueLabel.textContent = expected;
+        rs.markAnswered = true;
+        rs.completed = true;
+        if (fb) {
+          fb.className = 'q3t-row-feedback show-correct';
+          fb.innerHTML = `<i class="fas fa-check-circle"></i> الإجابةُ الصّحيحةُ: ${expected}.`;
+        }
+        setTimeout(() => {
+          if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+          revealNextQ3Row(rowIdx);
+        }, 3000);
+      }, 1500);
+    } else {
+      if (fb) {
+        fb.className = 'q3t-row-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      }
+      setTimeout(() => {
+        dd.classList.remove('is-wrong');
+        valueLabel.textContent = 'اخْتَرْ العلامةَ';
+        if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+      }, 1500);
+    }
+  }
+}
+
+function revealNextQ3Row(currentIdx) {
+  const wrap = document.getElementById('q3TableWrap');
+
+  // تحديدُ زوجِ الصّفوفِ الحاليِّ — كلُّ زوجٍ يَحتوي صفّينِ (٠-١، ٢-٣، ٤-٥...)
+  const currentPair = Math.floor(currentIdx / 2);
+  const pairStart = currentPair * 2;
+  const pairEnd = Math.min(pairStart + 1, Q3_ROWS.length - 1);
+
+  // فَحصُ إكمالِ كلِّ صفوفِ الزّوجِ الحاليِّ
+  let pairComplete = true;
+  for (let i = pairStart; i <= pairEnd; i++) {
+    if (!q3State.rows[i].completed) {
+      pairComplete = false;
+      break;
+    }
+  }
+
+  // إذا الزّوجُ الحاليُّ لم يَكتملْ بعدُ → انتظرْ بقيّةَ صفوفِه
+  if (!pairComplete) {
+    return;
+  }
+
+  // الزّوجُ اكتملَ — كشفُ الزّوجِ التّالي أو إنهاءُ السّؤالِ
+  const nextPairStart = pairStart + 2;
+  if (nextPairStart < Q3_ROWS.length) {
+    const nextPairEnd = Math.min(nextPairStart + 1, Q3_ROWS.length - 1);
+    for (let i = nextPairStart; i <= nextPairEnd; i++) {
+      const nextRow = wrap.querySelector(`.q3t-row[data-row="${i}"]`);
+      const nextFb = wrap.querySelector(`.q3t-row-feedback-row[data-row="${i}"]`);
+      if (nextRow) { nextRow.classList.remove('is-hidden'); nextRow.classList.add('is-revealing'); }
+      if (nextFb) nextFb.classList.remove('is-hidden');
+    }
+    q3State.currentRow = nextPairStart;
+  } else {
+    q3State.completed = true;
+    const fb = document.getElementById('fb-q3');
+    if (fb) {
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! أتممتَ التَّمييزَ بينَ الأفعالِ بنجاحٍ.';
+    }
+    if (typeof updateNavButtons === 'function') updateNavButtons();
+    if (typeof updateProgressBar === 'function') updateProgressBar();
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+function showSuccessScreen() {
+  document.querySelector('.slides-container').style.display = 'none';
+  document.getElementById('instrRow').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('taskNav').style.display = 'none';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(launchConfetti, 400);
+}
+function launchConfetti() {
+  const wrap = document.getElementById('completeWrap');
+  const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+  for (let i = 0; i < 36; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const sz = 8 + Math.random() * 12;
+    dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+      colors[~~(Math.random() * colors.length)] +
+      ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+      'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+      'animation-delay:' + (Math.random() * 0.9) + 's';
+    wrap.appendChild(dot);
+    setTimeout(() => dot.remove(), 3500);
+  }
+}
+function restartActivity() { location.reload(); }
+
+/* ══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+let currentSlide = 1;
+const TOTAL_SLIDES = 3;
+
+function goToSlide(idx) {
+  if (idx < 1 || idx > TOTAL_SLIDES) return;
+
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+  currentSlide = idx;
+
+  const instrRow = document.getElementById('instrRow');
+  const instrText = document.getElementById('instrText');
+  const instrHint = document.getElementById('instrHint');
+  const instrHintText = document.getElementById('instrHintText');
+  const instrAudioBtn = document.getElementById('instrAudioBtn');
+  if (instrAudioBtn) instrAudioBtn.classList.remove('state-playing');
+
+  // الشّرائحُ ذاتُ سؤالٍ داخلَ بطاقتِها تُخفي شريطَ التّعليماتِ
+  const hideInstr = [1, 2, 3];
+  instrRow.style.display = hideInstr.includes(idx) ? 'none' : '';
+
+  updateProgressBar();
+  updateNavButtons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextSlide() {
+  if (currentSlide < TOTAL_SLIDES) goToSlide(currentSlide + 1);
+  else showSuccessScreen();
+}
+function prevSlide() {
+  if (currentSlide > 1) goToSlide(currentSlide - 1);
+}
+
+function updateNavButtons() {
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.style.visibility = currentSlide === 1 ? 'hidden' : '';
+
+  if (currentSlide === TOTAL_SLIDES) {
+    nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+  } else {
+    nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+  }
+
+  switch (currentSlide) {
+    case 1: nextBtn.disabled = false; /* TEMP_BYPASS: was !q1State.allCorrect */ break;
+    case 2: nextBtn.disabled = false; /* TEMP_BYPASS: was !q2State.completed */ break;
+    case 3: nextBtn.disabled = false; /* TEMP_BYPASS: was !q3State.completed */ break;
+  }
+}
+
+function updateProgressBar() {
+  let pct = 0;
+  switch (currentSlide) {
+    case 1: pct = q1State.allCorrect ? 33 : 15; break;
+    case 2: pct = q2State.completed ? 66 : 50; break;
+    case 3: pct = q3State.completed ? 100 : 80; break;
+  }
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NO-PERSISTENCE GUARANTEE
+═══════════════════════════════════════════════════════════════ */
+function resetActivityInputs() {
+  document.querySelectorAll('textarea').forEach(t => {
+    t.value = '';
+    t.disabled = false;
+    t.classList.remove('state-filled', 'is-correct', 'is-wrong');
+  });
+  document.querySelectorAll('input[type="text"]').forEach(i => {
+    i.value = '';
+    i.disabled = false;
+    i.classList.remove('state-filled', 'is-correct', 'is-wrong');
+  });
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(c => {
+    c.checked = false;
+    c.disabled = false;
+  });
+}
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) window.location.reload();
+});
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+resetActivityInputs();
+initQ1();
+buildQ2Sentence();
+buildQ3Table();
+updateNavButtons();
+updateProgressBar();
+
+
+</script>
+</body>
+</html>

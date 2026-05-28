@@ -1,0 +1,4608 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اللازمُ والمتعدّي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — مَنقولةٌ من القالبِ كما هي
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-secondary-hover:  #f2d489;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-olive-hover:      #9c9d3a;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --audio-btn-size:         44px;
+  --audio-btn-radius:       11px;
+  --audio-btn-icon-size:    19px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 4px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 4px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 4px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 4px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL + HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+  overflow: hidden;
+}
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW (مَخفيٌّ في الشّرائحِ الّتي تَحوي بطاقتها الخاصّةَ)
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE VISIBILITY
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin: 12px 14px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.q-card-title {
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+.q-card-verse {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 10px 0 14px;
+  font-size: 21px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  display: none;
+  margin: 18px auto 4px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  max-width: 700px;
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.7;
+  text-align: center;
+  transition: opacity 0.3s ease;
+}
+.q-feedback.show-correct,
+.q-feedback.show-wrong,
+.q-feedback.show-info {
+  display: block;
+}
+.q-feedback i {
+  display: inline;
+  font-size: 20px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.q-feedback.show-correct {
+  background: linear-gradient(135deg, #f2f8e6 0%, #e9f3d5 100%);
+  border: 1.5px solid var(--color-success);
+  color: #3d5a14;
+}
+.q-feedback.show-correct i { color: var(--color-success); }
+.q-feedback.show-wrong {
+  display: block;
+  background: linear-gradient(135deg, #fdecea 0%, #fad5d0 100%);
+  border: 1.5px solid var(--color-error);
+  color: var(--color-error);
+}
+.q-feedback.show-wrong i { color: var(--color-error); }
+.q-feedback.show-info {
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  color: var(--color-ink);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAGE REVEAL — animation primitive
+═══════════════════════════════════════════════════════════════ */
+.stage-reveal {
+  display: none;
+}
+.stage-reveal.revealed {
+  display: block;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  60%  { transform: translateY(0) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DECOMPOSE GRID (Slides 1 & 2) — فعل / فاعل / مفعول به
+═══════════════════════════════════════════════════════════════ */
+.decompose-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 16px 0;
+}
+.decompose-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.decompose-label {
+  background: var(--color-primary);
+  color: #fff;
+  text-align: center;
+  padding: 9px 14px;
+  border-radius: 10px;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.18);
+}
+.decompose-slot {
+  background: #fff;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 12px;
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-sand);
+  font-size: 15px;
+  padding: 12px;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.decompose-slot.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.decompose-slot.filled {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: #4d6618;
+  /* تعبئةٌ سلسةٌ (الحدودُ/الخلفيّةُ عبرَ transition) + هالةٌ خضراءُ ناعمةٌ تَنبضُ
+     مرّةً واحدةً لحظةَ الإيداعِ الصّحيحِ — مؤثّرٌ خفيفٌ غيرُ مبالَغٍ فيه. */
+  animation: slotFill 0.6s ease-out;
+}
+@keyframes slotFill {
+  0%   { box-shadow: 0 0 0 0 rgba(107, 139, 31, 0); }
+  40%  { box-shadow: 0 0 0 7px rgba(107, 139, 31, 0.18); }
+  100% { box-shadow: 0 0 0 0 rgba(107, 139, 31, 0); }
+}
+.decompose-slot-text {
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  color: #4d6618;
+  /* الكلمةُ المُودَعةُ تَدخُلُ مكانَها بانسيابٍ هادئٍ */
+  animation: slotWordIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes slotWordIn {
+  0%   { opacity: 0; transform: translateY(7px) scale(0.85); }
+  60%  { opacity: 1; transform: translateY(0) scale(1.06); }
+  100% { transform: translateY(0) scale(1); }
+}
+.decompose-placeholder {
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-sand);
+  pointer-events: none;
+}
+
+/* خانةُ مفعولٍ بهِ المخصوصةُ في النّشاطِ الثّاني — أيقونةُ التّعجّبِ
+   الرّسميّةِ في المشروعِ تُلْمِحُ للطّالبِ أنّ شيئًا ما غيرُ معتادٍ
+   في هذه الجملةِ، إلى أن يَكتشِفَ غيابَ المفعولِ به. */
+.decompose-slot.no-obj-pending {
+  border-style: dashed;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  padding: 8px;
+}
+.no-obj-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(132, 72, 22, 0.18));
+}
+.decompose-slot.no-obj-revealed {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: #4d6618;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: normal;
+  animation: chipPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* الجملةُ نفسُها مصدرُ السّحبِ (للنّشاطِ الأوّلِ) — كلُّ كلمةٍ span
+   قابلٌ للسّحبِ مباشرةً. مَظهرٌ طبيعيٌّ سطريٌّ (لا بطاقاتٌ تحتَ الجملةِ).
+   نفسُ لغةِ التّفاعلِ المُستخدمَةِ في النّشاطِ الثّاني من lesson-2-activity-3. */
+.q-card-verse.extract-sentence {
+  text-align: center;
+  line-height: 2.5;
+  padding: 16px 22px;
+}
+.q-card-verse.extract-sentence .word {
+  display: inline-block;
+  padding: 3px 10px;
+  margin: 0 4px;
+  border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: none;
+}
+.q-card-verse.extract-sentence .word:not(.placed):hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.16);
+}
+.q-card-verse.extract-sentence .word.selected {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-secondary);
+}
+.q-card-verse.extract-sentence .word.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+.q-card-verse.extract-sentence .word.placed {
+  background: var(--color-primary-light);
+  color: var(--color-light-border);
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.q-card-verse.extract-sentence .word.chip-shake {
+  animation: chipShake 0.5s;
+}
+/* تَلْميحٌ تَعليميٌّ هادئٌ — كلمةٌ واحدةٌ فقط تَتذبذبُ بحركةٍ خفيفةٍ
+   مع تمييزٍ بصريٍّ ناعمٍ (خلفيّةٌ ثانويّةٌ + هالةٌ خفيفةٌ) لإلماحِ
+   الطّالبِ أنّ الكلماتِ قابلةٌ للسّحبِ. الحركةُ مستمرّةٌ بشكلٍ خفيفٍ
+   إلى أن يَتفاعلَ الطّالبُ أو حتّى ٣٠ ثانيةً كحدٍّ أقصى — JS يُديرُ
+   التّوقيتَ والإيقافَ. */
+@keyframes onboardingHint {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+.q-card-verse.extract-sentence .word.hint-me {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.45);
+  animation: onboardingHint 1.6s ease-in-out infinite;
+}
+.q-card-verse.extract-sentence .word.hint-me:hover,
+.q-card-verse.extract-sentence .word.hint-me.placed,
+.q-card-verse.extract-sentence .word.hint-me.dragging,
+.q-card-verse.extract-sentence .word.hint-me.selected {
+  animation: none;
+}
+
+/* بنكُ كلماتِ الجملةِ — قابلةٌ للسّحبِ */
+.decompose-bank {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin: 14px 16px 0;
+  padding: 16px 18px;
+  background: var(--color-paper);
+  border: 2px dashed var(--color-secondary);
+  border-radius: 14px;
+  min-height: 70px;
+}
+.decompose-word {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  display: inline-flex;
+  align-items: center;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.08);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  line-height: var(--line-height-normal);
+}
+.decompose-word:not(.placed):hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.14);
+}
+.decompose-word.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40);
+  transform: translateY(-2px);
+}
+.decompose-word.dragging { opacity: 0.4; cursor: grabbing; }
+.decompose-word.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.55;
+}
+.decompose-word.chip-shake { animation: chipShake 0.5s; }
+/* نفسُ التّلميحِ التّعليميِّ المطبَّقُ على كلماتِ الجملةِ في النّشاطِ
+   الأوّلِ — نُحافظُ على ثَباتِ تَجربةِ المستخدمِ. */
+.decompose-word.hint-me {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40), 0 2px 6px rgba(132, 72, 22, 0.10);
+  animation: onboardingHint 1.6s ease-in-out infinite;
+}
+.decompose-word.hint-me:hover,
+.decompose-word.hint-me.placed,
+.decompose-word.hint-me.dragging,
+.decompose-word.hint-me.selected {
+  animation: none;
+}
+
+/* نصُّ الاكتشافِ في النّشاطِ الثّاني — يَظهرُ تدريجيًّا */
+.discovery-text {
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  border: 2px solid var(--color-secondary);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — الجملُ الأربعُ + استخراجُ المفعولِ به (سحبُ كلمةٍ من الجملةِ
+   نفسِها إلى خانةٍ خاصّةٍ بها، أو ضغطُ زرّ "لا يوجد")
+═══════════════════════════════════════════════════════════════ */
+.q3-sentences {
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.q3-row {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 12px;
+  align-items: start;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.q3-row.row-done {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.06);
+}
+.q3-row-num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+.q3-row-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.q3-sentence {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 2.4;
+  margin: 0 0 4px;
+  text-align: right;
+}
+.q3-word {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 0 1px;
+  border-radius: 6px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: none;
+}
+.q3-word:not(.placed):hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.14);
+}
+.q3-word.selected {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-secondary);
+}
+.q3-word.dragging { opacity: 0.4; cursor: grabbing; }
+.q3-word.placed {
+  background: var(--color-primary-light);
+  color: var(--color-light-border);
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.55;
+}
+.q3-word.chip-shake { animation: chipShake 0.5s; }
+.q3-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding-top: 4px;
+}
+.q3-slot {
+  flex: 1;
+  min-width: 140px;
+  min-height: 44px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  font-size: 15px;
+  color: var(--color-sand);
+  padding: 6px 12px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.q3-slot.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.q3-slot.filled {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.q3-extracted {
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: #4d6618;
+}
+.q3-extracted.noobj {
+  font-style: italic;
+  font-size: 17px;
+}
+.q3-noobj-btn {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-shadow);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 0 var(--color-light-border);
+  white-space: nowrap;
+}
+.q3-noobj-btn:hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--color-light-border);
+}
+.q3-noobj-btn:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--color-light-border); }
+.q3-noobj-btn.picked-correct {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.q3-noobj-btn.picked-wrong {
+  background: #fbeeea;
+  border-color: var(--color-error);
+  color: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+  animation: chipShake 0.5s;
+}
+.q3-noobj-btn.disabled {
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   صفحةُ الخلاصةِ التّصويريّةِ — مقارنةُ الفعلِ اللازمِ والمتعدّي
+   تَخطيطٌ تَعليميٌّ ذو بطاقةٍ علويّةٍ + فرعينِ متوازيينِ تَحتها،
+   متّسقٌ مع لغةِ التّصميمِ المُستخدمةِ في باقي المشروعِ.
+═══════════════════════════════════════════════════════════════ */
+.concept-summary-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  border: 2px solid var(--color-secondary);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin: 18px 16px 0;
+  font-size: 19px;
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  text-align: right;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+}
+.concept-summary-content {
+  min-width: 0;
+}
+.concept-summary-content strong {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* الفروعُ المتشعّبةُ من بطاقةِ الخلاصةِ إلى البطاقتينِ — خطوطٌ
+   بأسهمٍ بنفسِ لغةِ شجرةِ المفاهيمِ المعتمَدةِ في المشروعِ. */
+.concept-tree-summary {
+  position: relative;
+  height: 56px;
+  margin: 0 16px;
+}
+.concept-tree-summary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 20px;
+  background: var(--color-primary);
+}
+.concept-tree-summary::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: var(--color-primary);
+}
+.concept-tree-summary-left,
+.concept-tree-summary-right {
+  position: absolute;
+  top: 20px;
+  width: 3px;
+  height: 32px;
+  background: var(--color-primary);
+}
+.concept-tree-summary-left { left: 25%; transform: translateX(-50%); }
+.concept-tree-summary-right { left: 75%; transform: translateX(-50%); }
+.concept-tree-summary-left::after,
+.concept-tree-summary-right::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 10px solid var(--color-primary);
+}
+
+/* البطاقتانِ المتوازيتانِ */
+.concept-branches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0 16px;
+}
+.concept-branch {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 14px 16px 16px;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.concept-branch.lazem { border-color: var(--color-olive); box-shadow: 0 4px 16px rgba(128, 129, 34, 0.15); }
+.concept-branch-title {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.20);
+}
+.concept-branch.lazem .concept-branch-title {
+  background: var(--color-olive);
+  box-shadow: 0 2px 4px rgba(128, 129, 34, 0.25);
+}
+.concept-branch-desc {
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: center;
+  padding: 0 4px;
+}
+.concept-branch-example {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 4px;
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+}
+.concept-branch-example-label {
+  display: inline-block;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+.concept-branch-example-text {
+  display: inline-block;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — "ضعْ دائرة" MCQ تدريجيٌّ: سؤالٌ واحدٌ في كلِّ لحظةٍ، ٤ خياراتٍ
+   (٣ من ألفاظِ الجملةِ + خيارُ "لا يوجد"). عندَ الإجابةِ الصّحيحةِ،
+   يَنكشِفُ السّؤالُ التّالي تَدريجيًّا. نَستخدمُ نظامَ MCQ الرّسميَّ
+   في المشروعِ (.mcq-options / .mcq-option-label / correct-option / إلخ).
+═══════════════════════════════════════════════════════════════ */
+.q3-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 14px 16px 0;
+}
+/* بطاقةُ السّؤالِ — تَتبعُ نمطَ .q-card الرّسميِّ في القالبِ ومرجعيّةِ
+   "ضع دائرة" من listening-and-questions-reference. */
+.q3-question {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.q3-question.correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
+}
+.q3-question.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+.q3-question .q-card-verse {
+  margin: 0 0 14px;
+}
+/* تدفُّقٌ تدريجيٌّ مُركَّزٌ (Duolingo): السّؤالُ المحلولُ يُخفى كليًّا فورًا،
+   والتّالي يَنكشِفُ. في النّهايةِ تُجمَعُ كلُّ الأسئلةِ المحلولةِ كمراجعةٍ
+   بكشفٍ متتابعٍ سلسٍ (يُعيدُ استخدامَ chipPopIn القائمةَ). */
+.q3-question.is-collapsed { display: none; }
+.q3-question.is-revealing { animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.q3-inline-feedback {
+  display: none;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.6;
+  text-align: center;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.q3-inline-feedback.show-correct {
+  display: block;
+  background: linear-gradient(135deg, #f2f8e6 0%, #e9f3d5 100%);
+  border: 1.5px solid var(--color-success);
+  color: #3d5a14;
+}
+.q3-inline-feedback.show-correct i {
+  font-size: 18px;
+  margin-left: 6px;
+  color: var(--color-success);
+  vertical-align: middle;
+}
+
+/* ─── السّؤالُ — جدولُ القوائمِ المنسدلةِ (مَنقولٌ من الاختبارِ التّشخيصيّ) ─── */
+
+.dropdown-tables-wrap {
+  margin: 14px 16px 0;
+}
+.dropdown-sentence-card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  animation: fadeIn 0.4s ease;
+}
+.dropdown-sentence-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+.dropdown-sentence-num {
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 100px;
+  padding: 5px 16px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.dropdown-sentence-text {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+.dropdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  margin-bottom: 16px;
+}
+.dropdown-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 8px;
+  border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
+}
+.dropdown-row {
+  transition: background 0.3s ease;
+}
+.dropdown-row td {
+  padding: 10px;
+  border: 1.5px solid var(--color-sand);
+  text-align: center;
+  vertical-align: middle;
+}
+.dropdown-word-cell {
+  background: var(--color-secondary-light);
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
+}
+.dropdown-select-cell {
+  background: #fff;
+  padding: 12px !important;
+}
+
+/* ═══ Custom Dropdown ═══ */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  font-family: var(--font-family);
+}
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.custom-dropdown.is-open .custom-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.custom-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+}
+.custom-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.custom-dropdown.is-open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.custom-dropdown.is-open .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.custom-dropdown-option {
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.custom-dropdown-option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.custom-dropdown-option:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.custom-dropdown-option:only-child {
+  border-radius: 8px;
+}
+.custom-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.custom-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.custom-dropdown.is-disabled .custom-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ═══ حالات الصف (تطبق على trigger الـ dropdown) ═══ */
+.dropdown-row.correct-row {
+  background: #f3f7e3;
+}
+.dropdown-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.dropdown-row.correct-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+.dropdown-row.wrong-row {
+  background: #fbeeea;
+}
+.dropdown-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.dropdown-row.wrong-row .custom-dropdown-arrow {
+  color: var(--color-error);
+}
+@keyframes dropdownShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.dropdown-row.revealed-row {
+  background: #f3f7e3;
+}
+.dropdown-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.dropdown-row.revealed-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+
+.dropdown-sentence-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 2px dashed var(--color-primary-light);
+}
+.dropdown-sentence-nav .btn-action {
+  min-width: 0;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  font-size: 20px;
+  border-radius: 50%;
+}
+.dropdown-sentence-nav .btn-action i {
+  font-size: 18px;
+}
+.dropdown-sentence-nav > div:empty {
+  flex: 1;
+}
+.btn-sentence-next:not(:disabled) {
+  animation: nextBtnPulse 2s ease-in-out infinite;
+}
+@keyframes nextBtnPulse {
+  0%, 100% { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.35); }
+  50%      { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 12px rgba(132, 72, 22, 0); }
+}
+
+@media (max-width: 700px) {
+  .dropdown-sentence-card { padding: 14px; }
+  .dropdown-sentence-text { font-size: 21px; }
+  .dropdown-table thead th { font-size: 16px; padding: 10px 6px; }
+  .dropdown-word-cell { font-size: 17px; }
+  .custom-dropdown { max-width: 200px; }
+  .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+  .dropdown-sentence-nav .btn-action { width: 46px; height: 46px; font-size: 18px; }
+  .dropdown-sentence-nav .btn-action i { font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
+  .dropdown-sentence-card { padding: 12px; }
+  .dropdown-sentence-text { font-size: 19px; }
+  .dropdown-sentence-num { font-size: 13px; padding: 4px 12px; }
+  .dropdown-table thead th { font-size: 14px; padding: 9px 4px; }
+  .dropdown-word-cell { font-size: 16px; padding: 9px 6px; }
+  .dropdown-select-cell { padding: 8px !important; }
+  .custom-dropdown { max-width: 100%; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+  .dropdown-sentence-nav { gap: 8px; }
+  .dropdown-sentence-nav .btn-action { width: 44px; height: 44px; font-size: 16px; flex: 0 0 auto; padding: 0; gap: 0; }
+  .dropdown-sentence-nav .btn-action i { font-size: 15px; }
+}
+
+/* MCQ نظامُ "ضعْ دائرة" الرّسميُّ في المشروعِ — مَنقولٌ من
+   lesson-2-activity-1.html بنفسِ المظهرِ والسّلوكِ. */
+.mcq-options {
+  display: grid;
+  gap: 10px;
+}
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text {
+  color: var(--color-error);
+}
+.mcq-option-label.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — كودٌ سابقٌ متروكٌ كميراثٍ (غيرُ مُستدعَى)
+═══════════════════════════════════════════════════════════════ */
+.q3-word-pickable {
+  display: inline-block;
+  padding: 3px 10px;
+  margin: 0 1px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.q3-word-pickable:not(.locked):hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+.q3-word-pickable.picked-correct {
+  background: rgba(107, 139, 31, 0.15);
+  color: #4d6618;
+  border-color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20);
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+}
+.q3-word-pickable.picked-wrong {
+  background: #fbeeea;
+  color: var(--color-error);
+  border-color: var(--color-error);
+  animation: chipShake 0.5s;
+}
+.q3-word-pickable.revealed {
+  background: rgba(107, 139, 31, 0.15);
+  color: #4d6618;
+  border-color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20);
+  animation: chipPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+}
+.q3-word-pickable.locked { pointer-events: none; }
+.q3-punct {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.q3-noobj-btn.revealed {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  color: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — كتابةُ الإجابةِ (writing input) — كودٌ متروكٌ كميراثٍ
+═══════════════════════════════════════════════════════════════ */
+.q3-write-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+.q3-write-label {
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-shadow);
+  flex-shrink: 0;
+}
+.q3-write-input {
+  flex: 1;
+  min-width: 150px;
+  font-family: var(--font-family);
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  padding: 8px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-ink);
+  text-align: right;
+  direction: rtl;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.q3-write-input::placeholder {
+  color: var(--color-sand);
+  font-weight: var(--font-weight-semibold);
+}
+.q3-write-input:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.22);
+  background: #fffaf3;
+}
+.q3-write-input.wrong {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  animation: chipShake 0.5s;
+}
+.q3-write-input.correct {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: #4d6618;
+  font-weight: var(--font-weight-extrabold);
+  pointer-events: none;
+}
+.q3-write-check {
+  background: var(--color-olive);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 9px 18px;
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--color-olive-shadow);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+.q3-write-check:hover { background: var(--color-olive-hover); }
+.q3-write-check:active { transform: translateY(1px); box-shadow: 0 2px 0 var(--color-olive-shadow); }
+.q3-write-check.disabled {
+  background: #c0c19a;
+  box-shadow: 0 3px 0 #989a78;
+  cursor: not-allowed;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* بطاقةُ "الإجابة النموذجية" تَظهرُ بَعدَ صحّةِ أو كشفِ الإجابةِ */
+.q3-model-reveal {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 6px 12px;
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 8px;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.q3-model-reveal.show { display: inline-flex; }
+.q3-model-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.q3-model-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+.q3-model-text {
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   فائدةٌ لغويّةٌ — بطاقةُ الخلاصةِ (نفسُ نمطِ "القاعدة" من lesson-2-activity-3)
+═══════════════════════════════════════════════════════════════ */
+.final-rule {
+  align-items: flex-start;
+  gap: 14px;
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  padding: 18px 22px;
+  width: calc(100% - 32px);
+  margin: 30px 16px 0;
+  box-sizing: border-box;
+}
+.final-rule.stage-reveal.revealed {
+  display: flex;
+}
+.final-rule-text {
+  flex: 1;
+  margin: 0;
+  font-size: 18px;
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-semibold);
+  text-align: right;
+}
+.final-rule-text strong {
+  display: block;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 22px;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE CONTROLS + NAV BAR
+═══════════════════════════════════════════════════════════════ */
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 16px 0;
+  flex-wrap: wrap;
+}
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen { display: none; width: 100%; }
+.success-screen.show { display: block; animation: fadeIn 0.6s ease; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 34px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart { margin-top: 28px; }
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(320px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .q-feedback, .decompose-grid, .decompose-bank,
+  .q3-sentences, .final-rule {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 24px !important; }
+
+  .q-card-verse { font-size: 19px; padding: 12px 16px; }
+  .q-card-verse.extract-sentence { line-height: 2.2; padding: 14px 16px; }
+  .q-card-verse.extract-sentence .word { padding: 2px 8px; margin: 0 3px; }
+
+  .decompose-label { font-size: 16px; padding: 8px 12px; }
+  .decompose-slot { min-height: 60px; }
+  .decompose-slot-text { font-size: 18px; }
+  .no-obj-icon { width: 42px; height: 42px; }
+  .decompose-word { font-size: 18px; padding: 7px 14px; }
+
+  .q3-sentence { font-size: 18px; line-height: 2; }
+  .q3-extracted { font-size: 17px; }
+  .q3-noobj-btn { font-size: 15px; padding: 7px 14px; }
+  .q3-row { padding: 12px 14px; grid-template-columns: 30px 1fr; }
+  .q3-row-num { width: 26px; height: 26px; font-size: 14px; }
+
+  .final-rule-text { font-size: 17px; }
+  .final-rule-text strong { font-size: 20px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+}
+
+@media (max-width: 540px) {
+  .decompose-grid { grid-template-columns: 1fr; gap: 8px; }
+  .decompose-cell { flex-direction: row; align-items: stretch; gap: 10px; }
+  .decompose-label { flex: 0 0 110px; display: flex; align-items: center; justify-content: center; }
+  .decompose-slot { flex: 1; min-height: 50px; }
+  .no-obj-icon { width: 36px; height: 36px; }
+  .q3-row-actions { flex-direction: column; align-items: stretch; }
+  .q3-noobj-btn { width: 100%; }
+
+  /* صفحةُ الخلاصةِ التّصويريّةِ — تَبقى مقارنةً جنبًا إلى جنبٍ (لازم/متعدّي)
+     مع تَصغيرٍ متناسبٍ للخطِّ والحشوِ والفجواتِ؛ تُحفظُ الأسهمُ والوصلاتُ
+     ظاهرةً ومتناسقةً (نِسَبُها المئويّةُ تَتكيّفُ تلقائيًّا مع العمودينِ). */
+  .concept-summary-card { font-size: 16px; padding: 13px 15px; gap: 12px; margin: 16px 10px 0; }
+  .concept-tree-summary, .concept-branches { margin-left: 10px; margin-right: 10px; }
+  .concept-tree-summary { height: 48px; }
+  .concept-tree-summary-left, .concept-tree-summary-right { height: 26px; }
+  .concept-branches { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .concept-branch { padding: 11px 10px 13px; gap: 8px; }
+  .concept-branch-title { font-size: 15px; padding: 6px 8px; letter-spacing: 0; }
+  .concept-branch-desc { font-size: 14px; line-height: 1.6; padding: 0; }
+  .concept-branch-example-label { font-size: 13px; }
+  .concept-branch-example { font-size: 14px; padding: 8px 10px; line-height: 1.7; }
+
+  /* Q3 — حقولُ الكتابةِ */
+  .q3-write-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .q3-write-input, .q3-write-check { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 20px !important; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .q-card-verse { font-size: 18px; padding: 11px 14px; }
+  .q-card-verse.extract-sentence { line-height: 2; padding: 12px 14px; }
+  .q-card-verse.extract-sentence .word { padding: 2px 6px; margin: 0 2px; }
+  .no-obj-icon { width: 34px; height: 34px; }
+  .decompose-word { font-size: 17px; padding: 6px 12px; }
+  .q3-sentence { font-size: 17px; line-height: 1.95; }
+  .final-rule { padding: 14px 16px; }
+  .final-rule-text { font-size: 16px; }
+  .final-rule-text strong { font-size: 19px; }
+
+  /* الخلاصةُ التّصويريّةُ على الشّاشاتِ الضّيّقةِ جدًّا — تَبقى عمودينِ
+     متجاورينِ بِحشوٍ وفجواتٍ أصغرَ، دونَ تجاوزٍ أفقيٍّ. */
+  .concept-summary-card { font-size: 15px; padding: 11px 12px; gap: 10px; }
+  .concept-tree-summary, .concept-branches { margin-left: 8px; margin-right: 8px; }
+  .concept-tree-summary { height: 44px; }
+  .concept-tree-summary-left, .concept-tree-summary-right { height: 22px; }
+  .concept-branches { gap: 6px; }
+  .concept-branch { padding: 9px 8px 11px; gap: 7px; border-radius: 12px; }
+  .concept-branch-title { font-size: 13.5px; padding: 5px 6px; }
+  .concept-branch-desc { font-size: 13px; line-height: 1.55; }
+  .concept-branch-example-label { font-size: 12px; }
+  .concept-branch-example { font-size: 12.5px; padding: 7px 8px; line-height: 1.65; }
+
+  .complete-wrap { padding: 36px 18px 50px; }
+  .trophy-img { width: 180px; height: 180px; }
+  .trophy-glow { width: 260px; height: 260px; }
+  .complete-title { font-size: 26px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+}
+
+@media (hover: none) {
+  .decompose-word:not(.placed):hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+    background: #fff;
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.05s !important;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   استجابة كاملة للموبايل (Mobile Responsive)
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* العام */
+  body { padding: 0; }
+
+  /* بطاقة السؤال */
+  .q-card {
+    margin: 10px 8px 0;
+    padding: 12px;
+    border-radius: 14px;
+  }
+  .q-card-header { gap: 8px; margin-bottom: 8px; }
+  .q-card-title {
+    font-size: 21px !important;
+    line-height: 1.6 !important;
+  }
+  .audio-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
+  /* جدول الـ dropdown */
+  .dropdown-tables-wrap { margin: 8px 0 0; padding: 0; }
+  .dropdown-sentence-card {
+    margin: 0 0 10px;
+    padding: 12px 10px;
+    border-radius: 12px;
+  }
+  .dropdown-sentence-text {
+    font-size: 16px !important;
+    line-height: 1.7;
+    text-align: center;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .dropdown-table { width: 100%; table-layout: fixed; }
+  .dropdown-table th {
+    font-size: 12px !important;
+    padding: 6px 4px;
+  }
+  .dropdown-table td {
+    padding: 6px 4px;
+    vertical-align: middle;
+  }
+  .dropdown-word-cell {
+    font-size: 15px !important;
+    line-height: 1.4;
+    word-break: keep-all;
+    padding: 6px 2px;
+  }
+  .dropdown-select-cell { padding: 4px 2px; }
+
+  /* القائمة المنسدلة */
+  .custom-dropdown { width: 100%; min-width: 0; }
+  .custom-dropdown-trigger {
+    font-size: 13px !important;
+    padding: 8px 10px;
+    min-height: 38px;
+  }
+  .custom-dropdown-value { font-size: 13px; }
+  .custom-dropdown-arrow { font-size: 11px; }
+  .custom-dropdown-menu { font-size: 13px; }
+  .custom-dropdown-option { font-size: 13px !important; padding: 9px 12px; }
+
+  /* أزرار التنقّل بين الجمل */
+  .dropdown-sentence-nav { margin-top: 10px; }
+  .btn-sentence-prev, .btn-sentence-next {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  /* الفيدباك */
+  .q-feedback {
+    margin: 12px 8px 4px;
+    padding: 11px 14px;
+    font-size: 15px !important;
+    line-height: 1.6;
+    border-radius: 10px;
+    max-width: none;
+    text-align: center;
+  }
+  .q-feedback i {
+    font-size: 17px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  .q3-inline-feedback {
+    font-size: 14px;
+    padding: 9px 12px;
+    margin-top: 10px;
+  }
+  .q3-inline-feedback i { font-size: 15px; margin-left: 5px; }
+}
+
+/* للشاشات الأصغر جداً (< 380px) */
+@media (max-width: 380px) {
+  .q-card { padding: 10px 8px; }
+  .q-card-title { font-size: 19px !important; line-height: 1.55 !important; }
+  .dropdown-sentence-text { font-size: 15px !important; }
+  .dropdown-word-cell { font-size: 14px !important; }
+  .custom-dropdown-trigger { font-size: 12px !important; padding: 7px 8px; }
+  .custom-dropdown-option { font-size: 12px !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MERGED FROM: تدريبات_على_اللازم_و_المتعدي.html
+═══════════════════════════════════════════════════════════════ */
+/* .t1-step uses display: grid — needs a higher-specificity override
+   so the stage-reveal hide/show still applies progressively. */
+.t1-step.stage-reveal { display: none; }
+
+.t1-step.stage-reveal.revealed {
+  display: grid;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   T1 — استخراجُ الفعلِ + تصنيفُهُ
+   كلُّ خطوةٍ تَعرضُ الجملةَ بكلماتٍ قابلةٍ للسّحبِ + خانةٌ للفعلِ
+   ثمَّ MCQ لتصنيفِ الفعلِ (لازم/متعد).
+═══════════════════════════════════════════════════════════════ */
+.t1-step {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.06);
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.t1-step.complete {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
+}
+
+.t1-step-num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  flex-shrink: 0;
+  margin-top: 2px;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.22);
+}
+
+.t1-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.t1-sentence {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 2.3;
+  margin: 0;
+  text-align: right;
+}
+
+.t1-word {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 0 1px;
+  border-radius: 6px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: none;
+}
+
+.t1-word:not(.placed):hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.14);
+}
+
+.t1-word.selected {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-secondary);
+}
+
+.t1-word.dragging { opacity: 0.4; cursor: grabbing; }
+
+.t1-word.placed {
+  background: var(--color-primary-light);
+  color: var(--color-light-border);
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.t1-word.chip-shake { animation: chipShake 0.5s; }
+
+.t1-word.hint-me {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.55);
+  animation: onboardingHint 1.6s ease-in-out infinite;
+}
+
+.t1-word.hint-me:hover,
+.t1-word.hint-me.placed,
+.t1-word.hint-me.dragging,
+.t1-word.hint-me.selected {
+  animation: none;
+}
+
+.t1-extract-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.t1-slot-label {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 10px;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.t1-slot {
+  flex: 1;
+  min-width: 150px;
+  min-height: 52px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 10px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  font-size: 16px;
+  color: var(--color-sand);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.t1-slot.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+
+.t1-slot.filled {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: #4d6618;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.t1-slot-text {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: #4d6618;
+}
+
+.t1-placeholder {
+  font-size: 14px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-sand);
+  pointer-events: none;
+}
+
+.t1-classify-prompt {
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-shadow);
+  margin: 4px 0 6px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   T2 — سلسلةُ أسئلةِ MCQ تَدريجيّةٍ (ضمّ الهاءَ)
+═══════════════════════════════════════════════════════════════ */
+.t2-questions {
+  margin: 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.t2-question {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.06);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.t2-question.correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
+}
+
+.t2-question.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+
+.t2-prompt {
+  font-size: 24px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin: 0 0 18px;
+  padding: 6px 12px 10px;
+  line-height: 1.9;
+  letter-spacing: 0.3px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+
+/* فيدباك داخل بطاقةِ السّؤالِ الثّاني */
+.t2-inline-feedback {
+  display: none;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.6;
+  text-align: center;
+  background: linear-gradient(135deg, #f2f8e6 0%, #e9f3d5 100%);
+  border: 1.5px solid var(--color-success);
+  color: #3d5a14;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity 0.4s ease;
+}
+
+.t2-inline-feedback.show-correct {
+  display: block;
+}
+
+.t2-inline-feedback.show-wrong {
+  display: block;
+  background: linear-gradient(135deg, #fdecea 0%, #fad5d0 100%);
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+.t2-inline-feedback i {
+  font-size: 17px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.t2-inline-feedback.show-correct i { color: var(--color-success); }
+
+.t2-inline-feedback.show-wrong i { color: var(--color-error); }
+
+/* ═══════════════════════════════════════════════════════════════
+   WRITING SYSTEM — q7-* المنظومةُ الرّسميّةُ مع modal
+   "إجابتك / الإجابة النموذجية"
+═══════════════════════════════════════════════════════════════ */
+.q7-pairs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 16px auto 0;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 4px;
+  box-sizing: border-box;
+}
+
+.q7-pair {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.q7-pair-label {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.q7-pair-label .label-num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.q7-textarea {
+  width: 100%;
+  min-height: 120px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  background: #fff;
+  line-height: var(--line-height-relaxed);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  display: block;
+  text-align: right;
+  direction: rtl;
+  box-sizing: border-box;
+}
+
+.q7-textarea::placeholder {
+  color: var(--color-light-border);
+  font-weight: var(--font-weight-semibold);
+}
+
+.q7-textarea:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.22);
+  background: #fffaf0;
+}
+
+.q7-textarea.state-filled {
+  border-color: var(--color-primary);
+  background: #fff;
+}
+
+.q7-textarea:disabled {
+  background: var(--color-primary-light);
+  color: var(--color-ink);
+  opacity: 0.85;
+}
+
+/* زرُّ "اطّلعْ على الإجابةِ النّموذجيّةِ" */
+.q7-show-answer-btn {
+  margin-top: 14px;
+  align-self: center;
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: var(--font-weight-extrabold) !important;
+  padding: 10px 18px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 5px 0 var(--color-primary-shadow) !important;
+  min-width: 140px !important;
+  border: none !important;
+  animation: showAnswerAttract 2.4s ease-in-out infinite;
+}
+.q7-show-answer-btn:hover {
+  background: var(--color-primary-hover) !important;
+}
+.q7-show-answer-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--color-primary-shadow) !important;
+}
+.q7-show-answer-btn i {
+  margin-left: 4px;
+  font-size: 15px;
+}
+.q7-show-answer-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+@keyframes showAnswerAttract {
+  0%, 100% { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.30); }
+  50%      { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 10px rgba(132, 72, 22, 0); }
+}
+
+/* المودالُ النّموذجيُّ — fullscreen overlay */
+.q7-answer-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(58, 36, 16, 0.65);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  gap: 0;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.q7-answer-wrap[style*="flex"] { display: flex !important; }
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.q7-answer-modal {
+  background: #fffdf8;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 18px 18px 20px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-sizing: border-box;
+  /* RTL: flip the scroll container to LTR so the scrollbar sits on the RIGHT;
+     content is restored to RTL below */
+  direction: ltr;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-primary-light);
+}
+
+/* Steps container — only one step visible at a time */
+.q7-modal-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.q7-modal-step {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.q7-modal-step.active {
+  display: flex;
+  animation: stepFadeIn 0.4s ease;
+}
+
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Step indicator dots */
+.q7-modal-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.q7-modal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  transition: all 0.3s ease;
+}
+
+.q7-modal-dot.active {
+  background: var(--color-primary);
+  transform: scale(1.3);
+}
+
+/* أزرارُ التّنقّلِ بينَ الإجاباتِ — سهمانِ بسيطانِ */
+.q7-modal-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 0 4px;
+}
+
+.q7-modal-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.q7-modal-arrow:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.q7-modal-arrow:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+
+.q7-modal-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.q7-modal-arrow i {
+  font-size: 13px;
+}
+
+.q7-answer-modal > * { direction: rtl; }
+
+.q7-answer-modal::-webkit-scrollbar { width: 9px; }
+
+.q7-answer-modal::-webkit-scrollbar-track {
+  background: var(--color-primary-light);
+  border-radius: 999px;
+  margin: 6px 0;
+}
+
+.q7-answer-modal::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--color-secondary), var(--color-primary));
+  border: 2px solid var(--color-primary-light);
+  border-radius: 999px;
+}
+
+.q7-answer-modal::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--color-secondary-shadow), var(--color-primary-shadow));
+}
+
+.q7-modal-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+
+.q7-modal-close:hover {
+  background: var(--color-error);
+  transform: scale(1.08) rotate(90deg);
+  box-shadow: 0 3px 0 #7d2f1d;
+}
+
+.q7-modal-close:active {
+  transform: scale(0.95) rotate(90deg);
+  box-shadow: 0 1px 0 var(--color-primary-shadow);
+}
+
+.q7-modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 50px 12px;
+  border-bottom: 2px dashed var(--color-primary-light);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.q7-modal-audio {
+  flex-shrink: 0;
+}
+
+.q7-modal-title {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: right;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.q7-answer-section {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  flex-shrink: 0;
+}
+.q7-answer-section.suggested {
+  border: 2px solid var(--color-primary);
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  position: relative;
+}
+.q7-answer-label {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 8px 12px;
+  border-radius: 0;
+  box-shadow: none;
+  line-height: 1.3;
+  width: 100%;
+  max-width: 100%;
+  z-index: auto;
+  white-space: normal;
+  text-align: center;
+  border-bottom: 2px solid var(--color-secondary-shadow);
+  box-sizing: border-box;
+}
+.q7-answer-section.suggested .q7-answer-label {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-shadow) 100%);
+  color: #fff;
+  box-shadow: none;
+  border-bottom: 2px solid var(--color-primary-shadow);
+  letter-spacing: 0.5px;
+}
+.q7-answer-label img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  margin: 0;
+}
+.q7-answer-label i {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.q7-answer-section.suggested .q7-answer-label i {
+  color: var(--color-secondary);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+.q7-answer-text {
+  font-family: var(--font-family);
+  font-size: 16px;
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-bold);
+  padding: 12px 14px;
+  text-align: right;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  display: block;
+}
+.q7-answer-text:empty::before {
+  content: '— لمْ تكتبْ شيئًا —';
+  color: var(--color-sand);
+  font-style: italic;
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 700px) {
+  .task-instr-row, .q-feedback, .t1-steps,
+  .t2-questions, .q7-pairs-grid {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .t1-sentence { font-size: 18px; line-height: 2.2; }
+  .t1-slot-label { font-size: 15px; padding: 6px 12px; }
+  .t1-slot-text { font-size: 17px; }
+  .t2-prompt { font-size: 21px; }
+  .t2-question { padding: 18px 18px; }
+  .q7-textarea { font-size: 18px; min-height: 110px; }
+  .q7-answer-modal { padding: 14px; max-width: 100%; }
+  .q7-modal-title { font-size: 15px; }
+  .q7-answer-text { font-size: 14px; padding: 10px 12px; }
+  .q7-answer-section { border-radius: 10px; }
+  .q7-answer-label { font-size: 14px; padding: 6px 11px; gap: 6px; }
+  .q7-answer-label img { width: 17px; height: 17px; margin: 0; }
+  .q7-answer-wrap { gap: 16px; }
+}
+
+@media (max-width: 540px) {
+  
+  .t1-extract-row { flex-direction: column; align-items: stretch; }
+  .t1-slot-label { text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .t1-step { grid-template-columns: 36px 1fr; padding: 14px 16px; }
+  .t1-step-num { width: 34px; height: 34px; font-size: 18px; }
+  .t1-sentence { font-size: 17px; line-height: 2.1; }
+  .t2-prompt { font-size: 19px; }
+  .q7-textarea { font-size: 18px; min-height: 120px; padding: 12px; }
+  .q7-answer-section { border-radius: 10px; }
+  .q7-answer-label { font-size: 13px; padding: 5px 10px; gap: 6px; }
+  .q7-answer-label img { width: 15px; height: 15px; margin: 0; }
+  .q7-answer-text { font-size: 13px; padding: 9px 11px; }
+  .q7-answer-wrap { gap: 14px; }
+  .q7-show-answer-btn { font-size: 16px !important; padding: 10px 16px !important; min-width: 130px !important; }
+  .q7-show-answer-btn img { width: 20px; height: 20px; }
+  .q7-answer-modal { padding: 12px; border-width: 2px; }
+  .q7-modal-title { font-size: 14px; }
+  .q7-modal-arrow { width: 30px; height: 30px; }
+  .q7-modal-arrow i { font-size: 11px; }
+}
+
+@media (hover: none) {
+  
+  .t1-word:not(.placed):hover {
+    transform: none;
+    box-shadow: none;
+    background: transparent;
+    color: var(--color-ink);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   السّؤالُ الأوّلُ — جدولُ استخراجِ الأفعالِ وتصنيفِها
+═══════════════════════════════════════════ */
+.t1-table-wrap {
+  margin: 14px 0 0;
+}
+
+.t1-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  border: 2px solid var(--color-primary);
+  border-radius: 0;
+  background: #fff;
+}
+
+.t1-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 10px;
+  text-align: center;
+  border: 1.5px solid var(--color-primary-shadow);
+}
+
+.t1-row {
+  transition: opacity 0.4s ease, max-height 0.5s ease, background 0.3s ease;
+}
+
+.t1-row.is-hidden {
+  display: none;
+}
+
+.t1-row.is-revealing {
+  animation: t1RowSlideIn 0.5s ease;
+}
+
+@keyframes t1RowSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* الصّفُّ المكتملُ يَختفي حتّى نهايةِ النّشاطِ */
+.t1-row.is-collapsed,
+.t1-row-feedback-row.is-collapsed {
+  display: none;
+}
+
+/* عندَ المراجعةِ النّهائيّةِ — كشفٌ متتابعٌ سلسٌ */
+.t1-row.is-final-reveal {
+  animation: t1FinalReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes t1FinalReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.t1-row.row-done {
+  background: rgba(107, 139, 31, 0.06);
+}
+
+.t1-row td {
+  padding: 12px 10px;
+  border: 1.5px solid var(--color-sand);
+  vertical-align: middle;
+}
+
+.t1-sentence-cell {
+  background: var(--color-secondary-light);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 1.9;
+  text-align: right;
+  width: 50%;
+  padding: 14px 16px !important;
+}
+
+.t1-verb-cell {
+  background: #fff;
+  width: 25%;
+  padding: 10px !important;
+}
+
+.t1-type-cell {
+  background: #fff;
+  width: 25%;
+  padding: 10px !important;
+}
+
+/* حقلُ كتابةِ الفعلِ */
+.t1-verb-input {
+  width: 100%;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  padding: 9px 12px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-ink);
+  text-align: center;
+  direction: rtl;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.t1-verb-input::placeholder {
+  font-size: 16px;
+  color: var(--color-sand);
+  font-weight: var(--font-weight-semibold);
+}
+
+.t1-verb-input:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.22);
+}
+
+.t1-verb-input.wrong {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  animation: chipShake 0.5s;
+}
+
+.t1-verb-input.correct {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  pointer-events: none;
+}
+
+.t1-verb-input.revealed {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  pointer-events: none;
+}
+
+.t1-verb-check {
+  margin-top: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s ease;
+}
+
+.t1-verb-check:hover { background: var(--color-primary-hover); }
+
+.t1-verb-check.is-disabled {
+  background: #c0b09a;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* حالاتُ النّجاحِ/الخطأِ/الكشفِ لقائمةِ نوعِ الفعلِ في الجدولِ */
+.t1-type-dropdown.is-correct .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background-color: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.t1-type-dropdown.is-correct .custom-dropdown-arrow { color: var(--color-success); }
+
+.t1-type-dropdown.is-wrong .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background-color: #fbeeea;
+  color: var(--color-error);
+  animation: chipShake 0.5s;
+}
+
+.t1-type-dropdown.is-wrong .custom-dropdown-arrow { color: var(--color-error); }
+
+.t1-type-dropdown.is-revealed .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background-color: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+
+.t1-type-dropdown.is-revealed .custom-dropdown-arrow { color: var(--color-success); }
+
+/* فيدباك داخل الصف */
+.t1-row-feedback {
+  display: none;
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.55;
+  text-align: center;
+  background: linear-gradient(135deg, #f2f8e6 0%, #e9f3d5 100%);
+  border: 1.5px solid var(--color-success);
+  color: #3d5a14;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.t1-row-feedback.show { display: block; }
+
+.t1-row-feedback i {
+  font-size: 15px;
+  margin-left: 5px;
+  color: var(--color-success);
+  vertical-align: middle;
+}
+
+.t1-feedback-cell {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.t1-feedback-cell.has-feedback {
+  padding: 0 10px 12px !important;
+}
+
+/* استجابة للموبايل */
+@media (max-width: 768px) {
+  .t1-table-wrap { margin: 10px 6px 0; }
+  .t1-table thead th { font-size: 13px; padding: 9px 5px; }
+  .t1-table thead th:first-child { width: auto; }
+  .t1-row td { padding: 9px 6px; }
+  .t1-sentence-cell { font-size: 19px; line-height: 1.75; width: 45%; padding: 12px 10px !important; }
+  .t1-verb-cell, .t1-type-cell { width: auto; padding: 7px !important; }
+  .t1-verb-input { font-size: 15px; padding: 7px 8px; }
+  .t1-verb-input::placeholder { font-size: 14px; }
+  .t1-type-dropdown .custom-dropdown-trigger { font-size: 15px; padding: 8px 10px; }
+  .t1-verb-check { font-size: 13px; padding: 7px 10px; }
+  .t1-row-feedback { font-size: 13px; padding: 7px 10px; }
+}
+
+@media (max-width: 480px) {
+  
+  .t1-sentence-cell { font-size: 17px; line-height: 1.65; padding: 10px 8px !important; }
+  .t1-verb-input { font-size: 13px; }
+  .t1-type-dropdown .custom-dropdown-trigger { font-size: 12px; padding: 7px 8px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">اللازمُ والمتعدّي</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Instruction Row (مَخفيٌّ — كلُّ شريحةٍ تَحوي بطاقتها) ═══ -->
+    <div class="task-instr-row" id="instrRow" style="display:none;">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText"></p>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 1 — السّؤالُ الأوّلُ: استخراجُ المفعولِ به من ٤ جُملٍ -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+
+        <div class="q-card" id="qCard-q3">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الأوّلُ:</strong> أقرأُ الجملَ الفعليّةَ الآتيةَ وأستخرجُ منها المفعولَ بهِ.
+            </p>
+          </div>
+
+          <div class="q3-questions" id="q3Questions"></div>
+
+          <div class="q-feedback" id="fb-q3" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="2">
+
+        <div class="q-card" id="qCard-t1">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الأوّلُ:</strong> أستخرجُ من العباراتِ الآتيةِ الأفعالَ، وأصنّفها إلى لازمٍ ومتعدٍ، وفقَ الجدول:
+            </p>
+          </div>
+
+          <div class="t1-table-wrap" id="t1TableWrap"></div>
+
+          <div class="q-feedback" id="fb-t1"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 2 — السّؤالُ الثّاني                              -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="3">
+
+        <div class="q-card" id="qCard-t2">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّاني:</strong> أضيفُ الضّميرَ المتّصلَ (الهاء) على الأفعالِ الّتي يمكنُ أن تتصلَ به مما يأتي:
+            </p>
+          </div>
+
+          <div class="t2-questions" id="t2Questions"></div>
+
+          <div class="q-feedback" id="fb-t2" style="display:none;"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 3 — تَوظيفٌ كتابيٌّ (writing section)             -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="4">
+
+        <div class="q-card" id="qCard-t3">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّالثُ:</strong> أوظّفُ فعلًا لازمًا وفعلًا متعديًا من الأفعالِ السّابقةِ في جملةٍ من إنشائي.
+            </p>
+          </div>
+
+          <div class="q7-pairs-grid">
+
+            <div class="q7-pair">
+              <label class="q7-pair-label" for="ta-t3-1">
+                <span class="label-num">١</span>
+                <span>اكتبْ جملةً تستخدمُ فيها فعلًا لازمًا:</span>
+              </label>
+              <textarea class="q7-textarea" id="ta-t3-1" placeholder="اكتبْ جملتَكَ هنا..." oninput="updateT3Writing(this, 1)" autocomplete="off" spellcheck="false"></textarea>
+              <div class="q7-answer-wrap" id="answer-t3-1" style="display:none;"></div>
+            </div>
+
+            <div class="q7-pair">
+              <label class="q7-pair-label" for="ta-t3-2">
+                <span class="label-num">٢</span>
+                <span>اكتبْ جملةً تستخدمُ فيها فعلًا متعديًا:</span>
+              </label>
+              <textarea class="q7-textarea" id="ta-t3-2" placeholder="اكتبْ جملتَكَ هنا..." oninput="updateT3Writing(this, 2)" autocomplete="off" spellcheck="false"></textarea>
+              <div class="q7-answer-wrap" id="answer-t3-2" style="display:none;"></div>
+            </div>
+
+          </div>
+
+          <div class="q-feedback" id="fb-t3" style="margin:14px 0 0;"></div>
+
+          <div class="slide-controls" style="margin-top: 14px;">
+            <button class="btn-action btn-restart btn-sm" onclick="resetT3()">
+              <i class="fas fa-redo"></i> إعادةٌ
+            </button>
+            <button class="btn-action btn-check btn-sm" id="checkT3Btn" onclick="checkT3()">
+              <i class="fas fa-check"></i> تحقّقْ
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.slides-container -->
+
+    <!-- ═══ شاشةُ الإنهاءِ ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart" onclick="restartActivity()">
+            <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES — منقولةٌ من القالبِ
+═══════════════════════════════════════════════════════════════ */
+function toArabic(num) {
+  const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num.toString().split('').map(d => arabic[d] || d).join('');
+}
+function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+function isInZone(el, x, y) {
+  const r = el.getBoundingClientRect();
+  return x > r.left && x < r.right && y > r.top && y < r.bottom;
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GENERIC DRAG SUBSYSTEM — منقولٌ كما هو من القالبِ
+═══════════════════════════════════════════════════════════════ */
+function makeDragSystem(opts) {
+  const {
+    chipsSel, zoneSel,
+    isBlocked = () => false,
+    isChipPlaced = (c) => c.classList.contains('placed'),
+    isZoneFilled = () => false,
+    onAttempt,
+    hoveredClass = 'hovered',
+    cloneStyle = ''
+  } = opts;
+
+  let dragEl = null;
+  let touchClone = null;
+  let touchEl = null;
+  let touchHasMoved = false;
+  let touchStartX = 0, touchStartY = 0;
+  let selectedChip = null;
+
+  document.addEventListener('dragover', (e) => {
+    if (!dragEl) return;
+    const vh = window.innerHeight;
+    const edge = 80, speed = 12;
+    if (e.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+    else if (e.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+  });
+
+  function bindChip(chip) {
+    chip.addEventListener('click', () => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      document.querySelectorAll(chipsSel + '.selected').forEach(c => {
+        if (c !== chip) c.classList.remove('selected');
+      });
+      if (selectedChip === chip) {
+        chip.classList.remove('selected');
+        selectedChip = null;
+      } else {
+        chip.classList.add('selected');
+        selectedChip = chip;
+      }
+    });
+
+    chip.addEventListener('dragstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) { e.preventDefault(); return; }
+      dragEl = chip;
+      chip.classList.add('dragging');
+      chip.dataset.dropped = 'no';
+      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setDragImage(chip, chip.offsetWidth / 2, chip.offsetHeight / 2); } catch(err) {}
+    });
+    chip.addEventListener('dragend', () => {
+      chip.classList.remove('dragging');
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      if (chip.dataset.dropped === 'no') {
+        chip.classList.add('chip-shake');
+        setTimeout(() => chip.classList.remove('chip-shake'), 500);
+      }
+      delete chip.dataset.dropped;
+      dragEl = null;
+    });
+
+    chip.addEventListener('touchstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchHasMoved = false;
+      touchEl = chip;
+    }, { passive: true });
+
+    chip.addEventListener('touchmove', (e) => {
+      if (!touchEl) return;
+      const t = e.touches[0];
+      const dx = Math.abs(t.clientX - touchStartX);
+      const dy = Math.abs(t.clientY - touchStartY);
+      if (!touchHasMoved && (dx > 10 || dy > 10)) {
+        touchHasMoved = true;
+        const rect = touchEl.getBoundingClientRect();
+        touchClone = touchEl.cloneNode(true);
+        touchClone.style.cssText = `
+          position: fixed; top: ${t.clientY - rect.height/2}px; left: ${t.clientX - rect.width/2}px;
+          width: ${rect.width}px; z-index: 9999; opacity: 0.92; pointer-events: none;
+          transform: scale(1.03); box-shadow: 0 12px 30px rgba(132, 72, 22, 0.35); transition: none;
+          background: #fff; border: 2px solid var(--color-primary); border-radius: 12px;
+          font-family: 'Scheherazade', serif; ${cloneStyle}
+        `;
+        document.body.appendChild(touchClone);
+        touchEl.style.opacity = '0.3';
+      }
+      if (touchHasMoved && touchClone) {
+        e.preventDefault();
+        const rect = touchClone.getBoundingClientRect();
+        touchClone.style.top = (t.clientY - rect.height/2) + 'px';
+        touchClone.style.left = (t.clientX - rect.width/2) + 'px';
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.toggle(hoveredClass, isInZone(zone, t.clientX, t.clientY) && !isZoneFilled(zone));
+        });
+        const vh = window.innerHeight;
+        const edge = 80, speed = 12;
+        if (t.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+        else if (t.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+      }
+    }, { passive: false });
+
+    chip.addEventListener('touchend', (e) => {
+      if (!touchEl) return;
+      if (touchHasMoved && touchClone) {
+        const t = e.changedTouches[0];
+        let dropped = false;
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.remove(hoveredClass);
+          if (!dropped && !isZoneFilled(zone) && isInZone(zone, t.clientX, t.clientY)) {
+            onAttempt(touchEl, zone);
+            dropped = true;
+          }
+        });
+        if (!dropped) {
+          touchEl.style.opacity = '';
+          touchEl.classList.add('chip-shake');
+          const ref = touchEl;
+          setTimeout(() => ref && ref.classList && ref.classList.remove('chip-shake'), 500);
+        }
+        touchClone.remove();
+        touchClone = null;
+      } else {
+        touchEl.style.opacity = '';
+      }
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+
+    chip.addEventListener('touchcancel', () => {
+      if (touchClone) { touchClone.remove(); touchClone = null; }
+      if (touchEl) touchEl.style.opacity = '';
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+  }
+
+  function bindZone(zone) {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (!isZoneFilled(zone)) zone.classList.add(hoveredClass);
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove(hoveredClass));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove(hoveredClass);
+      if (isZoneFilled(zone)) return;
+      if (dragEl) {
+        dragEl.dataset.dropped = 'yes';
+        onAttempt(dragEl, zone);
+      }
+    });
+    zone.addEventListener('click', () => {
+      if (isBlocked() || isZoneFilled(zone)) return;
+      if (selectedChip && !isChipPlaced(selectedChip)) {
+        onAttempt(selectedChip, zone);
+        selectedChip.classList.remove('selected');
+        selectedChip = null;
+      }
+    });
+  }
+
+  document.querySelectorAll(chipsSel).forEach(bindChip);
+  document.querySelectorAll(zoneSel).forEach(bindZone);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   ONBOARDING HINT — تَلْميحٌ تَعليميٌّ لكلمةٍ واحدةٍ
+   ──────────────────────────────────────────────────────────────
+   * يُشغِّلُ التّلميحَ على عنصرٍ واحدٍ فقط
+   * يَتوقَّفُ التّلميحُ فورًا عندَ أوّلِ تفاعلِ سحبٍ من الطّالبِ
+   * يَتوقَّفُ تلقائيًّا بعدَ ٣٠ ثانيةً كحدٍّ أقصى إن لمْ يَتفاعلْ
+   * لا يَنشُطُ مرّتينِ — يُشغَّلُ مرّةً واحدةً لكلِّ شريحةٍ
+─────────────────────────────────────────────────────────────── */
+const onboardingState = { q2: false };
+
+function startOnboardingHint(target, draggableSel) {
+  if (!target) return;
+  target.classList.add('hint-me');
+
+  let stopped = false;
+  const chips = Array.from(document.querySelectorAll(draggableSel));
+
+  const stopHint = () => {
+    if (stopped) return;
+    stopped = true;
+    target.classList.remove('hint-me');
+    clearTimeout(autoStopId);
+    chips.forEach(c => {
+      c.removeEventListener('dragstart', stopHint);
+      c.removeEventListener('mousedown', stopHint);
+      c.removeEventListener('touchstart', stopHint);
+    });
+  };
+
+  // إيقافٌ تلقائيٌّ بعدَ ٣٠ ثانيةً
+  const autoStopId = setTimeout(stopHint, 30000);
+
+  // إيقافٌ فوريٌّ عندَ أوّلِ تفاعلِ سحبٍ على أيِّ كلمةٍ قابلةٍ للسّحبِ
+  chips.forEach(c => {
+    c.addEventListener('dragstart', stopHint);
+    c.addEventListener('mousedown', stopHint);
+    c.addEventListener('touchstart', stopHint, { passive: true });
+  });
+}
+
+function startQ2Hint() {
+  if (onboardingState.q2) return;
+  onboardingState.q2 = true;
+  // نفسُ نمطِ النّشاطِ الأوّلِ — كلمةٌ واحدةٌ من الجملةِ تُؤدّي التّلميحَ
+  const target = document.querySelector('#q2Sentence .word');
+  startOnboardingHint(target, '#q2Sentence .word');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDE 2 — "ضعْ دائرةً" — نَقرُ كلمةٍ داخلَ الجملةِ، أو زرُّ
+   "لا يوجد مفعول به" للجملِ بلا مفعولٍ بهٍ.
+═══════════════════════════════════════════════════════════════ */
+const Q3_QUESTIONS = [
+  {
+    sentence: 'أستعينُ بالذّكاءِ الاصطناعيِّ شرطَ ألّا أستغنيَ عن ذكائي.',
+    choices: ['بالذّكاءِ', 'الاصطناعيِّ', 'لا يوجد', 'ذكائي'],
+    correctIdx: 2
+  },
+  {
+    sentence: 'نجحَ سميرٌ في إنجازِ المهمّةِ.',
+    choices: ['سميرٌ', 'لا يوجد', 'إنجازِ', 'المهمّةِ'],
+    correctIdx: 1
+  },
+  {
+    sentence: 'عاقبَ اللهُ الظّالمينَ.',
+    choices: ['اللهُ', 'الظّالمينَ', 'لا يوجد', 'عاقبَ'],
+    correctIdx: 1
+  },
+  {
+    sentence: 'احفُرْ بئرًا لحلِّ مشكلةِ شحّ المياه.',
+    choices: ['مشكلةِ', 'المياه', 'بئرًا', 'لا يوجد'],
+    correctIdx: 2
+  }
+];
+const ARABIC_LETTERS = ['أ', 'ب', 'ج', 'د'];
+const Q3_MAX_ATTEMPTS = 3;
+const q3State = {
+  questions: Q3_QUESTIONS.map(() => ({ attempts: 0, isCorrect: false })),
+  completed: false
+};
+
+function buildQ3() {
+  const container = document.getElementById('q3Questions');
+  if (!container) return;
+  container.innerHTML = Q3_QUESTIONS.map((q, qIdx) => {
+    const hiddenClass = qIdx === 0 ? '' : ' stage-reveal';
+    const choicesHtml = q.choices.map((c, cIdx) => `
+      <label class="mcq-option-label">
+        <input type="radio" name="q3-q${qIdx}" value="${cIdx}">
+        <span class="mcq-option-text">${ARABIC_LETTERS[cIdx]}. ${c}</span>
+      </label>
+    `).join('');
+    return `
+      <div class="q3-question${hiddenClass}" data-q="${qIdx}">
+        <div class="q-card-verse">${q.sentence}</div>
+        <div class="mcq-options">${choicesHtml}</div>
+        <div class="q3-inline-feedback" id="fbInline-q3-${qIdx}"></div>
+      </div>
+    `;
+  }).join('');
+
+  // ربطُ تَغيُّرِ الـ radio لكلِّ سؤالٍ
+  container.querySelectorAll('.q3-question').forEach(qDiv => {
+    const qIdx = parseInt(qDiv.dataset.q);
+    qDiv.querySelectorAll('input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', () => handleQ3Answer(qIdx, parseInt(radio.value)));
+    });
+  });
+}
+
+function moveFbToQuestion(qIdx) { /* deprecated — using inline feedback */ }
+function moveFbToBottom() { /* deprecated — using inline feedback */ }
+
+function handleQ3Answer(qIdx, choiceIdx) {
+  if (q3State.completed) return;
+  const qState = q3State.questions[qIdx];
+  if (qState.isCorrect) return;
+  if (qState.attempts >= Q3_MAX_ATTEMPTS) return;
+
+  qState.attempts++;
+
+  const qDiv = document.querySelector(`.q3-question[data-q="${qIdx}"]`);
+  const labels = qDiv.querySelectorAll('.mcq-option-label');
+  const inputs = qDiv.querySelectorAll('input[type="radio"]');
+  const correctIdx = Q3_QUESTIONS[qIdx].correctIdx;
+  const isCorrect = choiceIdx === correctIdx;
+  const fb = document.getElementById('fbInline-q3-' + qIdx);
+
+  // امسحْ أيَّ حالاتٍ سابقةٍ
+  labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    qState.isCorrect = true;
+    labels.forEach((l, i) => {
+      if (i === correctIdx) l.classList.add('correct-option');
+      inputs[i].disabled = true;
+      l.classList.add('disabled');
+    });
+    qDiv.classList.remove('incorrect');
+    qDiv.classList.add('correct');
+
+    const isNoObj = Q3_QUESTIONS[qIdx].choices[correctIdx] === 'لا يوجد';
+    if (fb) {
+      fb.className = 'q3-inline-feedback show-correct';
+      if (isNoObj) {
+        fb.innerHTML = '<i class="fas fa-check-circle"></i>رائع، لا يوجد مفعول به هنا.';
+      } else {
+        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! إجابةٌ صحيحةٌ.';
+      }
+    }
+
+    progressQ3(qIdx);
+  } else {
+    // إجابةٌ خاطئةٌ — تَلوينُ الخيارِ الخاطئِ + هزَّةُ البطاقةِ
+    labels.forEach((l, i) => {
+      if (i === choiceIdx) l.classList.add('wrong-option');
+    });
+    qDiv.classList.add('incorrect');
+    setTimeout(() => qDiv.classList.remove('incorrect'), 600);
+
+    if (qState.attempts >= Q3_MAX_ATTEMPTS) {
+      // ٣ محاولاتٍ → اكشفِ الإجابةَ الصّحيحةَ
+      labels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === correctIdx) l.classList.add('revealed');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      qDiv.classList.remove('incorrect');
+      qDiv.classList.add('correct');
+      qState.isCorrect = true;
+      if (fb) {
+        fb.className = 'q3-inline-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      }
+      progressQ3(qIdx);
+    } else {
+      // محاولاتٌ متبقّيةٌ — لا فيدباكَ نصّيًّا (حدودُ الخيارِ الحمراءُ كافيةٌ)
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('wrong-option'));
+        inputs.forEach(i => { i.checked = false; });
+      }, 1500);
+    }
+  }
+}
+
+function progressQ3(qIdx) {
+  const curQDiv = document.querySelector(`.q3-question[data-q="${qIdx}"]`);
+  const nextQIdx = qIdx + 1;
+  if (nextQIdx < Q3_QUESTIONS.length) {
+    // لَحظةُ نجاحٍ قصيرةٌ، ثمَّ إخفاءُ السّؤالِ المحلولِ كليًّا (سؤالٌ واحدٌ في كلِّ
+    // مرّةٍ) وكشفُ السّؤالِ التّالي مباشرةً تحتَه
+    setTimeout(() => {
+      if (curQDiv) curQDiv.classList.add('is-collapsed');
+      const nextQDiv = document.querySelector(`.q3-question[data-q="${nextQIdx}"]`);
+      if (nextQDiv && !nextQDiv.classList.contains('revealed')) {
+        nextQDiv.classList.add('revealed');
+        nextQDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 900);
+  } else {
+    // آخرُ سؤالٍ — أعِدْ إظهارَ جميعِ الأسئلةِ المحلولةِ معًا كمراجعةٍ نهائيّةٍ
+    setTimeout(() => {
+      q3State.completed = true;
+      finalizeQ3Review();
+      updateNavButtons();
+      updateProgressBar();
+      // الفيدباكُ النّهائيُّ غيرُ مطلوبٍ — كلُّ بطاقةٍ لها فيدباكُها الدّاخليُّ
+    }, 900);
+  }
+}
+
+/* المراجعةُ النّهائيّةُ: أَظهِرْ كلَّ الأسئلةِ المحلولةِ معًا بكشفٍ متتابعٍ سلسٍ
+   (يُعيدُ استخدامَ نظامِ الكشفِ القائمِ — بلا منطقٍ تعليميٍّ جديدٍ). */
+function finalizeQ3Review() {
+  const wrap = document.getElementById('q3Questions');
+  if (!wrap) return;
+  wrap.querySelectorAll('.q3-question').forEach((q, i) => {
+    q.classList.add('revealed');
+    if (q.classList.contains('is-collapsed')) {
+      setTimeout(() => {
+        q.classList.remove('is-collapsed');
+        q.classList.add('is-revealing');
+      }, 250 + i * 120);
+    }
+  });
+  setTimeout(() => {
+    const first = wrap.querySelector('.q3-question');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 300);
+}
+
+// مطابقةٌ لغويّةٌ مرنةٌ — تُلغي التّشكيلَ والـ تنوين، توحّدُ الألفَ
+// وعلامةَ التّأنيثِ والياء، وتَقبلُ الكلمةَ مع/بدونَ "ال" التّعريف.
+// ─── جميعُ الوظائفِ التّاليةِ كانتْ للأنظمةِ السّابقةِ في Q3 (سحب،
+// كتابة، نَقرُ كلماتٍ داخلَ الجملةِ). تَمَّ استبدالُها بالكاملِ بنظامِ
+// MCQ التّدريجيِّ أعلاه. تُتركُ هنا كأرشيفٍ لكنّها غيرُ مُستدعاةٍ.
+function _legacy_q3_handleQ3WordClick(wordEl) {
+  if (q3State.completed) return;
+  const rowIdx = parseInt(wordEl.dataset.row);
+  if (q3State.answered[rowIdx]) return;
+
+  const sentence = Q3_SENTENCES[rowIdx];
+  const userPick = wordEl.dataset.text;
+  q3State.attempts[rowIdx]++;
+
+  if (sentence.correctObject === null) {
+    wordEl.classList.add('picked-wrong');
+    setTimeout(() => wordEl.classList.remove('picked-wrong'), 600);
+    handleQ3Mistake(rowIdx, 'لا يوجد مفعول به في هذه الجملةِ — اخترْ زرَّ «لا يوجد مفعول به».');
+    return;
+  }
+
+  if (userPick === sentence.correctObject) {
+    wordEl.classList.add('picked-correct');
+    completeQ3Row(rowIdx, false);
+  } else {
+    wordEl.classList.add('picked-wrong');
+    setTimeout(() => wordEl.classList.remove('picked-wrong'), 600);
+    handleQ3Mistake(rowIdx, `«${userPick}» ليست هي المفعول به.`);
+  }
+}
+
+function handleQ3NoObjClick(btn) {
+  if (q3State.completed) return;
+  const rowIdx = parseInt(btn.dataset.row);
+  if (q3State.answered[rowIdx]) return;
+
+  const sentence = Q3_SENTENCES[rowIdx];
+  q3State.attempts[rowIdx]++;
+
+  if (sentence.correctObject === null) {
+    btn.classList.add('picked-correct');
+    completeQ3Row(rowIdx, false);
+  } else {
+    btn.classList.add('picked-wrong');
+    setTimeout(() => btn.classList.remove('picked-wrong'), 600);
+    handleQ3Mistake(rowIdx, 'بل هناك مفعول به في هذه الجملةِ.');
+  }
+}
+
+function handleQ3Mistake(rowIdx, msg) {
+  const fb = document.getElementById('fb-q3');
+  if (q3State.attempts[rowIdx] >= Q3_MAX_ATTEMPTS) {
+    completeQ3Row(rowIdx, true);
+  } else {
+    const remaining = Q3_MAX_ATTEMPTS - q3State.attempts[rowIdx];
+    fb.className = 'q-feedback show-wrong';
+    fb.innerHTML = `<i class="fas fa-times-circle"></i> ${msg} تبقّى لكَ ${toArabic(remaining)} ${remaining === 1 ? 'محاولةٌ' : 'محاولاتٍ'}.`;
+    setTimeout(() => {
+      if (fb.classList.contains('show-wrong')) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 1800);
+  }
+}
+
+/* الوظائفُ التّاليةُ كانتْ للنّظامِ القديمِ (writing input) — تُركتْ
+   كميراثٍ لكنّها غيرُ مُستدعاةٍ في النّظامِ الحاليِّ "ضعْ دائرة". */
+function _legacy_normalizeAr(s) {
+  return (s || '')
+    .replace(/[ً-ٰٟـۖ-ۭ]/g, '')
+    .replace(/[إأآا]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function isQ3AnswerMatch(userInput, correct) {
+  const u = normalizeAr(userInput);
+  if (correct === null) {
+    const noObjForms = ['لا يوجد', 'لا يوجد مفعول به', 'لايوجد', 'لا'];
+    return noObjForms.some(f => normalizeAr(f) === u);
+  }
+  const c = normalizeAr(correct);
+  if (u === c) return true;
+  if (u === c.replace(/^ال/, '')) return true;
+  if (c === u.replace(/^ال/, '')) return true;
+  return false;
+}
+
+function checkQ3Write(rowIdx) {
+  if (q3State.completed) return;
+  if (q3State.answered[rowIdx]) return;
+
+  const row = document.querySelector(`.q3-row[data-row="${rowIdx}"]`);
+  const input = row.querySelector('.q3-write-input');
+  const userInput = input.value.trim();
+  const fb = document.getElementById('fb-q3');
+  const sentence = Q3_SENTENCES[rowIdx];
+
+  if (!userInput) {
+    fb.className = 'q-feedback show-info';
+    fb.innerHTML = '<i class="fas fa-circle-info"></i> اكتبْ إجابتَكَ قبلَ التّحقّقِ.';
+    setTimeout(() => {
+      if (fb.classList.contains('show-info')) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 1500);
+    return;
+  }
+
+  q3State.attempts[rowIdx]++;
+  const matched = isQ3AnswerMatch(userInput, sentence.correctObject);
+
+  if (matched) {
+    completeQ3Row(rowIdx, userInput, false);
+  } else {
+    // اهتزازُ الحقلِ فقط — لا انتشارَ للبطاقةِ الأمِّ
+    input.classList.remove('wrong');
+    void input.offsetWidth;  // إعادةُ تَشغيلِ الأنيميشن
+    input.classList.add('wrong');
+    setTimeout(() => input.classList.remove('wrong'), 600);
+
+    if (q3State.attempts[rowIdx] >= Q3_MAX_ATTEMPTS) {
+      // كَشفٌ تلقائيٌّ بعدَ ٣ محاولاتٍ
+      const modelAnswer = sentence.correctObject || 'لا يوجد';
+      input.value = modelAnswer;
+      completeQ3Row(rowIdx, modelAnswer, true);
+    } else {
+      const remaining = Q3_MAX_ATTEMPTS - q3State.attempts[rowIdx];
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = `<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. تبقّى لكَ ${toArabic(remaining)} ${remaining === 1 ? 'محاولةٌ' : 'محاولاتٍ'}.`;
+      setTimeout(() => {
+        if (fb.classList.contains('show-wrong')) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1800);
+    }
+  }
+}
+
+function completeQ3Row(rowIdx, wasRevealed) {
+  q3State.answered[rowIdx] = true;
+  const sentence = Q3_SENTENCES[rowIdx];
+  const row = document.querySelector(`.q3-row[data-row="${rowIdx}"]`);
+  if (row) row.classList.add('row-done');
+
+  // إقفالُ كلِّ الكلماتِ في الصّفِّ
+  row.querySelectorAll('.q3-word-pickable').forEach(w => {
+    w.classList.add('locked');
+    w.classList.remove('picked-wrong');
+  });
+
+  // كَشفٌ تلقائيٌّ يُسلِّطُ الضّوءَ على الإجابةِ الصّحيحةِ
+  if (wasRevealed) {
+    if (sentence.correctObject === null) {
+      const noobjBtn = row.querySelector('.q3-noobj-btn');
+      if (noobjBtn) {
+        noobjBtn.classList.remove('picked-wrong');
+        noobjBtn.classList.add('revealed');
+      }
+    } else {
+      const correctWord = row.querySelector(`.q3-word-pickable[data-text="${sentence.correctObject}"]`);
+      if (correctWord) {
+        correctWord.classList.remove('picked-wrong');
+        correctWord.classList.add('revealed');
+      }
+    }
+  }
+
+  // تعطيلُ زرِّ "لا يوجد" إن لمْ يَكُنْ هو الإجابةَ
+  const noobjBtn = row.querySelector('.q3-noobj-btn');
+  if (noobjBtn && !noobjBtn.classList.contains('picked-correct') && !noobjBtn.classList.contains('revealed')) {
+    noobjBtn.classList.add('disabled');
+  }
+
+  // كَشفُ "الإجابة النموذجية" بِالأيقونةِ الرّسميّةِ للمشروعِ
+  const modelReveal = row.querySelector('.q3-model-reveal');
+  if (modelReveal) {
+    const modelText = sentence.correctObject || 'لا يوجد مفعول به';
+    modelReveal.querySelector('.q3-model-text').textContent = modelText;
+    modelReveal.classList.add('show');
+  }
+
+  // تَغذيةٌ راجعةٌ تَدرّجيّةٌ
+  const total = Q3_SENTENCES.length;
+  const answeredCount = q3State.answered.filter(a => a).length;
+  const remaining = total - answeredCount;
+  const isNoObj = sentence.correctObject === null;
+  const fb = document.getElementById('fb-q3');
+
+  fb.className = 'q-feedback show-correct';
+  if (remaining === 0) {
+    q3State.completed = true;
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتاز.';
+    updateNavButtons();
+    updateProgressBar();
+  } else if (wasRevealed) {
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> هذهِ هي الإجابةُ الصّحيحةُ.';
+  } else if (isNoObj) {
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> رائع، لا يوجد مفعول به هنا.';
+  } else if (remaining === 1) {
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنت، بقيت جملة واحدة.';
+  } else if (remaining === 2) {
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> رائع، بقيت جملتان.';
+  } else {
+    fb.innerHTML = `<i class="fas fa-check-circle"></i> أحسنت، بقيت ${toArabic(remaining)} جمل.`;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SLIDE 4 — كَشفُ بطاقةِ "فائدةٌ لغويّةٌ" تَدريجيًّا عندَ دخولِ الشّريحةِ
+═══════════════════════════════════════════════════════════════ */
+function revealFinalRule() {
+  const card = document.getElementById('finalRule');
+  if (card && !card.classList.contains('revealed')) {
+    setTimeout(() => card.classList.add('revealed'), 350);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+function showSuccessScreen() {
+  document.querySelector('.slides-container').style.display = 'none';
+  document.getElementById('instrRow').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('taskNav').style.display = 'none';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(launchConfetti, 400);
+}
+function launchConfetti() {
+  const wrap = document.getElementById('completeWrap');
+  const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+  for (let i = 0; i < 36; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const sz = 8 + Math.random() * 12;
+    dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+      colors[~~(Math.random() * colors.length)] +
+      ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+      'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+      'animation-delay:' + (Math.random() * 0.9) + 's';
+    wrap.appendChild(dot);
+    setTimeout(() => dot.remove(), 3500);
+  }
+}
+function restartActivity() { location.reload(); }
+
+/* ══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+let currentSlide = 1;
+const TOTAL_SLIDES = 4;
+
+function goToSlide(idx) {
+  if (idx < 1 || idx > TOTAL_SLIDES) return;
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+  currentSlide = idx;
+
+  // كلُّ شريحةٍ تَحوي بطاقتها — نُخفي شريطَ التّعليماتِ
+  document.getElementById('instrRow').style.display = 'none';
+
+
+  updateProgressBar();
+  updateNavButtons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function nextSlide() {
+  if (currentSlide < TOTAL_SLIDES) goToSlide(currentSlide + 1);
+  else showSuccessScreen();
+}
+function prevSlide() {
+  if (currentSlide > 1) goToSlide(currentSlide - 1);
+}
+
+function updateNavButtons() {
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.style.visibility = currentSlide === 1 ? 'hidden' : '';
+
+  if (currentSlide === TOTAL_SLIDES) {
+    nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+  } else {
+    nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+  }
+
+  switch (currentSlide) {
+    case 1: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !q3State.completed
+    case 2: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !t1State.completed
+    case 3: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !t2State.completed
+    case 4: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !t3State.completed
+  }
+}
+
+function updateProgressBar() {
+  let pct = 0;
+  // Slide 1 — Q3: استخراج المفعول به  (0-25%)
+  if (q3State.completed) pct = 25;
+  else pct = (q3State.questions.filter(q => q.isCorrect).length / Q3_QUESTIONS.length) * 25;
+
+  // Slide 2 — T1: لازم/متعدي  (25-50%)
+  if (currentSlide >= 2) {
+    const t1Done = t1State.rows.filter(r => r.done).length;
+    if (t1State.completed) pct = 50;
+    else pct = 25 + (t1Done / T1_ROWS.length) * 25;
+  }
+  // Slide 3 — T2: ضمير الهاء  (50-75%)
+  if (currentSlide >= 3) {
+    const t2Done = t2State.questions.filter(q => q.isCorrect).length;
+    if (t2State.completed) pct = 75;
+    else pct = 50 + (t2Done / T2_QUESTIONS.length) * 25;
+  }
+  // Slide 4 — T3: توظيف كتابي  (75-100%)
+  if (currentSlide >= 4) {
+    if (t3State.completed) pct = 100;
+    else pct = 80;
+  }
+
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NO-PERSISTENCE GUARANTEE
+═══════════════════════════════════════════════════════════════ */
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) window.location.reload();
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   MERGED FROM: تدريبات_على_اللازم_و_المتعدي.html
+═══════════════════════════════════════════════════════════════ */
+function wordCount(s) {
+  return (s || '').trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   T1 — السّؤالُ الأوّلُ
+═══════════════════════════════════════════════════════════════ */
+const T1_ROWS = [
+  {
+    sentence: "يَنْمو في صَدْرَيْهِما قَلَقٌ مُسْتَبِدٌّ.",
+    verb: "ينمو",
+    type: "لازم"  // ينمو → فعل لازم
+  },
+  {
+    sentence: "السّائِقُ الَّذي قَدَّرَ حِرْصَهُما عَلى لُقْمَةِ الأولادِ.",
+    verb: "قدّر",
+    type: "متعدٍ"  // قدّر حرصهما
+  },
+  {
+    sentence: "إِنَّهُ يَعْرِفُ طَريقًا فَرْعِيًّا.",
+    verb: "يعرف",
+    type: "متعدٍ"  // يعرف طريقًا
+  },
+  {
+    sentence: "يُجَنِّبُهُما حاجِزَ الجَيْشِ.",
+    verb: "يجنّب",
+    type: "متعدٍ"  // يجنّبهما حاجز
+  },
+  {
+    sentence: "المَرْأَةُ ارْتاحَ بالُها لِلْفِكْرَةِ.",
+    verb: "ارتاح",
+    type: "لازم"  // ارتاح بالها
+  }
+];
+
+const T1_MAX_ATTEMPTS = 3;
+const t1State = {
+  currentRow: 0,
+  completed: false,
+  rows: T1_ROWS.map(() => ({
+    verbAttempts: 0,
+    verbCorrect: false,
+    typeAttempts: 0,
+    typeCorrect: false,
+    done: false
+  }))
+};
+
+// مطابقةٌ مرنةٌ للفعلِ — تَتجاهلُ التّشكيلَ وتوحّدُ الحروفَ
+function normalizeArabic(s) {
+  return (s || '')
+    .replace(/[ً-ْٰـ]/g, '')  // تشكيل + شدة + ألف خنجرية + كشيدة
+    .replace(/[إأآا]/g, 'ا')
+    .replace(/ى/g, 'ي')
+    .replace(/ة/g, 'ه')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function verbsMatch(userInput, correct) {
+  return normalizeArabic(userInput) === normalizeArabic(correct);
+}
+
+function buildT1() {
+  const wrap = document.getElementById('t1TableWrap');
+  if (!wrap) return;
+  let html = '<table class="t1-table"><thead><tr>';
+  html += '<th>الجملةُ</th>';
+  html += '<th>الفعلُ</th>';
+  html += '<th>نوعُه من حيثُ اللّزومُ والتّعدّي</th>';
+  html += '</tr></thead><tbody>';
+  T1_ROWS.forEach((row, idx) => {
+    const hiddenClass = idx === 0 ? '' : ' is-hidden';
+    html += `
+      <tr class="t1-row${hiddenClass}" data-row="${idx}">
+        <td class="t1-sentence-cell">${idx + 1} - ${row.sentence}</td>
+        <td class="t1-verb-cell">
+          <input type="text" class="t1-verb-input" data-row="${idx}" placeholder="اكتبِ الفعلَ" autocomplete="off" spellcheck="false">
+          <button type="button" class="t1-verb-check" data-row="${idx}">تحقّقْ</button>
+        </td>
+        <td class="t1-type-cell">
+          <div class="custom-dropdown t1-type-dropdown is-disabled" data-row="${idx}">
+            <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="custom-dropdown-value">اختَرْ</span>
+              <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+            </button>
+            <ul class="custom-dropdown-menu" role="listbox">
+              <li class="custom-dropdown-option" data-value="متعدٍ" role="option">متعدٍ</li>
+              <li class="custom-dropdown-option" data-value="لازم" role="option">لازم</li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr class="t1-row-feedback-row${hiddenClass}" data-row="${idx}">
+        <td colspan="3" class="t1-feedback-cell">
+          <div class="t1-row-feedback" id="t1Feedback-${idx}"></div>
+        </td>
+      </tr>
+    `;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+
+  // ربطُ المعالجاتِ
+  wrap.querySelectorAll('.t1-verb-check').forEach(btn => {
+    btn.addEventListener('click', () => handleT1VerbCheck(parseInt(btn.dataset.row)));
+  });
+  wrap.querySelectorAll('.t1-verb-input').forEach(input => {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleT1VerbCheck(parseInt(input.dataset.row));
+      }
+    });
+  });
+  wrap.querySelectorAll('.t1-type-dropdown').forEach(dd => {
+    const trigger = dd.querySelector('.custom-dropdown-trigger');
+    const rowIdx = parseInt(dd.dataset.row);
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      // أَغلِقْ كلَّ القوائمِ الأخرى
+      wrap.querySelectorAll('.t1-type-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          const t = other.querySelector('.custom-dropdown-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', !wasOpen);
+    });
+
+    dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const value = opt.dataset.value;
+        dd.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        const valueSpan = dd.querySelector('.custom-dropdown-value');
+        if (valueSpan) valueSpan.textContent = value;
+        handleT1TypeChange(rowIdx, value);
+      });
+    });
+  });
+}
+
+function handleT1VerbCheck(rowIdx) {
+  if (t1State.completed) return;
+  const rState = t1State.rows[rowIdx];
+  if (rState.verbCorrect) return;
+  if (rState.verbAttempts >= T1_MAX_ATTEMPTS) return;
+
+  const wrap = document.getElementById('t1TableWrap');
+  const input = wrap.querySelector(`.t1-verb-input[data-row="${rowIdx}"]`);
+  const userInput = input.value.trim();
+  if (!userInput) return;
+
+  rState.verbAttempts++;
+  const expected = T1_ROWS[rowIdx].verb;
+  const isMatch = verbsMatch(userInput, expected);
+
+  if (isMatch) {
+    rState.verbCorrect = true;
+    input.classList.add('correct');
+    input.value = expected;
+    input.disabled = true;
+    const checkBtn = wrap.querySelector(`.t1-verb-check[data-row="${rowIdx}"]`);
+    if (checkBtn) checkBtn.style.display = 'none';
+    // فعّلِ القائمةَ المنسدلةَ
+    const typeDropdown = wrap.querySelector(`.t1-type-dropdown[data-row="${rowIdx}"]`);
+    if (typeDropdown) typeDropdown.classList.remove('is-disabled');
+  } else {
+    input.classList.remove('wrong');
+    void input.offsetWidth;
+    input.classList.add('wrong');
+    setTimeout(() => input.classList.remove('wrong'), 600);
+
+    if (rState.verbAttempts >= T1_MAX_ATTEMPTS) {
+      // كَشفُ الإجابةِ الصّحيحةِ
+      rState.verbCorrect = true;
+      input.value = expected;
+      input.classList.remove('wrong');
+      input.classList.add('revealed');
+      input.disabled = true;
+      const checkBtn = wrap.querySelector(`.t1-verb-check[data-row="${rowIdx}"]`);
+      if (checkBtn) checkBtn.style.display = 'none';
+      // فعّلِ القائمةَ المنسدلةَ
+      const typeDropdown = wrap.querySelector(`.t1-type-dropdown[data-row="${rowIdx}"]`);
+      if (typeDropdown) typeDropdown.classList.remove('is-disabled');
+    }
+  }
+}
+
+// إغلاقُ قوائمِ T1 المنسدلةِ عندَ النّقرِ خارجَها
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.t1-type-dropdown.is-open').forEach(dd => {
+    if (!dd.contains(e.target)) {
+      dd.classList.remove('is-open');
+      const trigger = dd.querySelector('.custom-dropdown-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+
+function handleT1TypeChange(rowIdx, chosenType) {
+  if (t1State.completed) return;
+  const rState = t1State.rows[rowIdx];
+  if (!rState.verbCorrect) return;
+  if (rState.typeCorrect) return;
+  if (rState.typeAttempts >= T1_MAX_ATTEMPTS) return;
+
+  rState.typeAttempts++;
+  const wrap = document.getElementById('t1TableWrap');
+  const expected = T1_ROWS[rowIdx].type;
+  const dd = wrap.querySelector(`.t1-type-dropdown[data-row="${rowIdx}"]`);
+  const valueSpan = dd.querySelector('.custom-dropdown-value');
+
+  if (chosenType === expected) {
+    rState.typeCorrect = true;
+    dd.classList.add('is-correct', 'is-disabled');
+    completeT1Row(rowIdx, false);
+  } else {
+    dd.classList.add('is-wrong');
+    setTimeout(() => dd.classList.remove('is-wrong'), 600);
+
+    if (rState.typeAttempts >= T1_MAX_ATTEMPTS) {
+      // كَشفُ الإجابةِ الصّحيحةِ
+      rState.typeCorrect = true;
+      if (valueSpan) valueSpan.textContent = expected;
+      dd.classList.remove('is-wrong');
+      dd.classList.add('is-revealed', 'is-disabled');
+      completeT1Row(rowIdx, true);
+    } else {
+      // أعِدْ النّصَّ إلى الفارغِ بعدَ لحظة
+      setTimeout(() => {
+        if (valueSpan) valueSpan.textContent = 'اختَرْ';
+      }, 800);
+    }
+  }
+}
+
+function completeT1Row(rowIdx, wasRevealed) {
+  const rState = t1State.rows[rowIdx];
+  rState.done = true;
+
+  const wrap = document.getElementById('t1TableWrap');
+  const row = wrap.querySelector(`.t1-row[data-row="${rowIdx}"]`);
+  const fbRow = wrap.querySelector(`.t1-row-feedback-row[data-row="${rowIdx}"]`);
+  if (row) row.classList.add('row-done');
+
+  // فيدباك الصّفِّ (يظهر داخل صفِّ الفيدباكِ التّابعِ)
+  const fb = document.getElementById('t1Feedback-' + rowIdx);
+  const fbCell = fbRow ? fbRow.querySelector('.t1-feedback-cell') : null;
+  if (fb && fbCell) {
+    fbCell.classList.add('has-feedback');
+    fb.classList.add('show');
+    if (wasRevealed) {
+      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+    } else {
+      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! إجابةٌ صحيحةٌ.';
+    }
+  }
+
+  // بعدَ ٢.٥ ثانية: اختفِ الصّفَّ المكتملَ + اعرضِ الصّفَّ التّالي (أو راجعِ الكلَّ في النّهايةِ)
+  if (!window._t1FbTimers) window._t1FbTimers = {};
+  clearTimeout(window._t1FbTimers[rowIdx]);
+  window._t1FbTimers[rowIdx] = setTimeout(() => {
+    // امسحْ نصَّ الفيدباكِ قبلَ الإخفاءِ
+    if (fb) {
+      fb.classList.remove('show');
+      fb.innerHTML = '';
+    }
+    if (fbCell) fbCell.classList.remove('has-feedback');
+
+    // اخفِ الصّفَّ الحاليَّ بالكاملِ (الصّفُّ + صفُّ الفيدباكِ)
+    if (row) row.classList.add('is-collapsed');
+    if (fbRow) fbRow.classList.add('is-collapsed');
+
+    // اعرضِ الصّفَّ التّالي إن وُجدَ
+    const nextIdx = rowIdx + 1;
+    if (nextIdx < T1_ROWS.length) {
+      const nextRow = wrap.querySelector(`.t1-row[data-row="${nextIdx}"]`);
+      const nextFbRow = wrap.querySelector(`.t1-row-feedback-row[data-row="${nextIdx}"]`);
+      if (nextRow) {
+        nextRow.classList.remove('is-hidden');
+        nextRow.classList.add('is-revealing');
+      }
+      if (nextFbRow) nextFbRow.classList.remove('is-hidden');
+      t1State.currentRow = nextIdx;
+      if (nextRow) {
+        setTimeout(() => {
+          nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+    } else {
+      // كلُّ الصّفوفِ اكتملتْ — راجعِ الجدولَ الكاملَ
+      t1State.completed = true;
+      finalizeT1Review();
+      updateNavButtons();
+    }
+    updateProgressBar();
+  }, 2500);
+}
+
+/* المراجعةُ النّهائيّةُ: يُعادُ كشفُ جميعِ الصّفوفِ المكتملةِ بأنيميشنٍ متتابعٍ
+   ليرى الطّالبُ كلَّ إجاباتِهِ في جدولٍ واحدٍ مكتملٍ. */
+function finalizeT1Review() {
+  const wrap = document.getElementById('t1TableWrap');
+  if (!wrap) return;
+  const rows = wrap.querySelectorAll('.t1-row');
+  rows.forEach((row, i) => {
+    setTimeout(() => {
+      row.classList.remove('is-collapsed', 'is-hidden', 'is-revealing');
+      row.classList.add('is-final-reveal');
+    }, i * 140);  // كشفٌ متتابعٌ ١٤٠ms بينَ كلِّ صفٍّ
+  });
+  setTimeout(() => {
+    const first = wrap.querySelector('.t1-row');
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, rows.length * 140 + 200);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   T2 — السّؤالُ الثّاني (سلسلةُ MCQ تَدريجيّةٌ)
+═══════════════════════════════════════════════════════════════ */
+const T2_QUESTIONS = [
+  { prompt: 'أكرِمْ + الهاء =', choices: ['لا يقبل الهاء', 'أكرمْهُ'], correctIdx: 1 },
+  { prompt: 'ينتصرُ + الهاء =', choices: ['لا يقبل الهاء', 'ينتصرُهُ'], correctIdx: 0 },
+  { prompt: 'استعادَ + الهاء =', choices: ['لا يقبل الهاء', 'استعادَهُ'], correctIdx: 1 },
+  { prompt: 'ينقلُ + الهاء =', choices: ['لا يقبل الهاء', 'ينقلُهُ'], correctIdx: 1 },
+  { prompt: 'أشفقَ + الهاء =', choices: ['لا يقبل الهاء', 'أشفقَهُ'], correctIdx: 0 },
+  { prompt: 'والأفعالُ الّتي لم تقبلِ الهاءَ (ينتصرُ وأشفقَ) هي أفعالٌ:', choices: ['لازمةٌ', 'متعديةٌ'], correctIdx: 0 },
+  { prompt: 'بينما الأفعال التي قبلتِ الهاء (أكرمْ، استعادَ، ينقلُ) هي أفعالٌ:', choices: ['لازمةٌ', 'متعديةٌ'], correctIdx: 1 }
+];
+
+const t2State = {
+  questions: T2_QUESTIONS.map(() => ({ attempts: 0, isCorrect: false })),
+  completed: false
+};
+
+const T2_LETTERS = ['أ', 'ب'];
+
+function buildT2() {
+  const container = document.getElementById('t2Questions');
+  if (!container) return;
+  container.innerHTML = T2_QUESTIONS.map((q, qIdx) => {
+    const hiddenClass = qIdx === 0 ? '' : ' stage-reveal';
+    const choicesHtml = q.choices.map((c, cIdx) => `
+      <label class="mcq-option-label">
+        <input type="radio" name="t2-q${qIdx}" value="${cIdx}">
+        <span class="mcq-option-text">${T2_LETTERS[cIdx]}. ${c}</span>
+      </label>
+    `).join('');
+    return `
+      <div class="t2-question${hiddenClass}" data-q="${qIdx}">
+        <p class="t2-prompt">${q.prompt}</p>
+        <div class="mcq-options">${choicesHtml}</div>
+        <div class="t2-inline-feedback" id="fbInline-t2-${qIdx}"></div>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.t2-question').forEach(qDiv => {
+    const qIdx = parseInt(qDiv.dataset.q);
+    qDiv.querySelectorAll('input[type="radio"]').forEach(r => {
+      r.addEventListener('change', () => handleT2Answer(qIdx, parseInt(r.value)));
+    });
+  });
+}
+
+function handleT2Answer(qIdx, choiceIdx) {
+  if (t2State.completed) return;
+  const qState = t2State.questions[qIdx];
+  if (qState.isCorrect) return;
+  if (qState.attempts >= 3) return;
+
+  qState.attempts++;
+  const qDiv = document.querySelector(`.t2-question[data-q="${qIdx}"]`);
+  const labels = qDiv.querySelectorAll('.mcq-option-label');
+  const inputs = qDiv.querySelectorAll('input[type="radio"]');
+  const correctIdx = T2_QUESTIONS[qIdx].correctIdx;
+  const isCorrect = choiceIdx === correctIdx;
+  const fb = document.getElementById('fbInline-t2-' + qIdx);
+
+  function hideT2Fb(delay) {
+    if (!fb) return;
+    if (!window._t2FbTimers) window._t2FbTimers = {};
+    clearTimeout(window._t2FbTimers[qIdx]);
+    window._t2FbTimers[qIdx] = setTimeout(() => {
+      fb.style.opacity = '0';
+      setTimeout(() => {
+        fb.className = 't2-inline-feedback';
+        fb.innerHTML = '';
+        fb.style.opacity = '';
+      }, 420);
+    }, delay);
+  }
+
+  labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    qState.isCorrect = true;
+    labels.forEach((l, i) => {
+      if (i === correctIdx) l.classList.add('correct-option');
+      inputs[i].disabled = true;
+      l.classList.add('disabled');
+    });
+    qDiv.classList.remove('incorrect');
+    qDiv.classList.add('correct');
+    if (fb) {
+      fb.className = 't2-inline-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! إجابةٌ صحيحةٌ.';
+      hideT2Fb(2500);
+    }
+    progressT2(qIdx);
+  } else {
+    labels.forEach((l, i) => {
+      if (i === choiceIdx) l.classList.add('wrong-option');
+    });
+    qDiv.classList.add('incorrect');
+    setTimeout(() => qDiv.classList.remove('incorrect'), 600);
+
+    if (qState.attempts >= 3) {
+      labels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === correctIdx) l.classList.add('revealed');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      qDiv.classList.remove('incorrect');
+      qDiv.classList.add('correct');
+      qState.isCorrect = true;
+      if (fb) {
+        fb.className = 't2-inline-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        hideT2Fb(2500);
+      }
+      progressT2(qIdx);
+    } else {
+      if (fb) {
+        fb.className = 't2-inline-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i>إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        hideT2Fb(1500);
+      }
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('wrong-option'));
+        inputs.forEach(i => { i.checked = false; });
+      }, 1500);
+    }
+  }
+}
+
+function progressT2(qIdx) {
+  const nextIdx = qIdx + 1;
+  if (nextIdx < T2_QUESTIONS.length) {
+    setTimeout(() => {
+      const nextQ = document.querySelector(`.t2-question[data-q="${nextIdx}"]`);
+      if (nextQ && !nextQ.classList.contains('revealed')) {
+        nextQ.classList.add('revealed');
+        nextQ.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 900);
+  } else {
+    setTimeout(() => {
+      t2State.completed = true;
+      const fb = document.getElementById('fb-t2');
+      if (fb) {
+        fb.style.display = '';
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتاز! أتممتَ السّؤالَ الثّاني.';
+      }
+      updateNavButtons();
+      updateProgressBar();
+    }, 900);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   T3 — تَوظيفٌ كتابيٌّ (writing — q7 modal system)
+═══════════════════════════════════════════════════════════════ */
+const T3_MIN_WORDS = 3;
+const T3_MODEL = {
+  1: {
+    title: 'الجملةُ الأولى — استخدامُ فعلٍ لازمٍ',
+    answer: 'الفعلُ اللازمُ هو الذي يكتفي بفاعلهِ ولا يلزَمُهُ مفعولٌ به. مثلًا: «نَجَحَ الطّالبُ في امتحانهِ بَعدَ جُهدٍ طويلٍ»؛ نلاحظُ أنّ الفعلَ «نَجَحَ» اكتفى بفاعلهِ «الطّالبُ» دونَ الحاجةِ إلى مفعولٍ به، فالكلامُ تامٌّ والمعنى واضحٌ.'
+  },
+  2: {
+    title: 'الجملةُ الثّانيةُ — استخدامُ فعلٍ متعدٍّ',
+    answer: 'الفعلُ المتعدّي هو الذي لا يكتفي بفاعلهِ بل يتعدّاه إلى مفعولٍ به. مثلًا: «كَتَبَتِ الطّالبةُ قِصّةً قَصيرةً عن وَطَنِها»؛ نلاحظُ أنّ الفعلَ «كَتَبَ» لم يكتفِ بفاعلهِ «الطّالبةُ» بل احتاجَ إلى مفعولٍ به وهو «قِصّةً» ليتمَّ المعنى.'
+  }
+};
+const t3State = {
+  1: { text: '', wc: 0, checked: false },
+  2: { text: '', wc: 0, checked: false },
+  completed: false,
+  isCorrect: false,
+  timeoutId: null
+};
+
+function updateT3Writing(textarea, idx) {
+  const wc = wordCount(textarea.value);
+  t3State[idx].wc = wc;
+  t3State[idx].text = textarea.value.trim();
+  if (textarea.value.trim()) textarea.classList.add('state-filled');
+  else textarea.classList.remove('state-filled');
+}
+
+function checkT3() {
+  if (t3State.completed) return;
+  const fb = document.getElementById('fb-t3');
+  const t1 = document.getElementById('ta-t3-1');
+  const t2 = document.getElementById('ta-t3-2');
+
+  if (t3State[1].wc < T3_MIN_WORDS || t3State[2].wc < T3_MIN_WORDS) {
+    fb.className = 'q-feedback show-info';
+    fb.innerHTML = `<i class="fas fa-circle-info"></i> اكتبْ على الأقلِّ ${toArabic(T3_MIN_WORDS)} كلماتٍ في كلِّ صندوقٍ.`;
+    // رسالةٌ إرشاديّةٌ (info) تختفي بعدَ 2000ms — تُمسَحُ فقط إن بقيتْ إرشاديّةً
+    setTimeout(() => {
+      if (fb.classList.contains('show-info')) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 2000);
+    return;
+  }
+
+  fb.className = 'q-feedback show-correct';
+  fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تمَّ تسجيلُ كتابتِكَ.';
+
+  t1.disabled = true;
+  t2.disabled = true;
+  t3State[1].checked = true;
+  t3State[2].checked = true;
+  t3State.completed = true;
+  t3State.isCorrect = true;
+  document.getElementById('checkT3Btn').disabled = true;
+  if (typeof updateNavButtons === 'function') updateNavButtons();
+  if (typeof updateProgressBar === 'function') updateProgressBar();
+
+  // مُؤقِّتُ كَشفِ الإجابةِ النّموذجيّةِ (تحويلُ المحتوى)
+  t3State.timeoutId = setTimeout(() => {
+    // أخفِ صناديقَ الكتابةِ
+    for (let i = 1; i <= 2; i++) {
+      document.getElementById('ta-t3-' + i).style.display = 'none';
+    }
+
+    // لوحةٌ متعدّدةُ الخطواتِ: خطوةٌ لكلِّ جملةٍ، مع أسهمِ تنقّلٍ ونقاطٍ
+    const wrap = document.getElementById('answer-t3-1');
+    const TOTAL_STEPS = 2;
+
+    let stepsHtml = '<div class="q7-modal-steps">';
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const userText = t3State[i].text || '— لمْ تكتبْ شيئًا —';
+      stepsHtml += `
+        <div class="q7-modal-step ${i === 1 ? 'active' : ''}" data-step="${i}">
+          <div class="q7-modal-title-wrap">
+            <button class="audio-btn q7-modal-audio" aria-label="استمعْ للإجابةِ"><i class="fas fa-volume-high"></i></button>
+            <div class="q7-modal-title">${T3_MODEL[i].title}</div>
+          </div>
+          <div class="q7-answer-section">
+            <div class="q7-answer-label">
+              <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/cLOqhfvns725Nq4e.png" alt="">
+              إجابتُكَ
+            </div>
+            <div class="q7-answer-text">${userText}</div>
+          </div>
+          <div class="q7-answer-section suggested">
+            <div class="q7-answer-label">
+              <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt="">
+              الإجابةُ النّموذجيّةُ
+            </div>
+            <div class="q7-answer-text">${T3_MODEL[i].answer}</div>
+          </div>
+        </div>
+      `;
+    }
+    stepsHtml += '</div>';
+
+    // الأسهمُ (السّابقُ يمينٌ في RTL، التّالي يسارٌ) + النّقاطُ
+    const navHtml = `
+      <div class="q7-modal-nav">
+        <button class="q7-modal-arrow q7-arrow-prev" aria-label="السّابق" disabled><i class="fas fa-arrow-right"></i></button>
+        <div class="q7-modal-dots">
+          ${[1, 2].map(n => `<span class="q7-modal-dot ${n === 1 ? 'active' : ''}" data-dot="${n}"></span>`).join('')}
+        </div>
+        <button class="q7-modal-arrow q7-arrow-next" aria-label="التّالي"><i class="fas fa-arrow-left"></i></button>
+      </div>
+    `;
+
+    wrap.innerHTML = `
+      <div class="q7-answer-modal">
+        <button class="q7-modal-close" aria-label="إغلاق"><i class="fas fa-times"></i></button>
+        ${stepsHtml}
+        ${navHtml}
+      </div>
+    `;
+
+    // ربطُ الأحداثِ
+    wrap.querySelector('.q7-modal-close').onclick = () => { wrap.style.display = 'none'; };
+    wrap.querySelectorAll('.q7-modal-audio').forEach(btn => { btn.onclick = () => toggleSimpleAudio(btn); });
+    wrap.onclick = (e) => { if (e.target === wrap) wrap.style.display = 'none'; };
+
+    const prevArrow = wrap.querySelector('.q7-arrow-prev');
+    const nextArrow = wrap.querySelector('.q7-arrow-next');
+    let currentStep = 1;
+
+    function showStep(step) {
+      if (step < 1 || step > TOTAL_STEPS) return;
+      currentStep = step;
+      wrap.querySelectorAll('.q7-modal-step').forEach(s => s.classList.remove('active'));
+      const targetEl = wrap.querySelector(`.q7-modal-step[data-step="${step}"]`);
+      if (targetEl) targetEl.classList.add('active');
+      wrap.querySelectorAll('.q7-modal-dot').forEach(d => d.classList.remove('active'));
+      const dot = wrap.querySelector(`.q7-modal-dot[data-dot="${step}"]`);
+      if (dot) dot.classList.add('active');
+      prevArrow.disabled = (step === 1);
+      nextArrow.disabled = (step === TOTAL_STEPS);
+    }
+    prevArrow.onclick = () => showStep(currentStep - 1);
+    nextArrow.onclick = () => showStep(currentStep + 1);
+
+    // زرٌّ مركزيٌّ تحتَ البطاقتين لإعادةِ فتحِ اللّوحةِ
+    const grid = document.querySelector('#qCard-t3 .q7-pairs-grid');
+    if (grid && !document.querySelector('.q7-show-answer-btn')) {
+      const row = document.createElement('div');
+      row.className = 'q7-show-answer-row';
+      row.style.cssText = 'display:flex; justify-content:center; margin-top: 14px;';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'btn-action btn-check btn-sm q7-show-answer-btn';
+      showBtn.innerHTML = '<img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt=""> اطّلعْ على الإجاباتِ النّموذجيّةِ';
+      showBtn.onclick = () => { wrap.style.display = 'flex'; };
+      row.appendChild(showBtn);
+      grid.insertAdjacentElement('afterend', row);
+    }
+
+    // افتحِ اللّوحةَ تلقائيًّا على الخطوةِ الأولى
+    wrap.style.display = 'flex';
+
+    fb.style.display = 'none';
+    fb.className = 'q-feedback';
+    fb.innerHTML = '';
+
+    t3State.timeoutId = null;
+  }, 2000);
+}
+
+function resetT3() {
+  const fb = document.getElementById('fb-t3');
+
+  if (t3State.timeoutId) {
+    clearTimeout(t3State.timeoutId);
+    t3State.timeoutId = null;
+  }
+
+  for (let i = 1; i <= 2; i++) {
+    const t = document.getElementById('ta-t3-' + i);
+    if (t) {
+      t.value = '';
+      t.disabled = false;
+      t.style.display = '';
+      t.classList.remove('state-filled');
+    }
+    const wrap = document.getElementById('answer-t3-' + i);
+    if (wrap) {
+      wrap.style.display = 'none';
+      wrap.onclick = null;
+      wrap.innerHTML = '';
+    }
+    t3State[i] = { text: '', wc: 0, checked: false };
+  }
+
+  // أزل الزرَّ المركزيَّ المشتركَ
+  const showRow = document.querySelector('.q7-show-answer-row');
+  if (showRow) showRow.remove();
+
+  fb.style.display = '';
+  fb.className = 'q-feedback';
+  fb.innerHTML = '';
+
+  document.getElementById('checkT3Btn').disabled = false;
+
+  t3State.completed = false;
+  t3State.isCorrect = false;
+
+  if (typeof updateNavButtons === 'function') updateNavButtons();
+  if (typeof updateProgressBar === 'function') updateProgressBar();
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+buildQ3();
+buildT1();
+buildT2();
+updateNavButtons();
+updateProgressBar();
+</script>
+</body>
+</html>

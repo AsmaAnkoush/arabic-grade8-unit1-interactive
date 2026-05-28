@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>همزة الوسط</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+/* CSS-VERSION: q1-borders-v3 */
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — منقولةٌ من القالبِ كما هي
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-secondary-hover:  #f2d489;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-olive-hover:      #9c9d3a;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON — المنظومةُ الرّسميّةُ للمَشروعِ
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL + HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+}
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE VISIBILITY
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+
+/* ═══════════════════════════════════════════════════════════════
+   INTRO RULE CARD — سطرٌ مُدمَجٌ خفيفٌ
+═══════════════════════════════════════════════════════════════ */
+.rule-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin: 14px 16px 0;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.06);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 14px;
+}
+.rule-card-text {
+  font-size: 22px;
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  padding-top: 4px;
+}
+.rule-card-prefix {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  margin-left: 6px;
+}
+/* الكلماتُ داخلَ <mark> في بطاقةِ القاعدةِ تظهرُ كنصٍّ عاديٍّ (بلا تظليلٍ) */
+.rule-card-text mark,
+.rule-card mark {
+  background: transparent;
+  color: inherit;
+  font-weight: inherit;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback i { margin-left: 4px; }
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* فيدباك inline داخلَ كلِّ بطاقةٍ فرعيّةٍ في السّؤالِ الثّاني */
+.q2-fb-inline {
+  margin: 12px 0 0;
+  font-size: 16px;
+  animation: fadeIn 0.3s ease;
+}
+.q2-fb-inline.show-correct,
+.q2-fb-inline.show-wrong,
+.q2-fb-inline.show-revealed {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+/* النّوعُ "المكشوفُ" يأخذُ مظهرَ المعلوماتِ (info) */
+.q2-fb-inline.show-revealed {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+  border-width: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAGE REVEAL
+═══════════════════════════════════════════════════════════════ */
+.stage-reveal {
+  display: none;
+}
+.stage-reveal.revealed {
+  display: block;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  60%  { transform: translateY(0) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+@keyframes onboardingHint {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q1 — ترتيبُ الحركاتِ — دوائرُ أفقيّةٌ
+═══════════════════════════════════════════════════════════════ */
+.q1-board {
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: stretch;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* ═══════════════════════════════════════════
+   Q1 TABLE — تصميمٌ منقولٌ من جدولِ السّؤالِ الثّالثِ
+   في ملفِّ الإعرابِ والبناءِ (q3t-table)
+═══════════════════════════════════════════ */
+.q1t-table-wrap {
+  margin: 14px 16px 0;
+}
+.q1t-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  border: 2px solid var(--color-primary);
+  background: #fff;
+}
+.q1t-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 10px;
+  text-align: center;
+  border: 1.5px solid var(--color-primary-shadow);
+}
+.q1t-row {
+  transition: background 0.3s ease;
+}
+.q1t-row td {
+  padding: 12px 10px;
+  border: 1.5px solid var(--color-sand);
+  vertical-align: middle;
+  text-align: center;
+}
+.q1t-rank-cell {
+  background: var(--color-secondary-light);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
+  line-height: 1.7;
+}
+.q1t-select-cell {
+  background: #fff;
+  width: 55%;
+  padding: 10px !important;
+}
+
+/* تَجاوبٌ على الشّاشاتِ الضّيّقةِ */
+@media (max-width: 700px) {
+  .q1t-table-wrap { margin: 10px 8px 0; }
+  .q1t-table thead th { font-size: 14px; padding: 10px 6px; }
+  .q1t-row td { padding: 9px 6px; }
+  .q1t-rank-cell { font-size: 16px; }
+  .q1t-select-cell { padding: 7px !important; }
+}
+@media (max-width: 480px) {
+  .q1t-rank-cell { font-size: 15px; }
+  .q1t-table thead th { font-size: 13px; }
+}
+
+/* ═══════════════════════════════════════════
+   جدولُ القوائمِ المنسدلةِ — منقولٌ من الاختبارِ التشخيصيِّ
+═══════════════════════════════════════════ */
+.dropdown-tables-wrap {
+  margin: 14px 16px 0;
+}
+.dropdown-sentence-card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.dropdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  margin-bottom: 16px;
+}
+.dropdown-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 8px;
+  border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
+}
+.dropdown-row {
+  transition: background 0.3s ease;
+}
+.dropdown-sentence-card .dropdown-table .dropdown-row td {
+  padding: 10px;
+  border: 2px solid var(--color-secondary) !important;
+  text-align: center;
+  vertical-align: middle;
+}
+.dropdown-word-cell {
+  background: var(--color-secondary-light);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
+}
+.dropdown-select-cell {
+  background: #fff;
+  padding: 12px !important;
+}
+
+/* ═══ Custom Dropdown ═══ */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  font-family: var(--font-family);
+}
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.custom-dropdown.is-open .custom-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.custom-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+}
+.custom-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.custom-dropdown.is-open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.custom-dropdown.is-open .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.custom-dropdown-option {
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.custom-dropdown-option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.custom-dropdown-option:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.custom-dropdown-option:only-child {
+  border-radius: 8px;
+}
+.custom-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.custom-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.custom-dropdown.is-disabled .custom-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ═══ حالات الصف (تطبق على trigger الـ dropdown) ═══ */
+.dropdown-row.correct-row {
+  background: #f3f7e3;
+}
+.dropdown-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.dropdown-row.correct-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+.dropdown-row.wrong-row {
+  background: #fbeeea;
+}
+.dropdown-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.dropdown-row.wrong-row .custom-dropdown-arrow {
+  color: var(--color-error);
+}
+@keyframes dropdownShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.dropdown-row.revealed-row {
+  background: #f3f7e3;
+}
+.dropdown-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.dropdown-row.revealed-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+
+/* صَفُّ الجدولِ يَحملُ طبقةً عاليةً عندَ فَتحِ القائمةِ لتجنّبِ القَصِّ */
+.dropdown-row {
+  position: relative;
+}
+.dropdown-row:has(.custom-dropdown.is-open) {
+  z-index: 9999;
+}
+.dropdown-select-cell {
+  position: relative;
+}
+
+/* استجابةُ الموبايل */
+@media (max-width: 700px) {
+  .dropdown-sentence-card { padding: 14px; }
+  .dropdown-table thead th { font-size: 16px; padding: 10px 6px; }
+  .dropdown-word-cell { font-size: 17px; }
+  .custom-dropdown { max-width: 200px; }
+  .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+}
+@media (max-width: 480px) {
+  .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
+  .dropdown-sentence-card { padding: 12px; }
+  .dropdown-table thead th { font-size: 14px; padding: 9px 4px; }
+  .dropdown-word-cell { font-size: 16px; padding: 9px 6px; }
+  .dropdown-select-cell { padding: 8px !important; }
+  .custom-dropdown { max-width: 100%; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MCQ — منظومةُ "ضع دائرة" الرّسميّةُ (من القالبِ المرجعيِّ)
+═══════════════════════════════════════════════════════════════ */
+.mcq-options {
+  display: grid;
+  gap: 10px;
+}
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 22px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text { color: var(--color-error); }
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q2 — سلسلةُ MCQ تَدريجيّةٌ (اختيارُ المُفردِ)
+═══════════════════════════════════════════════════════════════ */
+.q2-questions {
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.q2-question {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.06);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.q2-question.correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
+}
+.q2-question.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+.q2-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+.q2-prompt-num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  flex-shrink: 0;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.22);
+}
+.q2-prompt-word {
+  font-size: 26px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  letter-spacing: 0.4px;
+  line-height: 1.4;
+}
+/* ═══════════════════════════════════════════════════════════════
+   SPECIAL CASES BOARD — لوحةُ الحالاتِ الخاصّةِ (infographic)
+═══════════════════════════════════════════════════════════════ */
+.special-board {
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.special-intro {
+  background: linear-gradient(135deg, var(--color-secondary-light) 0%, #fffaf3 100%);
+  border: 2px solid var(--color-secondary);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.08);
+}
+.special-intro-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  flex-shrink: 0;
+}
+.special-intro-text {
+  font-size: 21px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.special-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.special-case-card {
+  background: #fffdf8;
+  border: 1.5px solid var(--color-primary-light);
+  border-right: 4px solid var(--color-secondary);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.05);
+  opacity: 0;
+  transform: translateY(14px);
+  animation: caseSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.special-case-card:nth-child(1) { animation-delay: 0.15s; }
+.special-case-card:nth-child(2) { animation-delay: 0.40s; }
+.special-case-card:nth-child(3) { animation-delay: 0.65s; }
+@keyframes caseSlideIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.special-case-num {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  margin-left: 4px;
+}
+.special-case-body {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.special-case-body mark {
+  background: rgba(237, 198, 111, 0.55);
+  color: var(--color-primary-shadow);
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q3 — اختيارُ الكلماتِ الخاطئةِ (click-to-mark)
+═══════════════════════════════════════════════════════════════ */
+.q3-board {
+  margin: 14px 16px 0;
+  background: #fffdf8;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.08);
+}
+.q3-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+.q3-word {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 12px 22px;
+  font-size: 24px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  box-shadow: 0 3px 0 #d8c7b5;
+  font-family: var(--font-family);
+}
+.q3-word:not(.locked):hover {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(132, 72, 22, 0.16);
+}
+.q3-word.found {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  border-width: 3px;
+  color: var(--color-success);
+  pointer-events: none;
+  animation: chipPopIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.q3-word.found::after {
+  content: '\f00c';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  margin-right: 8px;
+  font-size: 18px;
+  color: var(--color-success);
+}
+.q3-word.wrong-tap {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: chipShake 0.5s;
+}
+.q3-word.revealed-correct {
+  background: #fffaf3;
+  border-color: var(--color-primary);
+  border-width: 3px;
+  color: var(--color-primary);
+  pointer-events: none;
+}
+.q3-word.locked { cursor: default; }
+.q3-word.hint-me {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 3px 0 var(--color-secondary-shadow), 0 0 0 3px rgba(237, 198, 111, 0.45);
+  animation: onboardingHint 1.6s ease-in-out infinite;
+}
+.q3-word.hint-me:hover,
+.q3-word.hint-me.found,
+.q3-word.hint-me.wrong-tap,
+.q3-word.hint-me.revealed-correct { animation: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE CONTROLS + NAV BAR
+═══════════════════════════════════════════════════════════════ */
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 16px 0;
+  flex-wrap: wrap;
+}
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen { display: none; width: 100%; }
+.success-screen.show { display: block; animation: fadeIn 0.6s ease; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 34px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart { margin-top: 28px; }
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(320px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .q-feedback, .rule-card, .q1-board, .q2-questions, .special-board, .q3-board {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 22px !important; }
+
+  .rule-card-text { font-size: 20px; }
+
+  .q2-prompt-word { font-size: 24px; }
+  .q2-question { padding: 18px 18px; }
+  .mcq-option-text { font-size: 20px; }
+  .highlight-word { padding: 2px 6px; font-size: inherit; }
+
+  .special-intro-text { font-size: 19px; }
+  .special-case-body { font-size: 17px; }
+  .special-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  .q3-word { font-size: 22px; padding: 10px 18px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+
+  [data-slide="1"] .q-card-title,
+  [data-slide="2"] .q-card-title,
+  [data-slide="3"] .q-card-title {
+    font-size: 19px;
+  }
+  [data-slide="1"] .q-card-header,
+  [data-slide="2"] .q-card-header,
+  [data-slide="3"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="2"] .q-card-header .audio-btn,
+  [data-slide="3"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="2"] .q-card-header .q-card-title,
+  [data-slide="3"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 18px !important; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .rule-card-text { font-size: 18px; }
+  .q2-prompt-word { font-size: 22px; }
+  .mcq-option-text { font-size: 18px; }
+  .q3-word { font-size: 20px; padding: 9px 16px; }
+  .special-intro-text { font-size: 17px; }
+  .special-case-body { font-size: 16px; }
+  .highlight-word { padding: 1px 5px; }
+
+  .complete-wrap { padding: 36px 18px 50px; }
+  .trophy-img { width: 180px; height: 180px; }
+  .trophy-glow { width: 260px; height: 260px; }
+  .complete-title { font-size: 26px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+  .slide-controls {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .slide-controls .btn-action { flex: 1; min-width: 0; width: auto; }
+
+  [data-slide="1"] .q-card-title,
+  [data-slide="2"] .q-card-title,
+  [data-slide="3"] .q-card-title {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  [data-slide="1"] .q-card-header,
+  [data-slide="2"] .q-card-header,
+  [data-slide="3"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="2"] .q-card-header .audio-btn,
+  [data-slide="3"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="2"] .q-card-header .q-card-title,
+  [data-slide="3"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+}
+
+@media (hover: none) {
+  .q3-word:not(.locked):hover {
+    transform: none;
+    box-shadow: 0 3px 0 #d8c7b5;
+    background: #fff;
+    border-color: var(--color-primary-light);
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.05s !important;
+  }
+}
+
+/* استثناءٌ: <mark class="hl-word"> يَستعيدُ التّظليلَ الأصفرَ بنفسِ درجةِ بقيّةِ العلاماتِ */
+mark.hl-word,
+.q-card mark.hl-word,
+.rule-card mark.hl-word,
+*[class] mark.hl-word {
+  background: rgba(237, 198, 111, 0.55) !important;
+  background-color: rgba(237, 198, 111, 0.55) !important;
+  color: var(--color-primary-shadow) !important;
+  font-weight: var(--font-weight-extrabold) !important;
+  padding: 0 4px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* تظليلٌ مخصّصٌ لكلماتِ القاعدةِ المهمّةِ */
+.highlight-word {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1.5px solid var(--color-secondary);
+  display: inline-block;
+  margin: 0 2px;
+  line-height: 1.5;
+}
+
+/* ═══ السّؤالُ الثّالثُ: بطاقاتُ النّقرِ — منقولٌ من الاختبارِ التّشخيصيِّ ═══ */
+.click-sentences-wrap {
+  margin: 14px 16px 0;
+}
+.click-sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.click-sentence {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+}
+.click-sentence:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.12);
+}
+.click-sentence-letter {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.click-sentence-text {
+  flex: 1;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.click-sentence-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: transparent;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.click-sentence.selected {
+  background: var(--color-secondary-light);
+  border-color: var(--color-primary);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.35);
+}
+.click-sentence.selected .click-sentence-check {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.35);
+}
+.click-sentence.selected .click-sentence-check i {
+  animation: checkPop 0.3s ease;
+}
+.click-sentence.correct-sentence {
+  background: #f3f7e3 !important;
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20) !important;
+  pointer-events: none;
+}
+.click-sentence.correct-sentence .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.correct-sentence .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.correct-sentence .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(107, 139, 31, 0.40);
+}
+.click-sentence.wrong-sentence {
+  background: #fbeeea !important;
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  animation: cardShake 0.5s;
+}
+.click-sentence.wrong-sentence .click-sentence-text {
+  color: var(--color-error);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.wrong-sentence .click-sentence-letter {
+  background: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.click-sentence.wrong-sentence .click-sentence-check {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  font-size: 17px;
+  content: '✗';
+}
+.click-sentence.wrong-sentence .click-sentence-check i {
+  display: none;
+}
+.click-sentence.wrong-sentence .click-sentence-check::before {
+  content: '✗';
+  font-weight: 900;
+  font-size: 16px;
+}
+.click-sentence.revealed-sentence {
+  background: #f3f7e3 !important;
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20) !important;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.click-sentence.revealed-sentence .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.revealed-sentence .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.revealed-sentence .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+}
+.click-sentence.disabled-sentence {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.click-sentences-wrap .q-feedback {
+  margin-top: 14px;
+}
+@keyframes checkPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+/* فيدباكُ "الكَشفِ" بعدَ استنفادِ المحاولاتِ */
+.q-feedback.show-revealed {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+@media (max-width: 700px) {
+  .click-sentence-text { font-size: 18px; }
+  .click-sentence { padding: 14px 16px; gap: 12px; }
+  .click-sentence-letter { width: 32px; height: 32px; font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .click-sentence-text { font-size: 16px; }
+  .click-sentence { padding: 12px 14px; gap: 10px; }
+  .click-sentence-letter { width: 30px; height: 30px; font-size: 15px; }
+}
+@media (hover: none) {
+  .click-sentence:hover {
+    transform: none;
+    box-shadow: none;
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">همزة الوسط</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 1 — القاعدةُ + السّؤالُ الأوّلُ                       -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+
+        <!-- بطاقةُ السّؤالِ الأوّلِ -->
+        <div class="q-card" id="qCard-q1">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الأوّلُ:</strong> والآنَ أرتّبُ الحركاتِ من الأقوى إلى الأضعفِ، بِاختيارِ الحركةِ المناسبةِ لكلِّ مرتبةٍ.
+            </p>
+          </div>
+
+        <!-- لوحةُ ترتيبِ الحركاتِ — جدولُ قوائمَ منسدلةٍ -->
+        <div class="q1-board">
+
+          <div class="q1t-table-wrap">
+            <table class="q1t-table">
+              <thead>
+                <tr>
+                  <th>المرتبةُ</th>
+                  <th>الحركةُ</th>
+                </tr>
+              </thead>
+              <tbody id="q1TableBody">
+                <!-- يُبنى ديناميكيًّا -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <div class="q-feedback" id="fb-q1"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 2 — السّؤالُ الثّاني (MCQ تَدريجيٌّ)               -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="2">
+
+        <div class="q-card" id="qCard-q2">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّاني:</strong> أختارُ مُفْرَدَ كُلِّ جَمْعٍ مِنَ الجُموعِ الآتِيَةِ بالعودةِ إلى القاعدةِ الإملائيةِ:
+            </p>
+          </div>
+
+          <!-- حاويةُ الأسئلةِ الفرعيّةِ — progressive reveal -->
+          <div class="q2-questions" id="q2Questions"></div>
+
+          <!-- فيدباكٌ عامٌّ معطّلٌ — الفيدباكُ الآن inline داخلَ كلِّ بطاقةٍ فرعيّةٍ -->
+          <div class="q-feedback" id="fb-q2" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 3 — السّؤالُ النّهائيُّ (انقرْ على الخاطئِ)         -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="3">
+
+        <div class="q-card" id="qCard-q3">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّالثُ:</strong> أنقرُ على الكلماتِ المكتوبةِ بشكلٍ خاطئٍ فيما يأتي.
+            </p>
+          </div>
+
+          <!-- بطاقاتُ الكلماتِ القابلةِ للنّقرِ -->
+          <div class="click-sentences-wrap">
+            <div class="click-sentences" id="clickSentences-q3">
+              <!-- تُملأُ ديناميكيًّا -->
+            </div>
+            <div class="q-feedback" id="fb-q3"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- /.slides-container -->
+
+    <!-- ═══ شاشةُ الإنهاءِ ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart" onclick="restartActivity()">
+            <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES — منقولةٌ من القالبِ
+═══════════════════════════════════════════════════════════════ */
+function toArabic(num) {
+  const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num.toString().split('').map(d => arabic[d] || d).join('');
+}
+function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+function isInZone(el, x, y) {
+  const r = el.getBoundingClientRect();
+  return x > r.left && x < r.right && y > r.top && y < r.bottom;
+}
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GENERIC DRAG SUBSYSTEM — منقولٌ كما هو من القالبِ
+═══════════════════════════════════════════════════════════════ */
+function makeDragSystem(opts) {
+  const {
+    chipsSel, zoneSel,
+    isBlocked = () => false,
+    isChipPlaced = (c) => c.classList.contains('placed'),
+    isZoneFilled = () => false,
+    onAttempt,
+    hoveredClass = 'hovered',
+    cloneStyle = ''
+  } = opts;
+
+  let dragEl = null;
+  let touchClone = null;
+  let touchEl = null;
+  let touchHasMoved = false;
+  let touchStartX = 0, touchStartY = 0;
+  let selectedChip = null;
+
+  document.addEventListener('dragover', (e) => {
+    if (!dragEl) return;
+    const vh = window.innerHeight;
+    const edge = 80, speed = 12;
+    if (e.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+    else if (e.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+  });
+
+  function bindChip(chip) {
+    chip.addEventListener('click', () => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      document.querySelectorAll(chipsSel + '.selected').forEach(c => {
+        if (c !== chip) c.classList.remove('selected');
+      });
+      if (selectedChip === chip) {
+        chip.classList.remove('selected');
+        selectedChip = null;
+      } else {
+        chip.classList.add('selected');
+        selectedChip = chip;
+      }
+    });
+
+    chip.addEventListener('dragstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) { e.preventDefault(); return; }
+      dragEl = chip;
+      chip.classList.add('dragging');
+      chip.dataset.dropped = 'no';
+      e.dataTransfer.effectAllowed = 'move';
+      try { e.dataTransfer.setDragImage(chip, chip.offsetWidth / 2, chip.offsetHeight / 2); } catch(err) {}
+    });
+    chip.addEventListener('dragend', () => {
+      chip.classList.remove('dragging');
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      if (chip.dataset.dropped === 'no') {
+        chip.classList.add('chip-shake');
+        setTimeout(() => chip.classList.remove('chip-shake'), 500);
+      }
+      delete chip.dataset.dropped;
+      dragEl = null;
+    });
+
+    chip.addEventListener('touchstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchHasMoved = false;
+      touchEl = chip;
+    }, { passive: true });
+
+    chip.addEventListener('touchmove', (e) => {
+      if (!touchEl) return;
+      const t = e.touches[0];
+      const dx = Math.abs(t.clientX - touchStartX);
+      const dy = Math.abs(t.clientY - touchStartY);
+      if (!touchHasMoved && (dx > 10 || dy > 10)) {
+        touchHasMoved = true;
+        const rect = touchEl.getBoundingClientRect();
+        touchClone = touchEl.cloneNode(true);
+        touchClone.style.cssText = `
+          position: fixed; top: ${t.clientY - rect.height/2}px; left: ${t.clientX - rect.width/2}px;
+          width: ${rect.width}px; z-index: 9999; opacity: 0.92; pointer-events: none;
+          transform: scale(1.03); box-shadow: 0 12px 30px rgba(132, 72, 22, 0.35); transition: none;
+          background: #fff; border: 2px solid var(--color-primary); border-radius: 14px;
+          font-family: 'Scheherazade', serif; ${cloneStyle}
+        `;
+        document.body.appendChild(touchClone);
+        touchEl.style.opacity = '0.3';
+      }
+      if (touchHasMoved && touchClone) {
+        e.preventDefault();
+        const rect = touchClone.getBoundingClientRect();
+        touchClone.style.top = (t.clientY - rect.height/2) + 'px';
+        touchClone.style.left = (t.clientX - rect.width/2) + 'px';
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.toggle(hoveredClass, isInZone(zone, t.clientX, t.clientY) && !isZoneFilled(zone));
+        });
+        const vh = window.innerHeight;
+        const edge = 80, speed = 12;
+        if (t.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+        else if (t.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+      }
+    }, { passive: false });
+
+    chip.addEventListener('touchend', (e) => {
+      if (!touchEl) return;
+      if (touchHasMoved && touchClone) {
+        const t = e.changedTouches[0];
+        let dropped = false;
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.remove(hoveredClass);
+          if (!dropped && !isZoneFilled(zone) && isInZone(zone, t.clientX, t.clientY)) {
+            onAttempt(touchEl, zone);
+            dropped = true;
+          }
+        });
+        if (!dropped) {
+          touchEl.style.opacity = '';
+          touchEl.classList.add('chip-shake');
+          const ref = touchEl;
+          setTimeout(() => ref && ref.classList && ref.classList.remove('chip-shake'), 500);
+        }
+        touchClone.remove();
+        touchClone = null;
+      } else {
+        touchEl.style.opacity = '';
+      }
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+
+    chip.addEventListener('touchcancel', () => {
+      if (touchClone) { touchClone.remove(); touchClone = null; }
+      if (touchEl) touchEl.style.opacity = '';
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+  }
+
+  function bindZone(zone) {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (!isZoneFilled(zone)) zone.classList.add(hoveredClass);
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove(hoveredClass));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove(hoveredClass);
+      if (isZoneFilled(zone)) return;
+      if (dragEl) {
+        dragEl.dataset.dropped = 'yes';
+        onAttempt(dragEl, zone);
+      }
+    });
+    zone.addEventListener('click', () => {
+      if (isBlocked() || isZoneFilled(zone)) return;
+      if (selectedChip && !isChipPlaced(selectedChip)) {
+        onAttempt(selectedChip, zone);
+        selectedChip.classList.remove('selected');
+        selectedChip = null;
+      }
+    });
+  }
+
+  document.querySelectorAll(chipsSel).forEach(bindChip);
+  document.querySelectorAll(zoneSel).forEach(bindZone);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   السّؤالُ الأوّلُ — جدولُ ترتيبِ الحركاتِ (Dropdowns)
+═══════════════════════════════════════════════════════════════ */
+// REVIEW: المهمّةُ سلّمتْ ترتيبًا يجعلُ "الفتحة" rank 1، لكنَّ أقوى الحركاتِ هي
+// الكسرةُ (الكسرةُ ثمَّ الضّمةُ ثمَّ الفتحةُ ثمَّ السّكونُ)؛ فأبقيتُ الرّتبَ الصّحيحةَ
+// تربويًّا (الكسرة = الأقوى = rank 1) كي يُعلّمَ النّشاطُ الترتيبَ الصّحيحَ.
+const Q1_HARAKAT = [
+  { id: 'kasra',  name: 'الكسرة',  rank: 1 },
+  { id: 'damma',  name: 'الضّمة',  rank: 2 },
+  { id: 'fatha',  name: 'الفتحة',  rank: 3 },
+  { id: 'sukun',  name: 'السّكون',  rank: 4 }
+];
+const Q1_ROLES = ['الأقوى', 'ثم', 'ثم', 'الأضعف'];
+const Q1_MAX_ATTEMPTS = 3;
+
+const q1State = {
+  rows: [
+    { attempts: 0, selected: null, status: null },  // rank 1
+    { attempts: 0, selected: null, status: null },  // rank 2
+    { attempts: 0, selected: null, status: null },  // rank 3
+    { attempts: 0, selected: null, status: null }   // rank 4
+  ],
+  completed: false
+};
+
+function buildQ1() {
+  const body = document.getElementById('q1TableBody');
+  if (!body) return;
+  let html = '';
+  for (let i = 0; i < 4; i++) {
+    const rank = i + 1;
+    html += `
+      <tr class="q1t-row" data-rank="${rank}">
+        <td class="q1t-rank-cell">${Q1_ROLES[i]}</td>
+        <td class="q1t-select-cell">
+          <div class="custom-dropdown q1-harakah-dropdown" data-rank="${rank}">
+            <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="custom-dropdown-value">اختَرْ الحركةَ</span>
+              <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+            </button>
+            <ul class="custom-dropdown-menu" role="listbox">
+              ${Q1_HARAKAT.map(h => `<li class="custom-dropdown-option" data-value="${h.id}" role="option">${h.name}</li>`).join('')}
+            </ul>
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+  body.innerHTML = html;
+
+  attachQ1DropdownHandlers();
+}
+
+function attachQ1DropdownHandlers() {
+  const body = document.getElementById('q1TableBody');
+  if (!body) return;
+
+  body.querySelectorAll('.q1-harakah-dropdown').forEach(dd => {
+    const rank = parseInt(dd.dataset.rank);
+    const trigger = dd.querySelector('.custom-dropdown-trigger');
+    const valueSpan = dd.querySelector('.custom-dropdown-value');
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      // أَغلقْ القوائمَ الأخرى
+      body.querySelectorAll('.q1-harakah-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          const t = other.querySelector('.custom-dropdown-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', !wasOpen);
+    });
+
+    dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const harakahId = opt.dataset.value;
+        const harakahName = opt.textContent;
+        dd.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        valueSpan.textContent = harakahName;
+        handleQ1Selection(rank, harakahId, valueSpan, dd);
+      });
+    });
+  });
+}
+
+function handleQ1Selection(rank, harakahId, valueSpan, dd) {
+  if (q1State.completed) return;
+  const rState = q1State.rows[rank - 1];
+  if (rState.status === 'correct' || rState.status === 'revealed') return;
+  if (rState.attempts >= Q1_MAX_ATTEMPTS) return;
+
+  rState.attempts++;
+  const expectedHarakah = Q1_HARAKAT.find(h => h.rank === rank);
+  const isCorrect = harakahId === expectedHarakah.id;
+  const row = dd.closest('.dropdown-row');
+
+  // امسحْ الحالاتِ السّابقةَ
+  row.classList.remove('correct-row', 'wrong-row', 'revealed-row');
+
+  if (isCorrect) {
+    rState.selected = harakahId;
+    rState.status = 'correct';
+    row.classList.add('correct-row');
+    dd.classList.add('is-disabled');
+    checkQ1Completion();
+  } else {
+    row.classList.add('wrong-row');
+
+    if (rState.attempts >= Q1_MAX_ATTEMPTS) {
+      // ٣ محاولاتٍ → اكشفِ الإجابةَ الصّحيحةَ
+      rState.selected = expectedHarakah.id;
+      rState.status = 'revealed';
+      setTimeout(() => {
+        row.classList.remove('wrong-row');
+        row.classList.add('revealed-row');
+        valueSpan.textContent = expectedHarakah.name;
+        dd.classList.add('is-disabled');
+        checkQ1Completion();
+      }, 800);
+    } else {
+      // محاولاتٌ متبقّيةٌ — أعِدْ القائمةَ إلى "اختَرْ" بعدَ لحظة
+      setTimeout(() => {
+        row.classList.remove('wrong-row');
+        valueSpan.textContent = 'اختَرْ الحركةَ';
+      }, 1200);
+    }
+  }
+}
+
+function checkQ1Completion() {
+  const allDone = q1State.rows.every(r => r.status === 'correct' || r.status === 'revealed');
+  if (allDone && !q1State.completed) {
+    q1State.completed = true;
+    const fb = document.getElementById('fb-q1');
+    if (fb) {
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! رتّبتَ الحركات بشكلٍ صحيحٍ.';
+    }
+    if (typeof updateNavButtons === 'function') updateNavButtons();
+    if (typeof updateProgressBar === 'function') updateProgressBar();
+  }
+}
+
+// إغلاقُ القوائمِ عندَ النّقرِ خارجَها
+document.addEventListener('click', (e) => {
+  document.querySelectorAll('.q1-harakah-dropdown.is-open').forEach(dd => {
+    if (!dd.contains(e.target)) {
+      dd.classList.remove('is-open');
+      const trigger = dd.querySelector('.custom-dropdown-trigger');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+// (buildQ1 يُستدعى من قسمِ INIT في نهايةِ الـ script)
+
+/* ══════════════════════════════════════════════════════════════
+   Q2 — اختيارُ مُفْرَدِ الجَمعِ (MCQ تَدريجيٌّ)
+═══════════════════════════════════════════════════════════════ */
+const Q2_QUESTIONS = [
+  { plural: 'المَآذن',   choices: ['مأذنةٌ',  'مئذنةٌ',  'مءذنةٌ',  'مؤذنةٌ'], correctIdx: 1 },
+  { plural: 'الفِئاتُ',   choices: ['فِأةٌ',   'فِئةٌ',   'فِؤةٌ',   'فِءةٌ'],   correctIdx: 1 },
+  { plural: 'المسائِل',  choices: ['مَسألةٌ', 'مَسئلةٌ', 'مَسؤلةٌ', 'مَسءلةٌ'], correctIdx: 0 },
+  { plural: 'الفؤوس',    choices: ['فأسٌ',    'فئسٌ',    'فؤسٌ',    'فءسٌ'],    correctIdx: 0 },
+  { plural: 'البؤَر',     choices: ['بُأرةٌ',   'بُئرةٌ',   'بُؤرةٌ',   'بُءرةٌ'],   correctIdx: 2 }
+];
+
+const q2State = {
+  completed: false,
+  questions: Q2_QUESTIONS.map(() => ({ answered: false, attempts: 0, isCorrect: false }))
+};
+
+const Q2_LETTERS = ['أ', 'ب', 'ج', 'د'];
+
+function buildQ2() {
+  const container = document.getElementById('q2Questions');
+  if (!container) return;
+  container.innerHTML = Q2_QUESTIONS.map((q, qIdx) => {
+    const hiddenClass = qIdx === 0 ? '' : ' stage-reveal';
+    const optionsHtml = q.choices.map((choice, cIdx) => `
+      <label class="mcq-option-label">
+        <input type="radio" name="q2-q${qIdx}" value="${cIdx}">
+        <span class="mcq-option-text">${Q2_LETTERS[cIdx]}. ${choice}</span>
+      </label>
+    `).join('');
+    return `
+      <div class="q2-question${hiddenClass}" data-q="${qIdx}">
+        <div class="q2-prompt-row">
+          <span class="q2-prompt-num">${toArabic(qIdx + 1)}</span>
+          <span class="q2-prompt-word">${q.plural}</span>
+        </div>
+        <div class="mcq-options">${optionsHtml}</div>
+        <!-- ⬇ فيدباك inline داخلَ البطاقةِ الفرعيّةِ -->
+        <div class="q-feedback q2-fb-inline" id="fbInline-q2-${qIdx}" style="display: none;"></div>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.q2-question').forEach(qDiv => {
+    const qIdx = parseInt(qDiv.dataset.q);
+    qDiv.querySelectorAll('input[type="radio"]').forEach(r => {
+      r.addEventListener('change', () => handleQ2Pick(qIdx, parseInt(r.value)));
+    });
+  });
+}
+
+function handleQ2Pick(qIdx, choiceIdx) {
+  if (q2State.completed) return;
+  const qState = q2State.questions[qIdx];
+  if (qState.answered) return;
+  if (qState.attempts >= 3) return;
+
+  qState.attempts++;
+  const q = Q2_QUESTIONS[qIdx];
+  const qDiv = document.querySelector(`.q2-question[data-q="${qIdx}"]`);
+  const labels = qDiv.querySelectorAll('.mcq-option-label');
+  const inputs = qDiv.querySelectorAll('input[type="radio"]');
+  const isCorrect = choiceIdx === q.correctIdx;
+
+  labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    qState.answered = true;
+    qState.isCorrect = true;
+    labels.forEach((l, i) => {
+      if (i === q.correctIdx) l.classList.add('correct-option');
+      inputs[i].disabled = true;
+      l.classList.add('disabled');
+    });
+    qDiv.classList.remove('incorrect');
+    qDiv.classList.add('correct');
+    showQ2InlineFeedback(qIdx, 'correct', 'أحسنتَ! إجابةٌ صحيحةٌ.');
+    progressQ2(qIdx);
+  } else {
+    labels.forEach((l, i) => {
+      if (i === choiceIdx) l.classList.add('wrong-option');
+    });
+    if (qState.attempts >= 3) {
+      labels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === q.correctIdx) l.classList.add('revealed');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      qState.answered = true;
+      qDiv.classList.add('correct');
+      showQ2InlineFeedback(qIdx, 'revealed', 'أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.');
+      progressQ2(qIdx);
+    } else {
+      showQ2InlineFeedback(qIdx, 'wrong', 'إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!');
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('wrong-option'));
+        inputs.forEach(i => { i.checked = false; });
+      }, 1500);
+    }
+  }
+}
+
+/* فيدباكٌ inline يظهرُ داخلَ البطاقةِ الفرعيّةِ ثمّ يختفي تلقائيًّا */
+function showQ2InlineFeedback(qIdx, type, message) {
+  const fb = document.getElementById(`fbInline-q2-${qIdx}`);
+  if (!fb) return;
+  fb.style.display = 'flex';
+  fb.className = `q-feedback q2-fb-inline show-${type}`;
+  const icon = type === 'correct'
+    ? '<i class="fas fa-check-circle"></i>'
+    : (type === 'revealed'
+        ? '<i class="fas fa-check-circle"></i>'
+        : '<i class="fas fa-times-circle"></i>');
+  fb.innerHTML = `${icon}${message}`;
+
+  // مسحُ المؤقّتِ السّابقِ إن وُجِدَ
+  if (!window._q2FbTimers) window._q2FbTimers = {};
+  if (window._q2FbTimers[qIdx]) clearTimeout(window._q2FbTimers[qIdx]);
+
+  // مدّةُ الإخفاءِ الموحَّدةُ: صحّ 2500ms / مكشوف 3000ms / خطأ 1500ms
+  const hideAfter = type === 'correct' ? 2500 : (type === 'revealed' ? 3000 : 1500);
+  window._q2FbTimers[qIdx] = setTimeout(() => {
+    fb.style.display = 'none';
+    fb.className = 'q-feedback q2-fb-inline';
+    fb.innerHTML = '';
+  }, hideAfter);
+}
+
+function progressQ2(qIdx) {
+  const nextIdx = qIdx + 1;
+  if (nextIdx < Q2_QUESTIONS.length) {
+    setTimeout(() => {
+      const nextQ = document.querySelector(`.q2-question[data-q="${nextIdx}"]`);
+      if (nextQ && !nextQ.classList.contains('revealed')) {
+        nextQ.classList.add('revealed');
+        nextQ.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 900);
+  } else {
+    setTimeout(() => {
+      q2State.completed = true;
+      // REVIEW: رسالةُ إتمامِ Q2 تَستخدمُ نظامَ الفيدباكِ الـ inline المؤقّتَ (يختفي بعدَ 2500ms)؛
+      // أبقيناها مؤقّتةً كـ show-correct بدلَ جعلِها دائمةً، لأنّها داخلَ بطاقةٍ فرعيّةٍ لا فيدباكَ السّؤالِ الرّئيسِ.
+      showQ2InlineFeedback(Q2_QUESTIONS.length - 1, 'correct', 'ممتاز! أتممتَ السّؤالَ الثّاني.');
+      updateNavButtons();
+      updateProgressBar();
+    }, 900);
+  }
+  updateProgressBar();
+}
+
+/* ══════════════════════════════════════════════════════════════
+   السّؤالُ الثّالثُ — أَنقرْ على الكلماتِ الخاطئةِ (منقولٌ من الاختبارِ التّشخيصيِّ)
+═══════════════════════════════════════════════════════════════ */
+const Q3_WORDS = [
+  { letter: 'أ', word: 'تَساءَلَ',  isWrong: false },
+  { letter: 'ب', word: 'المُأَلِّف', isWrong: true  },
+  { letter: 'ج', word: 'جائِزَةُ',   isWrong: false },
+  { letter: 'د', word: 'نُبوؤةٌ',    isWrong: true  },
+  { letter: 'هـ', word: 'براءةٌ',    isWrong: false },
+  { letter: 'و', word: 'بيئةٌ',      isWrong: false },
+  { letter: 'ز', word: 'عباأةٌ',     isWrong: true  },
+  { letter: 'ح', word: 'مروءةٌ',     isWrong: false },
+  { letter: 'ط', word: 'الهيأةُ',    isWrong: true  }
+];
+
+const Q3_MAX_ATTEMPTS = 3;
+
+const q3State = {
+  attempts: 0,
+  completed: false,
+  revealed: false,
+  selected: new Set()  // مجموعةُ الإجاباتِ المُحدَّدةِ من الطّالبِ
+};
+
+/* ══════════════════════════════════════════════════════════════
+   السّؤالُ الثّالثُ — تحقّقٌ تلقائيٌّ على كلِّ نقرةٍ (لا أزرارَ)
+═══════════════════════════════════════════════════════════════ */
+function buildQ3() {
+  const container = document.getElementById('clickSentences-q3');
+  if (!container) return;
+  container.innerHTML = Q3_WORDS.map((w, idx) => `
+    <div class="click-sentence" data-idx="${idx}" data-wrong="${w.isWrong}">
+      <div class="click-sentence-letter">${w.letter}</div>
+      <div class="click-sentence-text">${w.word}</div>
+      <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.click-sentence').forEach(card => {
+    card.addEventListener('click', () => handleQ3Tap(card));
+  });
+}
+
+function handleQ3Tap(card) {
+  if (q3State.completed || q3State.revealed) return;
+  if (card.classList.contains('correct-sentence')) return;  // مقفلةٌ سابقًا
+
+  const idx = card.dataset.idx;
+  const isWrong = card.dataset.wrong === 'true';  // الكلمةُ الخاطئةُ = الإجابةُ الصّحيحةُ
+  const fb = document.getElementById('fb-q3');
+
+  if (isWrong) {
+    // ✅ اختيارٌ صحيحٌ (كلمةٌ خاطئةُ الكتابةِ)
+    card.classList.remove('wrong-sentence');
+    card.classList.add('correct-sentence');
+    q3State.selected.add(idx);
+
+    // عَدُّ الإجاباتِ الصّحيحةِ
+    const totalCorrect = Q3_WORDS.filter(w => w.isWrong).length;
+    if (q3State.selected.size === totalCorrect) {
+      q3State.completed = true;
+      if (fb) {
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! اخترتَ الكلماتِ الخاطئةَ جميعَها.';
+      }
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    }
+  } else {
+    // ❌ اختيارٌ خاطئٌ (كلمةٌ صحيحةُ الكتابةِ)
+    q3State.attempts++;
+    card.classList.add('wrong-sentence');
+
+    if (q3State.attempts >= Q3_MAX_ATTEMPTS) {
+      // كَشفُ الإجاباتِ الصّحيحةِ
+      q3State.revealed = true;
+      q3State.completed = true;
+      document.querySelectorAll('#clickSentences-q3 .click-sentence').forEach(c => {
+        const cIsWrong = c.dataset.wrong === 'true';
+        if (cIsWrong) {
+          c.classList.remove('wrong-sentence');
+          c.classList.add('correct-sentence');
+        } else {
+          c.classList.remove('wrong-sentence');
+        }
+      });
+      if (fb) {
+        fb.className = 'q-feedback show-revealed';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! الكلماتُ الخاطئةُ مُلوّنةٌ بالأخضرِ.';
+      }
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    } else {
+      // محاولةٌ خاطئةٌ — بلا عدّادِ محاولاتٍ
+      if (fb) {
+        fb.className = 'q-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      }
+      setTimeout(() => {
+        card.classList.remove('wrong-sentence');
+        if (fb && !q3State.completed) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+function showSuccessScreen() {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('taskNav').style.display = 'none';
+  spawnConfetti();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function spawnConfetti() {
+  const wrap = document.getElementById('completeWrap');
+  if (!wrap) return;
+  const colors = ['#EDC66F', '#844816', '#808122', '#B7472D', '#6b8b1f'];
+  for (let i = 0; i < 36; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'confetti-dot';
+    const sz = 6 + Math.random() * 10;
+    dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+      colors[~~(Math.random() * colors.length)] +
+      ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+      'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+      'animation-delay:' + (Math.random() * 0.9) + 's';
+    wrap.appendChild(dot);
+    setTimeout(() => dot.remove(), 3500);
+  }
+}
+function restartActivity() { location.reload(); }
+
+/* ══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+let currentSlide = 1;
+const TOTAL_SLIDES = 3;
+
+function goToSlide(idx) {
+  if (idx < 1 || idx > TOTAL_SLIDES) return;
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+  currentSlide = idx;
+  updateProgressBar();
+  updateNavButtons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function nextSlide() {
+  if (currentSlide < TOTAL_SLIDES) goToSlide(currentSlide + 1);
+  else showSuccessScreen();
+}
+function prevSlide() {
+  if (currentSlide > 1) goToSlide(currentSlide - 1);
+}
+
+function updateNavButtons() {
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.style.visibility = currentSlide === 1 ? 'hidden' : '';
+
+  if (currentSlide === TOTAL_SLIDES) {
+    nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+  } else {
+    nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+  }
+
+  switch (currentSlide) {
+    case 1: nextBtn.disabled = false; /* TEMP_BYPASS: was !q1State.completed */ break;
+    case 2: nextBtn.disabled = false; /* TEMP_BYPASS: was !q2State.completed */ break;
+    case 3: nextBtn.disabled = false; /* TEMP_BYPASS: was !q3State.completed */ break;
+  }
+}
+
+function updateProgressBar() {
+  let pct = 0;
+  // Q1: 0-33%
+  if (currentSlide === 1) {
+    const done = q1State.rows.filter(r => r.status === 'correct' || r.status === 'revealed').length;
+    pct = (done / 4) * 33;
+  }
+
+  if (currentSlide >= 2 || q2State.completed) {
+    const q2Done = q2State.questions.filter(q => q.isCorrect || q.answered).length;
+    if (q2State.completed) pct = 66;
+    else pct = 33 + (q2Done / Q2_QUESTIONS.length) * 30;
+  }
+  if (currentSlide >= 3 || q3State.completed) {
+    if (q3State.completed) pct = 100;
+    else pct = 70;
+  }
+
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NO-PERSISTENCE
+═══════════════════════════════════════════════════════════════ */
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) window.location.reload();
+});
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+buildQ1();
+buildQ2();
+buildQ3();
+updateNavButtons();
+updateProgressBar();
+</script>
+</body>
+</html>

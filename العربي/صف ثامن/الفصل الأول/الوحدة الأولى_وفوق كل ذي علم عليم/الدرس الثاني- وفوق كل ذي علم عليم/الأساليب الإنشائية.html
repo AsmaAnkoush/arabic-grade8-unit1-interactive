@@ -1,0 +1,2286 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأساليب الإنشائية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS — مطابِقةٌ لـ lesson-2-activity-1.html
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-secondary-hover:  #f2d489;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-olive-hover:      #9c9d3a;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-main-title:   40px;
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+.instr-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 0;
+}
+.instr-hint-img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.instr-hint-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE VISIBILITY
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD (مطابقٌ للقالبِ)
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+.q-card-verse {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 10px 0 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: center;
+}
+.q-card-sub-title {
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin: 16px 0 10px;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 19px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback i { margin-left: 4px; }
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDE CONTROLS
+═══════════════════════════════════════════════════════════════ */
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  padding: 16px 16px 0;
+  flex-wrap: wrap;
+}
+.slide-controls .btn-action {
+  min-width: 140px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MCQ
+═══════════════════════════════════════════════════════════════ */
+.mcq-options { display: grid; gap: 10px; }
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text { color: var(--color-error); }
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STAGED REVEAL (Q1b after Q1a)
+═══════════════════════════════════════════════════════════════ */
+.stage-reveal {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.6s ease;
+}
+.stage-reveal.revealed {
+  opacity: 1;
+  max-height: 2000px;
+  overflow: visible;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  60%  { transform: translateY(0) scale(1.015); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.stage-divider {
+  border: none;
+  border-top: 2px dashed var(--color-primary-light);
+  margin: 22px 0 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLASSIFICATION (نفي / نهي)
+═══════════════════════════════════════════════════════════════ */
+.classify-bank {
+  background: transparent;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  min-height: 60px;
+}
+.classify-categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin: 14px 16px 0;
+}
+.classify-category {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  min-height: 220px;
+}
+.classify-category.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.classify-category-title {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.20);
+}
+.classify-category-drop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 120px;
+  padding: 4px;
+  border-radius: 8px;
+}
+.classify-category-placeholder {
+  font-size: 14px;
+  color: var(--color-sand);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  padding: 22px 8px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.classify-category-placeholder i { font-size: 14px; }
+.classify-category.has-items .classify-category-placeholder { display: none; }
+
+.classify-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  line-height: var(--line-height-normal);
+  max-width: 100%;
+}
+.classify-chip:not(.placed):hover {
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+.classify-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40);
+  transform: translateY(-2px);
+}
+.classify-chip.dragging { opacity: 0.4; cursor: grabbing; }
+.classify-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.classify-chip.chip-shake { animation: chipShake 0.5s; }
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.classify-zone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(107, 139, 31, 0.10);
+  border: 2px solid var(--color-success);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: #4d6618;
+  line-height: var(--line-height-normal);
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.classify-zone-chip i {
+  color: var(--color-success);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLICK-SELECT (Q4: استخراجُ أداةِ التّوكيدِ)
+═══════════════════════════════════════════════════════════════ */
+.click-sentences-wrap { margin: 14px 16px 0; }
+.click-sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.click-sentence {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.click-sentence:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.12);
+}
+.click-sentence-letter {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 17px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.click-sentence-text {
+  flex: 1;
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+  text-align: right;
+}
+.click-sentence-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: transparent;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.click-sentence.selected {
+  background: var(--color-secondary-light);
+  border-color: var(--color-primary);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.35);
+}
+.click-sentence.selected .click-sentence-check {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.35);
+}
+.click-sentence.selected .click-sentence-check i { animation: checkPop 0.3s ease; }
+@keyframes checkPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.click-sentence.locked { pointer-events: none; }
+.click-sentence.reveal-correct {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.click-sentence.reveal-correct .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.reveal-correct .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+}
+.click-sentence.reveal-miss {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+  animation: cardShake 0.5s;
+}
+.click-sentence.reveal-miss .click-sentence-letter {
+  background: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.click-group-label {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin: 4px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.click-group-label .num {
+  background: var(--color-primary);
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  display: none;
+  width: 100%;
+}
+.success-screen.show {
+  display: block;
+  animation: fadeIn 0.6s ease;
+}
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-secondary) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 34px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart {
+  margin-top: 28px;
+}
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(320px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .classify-bank, .classify-categories, .q-feedback,
+  .click-sentences-wrap {
+    margin-left: 10px; margin-right: 10px;
+  }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 24px !important; }
+  .task-instr-text { font-size: 19px; }
+  .instr-hint { gap: 10px; }
+  .instr-hint-img { width: 36px; height: 36px; }
+  .instr-hint-text { font-size: 16px; }
+
+  .classify-categories { gap: 10px; }
+  .classify-category { min-height: 180px; padding: 12px; }
+  .classify-category-title { font-size: 17px; padding: 9px 12px; }
+  .classify-chip { font-size: 17px; padding: 10px 14px; }
+
+  .click-sentence-text { font-size: 20px; }
+  .click-sentence { padding: 12px 14px; gap: 12px; }
+  .click-sentence-letter { width: 32px; height: 32px; font-size: 16px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 20px !important; }
+  .task-instr-row, .classify-bank, .classify-categories, .q-feedback,
+  .click-sentences-wrap {
+    margin-left: 8px; margin-right: 8px;
+  }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  .instr-hint-img { width: 32px; height: 32px; }
+  .instr-hint-text { font-size: 15px; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .classify-categories { grid-template-columns: 1fr; gap: 10px; }
+  .classify-category { min-height: 150px; padding: 10px; }
+  .classify-category-title { font-size: 16px; }
+  .classify-chip { font-size: 16px; padding: 9px 12px; }
+
+  .click-sentence-text { font-size: 18px; }
+  .click-sentence { padding: 11px 13px; gap: 10px; }
+  .click-sentence-letter { width: 30px; height: 30px; font-size: 15px; }
+
+  .q-card-verse { font-size: 18px; padding: 12px 14px; }
+  .mcq-option-text { font-size: 17px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+  .q-card-sub-title { font-size: 18px; }
+
+  .complete-wrap { padding: 36px 18px 50px; }
+  .trophy-img { width: 180px; height: 180px; }
+  .trophy-glow { width: 260px; height: 260px; }
+  .complete-title { font-size: 26px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+  .slide-controls {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+  .slide-controls .btn-action { flex: 1; min-width: 0; width: auto; }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 17px !important; }
+  .click-sentence-text { font-size: 17px; }
+}
+
+@media (hover: none) {
+  .classify-chip:not(.placed):hover,
+  .click-sentence:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+    background: #fffaf3;
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.05s !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLASSIFICATION (قوائم منسدلة) — نفس مكوّنِ التصنيفِ في بقيّةِ الأسئلةِ
+═══════════════════════════════════════════════════════════════ */
+.q2c-cards-wrap { margin: 14px 16px 0; display: flex; flex-direction: column; gap: 12px; }
+.q2c-card {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.06);
+}
+.q2c-card.q2c-hidden { display: none; }
+.q2c-card.q2c-reveal { animation: q2cCardReveal 0.45s ease both; }
+@keyframes q2cCardReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.q2c-card-letter {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--color-primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: var(--font-weight-extrabold); font-size: 17px;
+  flex-shrink: 0; box-shadow: 0 2px 4px rgba(132, 72, 22, 0.25);
+}
+.q2c-card-text {
+  font-size: 19px; font-weight: var(--font-weight-bold);
+  color: var(--color-ink); line-height: var(--line-height-relaxed); text-align: right;
+}
+.q2c-card-select { min-width: 220px; }
+.q2c-dropdown { position: relative; display: inline-block; width: 100%; font-family: var(--font-family); }
+.q2c-dropdown-trigger {
+  width: 100%; padding: 11px 16px; font-family: var(--font-family);
+  font-size: 18px; font-weight: var(--font-weight-bold); color: var(--color-ink);
+  background: #fff; border: 2px solid var(--color-primary-light); border-radius: 10px;
+  cursor: pointer; outline: none; transition: all 0.2s ease; direction: rtl;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.q2c-dropdown-trigger:hover { border-color: var(--color-secondary); background: #fffaf3; }
+.q2c-dropdown.is-open .q2c-dropdown-trigger { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30); }
+.q2c-dropdown-value { flex: 1; text-align: center; line-height: 1.4; word-break: break-word; }
+.q2c-dropdown-arrow { color: var(--color-primary); font-size: 14px; transition: transform 0.25s ease; flex-shrink: 0; }
+.q2c-dropdown.is-open .q2c-dropdown-arrow { transform: rotate(180deg); }
+.q2c-dropdown-menu {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: #fff; border: 2px solid var(--color-primary); border-radius: 12px;
+  padding: 6px; list-style: none; margin: 0; box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100; opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; max-height: 280px; overflow-y: auto;
+}
+.q2c-dropdown.is-open .q2c-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.q2c-dropdown-option {
+  padding: 11px 16px; font-family: var(--font-family); font-size: 18px;
+  font-weight: var(--font-weight-bold); color: var(--color-ink); border-radius: 8px;
+  cursor: pointer; text-align: center; transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.q2c-dropdown-option + .q2c-dropdown-option { margin-top: 2px; border-top: 1px solid var(--color-primary-light); border-radius: 0; }
+.q2c-dropdown-option:first-child { border-radius: 8px 8px 0 0; }
+.q2c-dropdown-option:last-child { border-radius: 0 0 8px 8px; }
+.q2c-dropdown-option:hover { background: var(--color-secondary-light); color: var(--color-primary); }
+.q2c-dropdown-option.is-selected { background: var(--color-primary); color: #fff; }
+.q2c-dropdown.is-disabled .q2c-dropdown-trigger { cursor: default; pointer-events: none; }
+.q2c-card.correct-card { border-color: var(--color-success); border-width: 3px; background: #f7faea; box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18); }
+.q2c-card.correct-card .q2c-card-letter { background: var(--color-success); box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35); }
+.q2c-card.correct-card .q2c-card-text { color: var(--color-success); }
+.q2c-card.correct-card .q2c-dropdown-trigger { border-color: var(--color-success); border-width: 3px; background: #f3f7e3; color: var(--color-success); font-weight: var(--font-weight-extrabold); }
+.q2c-card.correct-card .q2c-dropdown-arrow { color: var(--color-success); }
+.q2c-card.wrong-card { border-color: var(--color-error); border-width: 3px; background: #fbeeea; animation: chipShake 0.5s ease; }
+.q2c-card.wrong-card .q2c-dropdown-trigger { border-color: var(--color-error); border-width: 3px; background: #fbeeea; color: var(--color-error); }
+.q2c-card.wrong-card .q2c-dropdown-arrow { color: var(--color-error); }
+.q2c-card.revealed-card { border-color: var(--color-success); border-width: 3px; background: #f7faea; box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18); animation: pulse-q2c-correct 0.6s ease; }
+.q2c-card.revealed-card .q2c-card-letter { background: var(--color-success); box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35); }
+.q2c-card.revealed-card .q2c-card-text { color: var(--color-success); }
+.q2c-card.revealed-card .q2c-dropdown-trigger { border-color: var(--color-success); border-width: 3px; background: #f3f7e3; color: var(--color-success); font-weight: var(--font-weight-extrabold); }
+.q2c-card.revealed-card .q2c-dropdown-arrow { color: var(--color-success); }
+@keyframes pulse-q2c-correct { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+@media (max-width: 700px) {
+  .q2c-card { padding: 14px; column-gap: 10px; row-gap: 10px; grid-template-columns: auto 1fr; grid-template-areas: "letter text" "select select"; align-items: center; }
+  .q2c-card-letter { grid-area: letter; width: 34px; height: 34px; font-size: 15px; }
+  .q2c-card-text { grid-area: text; font-size: 17px; }
+  .q2c-card-select { grid-area: select; min-width: 0; width: 100%; margin-top: 2px; }
+  .q2c-dropdown-trigger { font-size: 16px; padding: 10px 14px; justify-content: space-between; }
+  .q2c-dropdown-value { flex: 1; text-align: center; }
+  .q2c-dropdown-option { font-size: 16px; padding: 10px 14px; line-height: 1.5; }
+}
+@media (max-width: 480px) {
+  .q2c-cards-wrap { margin-left: 8px; margin-right: 8px; gap: 10px; }
+  .q2c-card { padding: 12px; gap: 10px; }
+  .q2c-card-letter { width: 30px; height: 30px; font-size: 14px; }
+  .q2c-card-text { font-size: 16px; line-height: 1.7; }
+  .q2c-dropdown-trigger { font-size: 15px; padding: 9px 12px; }
+  .q2c-dropdown-option { font-size: 15px; padding: 9px 12px; }
+}
+
+/* توحيدُ طباعةِ عناوينِ الأسئلةِ ومحاذاةِ زرِّ السّمّاعةِ على الجوّالِ (Q1/Q3/Q4) */
+@media (max-width: 700px) {
+  [data-slide="1"] .q-card-title,
+  [data-slide="3"] .q-card-title,
+  [data-slide="4"] .q-card-title {
+    font-size: 19px;
+  }
+  [data-slide="1"] .q-card-header,
+  [data-slide="3"] .q-card-header,
+  [data-slide="4"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="3"] .q-card-header .audio-btn,
+  [data-slide="4"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="3"] .q-card-header .q-card-title,
+  [data-slide="4"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+}
+@media (max-width: 480px) {
+  [data-slide="1"] .q-card-title,
+  [data-slide="3"] .q-card-title,
+  [data-slide="4"] .q-card-title {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  [data-slide="1"] .q-card-header,
+  [data-slide="3"] .q-card-header,
+  [data-slide="4"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="3"] .q-card-header .audio-btn,
+  [data-slide="4"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="3"] .q-card-header .q-card-title,
+  [data-slide="4"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">الأساليب الإنشائية</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Instruction Row ═══ -->
+    <div class="task-instr-row" id="instrRow" style="display:none;">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText"></p>
+        <div class="instr-hint" id="instrHint" style="display:none;">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/i7t_Mq6Gv8mJq6Fm.png" alt="" class="instr-hint-img">
+          <span class="instr-hint-text" id="instrHintText"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 1: السّؤالُ الأوّلُ — نوعُ الأسلوبِ + الغرضُ      -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+        <div class="q-card" id="qCard-q1">
+
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السُّؤالُ الأوّلُ:</strong> نوعُ الأسلوبِ في قولِهِ تعالى:
+            </p>
+          </div>
+
+          <div class="q-card-verse">
+            «مَّنۡ عَمِلَ صَٰلِحٗا فَلِنَفۡسِهِۦۖ وَمَنۡ أَسَآءَ فَعَلَيۡهَا»
+          </div>
+
+          <p class="q-card-sub-title">هو:</p>
+
+          <div class="mcq-options">
+            <label class="mcq-option-label">
+              <input type="radio" name="q1a" value="0">
+              <span class="mcq-option-text">أ. استفهامٌ</span>
+            </label>
+            <label class="mcq-option-label">
+              <input type="radio" name="q1a" value="1">
+              <span class="mcq-option-text">ب. شرطٌ</span>
+            </label>
+            <label class="mcq-option-label">
+              <input type="radio" name="q1a" value="2">
+              <span class="mcq-option-text">ج. استدراكٌ</span>
+            </label>
+          </div>
+
+          <div class="q-feedback" id="fb-q1a" style="margin:14px 0 0;"></div>
+
+          <!-- ─── المرحلةُ الثّانيةُ: الغرضُ — تُكشفُ بعدَ إجابةِ المرحلةِ الأولى ─── -->
+          <div class="stage-reveal" id="q1bStage">
+            <hr class="stage-divider">
+            <p class="q-card-sub-title">وغرضُهُ هو:</p>
+            <div class="mcq-options">
+              <label class="mcq-option-label">
+                <input type="radio" name="q1b" value="0">
+                <span class="mcq-option-text">أ. الحثُّ على فعلِ الخيرِ وتركِ الشّرِّ.</span>
+              </label>
+              <label class="mcq-option-label">
+                <input type="radio" name="q1b" value="1">
+                <span class="mcq-option-text">ب. الحثُّ على الزّهدِ والتّفرّغِ للعبادةِ.</span>
+              </label>
+              <label class="mcq-option-label">
+                <input type="radio" name="q1b" value="2">
+                <span class="mcq-option-text">ج. الحثُّ على العملِ أيًّا كانَ نوعُهُ.</span>
+              </label>
+            </div>
+            <div class="q-feedback" id="fb-q1b" style="margin:14px 0 0;"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 2: السّؤالُ الثّاني — تصنيفُ نفي/نهي              -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="2">
+
+        <!-- بطاقاتُ التّصنيفِ بالقوائمِ المنسدلةِ (نفس نظامِ التصنيفِ في بقيّةِ الأسئلةِ) -->
+        <div class="q2c-cards-wrap" id="q2cCardsWrap"></div>
+
+        <div class="q-feedback" id="fb-q2"></div>
+
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 3: السّؤالُ الثّالثُ — أسلوبٌ في "لا تَضَعُ إلّا بعلمه" -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="3">
+        <div class="q-card" id="qCard-q3">
+
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السُّؤالُ الثّالثُ:</strong> نوعُ الأسلوبِ في قولِهِ تعالى:
+            </p>
+          </div>
+
+          <div class="q-card-verse">
+            «وَلَا تَضَعُ إِلَّا بِعِلۡمِهِۦ»
+          </div>
+
+          <p class="q-card-sub-title">هو:</p>
+
+          <div class="mcq-options">
+            <label class="mcq-option-label">
+              <input type="radio" name="q3" value="0">
+              <span class="mcq-option-text">أ. قَصرٌ</span>
+            </label>
+            <label class="mcq-option-label">
+              <input type="radio" name="q3" value="1">
+              <span class="mcq-option-text">ب. نَفيٌ</span>
+            </label>
+            <label class="mcq-option-label">
+              <input type="radio" name="q3" value="2">
+              <span class="mcq-option-text">ج. نَهيٌ</span>
+            </label>
+          </div>
+
+          <div class="q-feedback" id="fb-q3" style="margin:14px 0 0;"></div>
+
+        </div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--   SLIDE 4: السّؤالُ الرّابعُ — استخراجُ أداةِ التّوكيدِ      -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="4">
+        <div class="q-card" id="qCard-q4">
+
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السُّؤالُ الرّابعُ:</strong> أستخرجُ أداةَ التّوكيدِ في كلِّ عبارةٍ ممّا يأتي بالنّقرِ عليها.
+            </p>
+          </div>
+
+          <!-- ─── العبارةُ الأولى ─── -->
+          <div class="q-card-verse">
+            «إِنَّ لِي عِندَهُۥ لَلۡحُسۡنَىٰ»
+          </div>
+          <div class="click-sentences-wrap">
+            <div class="click-sentences" data-group-name="g1">
+              <div class="click-sentence" data-letter="أ" data-group="g1" data-correct="true">
+                <div class="click-sentence-letter">أ</div>
+                <div class="click-sentence-text">إِنَّ</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="ب" data-group="g1">
+                <div class="click-sentence-letter">ب</div>
+                <div class="click-sentence-text">لِي</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="ج" data-group="g1">
+                <div class="click-sentence-letter">ج</div>
+                <div class="click-sentence-text">عِندَهُۥ</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+              <div class="click-sentence" data-letter="د" data-group="g1">
+                <div class="click-sentence-letter">د</div>
+                <div class="click-sentence-text">لَلۡحُسۡنَىٰ</div>
+                <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+              </div>
+            </div>
+            <div class="q-feedback q-feedback-inline" data-group-fb="g1" style="margin:10px 0 0;"></div>
+          </div>
+
+          <!-- ─── العبارةُ الثّانيةُ — تظهرُ بعدَ حلِّ الأولى (نفسُ آليّةِ كشفِ MCQ) ─── -->
+          <div class="stage-reveal" id="q4Stage2">
+            <div class="q-card-verse">
+              «سَنُرِيهِمۡ ءَايَٰتِنَا فِي ٱلۡأٓفَاقِ»
+            </div>
+            <div class="click-sentences-wrap">
+              <div class="click-sentences" data-group-name="g2">
+                <div class="click-sentence" data-letter="أ" data-group="g2" data-correct="true">
+                  <div class="click-sentence-letter">أ</div>
+                  <div class="click-sentence-text">سَ</div>
+                  <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+                </div>
+                <div class="click-sentence" data-letter="ب" data-group="g2">
+                  <div class="click-sentence-letter">ب</div>
+                  <div class="click-sentence-text">نُرِيهِمۡ</div>
+                  <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+                </div>
+                <div class="click-sentence" data-letter="ج" data-group="g2">
+                  <div class="click-sentence-letter">ج</div>
+                  <div class="click-sentence-text">ءَايَٰتِنَا</div>
+                  <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+                </div>
+                <div class="click-sentence" data-letter="د" data-group="g2">
+                  <div class="click-sentence-letter">د</div>
+                  <div class="click-sentence-text">فِي ٱلۡأٓفَاقِ</div>
+                  <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+                </div>
+              </div>
+              <div class="q-feedback q-feedback-inline" data-group-fb="g2" style="margin:10px 0 0;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- /.slides-container -->
+
+    <!-- ═══ شاشةُ الإنهاءِ ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart" onclick="restartActivity()">
+            <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES — مطابِقةٌ لـ lesson-2-activity-1.html
+═══════════════════════════════════════════════════════════════ */
+function toArabic(num) {
+  const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+  return num.toString().split('').map(d => arabic[d] || d).join('');
+}
+function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+function isInZone(el, x, y) {
+  const r = el.getBoundingClientRect();
+  return x > r.left && x < r.right && y > r.top && y < r.bottom;
+}
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const MAX_ATTEMPTS = 3;
+
+/* ══════════════════════════════════════════════════════════════
+   GENERIC DRAG SUBSYSTEM — منقولٌ كما هو من lesson-2-activity-1.html
+═══════════════════════════════════════════════════════════════ */
+function makeDragSystem(opts) {
+  const {
+    chipsSel, zoneSel,
+    isBlocked = () => false,
+    isChipPlaced = (c) => c.classList.contains('placed'),
+    isZoneFilled = () => false,
+    onAttempt,
+    hoveredClass = 'hovered',
+    cloneStyle = ''
+  } = opts;
+
+  let dragEl = null;
+  let touchClone = null;
+  let touchEl = null;
+  let touchHasMoved = false;
+  let touchStartX = 0, touchStartY = 0;
+  let selectedChip = null;
+
+  document.addEventListener('dragover', (e) => {
+    if (!dragEl) return;
+    const vh = window.innerHeight;
+    const edge = 80, speed = 12;
+    if (e.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+    else if (e.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+  });
+
+  function bindChip(chip) {
+    chip.addEventListener('click', () => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      document.querySelectorAll(chipsSel + '.selected').forEach(c => {
+        if (c !== chip) c.classList.remove('selected');
+      });
+      if (selectedChip === chip) {
+        chip.classList.remove('selected');
+        selectedChip = null;
+      } else {
+        chip.classList.add('selected');
+        selectedChip = chip;
+      }
+    });
+
+    chip.addEventListener('dragstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) { e.preventDefault(); return; }
+      dragEl = chip;
+      chip.classList.add('dragging');
+      chip.dataset.dropped = 'no';
+      e.dataTransfer.effectAllowed = 'move';
+      try {
+        e.dataTransfer.setDragImage(chip, chip.offsetWidth / 2, chip.offsetHeight / 2);
+      } catch(err) {}
+    });
+    chip.addEventListener('dragend', () => {
+      chip.classList.remove('dragging');
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      if (chip.dataset.dropped === 'no') {
+        chip.classList.add('chip-shake');
+        setTimeout(() => chip.classList.remove('chip-shake'), 500);
+      }
+      delete chip.dataset.dropped;
+      dragEl = null;
+    });
+
+    chip.addEventListener('touchstart', (e) => {
+      if (isBlocked() || isChipPlaced(chip)) return;
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchHasMoved = false;
+      touchEl = chip;
+    }, { passive: true });
+
+    chip.addEventListener('touchmove', (e) => {
+      if (!touchEl) return;
+      const t = e.touches[0];
+      const dx = Math.abs(t.clientX - touchStartX);
+      const dy = Math.abs(t.clientY - touchStartY);
+      if (!touchHasMoved && (dx > 10 || dy > 10)) {
+        touchHasMoved = true;
+        const rect = touchEl.getBoundingClientRect();
+        touchClone = touchEl.cloneNode(true);
+        touchClone.style.cssText = `
+          position: fixed; top: ${t.clientY - rect.height/2}px; left: ${t.clientX - rect.width/2}px;
+          width: ${rect.width}px; z-index: 9999; opacity: 0.92; pointer-events: none;
+          transform: scale(1.03); box-shadow: 0 12px 30px rgba(132, 72, 22, 0.35); transition: none;
+          background: #fff; border: 2px solid var(--color-primary); border-radius: 12px;
+          font-family: 'Scheherazade', serif; ${cloneStyle}
+        `;
+        document.body.appendChild(touchClone);
+        touchEl.style.opacity = '0.3';
+      }
+      if (touchHasMoved && touchClone) {
+        e.preventDefault();
+        const rect = touchClone.getBoundingClientRect();
+        touchClone.style.top = (t.clientY - rect.height/2) + 'px';
+        touchClone.style.left = (t.clientX - rect.width/2) + 'px';
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.toggle(hoveredClass, isInZone(zone, t.clientX, t.clientY) && !isZoneFilled(zone));
+        });
+        const vh = window.innerHeight;
+        const edge = 80, speed = 12;
+        if (t.clientY < edge) window.scrollBy({ top: -speed, behavior: 'auto' });
+        else if (t.clientY > vh - edge) window.scrollBy({ top: speed, behavior: 'auto' });
+      }
+    }, { passive: false });
+
+    chip.addEventListener('touchend', (e) => {
+      if (!touchEl) return;
+      if (touchHasMoved && touchClone) {
+        const t = e.changedTouches[0];
+        let dropped = false;
+        document.querySelectorAll(zoneSel).forEach(zone => {
+          zone.classList.remove(hoveredClass);
+          if (!dropped && !isZoneFilled(zone) && isInZone(zone, t.clientX, t.clientY)) {
+            onAttempt(touchEl, zone);
+            dropped = true;
+          }
+        });
+        if (!dropped) {
+          touchEl.style.opacity = '';
+          touchEl.classList.add('chip-shake');
+          const ref = touchEl;
+          setTimeout(() => ref && ref.classList && ref.classList.remove('chip-shake'), 500);
+        }
+        touchClone.remove();
+        touchClone = null;
+      } else {
+        touchEl.style.opacity = '';
+      }
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+
+    chip.addEventListener('touchcancel', () => {
+      if (touchClone) { touchClone.remove(); touchClone = null; }
+      if (touchEl) touchEl.style.opacity = '';
+      document.querySelectorAll(zoneSel).forEach(z => z.classList.remove(hoveredClass));
+      touchEl = null;
+      touchHasMoved = false;
+    }, { passive: true });
+  }
+
+  function bindZone(zone) {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      if (!isZoneFilled(zone)) zone.classList.add(hoveredClass);
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove(hoveredClass));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove(hoveredClass);
+      if (isZoneFilled(zone)) return;
+      if (dragEl) {
+        dragEl.dataset.dropped = 'yes';
+        onAttempt(dragEl, zone);
+      }
+    });
+    zone.addEventListener('click', () => {
+      if (isBlocked() || isZoneFilled(zone)) return;
+      if (selectedChip && !isChipPlaced(selectedChip)) {
+        onAttempt(selectedChip, zone);
+        selectedChip.classList.remove('selected');
+        selectedChip = null;
+      }
+    });
+  }
+
+  document.querySelectorAll(chipsSel).forEach(bindChip);
+  document.querySelectorAll(zoneSel).forEach(bindZone);
+
+  return {
+    rebindChips: () => {
+      document.querySelectorAll(chipsSel).forEach(bindChip);
+    },
+    clearSelected: () => {
+      if (selectedChip) selectedChip.classList.remove('selected');
+      selectedChip = null;
+    }
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q1a — MCQ (نوعُ الأسلوبِ) → ٣ محاولاتٍ → كشفٌ تلقائيٌّ
+═══════════════════════════════════════════════════════════════ */
+const Q1A_CORRECT = 1;   // ب. شرطٌ
+const q1aState = { attempts: 0, isCorrect: false };
+
+function initQ1a() {
+  document.querySelectorAll('input[name="q1a"]').forEach(input => {
+    input.addEventListener('change', () => handleQ1aAnswer(parseInt(input.value)));
+  });
+}
+function handleQ1aAnswer(selectedIdx) {
+  if (q1aState.isCorrect) return;
+  if (q1aState.attempts >= MAX_ATTEMPTS) return;
+  q1aState.attempts++;
+
+  const card = document.getElementById('qCard-q1');
+  // اقتصرْ على عناصرِ Q1a فقط (لا تَطُلْ Q1b داخلَ stage-reveal)
+  const allLabels = Array.from(card.querySelectorAll('input[name="q1a"]'))
+    .map(i => i.closest('.mcq-option-label'));
+  const fb = document.getElementById('fb-q1a');
+  const isCorrect = selectedIdx === Q1A_CORRECT;
+
+  allLabels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    q1aState.isCorrect = true;
+    allLabels.forEach((l, i) => {
+      if (i === Q1A_CORRECT) l.classList.add('correct-option');
+      const inp = l.querySelector('input');
+      if (inp) inp.disabled = true;
+      l.classList.add('disabled');
+    });
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+    revealQ1bStage();
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    allLabels.forEach((l, i) => {
+      if (i === selectedIdx) l.classList.add('wrong-option');
+    });
+    card.classList.add('incorrect');
+    setTimeout(() => card.classList.remove('incorrect'), 600);
+
+    if (q1aState.attempts >= MAX_ATTEMPTS) {
+      allLabels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === Q1A_CORRECT) l.classList.add('revealed');
+        const inp = l.querySelector('input');
+        if (inp) inp.disabled = true;
+        l.classList.add('disabled');
+      });
+      q1aState.isCorrect = true;
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      revealQ1bStage();
+      updateNavButtons();
+      updateProgressBar();
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        allLabels.forEach(l => l.classList.remove('wrong-option'));
+        document.querySelectorAll('input[name="q1a"]').forEach(i => { i.checked = false; });
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+function revealQ1bStage() {
+  const stage = document.getElementById('q1bStage');
+  if (!stage.classList.contains('revealed')) stage.classList.add('revealed');
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q1b — MCQ (الغرضُ) → ٣ محاولاتٍ → كشفٌ تلقائيٌّ
+═══════════════════════════════════════════════════════════════ */
+const Q1B_CORRECT = 0;   // أ. الحثُّ على فعلِ الخيرِ وتركِ الشّرِّ
+const q1bState = { attempts: 0, isCorrect: false };
+
+function initQ1b() {
+  document.querySelectorAll('input[name="q1b"]').forEach(input => {
+    input.addEventListener('change', () => handleQ1bAnswer(parseInt(input.value)));
+  });
+}
+function handleQ1bAnswer(selectedIdx) {
+  if (q1bState.isCorrect) return;
+  if (q1bState.attempts >= MAX_ATTEMPTS) return;
+  q1bState.attempts++;
+
+  const stage = document.getElementById('q1bStage');
+  const allLabels = stage.querySelectorAll('.mcq-option-label');
+  const fb = document.getElementById('fb-q1b');
+  const card = document.getElementById('qCard-q1');
+  const isCorrect = selectedIdx === Q1B_CORRECT;
+
+  allLabels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    q1bState.isCorrect = true;
+    allLabels.forEach((l, i) => {
+      if (i === Q1B_CORRECT) l.classList.add('correct-option');
+      const inp = l.querySelector('input');
+      if (inp) inp.disabled = true;
+      l.classList.add('disabled');
+    });
+    card.classList.add('correct');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    allLabels.forEach((l, i) => {
+      if (i === selectedIdx) l.classList.add('wrong-option');
+    });
+    card.classList.add('incorrect');
+    setTimeout(() => card.classList.remove('incorrect'), 600);
+
+    if (q1bState.attempts >= MAX_ATTEMPTS) {
+      allLabels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === Q1B_CORRECT) l.classList.add('revealed');
+        const inp = l.querySelector('input');
+        if (inp) inp.disabled = true;
+        l.classList.add('disabled');
+      });
+      q1bState.isCorrect = true;
+      card.classList.add('correct');
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      updateNavButtons();
+      updateProgressBar();
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        allLabels.forEach(l => l.classList.remove('wrong-option'));
+        document.querySelectorAll('input[name="q1b"]').forEach(i => { i.checked = false; });
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q2 — تصنيفُ نفي/نهي (drag/click-to-place)
+═══════════════════════════════════════════════════════════════ */
+/* تصنيفٌ بالقوائمِ المنسدلةِ — نفس مكوّنِ التصنيفِ المُستخدمِ في بقيّةِ الأسئلةِ.
+   المحتوى فقط مختلف: التصنيفانِ نفي/نهي، والعبارتانِ كما هما. */
+const Q2_LABELS = { negation: 'نَفيٌ', prohibition: 'نَهيٌ' };
+const Q2_ITEMS = [
+  { text: '«لا يَسۡـَٔمُ ٱلۡإِنسَٰنُ مِن دُعَآءِ ٱلۡخَيۡرِ»',  cat: 'negation',    cid: 'q2c1' },
+  { text: '«أيُّها الإنسانُ: لا تَسۡأَمْ مِن دُعَاءِ الخَيْرِ»', cat: 'prohibition', cid: 'q2c2' }
+];
+const Q2_MAX_ATTEMPTS = 3;
+const Q2_BATCH = 2;
+const q2State = { rows: {}, completed: false };
+
+function buildQ2() {
+  const wrap = document.getElementById('q2cCardsWrap');
+  if (!wrap) return;
+  const letters = ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
+  const shuffled = [...Q2_ITEMS].sort(() => Math.random() - 0.5);
+
+  let html = '';
+  shuffled.forEach((item, idx) => {
+    q2State.rows[item.cid] = { selected: null, attempts: 0, status: null };
+    html += `
+      <div class="q2c-card" data-cid="${item.cid}" data-correct="${item.cat}">
+        <span class="q2c-card-letter">${letters[idx] || (idx + 1)}</span>
+        <div class="q2c-card-text">${item.text}</div>
+        <div class="q2c-card-select">
+          <div class="q2c-dropdown" data-cid="${item.cid}">
+            <button type="button" class="q2c-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="q2c-dropdown-value">اختَرْ التّصنيفَ</span>
+              <i class="fas fa-chevron-down q2c-dropdown-arrow"></i>
+            </button>
+            <ul class="q2c-dropdown-menu" role="listbox">
+              <li class="q2c-dropdown-option" data-value="negation"    role="option">${Q2_LABELS.negation}</li>
+              <li class="q2c-dropdown-option" data-value="prohibition" role="option">${Q2_LABELS.prohibition}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.q2c-card').forEach((card, i) => {
+    if (i >= Q2_BATCH) card.classList.add('q2c-hidden');
+  });
+  initQ2Dropdowns();
+}
+
+function maybeRevealNextQ2() {
+  const wrap = document.getElementById('q2cCardsWrap');
+  if (!wrap) return;
+  const cards = Array.from(wrap.querySelectorAll('.q2c-card'));
+  const visible = cards.filter(c => !c.classList.contains('q2c-hidden'));
+  const allVisibleResolved = visible.every(c => {
+    const s = q2State.rows[c.dataset.cid];
+    return s && (s.status === 'correct' || s.status === 'revealed');
+  });
+  if (!allVisibleResolved) return;
+  const hidden = cards.filter(c => c.classList.contains('q2c-hidden'));
+  hidden.slice(0, Q2_BATCH).forEach(c => {
+    c.classList.remove('q2c-hidden');
+    c.classList.add('q2c-reveal');
+    c.addEventListener('animationend', function onReveal() {
+      c.classList.remove('q2c-reveal');
+      c.removeEventListener('animationend', onReveal);
+    });
+  });
+}
+
+function initQ2Dropdowns() {
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.q2c-dropdown.is-open').forEach(dd => {
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('is-open');
+        dd.querySelector('.q2c-dropdown-trigger').setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  document.querySelectorAll('.q2c-dropdown').forEach(dd => {
+    const cid = dd.dataset.cid;
+    const trigger = dd.querySelector('.q2c-dropdown-trigger');
+    const valueSpan = dd.querySelector('.q2c-dropdown-value');
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      document.querySelectorAll('.q2c-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          other.querySelector('.q2c-dropdown-trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', !wasOpen);
+    });
+
+    dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const selectedValue = opt.dataset.value;
+        const labelText = Q2_LABELS[selectedValue];
+        dd.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        handleQ2Selection(dd, cid, selectedValue, labelText, valueSpan);
+      });
+    });
+  });
+}
+
+function handleQ2Selection(dd, cid, selectedValue, labelText, valueSpan) {
+  const state = q2State.rows[cid];
+  if (!state) return;
+  if (state.status === 'correct' || state.status === 'revealed') return;
+  if (state.attempts >= Q2_MAX_ATTEMPTS) return;
+
+  state.attempts++;
+  const card = dd.closest('.q2c-card');
+  const correctValue = card.dataset.correct;
+  const isCorrect = selectedValue === correctValue;
+  const fb = document.getElementById('fb-q2');
+
+  valueSpan.textContent = labelText;
+  card.classList.remove('correct-card', 'wrong-card', 'revealed-card');
+
+  if (isCorrect) {
+    state.selected = selectedValue;
+    state.status = 'correct';
+    card.classList.add('correct-card');
+    dd.classList.add('is-disabled');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تصنيفٌ صحيحٌ.';
+    checkQ2Complete(fb);
+  } else {
+    card.classList.add('wrong-card');
+    fb.className = 'q-feedback show-wrong';
+    fb.innerHTML = '<i class="fas fa-times-circle"></i> تصنيفٌ غيرُ مناسبٍ، حاولْ مرّةً أخرى.';
+
+    if (state.attempts >= Q2_MAX_ATTEMPTS) {
+      state.selected = correctValue;
+      state.status = 'revealed';
+      setTimeout(() => {
+        card.classList.remove('wrong-card');
+        card.classList.add('revealed-card');
+        valueSpan.textContent = Q2_LABELS[correctValue];
+        dd.classList.add('is-disabled');
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! هذا هو التّصنيفُ الصّحيحُ.';
+        checkQ2Complete(fb);
+      }, 3000);
+    } else {
+      setTimeout(() => {
+        card.classList.remove('wrong-card');
+        valueSpan.textContent = 'اختَرْ التّصنيفَ';
+        if (!q2State.completed) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 1500);
+    }
+  }
+}
+
+function checkQ2Complete(fb) {
+  maybeRevealNextQ2();
+  const allDone = Q2_ITEMS.every(item => {
+    const s = q2State.rows[item.cid];
+    return s && (s.status === 'correct' || s.status === 'revealed');
+  });
+  if (allDone) {
+    q2State.completed = true;
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! ميّزتَ بينَ النّفيِ والنّهيِ بشكلٍ صحيحٍ.';
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    setTimeout(() => {
+      if (!q2State.completed) {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }
+    }, 2500);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q3 — MCQ (قصرٌ/نفيٌ/نهيٌ) → ٣ محاولاتٍ → كشفٌ تلقائيٌّ
+═══════════════════════════════════════════════════════════════ */
+const Q3_CORRECT = 0;   // أ. قَصرٌ
+const q3State = { attempts: 0, isCorrect: false };
+
+function initQ3() {
+  document.querySelectorAll('input[name="q3"]').forEach(input => {
+    input.addEventListener('change', () => handleQ3Answer(parseInt(input.value)));
+  });
+}
+function handleQ3Answer(selectedIdx) {
+  if (q3State.isCorrect) return;
+  if (q3State.attempts >= MAX_ATTEMPTS) return;
+  q3State.attempts++;
+
+  const card = document.getElementById('qCard-q3');
+  const labels = card.querySelectorAll('.mcq-option-label');
+  const inputs = card.querySelectorAll('input[type="radio"]');
+  const fb = document.getElementById('fb-q3');
+  const isCorrect = selectedIdx === Q3_CORRECT;
+
+  labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    q3State.isCorrect = true;
+    labels.forEach((l, i) => {
+      if (i === Q3_CORRECT) l.classList.add('correct-option');
+      inputs[i].disabled = true;
+      l.classList.add('disabled');
+    });
+    card.classList.remove('incorrect');
+    card.classList.add('correct');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+    updateNavButtons();
+    updateProgressBar();
+  } else {
+    labels.forEach((l, i) => {
+      if (i === selectedIdx) l.classList.add('wrong-option');
+    });
+    card.classList.add('incorrect');
+    setTimeout(() => card.classList.remove('incorrect'), 600);
+
+    if (q3State.attempts >= MAX_ATTEMPTS) {
+      labels.forEach((l, i) => {
+        l.classList.remove('wrong-option');
+        if (i === Q3_CORRECT) l.classList.add('revealed');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      card.classList.remove('incorrect');
+      card.classList.add('correct');
+      q3State.isCorrect = true;
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      updateNavButtons();
+      updateProgressBar();
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('wrong-option'));
+        inputs.forEach(i => { i.checked = false; });
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Q4 — استخراجُ أداةِ التّوكيدِ (click-select per group)
+═══════════════════════════════════════════════════════════════ */
+// نفسُ منطقِ MCQ التّدريجيِّ: كلُّ عبارةٍ تُعامَلُ كسؤالٍ مستقلٍّ (٣ محاولاتٍ → كشفٌ
+// تلقائيٌّ)، والنّقرُ المباشرُ على الكلمةِ يحلُّ محلَّ اختيارِ الدّائرةِ. عندَ الإجابةِ
+// الصّحيحةِ على عبارةٍ تُكشَفُ العبارةُ التّاليةُ تلقائيًّا (نفسُ آليّةِ stage-reveal).
+const q4State = { completed: false };
+const q4Group = {
+  g1: { attempts: 0, done: false },
+  g2: { attempts: 0, done: false }
+};
+// المرحلةُ التّاليةُ التي تُكشَفُ بعدَ حلِّ كلِّ مجموعةٍ (null = آخرُ مجموعةٍ)
+const Q4_NEXT_STAGE = { g1: 'q4Stage2', g2: null };
+
+function initQ4() {
+  document.querySelectorAll('.click-sentence[data-group]').forEach(sent => {
+    sent.addEventListener('click', () => handleQ4Click(sent));
+  });
+}
+
+function handleQ4Click(sent) {
+  if (q4State.completed) return;
+  const group = sent.dataset.group;
+  const gst = q4Group[group];
+  if (!gst || gst.done) return;
+  if (gst.attempts >= MAX_ATTEMPTS) return;
+
+  gst.attempts++;
+  const card = document.getElementById('qCard-q4');
+  const fb = document.querySelector('[data-group-fb="' + group + '"]');
+  const groupSentences = document.querySelectorAll('.click-sentence[data-group="' + group + '"]');
+  const isCorrect = sent.dataset.correct === 'true';
+
+  if (isCorrect) {
+    gst.done = true;
+    groupSentences.forEach(s => {
+      s.classList.remove('selected', 'reveal-miss');  // شَلْ تَلوينَ الأخطاءِ السّابقةِ من كلِّ بطاقاتِ المجموعةِ
+      s.classList.add('locked');
+    });
+    sent.classList.add('reveal-correct');
+    resolveQ4Group(group, fb, false);
+  } else {
+    // خطأ: نفسُ سلوكِ MCQ — اهتزازٌ ورسالةُ خطأٍ مؤقّتةٌ ثمَّ إتاحةُ المحاولةِ من جديدٍ
+    sent.classList.add('reveal-miss');
+    card.classList.add('incorrect');
+    setTimeout(() => card.classList.remove('incorrect'), 600);
+
+    if (gst.attempts >= MAX_ATTEMPTS) {
+      // ٣ محاولاتٍ → كشفٌ تلقائيٌّ للأداةِ الصّحيحةِ
+      gst.done = true;
+      groupSentences.forEach(s => {
+        s.classList.remove('selected', 'reveal-miss');  // شَلْ تَلوينَ الأخطاءِ السّابقةِ
+        s.classList.add('locked');
+        if (s.dataset.correct === 'true') s.classList.add('reveal-correct');
+      });
+      resolveQ4Group(group, fb, true);
+    } else {
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        sent.classList.remove('reveal-miss');
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+// تُنهي مجموعةً (صحيحةٌ أو مكشوفةٌ)، ثمَّ تكشفُ العبارةَ التّاليةَ أو تُكمِلُ السّؤالَ
+function resolveQ4Group(group, fb, wasRevealed) {
+  const nextStageId = Q4_NEXT_STAGE[group];
+  fb.className = 'q-feedback show-correct';
+  if (nextStageId) {
+    fb.innerHTML = wasRevealed
+      ? '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.'
+      : '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+    const stage = document.getElementById(nextStageId);
+    if (stage && !stage.classList.contains('revealed')) stage.classList.add('revealed');
+  } else {
+    q4State.completed = true;
+    document.getElementById('qCard-q4').classList.add('correct');
+    fb.innerHTML = wasRevealed
+      ? '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفتَ على أدواتِ التّوكيدِ.'
+      : '<i class="fas fa-check-circle"></i> ممتازٌ! تعرّفتَ على أدواتِ التّوكيدِ بشكلٍ صحيحٍ.';
+    updateNavButtons();
+    updateProgressBar();
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+function showSuccessScreen() {
+  document.querySelector('.slides-container').style.display = 'none';
+  document.getElementById('instrRow').style.display = 'none';
+  document.getElementById('successScreen').classList.add('show');
+  document.getElementById('taskNav').style.display = 'none';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(launchConfetti, 400);
+}
+function launchConfetti() {
+  const wrap = document.getElementById('completeWrap');
+  const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+  for (let i = 0; i < 36; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    const sz = 8 + Math.random() * 12;
+    dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+      colors[~~(Math.random() * colors.length)] +
+      ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+      'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+      'animation-delay:' + (Math.random() * 0.9) + 's';
+    wrap.appendChild(dot);
+    setTimeout(() => dot.remove(), 3500);
+  }
+}
+function restartActivity() { location.reload(); }
+
+/* ══════════════════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════════════════ */
+let currentSlide = 1;
+const TOTAL_SLIDES = 4;
+
+function goToSlide(idx) {
+  if (idx < 1 || idx > TOTAL_SLIDES) return;
+
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+  currentSlide = idx;
+
+  const instrRow = document.getElementById('instrRow');
+  const instrText = document.getElementById('instrText');
+  const instrHint = document.getElementById('instrHint');
+  const instrHintText = document.getElementById('instrHintText');
+  const instrAudioBtn = document.getElementById('instrAudioBtn');
+  if (instrAudioBtn) instrAudioBtn.classList.remove('state-playing');
+
+  // الشّرائحُ الّتي يعيشُ سؤالُها داخلَ بطاقتِها الخاصّةِ تُخفي شريطَ التّعليماتِ
+  const hideInstr = [1, 3, 4];
+  instrRow.style.display = hideInstr.includes(idx) ? 'none' : '';
+
+  if (idx === 2) {
+    instrText.innerHTML = '<strong>السُّؤالُ الثّاني:</strong> أيُّ الأسلوبَينِ الآتيَينِ نفيٌ وأيُّهما نهيٌ؟ صنِّفْ كلَّ عبارةٍ باختيارِ التّصنيفِ المناسبِ من القائمةِ المنسدلةِ.';
+    instrHint.style.display = 'none';
+  }
+
+  updateProgressBar();
+  updateNavButtons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextSlide() {
+  if (currentSlide < TOTAL_SLIDES) goToSlide(currentSlide + 1);
+  else showSuccessScreen();
+}
+function prevSlide() {
+  if (currentSlide > 1) goToSlide(currentSlide - 1);
+}
+
+function updateNavButtons() {
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  prevBtn.style.visibility = currentSlide === 1 ? 'hidden' : '';
+
+  if (currentSlide === TOTAL_SLIDES) {
+    nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+  } else {
+    nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     COMPLETION-GATING — زرُّ "التّالي" يبقى معطّلًا حتّى تُنجَزَ
+     شريحةُ السّؤالِ الحاليّةِ بشكلٍ صحيحٍ (مطابقٌ للقالبِ).
+  ═══════════════════════════════════════════════════════════════ */
+  switch (currentSlide) {
+    case 1: nextBtn.disabled = !(q1aState.isCorrect && q1bState.isCorrect); break;
+    case 2: nextBtn.disabled = !q2State.completed; break;
+    case 3: nextBtn.disabled = !q3State.isCorrect; break;
+    case 4: nextBtn.disabled = !q4State.completed; break;
+  }
+}
+
+function updateProgressBar() {
+  let pct = 0;
+  switch (currentSlide) {
+    case 1:
+      if (q1aState.isCorrect && q1bState.isCorrect) pct = 25;
+      else if (q1aState.isCorrect) pct = 18;
+      else pct = 8;
+      break;
+    case 2: pct = q2State.completed ? 50 : 32; break;
+    case 3: pct = q3State.isCorrect ? 75 : 58; break;
+    case 4: pct = q4State.completed ? 100 : 82; break;
+  }
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   NO-PERSISTENCE GUARANTEE
+═══════════════════════════════════════════════════════════════ */
+function resetActivityInputs() {
+  document.querySelectorAll('textarea').forEach(t => {
+    t.value = '';
+    t.disabled = false;
+    t.classList.remove('state-filled', 'is-correct', 'is-wrong');
+  });
+  document.querySelectorAll('input[type="text"]').forEach(i => {
+    i.value = '';
+    i.disabled = false;
+    i.classList.remove('state-filled', 'is-correct', 'is-wrong');
+  });
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(c => {
+    c.checked = false;
+    c.disabled = false;
+  });
+}
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) window.location.reload();
+});
+
+/* ══════════════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════════════ */
+resetActivityInputs();
+buildQ2();
+initQ1a();
+initQ1b();
+initQ3();
+initQ4();
+updateNavButtons();
+updateProgressBar();
+</script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نواتجُ التعلّمِ المتوقّعةُ</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-primary-hover:    #9d5a22;
+  --color-primary-playing:  #5e3210;
+
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+
+  --color-success:          #6b8b1f;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-light-border:     #C9B5A0;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+
+  --letter-spacing-tight:   1.5px;
+
+  --goals-shell-radius:     20px;
+  --goals-card-radius:      16px;
+  --goals-card-border:      2px solid var(--color-primary-light);
+
+  /* Audio button (موحّد 44px) */
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  position: relative;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active {
+  opacity: 0.8;
+  transform: scale(0.97);
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.goals-app {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: var(--goals-shell-radius);
+  overflow: hidden;
+  font-family: var(--font-family);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TASK HEADER
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  flex-shrink: 0;
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW — نفسُ الحجمِ، فقط الوزنُ أخفُّ
+   التّعديلُ الوحيدُ مقارنةً بالأصلِ:
+   • font-weight: bold (700) → semibold (600)
+═══════════════════════════════════════════════════════════════ */
+.instruction-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  padding: 18px 22px;
+  margin: 16px 16px 0;
+  border-radius: 15px;
+  flex-shrink: 0;
+}
+.instruction-text {
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GOALS LIST
+═══════════════════════════════════════════════════════════════ */
+.goals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px;
+  flex: 1;
+}
+.goal-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--color-primary-light);
+  border: var(--goals-card-border);
+  border-radius: var(--goals-card-radius);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: slideInLeft 0.6s ease-out forwards;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.goal-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.15);
+  border-color: var(--color-primary);
+  background: var(--color-secondary-light);
+}
+@keyframes slideInLeft {
+  to { opacity: 1; transform: translateX(0); }
+}
+.goal-card:nth-child(1) { animation-delay: 0.10s; }
+.goal-card:nth-child(2) { animation-delay: 0.25s; }
+.goal-card:nth-child(3) { animation-delay: 0.40s; }
+.goal-card:nth-child(4) { animation-delay: 0.55s; }
+.goal-card:nth-child(5) { animation-delay: 0.70s; }
+
+.goal-num-col {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+}
+.goal-num {
+  font-size: clamp(20px, 3.6vw, 24px);
+  font-weight: var(--font-weight-extrabold);
+  color: #fff;
+  line-height: 1;
+}
+.goal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.goal-text {
+  font-size: clamp(20px, 3.6vw, 26px);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 56px; height: 56px; }
+}
+
+@media (max-width: 700px) {
+  .task-header { padding: 8px 18px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 10px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 48px; height: 48px; }
+
+  /* توحيدُ الطّباعةِ على الجوّالِ + محاذاةُ زرِّ السّمّاعةِ لأعلى النّصِّ */
+  .instruction-row { padding: 14px 16px; gap: 12px; align-items: flex-start; }
+  .instruction-row .audio-btn { margin-top: 2px; }
+  .instruction-text { font-size: 19px !important; line-height: 1.6; }
+  .goal-card { padding: 13px 15px; gap: 12px; }
+  .goal-num-col { width: 38px; height: 38px; min-width: 38px; }
+  .goal-num { font-size: 17px !important; }
+  .goal-text { font-size: 17px !important; line-height: 1.7; }
+}
+
+@media (max-width: 600px) {
+  body { padding: 16px 8px; }
+  /* REVIEW: مُحاذاةٌ مع معيارِ 700px حتّى لا يتجاوزَ هذا البلوكُ التّصغيرَ في المدى 481–600px */
+  .goal-card { padding: 13px 15px; gap: 12px; }
+  .goal-num-col { width: 38px; height: 38px; min-width: 38px; }
+  .instruction-row { padding: 14px 16px; }
+  .goals-list { padding: 12px; gap: 12px; }
+}
+
+@media (max-width: 480px) {
+  .task-header { padding: 6px 14px; }
+  .task-header-content { grid-template-columns: 56px 1fr 56px; gap: 8px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 42px; height: 42px; }
+
+  /* تصغيرٌ أكبرُ للطّباعةِ على الجوّالِ الصّغيرِ */
+  .instruction-row { padding: 12px 14px; margin: 12px 10px 0; gap: 10px; border-right-width: 4px; }
+  .instruction-row .audio-btn { margin-top: 1px; }
+  .instruction-text { font-size: 17px !important; line-height: 1.55; }
+  .goal-card { padding: 11px 13px; gap: 10px; }
+  .goal-num-col { width: 34px; height: 34px; min-width: 34px; box-shadow: 0 2px 0 var(--color-primary-shadow); }
+  .goal-num { font-size: 15px !important; }
+  .goal-text { font-size: 15px !important; line-height: 1.65; }
+  .goals-list { padding: 10px; gap: 10px; }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 48px 1fr 48px; }
+  .task-header-img-wrap { width: 48px; height: 48px; }
+  .task-header-img { width: 36px; height: 36px; }
+}
+
+@media (hover: none) {
+  .audio-btn:hover, .goal-card:hover {
+    transform: none;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<div class="goals-app">
+
+  <!-- Task Header -->
+  <div class="task-header">
+    <div class="task-header-content">
+      <div class="task-header-img-wrap">
+        <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/iX5Mf3zZgZo2UKkC.png" alt="" class="task-header-img">
+      </div>
+      <div class="task-header-title">نواتجُ التعلّمِ المتوقّعةُ</div>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- Instruction Row (مُصغَّرة) -->
+  <div class="instruction-row">
+    <button class="audio-btn" onclick="toggleAudio(this)" aria-label="استمع للأهداف">
+      <i class="fas fa-volume-high"></i>
+    </button>
+    <div class="instruction-text">
+      في هذا الدّرسِ، ستكونُ قادرًا على:
+    </div>
+  </div>
+
+  <!-- Goals List -->
+  <div class="goals-list">
+
+    <div class="goal-card">
+      <div class="goal-num-col">
+        <span class="goal-num">١</span>
+      </div>
+      <div class="goal-content">
+        <p class="goal-text">تمييزُ الكلماتِ المبنيّةِ من المعربةِ.</p>
+      </div>
+    </div>
+
+    <div class="goal-card">
+      <div class="goal-num-col">
+        <span class="goal-num">٢</span>
+      </div>
+      <div class="goal-content">
+        <p class="goal-text">معرفةُ علاماتِ البناءِ والإعرابِ.</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function toggleAudio(btn) {
+    btn.classList.toggle('state-playing');
+  }
+</script>
+
+</body>
+</html>

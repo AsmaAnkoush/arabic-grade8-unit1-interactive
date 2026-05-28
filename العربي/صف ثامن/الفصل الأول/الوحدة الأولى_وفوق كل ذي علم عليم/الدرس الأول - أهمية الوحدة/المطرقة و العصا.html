@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المطرقةُ والعصا</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+  --font-size-instructions: 24px;
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --letter-spacing-tight:   1.5px;
+
+  --color-primary-hover:    #9d5a22;
+  --color-secondary-hover:  #f2d489;
+  --color-olive-hover:      #9c9d3a;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover  { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDES
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME AREA (Slide 1) - بطاقتين متوازنتين جنب بعض
+═══════════════════════════════════════════════════════════════ */
+.game-area {
+  margin: 14px 16px 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  position: relative;
+}
+
+/* الحاوية الرئيسية: بطاقة المطرقة + بطاقة العصي */
+.card-with-hammer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+  gap: 16px 16px;
+  align-items: stretch;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* بطاقة المطرقة - تشغل الصف الأول فقط */
+.hammer-card {
+  grid-row: 1;
+  grid-column: 1;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.hammer-card.active {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30), 0 4px 12px rgba(132, 72, 22, 0.08);
+}
+
+.hammer-instr {
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 4px;
+  animation: instrFade 1.8s ease-in-out infinite;
+  transition: color 0.3s ease;
+}
+@keyframes instrFade {
+  0%, 100% { opacity: 0.75; }
+  50%      { opacity: 1; }
+}
+body.hammer-armed .hammer-instr {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* بطاقة العصي - تشغل الصف الأول، العمود الثاني */
+.card-main {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* عداد البطاقات المنجزة */
+.game-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.status-label {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+.status-circle {
+  background: var(--color-primary);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 3px 0 var(--color-primary-shadow), 0 4px 12px rgba(132, 72, 22, 0.25);
+  border: 3px solid #fff;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 0;
+  transition: all 0.3s ease;
+}
+.status-circle.updated {
+  animation: statusBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes statusBounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); background: var(--color-success); box-shadow: 0 3px 0 #4d6618, 0 4px 16px rgba(107, 139, 31, 0.4); }
+  100% { transform: scale(1); }
+}
+
+/* شبكة البطاقات - عرض بطاقة واحدة في كل وقت */
+.cards-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+}
+.cards-grid .card {
+  display: none;
+  width: 100%;
+  min-height: 360px;
+  padding: 34px 14px 18px;
+}
+.cards-grid .card.is-active {
+  display: flex;
+  flex: 1;
+  animation: cardSlideIn 0.4s ease;
+}
+@keyframes cardSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* مؤشر تقدم البطاقات - الصف الثاني من grid، تحت بطاقة العصي */
+.cards-progress {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+}
+.card-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-sand);
+  transition: all 0.3s ease;
+}
+.card-dot.active {
+  background: var(--color-primary);
+  transform: scale(1.4);
+  box-shadow: 0 0 0 3px rgba(132, 72, 22, 0.2);
+}
+.card-dot.done {
+  background: var(--color-success);
+}
+
+.card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.08);
+}
+.card.bundle-shake,
+.bundle-img-wrap.bundle-shake {
+  animation: bundleShake 0.5s ease;
+}
+@keyframes bundleShake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  20% { transform: translateX(-6px) rotate(-2deg); }
+  40% { transform: translateX(6px) rotate(2deg); }
+  60% { transform: translateX(-4px) rotate(-1deg); }
+  80% { transform: translateX(4px) rotate(1deg); }
+}
+.card.all-broken {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  border-width: 3px;
+}
+
+.card-label {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 26px;
+  font-weight: var(--font-weight-extrabold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow), 0 4px 10px rgba(132, 72, 22, 0.20);
+  border: 3px solid #fff;
+  flex-shrink: 0;
+  z-index: 5;
+  font-family: var(--font-family);
+}
+.card.all-broken .card-label {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618, 0 4px 10px rgba(107, 139, 31, 0.25);
+}
+
+.card-sticks-area {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 4px 0;
+}
+
+/* العصا */
+.stick {
+  width: 38px;
+  height: 180px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+.stick img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.stick.size-sm { height: 160px; }
+.stick.size-md { height: 180px; }
+.stick.size-lg { height: 200px; }
+.stick.rot-1 { transform: rotate(-8deg); }
+.stick.rot-2 { transform: rotate(6deg); }
+.stick.rot-3 { transform: rotate(-3deg); }
+.stick.rot-4 { transform: rotate(10deg); }
+.stick.rot-5 { transform: rotate(-12deg); }
+.stick.rot-6 { transform: rotate(4deg); }
+
+/* العصا المكسورة */
+.stick.broken { pointer-events: none; }
+.stick.broken .stick-half-top,
+.stick.broken .stick-half-bottom {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  overflow: hidden;
+}
+.stick.broken .stick-half-top { top: 0; animation: stickBreakTop 0.6s ease-out forwards; }
+.stick.broken .stick-half-bottom { bottom: 0; animation: stickBreakBottom 0.6s ease-out forwards; }
+.stick.broken .stick-half-top img { width: 100%; height: 200%; object-position: top; }
+.stick.broken .stick-half-bottom img { width: 100%; height: 200%; object-position: bottom; }
+@keyframes stickBreakTop {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(-14px, 10px) rotate(-20deg); opacity: 0.45; }
+}
+@keyframes stickBreakBottom {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(14px, 14px) rotate(22deg); opacity: 0.45; }
+}
+
+/* الحزمة - صورة جاهزة */
+.bundle-img-wrap {
+  width: 100%;
+  max-width: 145px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+.bundle-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  filter: drop-shadow(0 3px 8px rgba(132, 72, 22, 0.20));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HAMMER (click-to-activate)
+═══════════════════════════════════════════════════════════════ */
+.hammer {
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 8px rgba(132, 72, 22, 0.25));
+  position: relative;
+  z-index: 100;
+  border-radius: 50%;
+  padding: 6px;
+  animation: hammerIdle 2.4s ease-in-out infinite;
+}
+@keyframes hammerIdle {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-6px) rotate(2deg); }
+}
+.hammer:hover { transform: scale(1.08) rotate(-5deg); }
+.hammer:active { transform: scale(0.95); }
+.hammer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  display: block;
+}
+.hammer.active {
+  animation: hammerPulse 1.6s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.35) 0%, transparent 70%);
+  filter: drop-shadow(0 0 12px rgba(237, 198, 111, 0.7)) drop-shadow(0 4px 8px rgba(132, 72, 22, 0.35));
+}
+.hammer.active:hover { transform: scale(1.12) rotate(-8deg); }
+@keyframes hammerPulse {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50%      { transform: scale(1.08) rotate(3deg); }
+}
+
+.hammer-flying {
+  position: fixed;
+  width: 130px;
+  height: 130px;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.35s cubic-bezier(0.5, 0, 0.5, 1.3);
+  filter: drop-shadow(0 8px 16px rgba(132, 72, 22, 0.4));
+}
+.hammer-flying img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.hammer-flying.striking { transform: rotate(70deg) scale(1.15); }
+.hammer-flying.bounce-back { transform: rotate(-30deg) scale(0.85); }
+
+body.hammer-armed .stick:not(.broken),
+body.hammer-armed .bundle-img-wrap {
+  cursor: pointer;
+  animation: stickInviting 1.5s ease-in-out infinite;
+}
+@keyframes stickInviting {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.15) drop-shadow(0 0 4px rgba(237, 198, 111, 0.5)); }
+}
+
+/* تأثير الضربة */
+.hit-effect {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  font-size: 38px;
+  color: var(--color-secondary-shadow);
+  font-weight: 900;
+  animation: hitFlash 0.5s ease-out forwards;
+  z-index: 9998;
+}
+@keyframes hitFlash {
+  0%   { opacity: 1; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION CARD (Slide 2)
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.q-revealed {
+  animation: qCardReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes qCardReveal {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: shake 0.5s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.q-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+  margin-left: 0;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+
+/* MCQ */
+.mcq-options { display: grid; gap: 10px; }
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text { color: var(--color-error); }
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* FEEDBACK */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+  border-width: 3px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Feedback خاص باللعبة (خارج الكرت) */
+#gameFeedback {
+  margin: 14px 16px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  display: none;
+  width: 100%;
+}
+.success-screen.show { display: block; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 280px;
+  height: 280px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.55) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 36px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(280px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .q-card, .game-area, #gameFeedback { margin-left: 10px; margin-right: 10px; }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 24px !important; }
+
+  .task-instr-text { font-size: 19px; }
+  .q-card { padding: 16px; }
+  .q-card-title { font-size: 19px; }
+  .mcq-option-text { font-size: 18px; }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
+
+  .card-with-hammer { grid-template-columns: 1fr 1.8fr; gap: 12px; }
+  .hammer-card { padding: 16px 12px; gap: 14px; }
+  .hammer { width: 110px; height: 110px; }
+  .hammer-instr { font-size: 17px; }
+  .cards-grid .card { min-height: 310px; padding: 32px 8px 14px; }
+  .card { padding: 8px 6px; }
+  .card-label { width: 46px; height: 46px; font-size: 22px; top: -20px; }
+  .stick { width: 32px; height: 160px; }
+  .stick.size-sm { height: 140px; }
+  .stick.size-md { height: 160px; }
+  .stick.size-lg { height: 178px; }
+  .bundle-img-wrap { max-width: 125px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+  /* محاذاةُ زرِّ السّمّاعةِ لأعلى عنوانِ السّؤالِ على الجوّالِ (سلايد 2 — أسئلةُ MCQ) */
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 20px !important; }
+
+  .task-instr-row, .q-card, .game-area, #gameFeedback { margin-left: 8px; margin-right: 8px; }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 16px; line-height: 1.6; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+
+  .q-card { padding: 14px; }
+  .q-card-title { font-size: 17px; line-height: 1.6; }
+  .mcq-option-text { font-size: 16px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
+
+  .card-with-hammer { grid-template-columns: 1fr 1.5fr; gap: 8px; }
+  .hammer-card { padding: 12px 8px; gap: 10px; }
+  .hammer { width: 90px; height: 90px; }
+  .hammer-instr { font-size: 14px; line-height: 1.4; }
+  .cards-grid .card { min-height: 260px; padding: 28px 8px 12px; }
+  .card { padding: 6px 4px; }
+  .card-label { width: 40px; height: 40px; font-size: 19px; top: -17px; border-width: 2.5px; }
+  .card-sticks-area { gap: 2px; }
+  .stick { width: 26px; height: 135px; }
+  .stick.size-sm { height: 118px; }
+  .stick.size-md { height: 135px; }
+  .stick.size-lg { height: 150px; }
+  .bundle-img-wrap { max-width: 105px; }
+  .card-dot { width: 10px; height: 10px; }
+  .status-label { font-size: 14px; }
+  .status-circle { width: 38px; height: 38px; font-size: 17px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+
+  .trophy-img { width: 220px; height: 220px; }
+  .trophy-glow { width: 280px; height: 280px; }
+  .complete-title { font-size: 28px; margin-top: 20px; }
+  .complete-wrap { padding: 40px 20px; }
+  /* محاذاةُ زرِّ السّمّاعةِ لأعلى عنوانِ السّؤالِ على الجوّالِ (سلايد 2 — أسئلةُ MCQ) */
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .q-card-title { font-size: 16px; }
+  .mcq-option-text { font-size: 15px; }
+  .btn-action { font-size: 13px; padding: 9px 8px; }
+}
+
+@media (hover: none) {
+  .mcq-option-label:hover {
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+  .hammer:hover { transform: none; }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">المَطرقةُ والعِصا</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Instruction Row ═══ -->
+    <div class="task-instr-row" id="instrRow">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمع للتعليمات">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText">
+          اضغطْ على المَطرقةِ لاستخدامِها، ثمَّ اضغطْ على العصيِّ لكسرِها!
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--                    SLIDE 1: GAME                       -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide active" data-slide="1">
+
+        <div class="game-area">
+          <div class="card-with-hammer">
+
+            <!-- بطاقة المطرقة (يمين) -->
+            <div class="hammer-card" id="hammerCard">
+              <div class="hammer" id="hammer" onclick="toggleHammer()">
+                <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/dBH2FXp2MTlSGxLP.png" alt="مطرقة">
+              </div>
+              <div class="hammer-instr" id="hammerInstr">اضغطْ على المَطرقةِ لاستخدامِها</div>
+            </div>
+
+            <!-- بطاقة العصي (يسار) -->
+            <div class="card-main">
+              <div class="cards-grid">
+
+                <!-- البطاقة الأولى -->
+                <div class="card is-active" data-card="1" data-total="1">
+                  <div class="card-label">١</div>
+                  <div class="card-sticks-area">
+                    <div class="stick size-md rot-3" data-stick="c1-s1">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/9r0KtpRf96NHOY9d.png" alt="عصا">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- البطاقة الثانية -->
+                <div class="card" data-card="2" data-total="2">
+                  <div class="card-label">٢</div>
+                  <div class="card-sticks-area" style="gap:14px;">
+                    <div class="stick size-md rot-1" data-stick="c2-s1">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/jSEIk-I3GB4w2ok6.png" alt="عصا">
+                    </div>
+                    <div class="stick size-md rot-2" data-stick="c2-s2">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/HFIlHJ-mDwoyEUnB.png" alt="عصا">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- البطاقة الثالثة -->
+                <div class="card" data-card="3" data-total="6">
+                  <div class="card-label">٣</div>
+                  <div class="card-sticks-area" style="gap:6px;">
+                    <div class="stick size-md rot-1" data-stick="c3-s1">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/9r0KtpRf96NHOY9d.png" alt="عصا">
+                    </div>
+                    <div class="stick size-md rot-2" data-stick="c3-s2">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/jSEIk-I3GB4w2ok6.png" alt="عصا">
+                    </div>
+                    <div class="stick size-md rot-3" data-stick="c3-s3">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/HFIlHJ-mDwoyEUnB.png" alt="عصا">
+                    </div>
+                    <div class="stick size-md rot-4" data-stick="c3-s4">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/jSEIk-I3GB4w2ok6.png" alt="عصا">
+                    </div>
+                    <div class="stick size-md rot-5" data-stick="c3-s5">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/9r0KtpRf96NHOY9d.png" alt="عصا">
+                    </div>
+                    <div class="stick size-md rot-6" data-stick="c3-s6">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/HFIlHJ-mDwoyEUnB.png" alt="عصا">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- البطاقة الرابعة -->
+                <div class="card" data-card="4" data-bundle="true" data-total="0">
+                  <div class="card-label">٤</div>
+                  <div class="card-sticks-area">
+                    <div class="bundle-img-wrap" data-stick="c4-bundle">
+                      <img src="https://articulateusercontent.com/rise/courses/aRR3m3Lv_2DZpN2Sf6UL6RwIm56LPTh7/_LApUi9-rT_lFrXU.png" alt="حزمة العصي" class="bundle-img">
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- مؤشر تقدم البطاقات (نقاط) - تحت بطاقة العصي -->
+            <div class="cards-progress" id="cardsProgress">
+              <div class="card-dot active" data-dot="1"></div>
+              <div class="card-dot" data-dot="2"></div>
+              <div class="card-dot" data-dot="3"></div>
+              <div class="card-dot" data-dot="4"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Game Feedback -->
+        <div class="q-feedback" id="gameFeedback"></div>
+
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--                  SLIDE 2: QUESTIONS                    -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="slide" data-slide="2">
+        <div class="questions-container" id="questionsContainer"></div>
+      </div>
+
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <!--                   SUCCESS SCREEN                       -->
+      <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+      <div class="success-screen" id="successScreen">
+        <div class="complete-wrap" id="completeWrap">
+          <div class="trophy-wrap">
+            <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+            <div class="trophy-glow"></div>
+          </div>
+          <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+          <div class="complete-restart">
+            <button class="btn-action btn-restart" onclick="restartActivity()">
+              <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()" disabled>
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  /* ══════════════════════════════════════════════════════════════
+     UTILITIES
+  ══════════════════════════════════════════════════════════════ */
+  function toArabic(num) {
+    const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return num.toString().split('').map(d => arabic[d] || d).join('');
+  }
+  function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+
+  const TOTAL_SLIDES = 2;
+  let currentSlide = 1;
+
+  /* ══════════════════════════════════════════════════════════════
+     ═══════════════════════════════════════════════════════════════
+                         SLIDE 1: GAME LOGIC
+     ═══════════════════════════════════════════════════════════════
+  ══════════════════════════════════════════════════════════════ */
+  const gameState = {
+    hammerArmed: false,
+    isStriking: false,
+    brokenSticks: new Set(),
+    completedCards: new Set(),
+    bundleAttempts: 0,
+    feedbackShown: { firstBreak: false, bundleResist: false },
+    gameComplete: false
+  };
+
+  // ═══ منطق التنقل بين البطاقات ═══
+  let currentCardIdx = 1; // البطاقة الحالية (1 إلى 4)
+  const TOTAL_CARDS = 4;
+
+  function goToCard(targetIdx) {
+    if (targetIdx < 1 || targetIdx > TOTAL_CARDS) return;
+    // أخفِ كل البطاقات وأظهِر المستهدفة فقط
+    document.querySelectorAll('.cards-grid .card').forEach(card => {
+      const cardNum = parseInt(card.dataset.card);
+      card.classList.toggle('is-active', cardNum === targetIdx);
+    });
+    currentCardIdx = targetIdx;
+    updateCardDots();
+  }
+
+  function updateCardDots() {
+    document.querySelectorAll('.card-dot').forEach(dot => {
+      const dotNum = parseInt(dot.dataset.dot);
+      dot.classList.remove('active', 'done');
+      if (gameState.completedCards.has(dotNum)) {
+        dot.classList.add('done');
+      }
+      if (dotNum === currentCardIdx) {
+        dot.classList.add('active');
+      }
+    });
+  }
+
+  // ═══ Demo تلقائي للبطاقة الأولى (تعليمي) ═══
+  function runFirstCardDemo() {
+    setTimeout(() => {
+      const firstStick = document.querySelector('.card[data-card="1"] .stick');
+      if (!firstStick || firstStick.classList.contains('broken')) return;
+      gameState.hammerArmed = true;
+      const hammer = document.getElementById('hammer');
+      const hammerCard = document.getElementById('hammerCard');
+      const instr = document.getElementById('hammerInstr');
+      if (hammer) hammer.classList.add('active');
+      if (hammerCard) hammerCard.classList.add('active');
+      if (instr) instr.textContent = 'المَطرقةُ جاهزةٌ! اضغطْ على عصا';
+      document.body.classList.add('hammer-armed');
+      setTimeout(() => {
+        flyHammerAndStrike(firstStick, false);
+      }, 1500);
+    }, 5000);
+  }
+
+  function toggleHammer() {
+    if (gameState.isStriking) return;
+    gameState.hammerArmed = !gameState.hammerArmed;
+    const hammer = document.getElementById('hammer');
+    const hammerCard = document.getElementById('hammerCard');
+    const instr = document.getElementById('hammerInstr');
+
+    if (gameState.hammerArmed) {
+      hammer.classList.add('active');
+      if (hammerCard) hammerCard.classList.add('active');
+      document.body.classList.add('hammer-armed');
+      if (instr) instr.textContent = 'المَطرقةُ جاهزةٌ! اضغطْ على عصا';
+    } else {
+      hammer.classList.remove('active');
+      if (hammerCard) hammerCard.classList.remove('active');
+      document.body.classList.remove('hammer-armed');
+      if (instr) instr.textContent = 'اضغطْ على المَطرقةِ لاستخدامِها';
+    }
+  }
+
+  function attachStickListeners() {
+    document.querySelectorAll('.stick').forEach(stick => {
+      stick.addEventListener('click', (e) => {
+        if (!gameState.hammerArmed || gameState.isStriking) return;
+        if (stick.classList.contains('broken')) return;
+        e.stopPropagation();
+        flyHammerAndStrike(stick, false);
+      });
+    });
+
+    // ضغط في أي مكان داخل البطاقة → كسر أقرب عصا غير مكسورة
+    document.querySelectorAll('.card-sticks-area').forEach(area => {
+      area.addEventListener('click', (e) => {
+        if (!gameState.hammerArmed || gameState.isStriking) return;
+        const card = area.closest('.card');
+        if (!card || card.dataset.bundle === 'true') return;
+        const sticks = Array.from(card.querySelectorAll('.stick:not(.broken)'));
+        if (sticks.length === 0) return;
+        let nearest = sticks[0];
+        let nearestDist = Infinity;
+        sticks.forEach(s => {
+          const r = s.getBoundingClientRect();
+          const cx = r.left + r.width / 2;
+          const cy = r.top + r.height / 2;
+          const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+          if (dist < nearestDist) { nearestDist = dist; nearest = s; }
+        });
+        flyHammerAndStrike(nearest, false);
+      });
+    });
+
+    const bundleWrap = document.querySelector('.bundle-img-wrap');
+    if (bundleWrap) {
+      bundleWrap.addEventListener('click', () => {
+        if (!gameState.hammerArmed || gameState.isStriking) return;
+        flyHammerAndStrike(bundleWrap, true);
+      });
+    }
+  }
+
+  function flyHammerAndStrike(targetEl, isBundleHit) {
+    gameState.isStriking = true;
+    const hammer = document.getElementById('hammer');
+    const hammerRect = hammer.getBoundingClientRect();
+    const targetRect = targetEl.getBoundingClientRect();
+
+    const startLeft = hammerRect.left;
+    const startTop = hammerRect.top;
+
+    const flying = document.createElement('div');
+    flying.className = 'hammer-flying';
+    flying.innerHTML = `<img src="${hammer.querySelector('img').src}" alt="">`;
+    flying.style.left = startLeft + 'px';
+    flying.style.top = startTop + 'px';
+    document.body.appendChild(flying);
+
+    hammer.style.visibility = 'hidden';
+
+    requestAnimationFrame(() => {
+      const targetX = targetRect.left + targetRect.width / 2 - 65;
+      const targetY = targetRect.top + targetRect.height / 2 - 95;
+      flying.style.left = targetX + 'px';
+      flying.style.top = targetY + 'px';
+      flying.classList.add('striking');
+    });
+
+    setTimeout(() => {
+      if (isBundleHit) {
+        flying.classList.remove('striking');
+        flying.classList.add('bounce-back');
+        flying.style.left = (parseFloat(flying.style.left) + 60) + 'px';
+        flying.style.top = (parseFloat(flying.style.top) - 60) + 'px';
+        const bundleWrap = document.querySelector('.bundle-img-wrap');
+        const bundleCard = document.querySelector('.card[data-bundle="true"]');
+        if (bundleWrap) { bundleWrap.classList.add('bundle-shake'); setTimeout(() => bundleWrap.classList.remove('bundle-shake'), 500); }
+        if (bundleCard) { bundleCard.classList.add('bundle-shake'); setTimeout(() => bundleCard.classList.remove('bundle-shake'), 500); }
+        showHitEffect(targetRect.left + targetRect.width / 2, targetRect.top + targetRect.height / 2, true);
+      } else {
+        breakStick(targetEl, targetRect.left + targetRect.width / 2, targetRect.top + targetRect.height / 2);
+      }
+    }, 360);
+
+    setTimeout(() => {
+      flying.classList.remove('striking', 'bounce-back');
+      flying.style.left = startLeft + 'px';
+      flying.style.top = startTop + 'px';
+    }, 700);
+
+    setTimeout(() => {
+      flying.remove();
+      hammer.style.visibility = '';
+      gameState.isStriking = false;
+      if (isBundleHit) handleBundleHit();
+    }, 1050);
+  }
+
+  function breakStick(stick, hitX, hitY) {
+    if (gameState.brokenSticks.has(stick)) return;
+    gameState.brokenSticks.add(stick);
+
+    const img = stick.querySelector('img');
+    const imgSrc = img ? img.src : '';
+
+    stick.classList.add('broken');
+    stick.innerHTML = `
+      <div class="stick-half-top"><img src="${imgSrc}" alt=""></div>
+      <div class="stick-half-bottom"><img src="${imgSrc}" alt=""></div>
+    `;
+
+    checkCardComplete(stick);
+  }
+
+  function showHitEffect(x, y, isBounce) {
+    const eff = document.createElement('div');
+    eff.className = 'hit-effect';
+    eff.innerHTML = isBounce ? '<i class="fas fa-shield-halved"></i>' : '<i class="fas fa-star"></i>';
+    eff.style.left = (x - 30) + 'px';
+    eff.style.top = (y - 30) + 'px';
+    if (isBounce) eff.style.color = '#B7472D';
+    document.body.appendChild(eff);
+    setTimeout(() => eff.remove(), 500);
+  }
+
+  function handleBundleHit() {
+    gameState.bundleAttempts++;
+    const allCardsDone = gameState.completedCards.size === 3;
+
+    if (gameState.bundleAttempts === 1) {
+      showGameFeedback('الحزمةُ لم تنكسرْ! حاوِلْ مرّةً أخرى..', 'info', 2000, { noIcon: true });
+    } else if (gameState.bundleAttempts === 2) {
+      showGameFeedback('الحزمةُ لم تنكسرْ! حاوِلْ مرّةً أخرى..', 'info', 2000, { noIcon: true });
+    } else if (gameState.bundleAttempts >= 3 && !gameState.feedbackShown.bundleResist) {
+      gameState.feedbackShown.bundleResist = true;
+      // إضافة البطاقة الرابعة للبطاقات المكتملة وتحديث النقاط لتصير خضرا
+      gameState.completedCards.add(4);
+      const bundleCard = document.querySelector('.card[data-bundle="true"]');
+      if (bundleCard) bundleCard.classList.add('all-broken');
+      updateCardDots();
+      showGameFeedback('لقدْ عجزتَ عن كسرِ الحزمةِ! تفكّرْ في السّببِ، ثمَّ انتقلْ إلى الأسئلةِ.', 'correct', 0, { noIcon: true });
+      if (allCardsDone) {
+        gameState.gameComplete = true;
+        updateNavButtons();
+      }
+    }
+
+    if (allCardsDone && gameState.feedbackShown.bundleResist) {
+      gameState.gameComplete = true;
+      updateNavButtons();
+    }
+  }
+
+  function checkGameComplete() {
+    // اللعبة لا تكتمل إلا بعد ضرب الحزمة 3 مرات (تتحقق في handleBundleHit)
+    // هذه الدالة فقط تحدّث الحالة دون تفعيل زر التالي تلقائياً
+    updateNavButtons();
+  }
+
+  function checkCardComplete(stick) {
+    const card = stick.closest('.card');
+    if (!card || card.dataset.bundle === 'true') return;
+
+    const total = parseInt(card.dataset.total);
+    const brokenInCard = card.querySelectorAll('.stick.broken').length;
+
+    if (brokenInCard >= total) {
+      card.classList.add('all-broken');
+      const cardNum = parseInt(card.dataset.card);
+      gameState.completedCards.add(cardNum);
+      updateCardDots();
+      checkGameComplete();
+      updateProgressBar();
+
+      // الانتقال التلقائي للبطاقة التالية
+      setTimeout(() => {
+        if (cardNum < TOTAL_CARDS) {
+          goToCard(cardNum + 1);
+        }
+      }, 900);
+
+      // ألغِ تفعيل المطرقة تلقائياً لما تخلص البطاقة
+      if (gameState.hammerArmed) {
+        setTimeout(() => {
+          if (gameState.hammerArmed) toggleHammer();
+        }, 600);
+      }
+    }
+  }
+
+  let gameFeedbackTimer = null;
+  function showGameFeedback(text, type, duration, options) {
+    const fb = document.getElementById('gameFeedback');
+    fb.className = 'q-feedback ' + (type === 'correct' ? 'show-correct' : 'show-info');
+    const noIcon = options && options.noIcon === true;
+    let iconHtml = '';
+    if (!noIcon) {
+      iconHtml = (type === 'correct' ? '<i class="fas fa-check-circle"></i> ' : '<i class="fas fa-circle-info"></i> ');
+    }
+    fb.innerHTML = iconHtml + text;
+    if (gameFeedbackTimer) clearTimeout(gameFeedbackTimer);
+    if (duration > 0) {
+      gameFeedbackTimer = setTimeout(() => {
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, duration);
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     ═══════════════════════════════════════════════════════════════
+                       SLIDE 2: QUESTIONS LOGIC
+     ═══════════════════════════════════════════════════════════════
+  ══════════════════════════════════════════════════════════════ */
+  const QUESTIONS_DATA = [
+    {
+      q: "ما هي البطاقةُ الّتي عجزتُ عن كسرِ عصيِّها؟",
+      options: [
+        "أ. البطاقةُ الأولى",
+        "ب. البطاقةُ الثّانيةُ",
+        "ج. البطاقةُ الثّالثةُ",
+        "د. البطاقةُ الرّابعةُ"
+      ],
+      correct: 3
+    },
+    {
+      q: "لماذا عجزتُ عن كسرِ عصيِّ البطاقةِ الرّابعةِ؟",
+      options: [
+        "أ. لأنّها عصيُّ شجرةِ البلّوطِ القويّةِ",
+        "ب. لأنّها الأكثرُ عددًا",
+        "ج. لأنّها شكّلتْ حزمةً موحّدةً"
+      ],
+      correct: 2,
+      customFeedback: {
+        0: "شجرةُ البلّوطِ لها فروعٌ قويّةٌ ولكنّ العصيَّ جميعَها من نفسِ النّوعِ كما لاحظنا.. أحاولُ مرّةً أخرى.",
+        1: "نلاحظُ أنّ العصيَّ في البطاقةِ الثّالثةِ أكثرُ عددًا.. حاوِلْ مرّةً أخرى.",
+        2: "أحسنتَ، فالوحدةُ عصيّةٌ على الكسرِ!"
+      }
+    },
+    {
+      q: "ما هي الطّريقةُ الأسهلُ لكسرِ حزمةِ العصيِّ؟",
+      options: [
+        "أ. بإحضارِ مطرقةٍ أقوى",
+        "ب. بفكِّ الحزمةِ وتفريقِ العصيِّ الخمسةِ",
+        "ج. بتكرارِ الضّربِ مرّةً تلوَ الأخرى"
+      ],
+      correct: -1,
+      customFeedback: {
+        0: "أحسنتَ، قد يكون هذا صحيحًا، ولكن قد تكونُ العصيُّ أقوى!",
+        1: "أحسنتَ، فقد استطعنا كسرَها وهي متفرّقةٌ في البطاقاتِ الأخرى.",
+        2: "أحسنتَ، التّكرارُ قد يضعفُها، هل هناك خياراتٌ أخرى؟"
+      }
+    },
+    {
+      q: "من خلالِ اللعبةِ والأسئلةِ، ماذا أتوقّعُ أن يكونَ موضوعَ الدّرسِ؟",
+      options: [
+        "أ. العصا",
+        "ب. قوّةُ المطرقةِ",
+        "ج. العنفُ",
+        "د. أهميّةُ الوحدةِ"
+      ],
+      correct: 3
+    }
+  ];
+
+  const TOTAL_QUESTIONS = QUESTIONS_DATA.length;
+  const MAX_ATTEMPTS = 3;
+
+  const questionState = {};
+  QUESTIONS_DATA.forEach((_, idx) => {
+    questionState[idx] = { attempts: 0, isDone: false, selectedValue: -1 };
+  });
+
+  function renderQuestions() {
+    const container = document.getElementById('questionsContainer');
+    let html = '';
+
+    QUESTIONS_DATA.forEach((qData, qIdx) => {
+      let optionsHtml = '';
+      qData.options.forEach((opt, i) => {
+        optionsHtml += `
+          <label class="mcq-option-label">
+            <input type="radio" name="q-${qIdx}" value="${i}">
+            <span class="mcq-option-text">${opt}</span>
+          </label>
+        `;
+      });
+
+      const shouldShow = (qIdx === 0);
+
+      html += `
+        <div class="q-card" id="qCard-${qIdx}" style="${shouldShow ? '' : 'display:none;'}">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للسؤال">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title"><span class="q-num-inline">${toArabic(qIdx + 1)}.</span> ${qData.q}</p>
+          </div>
+          <div class="mcq-options">
+            ${optionsHtml}
+          </div>
+          <div class="q-feedback" id="fb-${qIdx}"></div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+
+    QUESTIONS_DATA.forEach((qData, qIdx) => {
+      container.querySelectorAll(`input[name="q-${qIdx}"]`).forEach(input => {
+        input.addEventListener('change', () => handleMCQAnswer(qIdx, parseInt(input.value)));
+      });
+    });
+  }
+
+  function revealNextQuestion(currentIdx) {
+    const nextCard = document.getElementById(`qCard-${currentIdx + 1}`);
+    if (nextCard) {
+      nextCard.style.display = '';
+      nextCard.classList.remove('q-revealed');
+      void nextCard.offsetWidth;
+      nextCard.classList.add('q-revealed');
+      setTimeout(() => {
+        nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 200);
+    }
+  }
+
+  function handleMCQAnswer(qIdx, selectedIdx) {
+    const qState = questionState[qIdx];
+    if (qState.isDone) return;
+    if (qState.attempts >= MAX_ATTEMPTS) return;
+
+    qState.attempts++;
+    qState.selectedValue = selectedIdx;
+    const qData = QUESTIONS_DATA[qIdx];
+    const card = document.getElementById(`qCard-${qIdx}`);
+    const labels = card.querySelectorAll('.mcq-option-label');
+    const inputs = card.querySelectorAll('input[type="radio"]');
+    const fb = document.getElementById(`fb-${qIdx}`);
+
+    const allAcceptable = qData.correct === -1;
+    const isCorrect = allAcceptable || (selectedIdx === qData.correct);
+
+    labels.forEach(label => label.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+    if (isCorrect) {
+      qState.isDone = true;
+      labels.forEach((label, i) => {
+        if (allAcceptable && i === selectedIdx) label.classList.add('correct-option');
+        else if (!allAcceptable && i === qData.correct) label.classList.add('correct-option');
+        inputs[i].disabled = true;
+        label.classList.add('disabled');
+      });
+      card.classList.remove('incorrect');
+      card.classList.add('correct');
+
+      let feedbackText;
+      if (qData.customFeedback && qData.customFeedback[selectedIdx]) {
+        feedbackText = qData.customFeedback[selectedIdx];
+      } else {
+        feedbackText = 'أحسنتَ! إجابةٌ صحيحةٌ.';
+      }
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = `<i class="fas fa-check-circle"></i> ${feedbackText}`;
+
+      onQuestionDone(qIdx);
+    } else {
+      labels.forEach((label, i) => {
+        if (i === selectedIdx) label.classList.add('wrong-option');
+      });
+      card.classList.add('incorrect');
+      setTimeout(() => card.classList.remove('incorrect'), 600);
+
+      if (qState.attempts >= MAX_ATTEMPTS) {
+        labels.forEach((label, i) => {
+          label.classList.remove('wrong-option');
+          if (i === qData.correct) label.classList.add('revealed');
+          inputs[i].disabled = true;
+          label.classList.add('disabled');
+        });
+        card.classList.remove('incorrect');
+        card.classList.add('correct');
+        qState.isDone = true;
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        onQuestionDone(qIdx);
+      } else {
+        let feedbackText;
+        if (qData.customFeedback && qData.customFeedback[selectedIdx]) {
+          feedbackText = qData.customFeedback[selectedIdx];
+        } else {
+          feedbackText = 'إجابةٌ غيرُ صحيحةٍ. حاوِلْ مرّةً أخرى!';
+        }
+        fb.className = 'q-feedback show-wrong';
+        fb.innerHTML = `<i class="fas fa-times-circle"></i> ${feedbackText}`;
+
+        setTimeout(() => {
+          labels.forEach(label => label.classList.remove('wrong-option'));
+          inputs.forEach(input => { input.checked = false; });
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }, 1500);
+      }
+    }
+  }
+
+  function onQuestionDone(qIdx) {
+    if (qIdx < TOTAL_QUESTIONS - 1) {
+      revealNextQuestion(qIdx);
+    }
+    updateNavButtons();
+    updateProgressBar();
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     NAVIGATION
+  ══════════════════════════════════════════════════════════════ */
+  function goToSlide(idx) {
+    if (idx < 1 || idx > TOTAL_SLIDES) return;
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+    currentSlide = idx;
+
+    const instrText = document.getElementById('instrText');
+    if (idx === 1) {
+      instrText.innerHTML = 'اضغطْ على المَطرقةِ لاستخدامِها، ثمَّ اضغطْ على العصيِّ لكسرِها!';
+    } else if (idx === 2) {
+      instrText.innerHTML = 'أجبْ عنِ الأسئلةِ الآتيةِ بعدَ تجربةِ اللعبةِ.';
+    }
+
+    updateProgressBar();
+    updateNavButtons();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextSlide() {
+    if (currentSlide < TOTAL_SLIDES) {
+      goToSlide(currentSlide + 1);
+    } else {
+      finishActivity();
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 1) goToSlide(currentSlide - 1);
+  }
+
+  function updateNavButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (currentSlide === 1) {
+      prevBtn.style.visibility = 'hidden';
+    } else {
+      prevBtn.style.visibility = '';
+    }
+
+    if (currentSlide === TOTAL_SLIDES) {
+      nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+      const allQDone = Object.values(questionState).every(s => s.isDone);
+      nextBtn.disabled = !allQDone;
+    } else {
+      nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+      nextBtn.disabled = !gameState.gameComplete;
+    }
+  }
+
+  function updateProgressBar() {
+    let pct = 0;
+    if (currentSlide === 1) {
+      const cardProgress = (gameState.completedCards.size / 3) * 0.4;
+      const bundleProgress = gameState.feedbackShown.bundleResist ? 0.1 : 0;
+      pct = (cardProgress + bundleProgress) * 100;
+    } else if (currentSlide === 2) {
+      const doneCount = Object.values(questionState).filter(s => s.isDone).length;
+      pct = 50 + (doneCount / TOTAL_QUESTIONS) * 50;
+    }
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  function finishActivity() {
+    document.getElementById('instrRow').style.display = 'none';
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.getElementById('taskNav').style.display = 'none';
+    document.getElementById('progressFill').style.width = '100%';
+
+    const screen = document.getElementById('successScreen');
+    screen.classList.add('show');
+    screen.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(launchConfetti, 400);
+  }
+
+  function launchConfetti() {
+    const wrap = document.getElementById('completeWrap');
+    if (!wrap) return;
+    const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+    for (let i = 0; i < 36; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'confetti-dot';
+      const sz = 8 + Math.random() * 12;
+      dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+        colors[~~(Math.random() * colors.length)] +
+        ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+        'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+        'animation-delay:' + (Math.random() * 0.9) + 's';
+      wrap.appendChild(dot);
+      setTimeout(() => dot.remove(), 3500);
+    }
+  }
+
+  function restartActivity() { location.reload(); }
+
+  /* ══════════════════════════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════════════════════════ */
+  attachStickListeners();
+  updateCardDots();
+  renderQuestions();
+  updateNavButtons();
+  runFirstCardDemo();
+</script>
+
+</body>
+</html>

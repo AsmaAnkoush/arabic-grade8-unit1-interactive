@@ -1,0 +1,4859 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>التقويمُ والتّأمّلُ</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+
+  --font-size-main-title:   40px;
+  --font-size-buttons:      22px;
+  --font-size-instructions: 24px;
+
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --line-height-reading:    2;
+
+  --letter-spacing-tight:   1.5px;
+
+  --color-primary-hover:    #9d5a22;
+  --color-secondary-hover:  #f2d489;
+  --color-olive-hover:      #9c9d3a;
+  --color-primary-playing:  #5e3210;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+
+  /* Reading card (new style) */
+  --reading-card-radius:      16px;
+  --reading-card-border:      2px solid var(--color-secondary);
+  --reading-text-size:        clamp(17px, 1.9vw, 21px);
+  --reading-text-line-height: 2;
+  --reading-active-bg:        #fffaf3;
+  --reading-active-glow:      0 0 0 2px rgba(132, 72, 22, 0.12), 0 6px 20px rgba(132, 72, 22, 0.08);
+  --reading-highlight-bg:     rgba(237, 198, 111, 0.45);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-check {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-check:hover  { background: var(--color-olive-hover); }
+.btn-check:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-olive-shadow); }
+.btn-check:disabled {
+  background: #c0c19a; color: #fff;
+  box-shadow: 0 5px 0 #989a78;
+  cursor: not-allowed; opacity: 0.6;
+}
+.btn-sm {
+  font-size: 18px;
+  padding: 10px 18px;
+  min-width: 110px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+
+.instr-hint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0 0;
+}
+.instr-hint-img {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.instr-hint-text {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.85;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   READING CARD (النمط الجديد المعتمد)
+═══════════════════════════════════════════════════════════════ */
+.reading-card {
+  background: var(--color-paper);
+  border: var(--reading-card-border);
+  border-radius: var(--reading-card-radius);
+  margin: 14px 16px;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  animation: passageFadeIn 0.6s ease-out;
+}
+.reading-card.active {
+  border-color: var(--color-primary);
+  box-shadow: var(--reading-active-glow);
+}
+@keyframes passageFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reading-text-area {
+  background: var(--color-paper);
+  max-height: clamp(240px, 38vh, 360px);
+  overflow-y: auto;
+  padding: 14px 22px 16px;
+  position: relative;
+  scroll-behavior: smooth;
+  scroll-padding: 76px 0;
+  -webkit-overflow-scrolling: touch;
+  /* RTL: flip the scroll container to LTR so the vertical scrollbar
+     renders on the RIGHT side; inner content is restored to RTL below */
+  direction: ltr;
+  /* Firefox: themed thin scrollbar (brown thumb on soft cream track) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) transparent;
+}
+/* Restore RTL for the actual content so Arabic text/alignment is unchanged */
+.reading-text-area > .reading-paragraph {
+  direction: rtl;
+}
+.reading-text-area::-webkit-scrollbar {
+  width: 5px;
+}
+.reading-text-area::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+  margin: 4px 0;
+}
+.reading-text-area::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 999px;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  opacity: 0.7;
+}
+.reading-text-area::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary-shadow);
+  opacity: 1;
+}
+/* Pressed / dragging: rich, deep warm brown (no blue/gray/default highlight) */
+.reading-text-area::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary);
+  opacity: 1;
+}
+.reading-text-area::before {
+  /* تَمَّ إزالةُ الخطِّ الجانبيِّ */
+  content: none;
+}
+
+.reading-paragraph {
+  border-radius: 8px;
+  margin-bottom: 0;
+  padding: 4px 14px 4px 12px;
+  position: relative;
+  transition: background 0.25s ease, opacity 0.25s ease, filter 0.25s ease;
+}
+.reading-paragraph.seen {
+  filter: none;
+  opacity: 1;
+}
+.reading-paragraph.unplayed {
+  /* تَمَّ إزالةُ التّمويهِ والشّفافيّةِ — الفقرةُ تَظهرُ بوضوحٍ كاملٍ */
+}
+.reading-paragraph:last-child {
+  margin-bottom: 0;
+}
+.reading-paragraph.active {
+  background: var(--reading-active-bg);
+  /* تَمَّ إزالةُ الشّريطِ الجانبيِّ */
+}
+
+.para-text {
+  color: var(--color-ink);
+  font-size: var(--reading-text-size);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--reading-text-line-height);
+  text-align: justify;
+  word-break: break-word;
+}
+
+.word {
+  border-radius: 4px;
+  display: inline;
+  padding: 1px 3px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.word.highlight {
+  background: var(--reading-highlight-bg);
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   READING CONTROLS (تحت بطاقة القراءة)
+═══════════════════════════════════════════════════════════════ */
+.reading-controls {
+  /* Removed the gradient background layer: its pure-white (#fff) end read as a
+     light gray/silver strip directly under the warm reading box. Transparent
+     lets it blend with the card behind it. */
+  background: transparent;
+  border-radius: 0 0 var(--reading-card-radius) var(--reading-card-radius);
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 2.5vw, 12px);
+  justify-content: center;
+  align-items: center;
+  padding: 12px 14px 18px;
+  margin: -14px 16px 14px;
+  position: relative;
+  z-index: 5;
+}
+
+.btn-play, .btn-restart {
+  font-family: var(--font-family);
+  font-size: clamp(16px, 2.2vw, 19px);
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: 1.2;
+}
+.btn-play {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-play:hover { background: var(--color-primary-hover); }
+.btn-play:active { box-shadow: 0 3px 0 var(--color-primary-shadow); transform: translateY(2px); }
+.btn-play.is-playing {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-play.is-playing:hover { background: var(--color-secondary-hover); }
+.btn-play.is-playing:active { box-shadow: 0 3px 0 var(--color-secondary-shadow); transform: translateY(2px); }
+
+.btn-restart {
+  background: var(--color-olive);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-olive-shadow);
+}
+.btn-restart:hover { background: var(--color-olive-hover); }
+.btn-restart:active { box-shadow: 0 3px 0 var(--color-olive-shadow); transform: translateY(2px); }
+
+.btn-seek {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s ease, border-color 0.1s ease, transform 0.1s ease;
+  box-shadow: 0 3px 0 var(--color-sand);
+}
+.btn-seek:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+.btn-seek:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--color-sand);
+}
+.btn-seek:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.controls-spacer {
+  width: clamp(16px, 5vw, 22px);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDES
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MATCH / DRAG & DROP
+═══════════════════════════════════════════════════════════════ */
+.match-expr-bank {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 14px 16px 0;
+  overflow: visible;
+}
+.match-chips-area {
+  display: flex; flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  padding: 18px 20px;
+  min-height: 60px;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  background: transparent;
+}
+.match-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 48px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  white-space: normal;
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+  max-width: 100%;
+  will-change: opacity;
+}
+.chip-handle {
+  color: var(--color-light-border);
+  font-size: 14px; flex-shrink: 0;
+}
+.match-chip:not(.placed):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+}
+.match-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40), 0 6px 16px rgba(132, 72, 22, 0.18);
+  transform: translateY(-2px);
+}
+.match-chip.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+.match-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.match-chip.placed .chip-handle { display: none; }
+
+.match-chips-area.is-dragging .match-chip:not(.dragging):not(.placed) {
+  pointer-events: none;
+  transform: none !important;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07) !important;
+  border-color: var(--color-primary-light) !important;
+  background: #fff !important;
+}
+
+.match-chip.chip-shake {
+  animation: chipShake 0.5s;
+}
+@keyframes chipShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+/* لوحة الهدف (الحزمة) */
+.bundle-target-panel {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 14px 16px 0;
+}
+.bundle-target-row {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.bundle-target-row.bundle-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bundle-target-row.bundle-centered .bundle-target-img-wrap {
+  flex-direction: row;
+  gap: 20px;
+}
+.bundle-target-row.bundle-centered .bundle-target-img {
+  width: 130px;
+}
+
+/* البطاقة لما تكون صحيحة (اختيار) */
+.match-chip.chip-correct {
+  background: rgba(107, 139, 31, 0.10);
+  border-color: var(--color-success);
+  color: #4d6618;
+  cursor: default;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.18);
+  pointer-events: none;
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.match-chip.chip-correct .chip-handle {
+  display: none;
+}
+.match-chip.chip-correct::before {
+  content: "\f00c";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: var(--color-success);
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+/* البطاقة لما تكون خطأ (اختيار - مؤقت) */
+.match-chip.chip-wrong {
+  background: rgba(183, 71, 45, 0.10);
+  border-color: var(--color-error);
+  color: #7d2f1d;
+  animation: chipShake 0.5s;
+}
+
+/* صورة الحزمة جوا بوكس الكلمات */
+.bundle-inline-img {
+  display: block;
+  width: 130px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  filter: drop-shadow(0 3px 8px rgba(132, 72, 22, 0.20));
+  order: -1;
+  flex-basis: 100%;
+}
+.bundle-target-img-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.bundle-target-title {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 5px 16px;
+  border-radius: 100px;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.20);
+}
+.bundle-target-img {
+  width: 110px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 8px rgba(132, 72, 22, 0.20));
+}
+.match-drop-zone {
+  min-height: 110px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  padding: 12px;
+  gap: 8px;
+  cursor: pointer;
+  align-content: center;
+}
+.match-drop-placeholder {
+  font-size: 15px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-sand);
+  pointer-events: none;
+  display: flex; align-items: center; gap: 6px;
+  width: 100%;
+  justify-content: center;
+  padding: 10px 0;
+}
+.match-drop-zone.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.match-drop-zone.has-items {
+  border-style: solid;
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.zone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  cursor: pointer;
+  white-space: normal;
+  text-align: center;
+  line-height: var(--line-height-normal);
+  transition: all 0.2s ease;
+}
+.zone-chip.correct {
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.10);
+  color: #4d6618;
+  cursor: default;
+}
+.zone-chip.wrong {
+  border-color: var(--color-error);
+  background: rgba(183, 71, 45, 0.10);
+  color: #7d2f1d;
+  animation: chipShake 0.5s;
+}
+.zone-chip-icon { font-size: 14px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════════
+   FEEDBACK
+═══════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 14px 16px 0;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+}
+.q-feedback.show-revealed {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slide-controls {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  padding: 14px 16px 0;
+  flex-wrap: wrap;
+}
+.slide-controls .btn-action {
+  min-width: 140px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q2: خريطة مفاهيمية
+═══════════════════════════════════════════════════════════════ */
+.concept-map-panel {
+  background: var(--color-paper);
+  border: 2px solid var(--color-secondary);
+  border-radius: 16px;
+  padding: 22px 18px;
+  margin: 14px 16px 0;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+}
+
+.concept-box {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-normal);
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.18);
+  border: 2px solid var(--color-primary-shadow);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* السهم العمودي الواحد (بين الصناديق الكبيرة) */
+.line-vertical {
+  display: block;
+  width: 14px;
+  height: 22px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* شجرة الفروع (الخط الأفقي + 3 أسهم نازلة) */
+.concept-tree {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  padding: 0;
+}
+.concept-tree-trunk {
+  display: block;
+  width: 14px;
+  height: 18px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+/* حاوية الفروع: نفس grid الـ slots بالظبط */
+.concept-tree-branches {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  height: 22px;
+}
+/* الخط الأفقي ممتد من مركز أول عمود لمركز آخر عمود */
+.concept-tree-branches::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  /* مركز العمود من حافة الـ container = (W - 32px) / 6 من كل جنب */
+  right: calc((100% - 32px) / 6);
+  left: calc((100% - 32px) / 6);
+  height: 3px;
+  background: var(--color-primary);
+}
+/* كل فرع = SVG داخل عمود grid، متمركز */
+.concept-tree-branch-svg {
+  display: block;
+  width: 14px;
+  height: 22px;
+  justify-self: center;
+  overflow: visible;
+}
+
+.concept-slots-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.concept-slot-wide {
+  max-width: 460px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.concept-slot {
+  min-height: 60px;
+  border: 2px dashed var(--color-light-border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-sand);
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.05);
+}
+.concept-slot.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.concept-slot.filled {
+  border-style: solid;
+  border-color: var(--color-success);
+  background: rgba(107, 139, 31, 0.12);
+  cursor: default;
+  color: #4d6618;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 2px 8px rgba(107, 139, 31, 0.15);
+}
+.concept-slot.filled .concept-slot-placeholder { display: none; }
+.concept-slot-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  opacity: 0.7;
+  font-size: 13px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-sand);
+}
+.concept-slot-placeholder i {
+  font-size: 14px;
+}
+
+.concept-stage {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.6s ease;
+}
+.concept-stage.revealed {
+  opacity: 1;
+  max-height: 700px;
+  animation: stageReveal 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stageReveal {
+  0%   { opacity: 0; transform: translateY(-15px) scale(0.95); }
+  60%  { transform: translateY(0) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q-CARD
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: cardShake 0.5s;
+}
+@keyframes cardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card-title strong { color: var(--color-primary); }
+.q-card-header .audio-btn {
+  margin-top: 2px;
+}
+
+/* Q7 (slide 8): make the title + speaker button match Q6's instruction row
+   (.task-instr-row / .task-instr-text) EXACTLY — same vertical alignment
+   (top) and same button-to-text spacing. Typography tokens already match;
+   responsive font sizes are matched inside the media queries below. */
+[data-slide="8"] .q-card-header { align-items: start; gap: 16px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MCQ
+═══════════════════════════════════════════════════════════════ */
+.mcq-options { display: grid; gap: 10px; }
+
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+  -webkit-tap-highlight-color: transparent;
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text {
+  color: var(--color-error);
+}
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   صح/خطأ
+═══════════════════════════════════════════════════════════════ */
+.tf-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+.tf-row:last-of-type { margin-bottom: 0; }
+
+.tf-row.correct {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.tf-row.wrong {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+  animation: cardShake 0.5s;
+}
+
+.tf-statement {
+  flex: 1;
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+.tf-num {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.1em;
+  margin-left: 4px;
+}
+
+.tf-options {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.tf-option {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.tf-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.tf-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--color-light-border);
+  background: #fff;
+  color: var(--color-light-border);
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 rgba(132, 72, 22, 0.10);
+}
+.tf-option:hover .tf-icon {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(132, 72, 22, 0.15);
+}
+.tf-icon-true:hover { border-color: var(--color-success); color: var(--color-success); }
+.tf-icon-false:hover { border-color: var(--color-error); color: var(--color-error); }
+
+.tf-row.correct .tf-icon-true,
+.tf-option.picked-correct .tf-icon {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  box-shadow: 0 2px 0 #4d6618;
+}
+
+.tf-option.picked-wrong .tf-icon {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+
+.tf-row.locked .tf-option:not(.picked-correct) {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.tf-row.locked .tf-option.picked-correct {
+  pointer-events: none;
+}
+.tf-row.locked {
+  pointer-events: none;
+}
+.tf-row.locked.correct {
+  pointer-events: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   التصنيف
+═══════════════════════════════════════════════════════════════ */
+.classify-bank {
+  background: transparent;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  min-height: 60px;
+}
+.classify-categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 14px 16px 0;
+}
+.classify-category {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  min-height: 200px;
+}
+.classify-category.hovered {
+  border-color: var(--color-secondary);
+  border-style: solid;
+  background: var(--color-secondary-light);
+}
+.classify-category-title {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 8px 12px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.20);
+}
+.classify-category-drop {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 100px;
+  padding: 4px;
+  border-radius: 8px;
+}
+.classify-category-placeholder {
+  font-size: 13px;
+  color: var(--color-sand);
+  text-align: center;
+  font-weight: var(--font-weight-semibold);
+  padding: 16px 8px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.classify-category-placeholder i {
+  font-size: 14px;
+}
+.classify-category.has-items .classify-category-placeholder { display: none; }
+
+.classify-chip {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.07);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: none;
+  line-height: var(--line-height-normal);
+}
+.classify-chip:not(.placed):hover {
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.14);
+  border-color: var(--color-primary);
+}
+.classify-chip.selected {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.40);
+}
+.classify-chip.dragging { opacity: 0.4; cursor: grabbing; }
+
+.classify-chip.placed {
+  background: var(--color-primary-light);
+  border-color: var(--color-light-border);
+  border-style: dashed;
+  color: var(--color-light-border);
+  box-shadow: none;
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5;
+}
+.classify-chip.chip-shake {
+  animation: chipShake 0.5s;
+}
+
+.classify-zone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(107, 139, 31, 0.10);
+  border: 2px solid var(--color-success);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: #4d6618;
+  line-height: var(--line-height-normal);
+  animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.classify-zone-chip i {
+  color: var(--color-success);
+  font-size: 13px;
+}
+@keyframes chipPopIn {
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q6: التصنيف بالقوائم المنسدلة (Cards Layout)
+═══════════════════════════════════════════════════════════════ */
+.q6-cards-wrap {
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.q6-card {
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(132, 72, 22, 0.06);
+}
+
+/* كشف تدريجي: العناصر المخفية تُزال تمامًا من تدفّق التخطيط (لا فراغ) */
+.q6-card.q6-hidden { display: none; }
+/* ظهور ناعم للعناصر عند كشفها (يحافظ على التصميم الحالي) */
+.q6-card.q6-reveal { animation: q6CardReveal 0.45s ease both; }
+@keyframes q6CardReveal {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q6-card-letter {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 17px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(132, 72, 22, 0.25);
+}
+
+.q6-card-text {
+  font-size: 19px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  text-align: right;
+}
+
+.q6-card-select {
+  min-width: 220px;
+}
+
+/* Custom dropdown */
+.q6-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  font-family: var(--font-family);
+}
+.q6-dropdown-trigger {
+  width: 100%;
+  padding: 11px 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.q6-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.q6-dropdown.is-open .q6-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.q6-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+  word-break: break-word;
+}
+.q6-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.q6-dropdown.is-open .q6-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.q6-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.q6-dropdown.is-open .q6-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.q6-dropdown-option {
+  padding: 11px 16px;
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.q6-dropdown-option + .q6-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.q6-dropdown-option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.q6-dropdown-option:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.q6-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.q6-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.q6-dropdown.is-disabled .q6-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* حالات الكرت */
+.q6-card.correct-card {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f7faea;
+  box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18);
+}
+.q6-card.correct-card .q6-card-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35);
+}
+.q6-card.correct-card .q6-card-text {
+  color: var(--color-success);
+}
+.q6-card.correct-card .q6-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q6-card.correct-card .q6-dropdown-arrow {
+  color: var(--color-success);
+}
+.q6-card.wrong-card {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  animation: chipShake 0.5s ease;
+}
+.q6-card.wrong-card .q6-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+}
+.q6-card.wrong-card .q6-dropdown-arrow {
+  color: var(--color-error);
+}
+.q6-card.revealed-card {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f7faea;
+  box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18);
+  animation: pulse-q6-correct 0.6s ease;
+}
+.q6-card.revealed-card .q6-card-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35);
+}
+.q6-card.revealed-card .q6-card-text {
+  color: var(--color-success);
+}
+.q6-card.revealed-card .q6-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q6-card.revealed-card .q6-dropdown-arrow {
+  color: var(--color-success);
+}
+@keyframes pulse-q6-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@media (max-width: 700px) {
+  .q6-card {
+    padding: 14px;
+    gap: 12px;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "letter text"
+      "select select";
+  }
+  .q6-card-letter { grid-area: letter; width: 34px; height: 34px; font-size: 15px; }
+  .q6-card-text { grid-area: text; font-size: 17px; }
+  .q6-card-select { grid-area: select; min-width: 0; width: 100%; margin-top: 4px; }
+  .q6-dropdown-trigger { font-size: 16px; padding: 10px 14px; }
+  /* Mobile fix: keep the chevron + text inline as one centered, compact group.
+     The value no longer stretches full-width (flex:1), so the text stops
+     detaching/wrapping under the icon. RTL order & all styling unchanged. */
+  .q6-dropdown-trigger { justify-content: center; }
+  .q6-dropdown-value { flex: 0 1 auto; }
+  .q6-dropdown-option { font-size: 16px; padding: 10px 14px; }
+}
+@media (max-width: 480px) {
+  .q6-cards-wrap { margin-left: 8px; margin-right: 8px; gap: 10px; }
+  .q6-card { padding: 12px; gap: 10px; }
+  .q6-card-letter { width: 30px; height: 30px; font-size: 14px; }
+  .q6-card-text { font-size: 16px; line-height: 1.7; }
+  .q6-dropdown-trigger { font-size: 15px; padding: 9px 12px; }
+  .q6-dropdown-option { font-size: 15px; padding: 9px 12px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Q7: كتابة
+═══════════════════════════════════════════════════════════════ */
+.q7-pairs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+.q7-pair {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.q7-instr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: var(--color-paper);
+  padding: 14px 20px;
+  border-radius: 12px;
+  border-right: 4px solid var(--color-secondary);
+  margin-bottom: 14px;
+  min-height: 160px;
+}
+.q7-img-mini {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 3px 8px rgba(132, 72, 22, 0.22));
+}
+
+.q7-img-sticks {
+  transform: scale(1.6);
+  transform-origin: center;
+}
+
+.q7-textarea {
+  width: 100%;
+  min-height: 140px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  background: #fff;
+  line-height: var(--line-height-relaxed);
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  display: block;
+  text-align: right;
+  direction: rtl;
+}
+.q7-textarea::placeholder {
+  color: var(--color-light-border);
+  font-weight: var(--font-weight-semibold);
+}
+.q7-textarea:focus {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.22);
+  background: #fffaf0;
+}
+.q7-textarea.state-filled {
+  border-color: var(--color-primary);
+  background: #fff;
+}
+.q7-textarea:disabled {
+  background: var(--color-primary-light);
+  color: var(--color-ink);
+  opacity: 0.85;
+}
+
+.q7-show-answer-btn {
+  margin-top: 14px;
+  align-self: center;
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: var(--font-weight-extrabold) !important;
+  padding: 10px 18px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 5px 0 var(--color-primary-shadow) !important;
+  min-width: 140px !important;
+  border: none !important;
+  animation: showAnswerAttract 2.4s ease-in-out infinite;
+}
+.q7-show-answer-btn:hover {
+  background: var(--color-primary-hover) !important;
+}
+.q7-show-answer-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 3px 0 var(--color-primary-shadow) !important;
+}
+.q7-show-answer-btn i {
+  margin-left: 4px;
+  font-size: 15px;
+}
+.q7-show-answer-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+@keyframes showAnswerAttract {
+  0%, 100% { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 0 rgba(132, 72, 22, 0.30); }
+  50%      { box-shadow: 0 5px 0 var(--color-primary-shadow), 0 0 0 10px rgba(132, 72, 22, 0); }
+}
+
+.q7-answer-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(58, 36, 16, 0.65);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0;
+  gap: 0;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.q7-answer-wrap[style*="flex"] {
+  display: flex !important;
+}
+.q7-answer-modal {
+  background: #fffdf8;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 18px 18px 20px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-sizing: border-box;
+  /* RTL: flip the scroll container to LTR so the scrollbar sits on the RIGHT;
+     content is restored to RTL below */
+  direction: ltr;
+  /* Firefox: themed thin scrollbar (brown thumb on soft cream track) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-primary-light);
+}
+/* restore RTL for the actual content */
+.q7-answer-modal > * { direction: rtl; }
+.q7-answer-modal::-webkit-scrollbar { width: 9px; }
+.q7-answer-modal::-webkit-scrollbar-track {
+  background: var(--color-primary-light);
+  border-radius: 999px;
+  margin: 6px 0;
+}
+.q7-answer-modal::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--color-secondary), var(--color-primary));
+  border: 2px solid var(--color-primary-light);
+  border-radius: 999px;
+}
+.q7-answer-modal::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, var(--color-secondary-shadow), var(--color-primary-shadow));
+}
+.q7-modal-close {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+.q7-modal-close:hover {
+  background: var(--color-error);
+  transform: scale(1.08) rotate(90deg);
+  box-shadow: 0 3px 0 #7d2f1d;
+}
+.q7-modal-close:active {
+  transform: scale(0.95) rotate(90deg);
+  box-shadow: 0 1px 0 var(--color-primary-shadow);
+}
+.q7-modal-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 50px 12px;
+  border-bottom: 2px dashed var(--color-primary-light);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+.q7-modal-audio {
+  flex-shrink: 0;
+}
+.q7-modal-title {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: right;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.q7-answer-section {
+  background: #fff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  /* don't let the scrollable flex column compress/clip the section */
+  flex-shrink: 0;
+}
+.q7-answer-section.suggested {
+  border: 2px solid var(--color-primary);
+  background: linear-gradient(135deg, #fffaf3 0%, #fff 100%);
+  box-shadow: 0 4px 14px rgba(132, 72, 22, 0.10);
+  position: relative;
+}
+.q7-answer-label {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 8px 12px;
+  border-radius: 0;
+  box-shadow: none;
+  line-height: 1.3;
+  width: 100%;
+  max-width: 100%;
+  z-index: auto;
+  white-space: normal;
+  text-align: center;
+  border-bottom: 2px solid var(--color-secondary-shadow);
+  box-sizing: border-box;
+}
+.q7-answer-section.suggested .q7-answer-label {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-shadow) 100%);
+  color: #fff;
+  box-shadow: none;
+  border-bottom: 2px solid var(--color-primary-shadow);
+  letter-spacing: 0.5px;
+}
+.q7-answer-label img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  margin: 0;
+}
+.q7-answer-label i {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.q7-answer-section.suggested .q7-answer-label i {
+  color: var(--color-secondary);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+.q7-answer-text {
+  /* نفس خطّ ووزن وتباعد عنوان السؤال، مع حجمٍ أصغرَ قليلًا من عناوين الأقسام
+     ليكونَ المحتوى أنظفَ وأقلَّ ازدحامًا */
+  font-family: var(--font-family);
+  font-size: 16px;
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  font-weight: var(--font-weight-bold);
+  padding: 12px 14px;
+  text-align: right;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  display: block;
+}
+.q7-answer-text:empty::before {
+  content: '— لمْ تكتبْ شيئًا —';
+  color: var(--color-sand);
+  font-style: italic;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ═══ لوحةُ الإجاباتِ النّموذجيّةِ متعدّدةُ الخطواتِ (خطوةٌ لكلِّ صورةٍ) ═══ */
+.q7-modal-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.q7-modal-step {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+.q7-modal-step.active {
+  display: flex;
+  animation: stepFadeIn 0.4s ease;
+}
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.q7-modal-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 0 4px;
+}
+.q7-modal-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.q7-modal-arrow:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+.q7-modal-arrow:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.q7-modal-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.q7-modal-arrow i { font-size: 13px; }
+.q7-modal-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.q7-modal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  transition: all 0.3s ease;
+}
+.q7-modal-dot.active {
+  background: var(--color-primary);
+  transform: scale(1.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   شاشة الإنهاء
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  display: none;
+  width: 100%;
+}
+.success-screen.show {
+  display: block;
+  animation: fadeIn 0.6s ease;
+}
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 240px;
+  height: 240px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.55) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 32px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 20px;
+  margin-bottom: 8px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-subtitle {
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-shadow);
+  line-height: var(--line-height-relaxed);
+  max-width: 540px;
+  margin: 0 auto;
+}
+.complete-restart {
+  margin-top: 28px;
+}
+.btn-restart-finish {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart-finish:hover { background: var(--color-secondary-hover); }
+.btn-restart-finish:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(280px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  /* Mobile alignment: the audio button's 3D drop-shadow (box-shadow: 0 4px 0)
+     pulls its visual mass downward, so the face optically sits high next to the
+     question text. A 2px relative nudge re-centers it on the text block.
+     Uses top (not transform) so the press/hover scale animations still work.
+     Size, shadow, colors, gap, and desktop layout are all unchanged. */
+  .q-card-header .audio-btn { position: relative; top: 2px; }
+  /* Q7: match Q6 (no centering nudge — instruction-row button is top-aligned) */
+  [data-slide="8"] .q-card-header .audio-btn { top: 0; }
+  .q-card-title { font-size: 19px; }
+  [data-slide="8"] .q-card-title { font-size: 19px; }
+  /* MCQ slides: top-align speaker icon when title wraps to multiple lines */
+  [data-slide="1"] .q-card-header,
+  [data-slide="5"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="5"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="5"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+  /* MCQ option text responsive */
+  .mcq-option-text { font-size: 18px; }
+  .task-instr-row, .reading-card, .reading-controls, .match-expr-bank, .bundle-target-panel, .q-feedback { margin-left: 10px; margin-right: 10px; }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 26px !important; }
+  .task-instr-text { font-size: 19px; }
+  .instr-hint { gap: 10px; }
+  .instr-hint-img { width: 36px; height: 36px; }
+  .instr-hint-text { font-size: 16px; }
+  .reading-text-area { max-height: 320px; padding: 16px 18px 20px; }
+  .reading-text-area::before { bottom: 20px; right: 18px; top: 16px; }
+  .reading-paragraph { margin-bottom: 14px; padding: 9px 14px 9px 10px; }
+  .para-text { line-height: 1.95; text-align: right; font-size: 18px; }
+  .reading-controls { padding: 10px 12px 14px; gap: 8px; }
+  .match-chip { font-size: 17px; padding: 10px 14px; min-height: 44px; }
+  .bundle-target-row { grid-template-columns: 1fr; gap: 12px; }
+  .bundle-target-img { width: 110px; }
+  .match-drop-zone { min-height: 130px; }
+  .zone-chip { font-size: 16px; padding: 7px 12px; }
+  .concept-map-panel { padding: 20px 14px; }
+  .concept-box { font-size: 17px; padding: 11px 18px; }
+  .concept-slot { font-size: 17px; min-height: 56px; }
+  .concept-slot.filled { font-size: 18px; }
+  .concept-slots-3 { gap: 12px; }
+  .classify-categories { grid-template-columns: 1fr; gap: 10px; }
+  .classify-category { min-height: 150px; }
+  .q7-pair { margin-bottom: 0; }
+  .q7-pairs-grid { gap: 12px; }
+  .q7-instr { padding: 14px 16px; gap: 14px; min-height: 130px; }
+  .q7-img-mini { width: 115px; height: 115px; }
+  .q7-textarea { font-size: 18px; min-height: 130px; }
+  .q7-answer-text { font-size: 18px; padding: 12px 16px; }
+  .q7-answer-section { border-radius: 10px; }
+  .q7-answer-label { font-size: 19px; padding: 9px 14px; gap: 7px; }
+  .q7-answer-label img { width: 20px; height: 20px; margin: 0; }
+  .q7-answer-wrap { gap: 16px; }
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .btn-play, .btn-restart { font-size: 15px; min-width: 100px; padding: 10px 14px; }
+  .btn-seek { width: 42px; height: 42px; min-width: 42px; font-size: 16px; }
+  .reading-text-area::before { display: none; }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 22px !important; }
+  .task-instr-row, .reading-card, .reading-controls, .match-expr-bank, .bundle-target-panel, .q-feedback { margin-left: 8px; margin-right: 8px; }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  /* Q7: match Q6 title responsive size + instruction-row spacing */
+  .q-card-title { font-size: 17px; line-height: 1.6; }
+  [data-slide="8"] .q-card-title { font-size: 17px; line-height: 1.6; }
+  [data-slide="8"] .q-card-header { gap: 10px; }
+  /* MCQ slides: top-align speaker icon (smaller nudge on tight screens) */
+  [data-slide="1"] .q-card-header,
+  [data-slide="5"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="1"] .q-card-header .audio-btn,
+  [data-slide="5"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="1"] .q-card-header .q-card-title,
+  [data-slide="5"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+  /* MCQ option text on tight screens */
+  .mcq-option-text { font-size: 16px; }
+  .instr-hint-img { width: 32px; height: 32px; }
+  .instr-hint-text { font-size: 15px; }
+  .reading-text-area { max-height: 260px; padding: 12px 12px 15px; }
+  .reading-paragraph { margin-bottom: 12px; padding: 8px; }
+  .para-text { font-size: 17px; line-height: 1.85; }
+  .reading-controls { gap: 6px; padding: 10px 8px 14px; flex-wrap: nowrap; }
+  .btn-play, .btn-restart { font-size: 14px; min-width: 88px; padding: 9px 10px; gap: 4px; }
+  .btn-seek { width: 38px; height: 38px; min-width: 38px; font-size: 14px; }
+  .controls-spacer { display: none; }
+  .match-chip { font-size: 16px; padding: 9px 12px; }
+  .match-chips-area { padding: 14px 16px; gap: 10px; }
+  .bundle-target-panel { padding: 12px; }
+  .bundle-target-row { padding: 12px; min-height: auto; }
+  .bundle-target-img { width: 90px; }
+  .match-drop-zone { min-height: 110px; padding: 10px; }
+  .zone-chip { font-size: 15px; padding: 6px 10px; }
+  .concept-map-panel { padding: 18px 12px; margin-left: 8px; margin-right: 8px; }
+  .concept-box { font-size: 16px; padding: 10px 14px; }
+  .concept-slots-3 { grid-template-columns: 1fr; gap: 10px; }
+  .concept-tree { display: block; height: 22px; }
+  .concept-tree-trunk { height: 22px; }
+  .concept-tree-branches { display: none; }
+  .line-vertical { height: 20px; }
+  .concept-slot { font-size: 16px; min-height: 50px; padding: 9px 12px; }
+  .concept-slot.filled { font-size: 17px; }
+  .tf-row { gap: 10px; padding: 10px 12px; flex-direction: column; align-items: stretch; }
+  .tf-statement { font-size: 17px; }
+  .tf-icon { width: 40px; height: 40px; font-size: 18px; }
+  .tf-options { justify-content: center; }
+  .classify-categories { grid-template-columns: 1fr; gap: 10px; margin-left: 8px; margin-right: 8px; }
+  .classify-category { min-height: 140px; }
+  .classify-bank { margin-left: 8px; margin-right: 8px; padding: 12px; }
+  .classify-chip { font-size: 14px; padding: 8px 10px; }
+  .q7-pair { margin-bottom: 0; }
+  .q7-pairs-grid { grid-template-columns: 1fr; gap: 16px; }
+  .q7-instr { padding: 12px 14px; gap: 12px; min-height: auto; }
+  .q7-img-mini { width: 100px; height: 100px; }
+  .q7-textarea { font-size: 18px; min-height: 120px; padding: 12px; }
+  .q7-answer-section { border-radius: 10px; }
+  .q7-answer-label { font-size: 18px; padding: 8px 12px; gap: 6px; }
+  .q7-answer-label img { width: 20px; height: 20px; margin: 0; }
+  .q7-answer-text { font-size: 17px; padding: 11px 14px; }
+  .q7-answer-wrap { gap: 14px; }
+  .q7-show-answer-btn { font-size: 16px !important; padding: 10px 16px !important; min-width: 130px !important; }
+  .q7-show-answer-btn img { width: 20px; height: 20px; }
+  .q7-answer-modal { padding: 20px 18px 22px; border-width: 2px; }
+  .task-nav { padding: 10px; gap: 8px; flex-direction: row; flex-wrap: nowrap; }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+  .slide-controls { flex-direction: row; flex-wrap: nowrap; gap: 10px; }
+  .slide-controls .btn-action { flex: 1; min-width: 0; width: auto; }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .para-text { font-size: 16px; }
+  .q7-textarea { font-size: 16px; min-height: 90px; }
+}
+
+@media (hover: none) {
+  .match-chip:not(.placed):hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(132, 72, 22, 0.07);
+    border-color: var(--color-primary-light);
+  }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DROPDOWN TABLES (منقولٌ حرفيًّا من الاختبارِ التّشخيصيِّ)
+═══════════════════════════════════════════════════════════════ */
+.dropdown-tables-wrap {
+  margin: 14px 16px 0;
+}
+.dropdown-sentence-card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  animation: fadeIn 0.4s ease;
+}
+.dropdown-sentence-header {
+  text-align: center;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed var(--color-primary-light);
+}
+.dropdown-sentence-num {
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 100px;
+  padding: 5px 16px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.dropdown-sentence-text {
+  font-size: 24px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+.dropdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  margin-bottom: 16px;
+}
+.dropdown-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 8px;
+  border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
+}
+.dropdown-row {
+  transition: background 0.3s ease;
+}
+.dropdown-row td {
+  padding: 10px;
+  border: 1.5px solid var(--color-sand);
+  text-align: center;
+  vertical-align: middle;
+}
+.dropdown-word-cell {
+  background: var(--color-secondary-light);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
+}
+.dropdown-select-cell {
+  background: #fff;
+  padding: 12px !important;
+}
+
+/* ═══ Custom Dropdown ═══ */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  font-family: var(--font-family);
+}
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.custom-dropdown.is-open .custom-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.custom-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+}
+.custom-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.custom-dropdown.is-open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.custom-dropdown.is-open .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.custom-dropdown-option {
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.custom-dropdown-option:first-child {
+  border-radius: 8px 8px 0 0;
+}
+.custom-dropdown-option:last-child {
+  border-radius: 0 0 8px 8px;
+}
+.custom-dropdown-option:only-child {
+  border-radius: 8px;
+}
+.custom-dropdown-option:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+.custom-dropdown-option.is-selected {
+  background: var(--color-primary);
+  color: #fff;
+}
+.custom-dropdown.is-disabled .custom-dropdown-trigger {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ═══ حالات الصف (تطبق على trigger الـ dropdown) ═══ */
+.dropdown-row.correct-row {
+  background: #f3f7e3;
+}
+.dropdown-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.dropdown-row.correct-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+.dropdown-row.wrong-row {
+  background: #fbeeea;
+}
+.dropdown-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.dropdown-row.wrong-row .custom-dropdown-arrow {
+  color: var(--color-error);
+}
+@keyframes dropdownShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.dropdown-row.revealed-row {
+  background: #f3f7e3;
+}
+.dropdown-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.dropdown-row.revealed-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+@media (max-width: 700px) {
+  .dropdown-sentence-card { padding: 14px; }
+  .dropdown-sentence-text { font-size: 21px; }
+  .dropdown-table thead th { font-size: 16px; padding: 10px 6px; }
+  .dropdown-word-cell { font-size: 17px; }
+  .custom-dropdown { max-width: 200px; }
+  .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+}
+@media (max-width: 480px) {
+  .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
+  .dropdown-sentence-card { padding: 12px; }
+  .dropdown-sentence-text { font-size: 19px; }
+  .dropdown-sentence-num { font-size: 13px; padding: 4px 12px; }
+  .dropdown-table thead th { font-size: 14px; padding: 9px 4px; }
+  .dropdown-word-cell { font-size: 16px; padding: 9px 6px; }
+  .dropdown-select-cell { padding: 8px !important; }
+  .custom-dropdown { max-width: 100%; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+}
+
+/* ═══════════════════════════════════════════
+   Q2 TABLE — تصميمٌ منقولٌ من جدولِ السّؤالِ الثّالثِ
+   في ملفِّ الإعرابِ والبناءِ (q3t-table)
+═══════════════════════════════════════════ */
+.q2t-table-wrap {
+  margin: 14px 16px 0;
+}
+.q2t-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  border: 2px solid var(--color-primary);
+  background: #fff;
+}
+.q2t-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 10px;
+  text-align: center;
+  border: 1.5px solid var(--color-primary-shadow);
+}
+.q2t-row {
+  transition: background 0.3s ease;
+}
+.q2t-row td {
+  padding: 12px 10px;
+  border: 1.5px solid var(--color-sand);
+  vertical-align: middle;
+  text-align: center;
+}
+.q2t-phrase-cell {
+  background: var(--color-secondary-light);
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  width: 65%;
+  line-height: 1.9;
+  text-align: right;
+  padding: 14px 16px !important;
+}
+.q2t-select-cell {
+  background: #fff;
+  width: 35%;
+  padding: 10px !important;
+}
+
+/* تَجاوبٌ على الشّاشاتِ الضّيّقةِ */
+@media (max-width: 700px) {
+  .q2t-table-wrap { margin: 10px 8px 0; }
+  .q2t-table thead th { font-size: 13px; padding: 9px 5px; }
+  .q2t-row td { padding: 9px 6px; }
+  .q2t-phrase-cell { font-size: 19px; line-height: 1.75; padding: 12px 10px !important; }
+  .q2t-select-cell { padding: 7px !important; }
+}
+@media (max-width: 480px) {
+  .q2t-phrase-cell { font-size: 17px; line-height: 1.65; padding: 10px 8px !important; }
+  .q2t-table thead th { font-size: 13px; }
+}
+
+/* أَرقامُ التّرتيبِ — تَوضيحٌ خاصٌّ للسّؤالِ الثّاني */
+.q2-rank-dropdown .custom-dropdown-value {
+  font-size: 22px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+.q2-rank-dropdown .custom-dropdown-option {
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  text-align: center;
+  padding: 12px 14px;
+}
+
+@media (max-width: 700px) {
+  .q2-rank-dropdown .custom-dropdown-value { font-size: 19px; }
+  .q2-rank-dropdown .custom-dropdown-option { font-size: 18px; padding: 10px 12px; }
+}
+@media (max-width: 480px) {
+  .q2-rank-dropdown .custom-dropdown-value { font-size: 17px; }
+  .q2-rank-dropdown .custom-dropdown-option { font-size: 16px; padding: 9px 10px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CLICK-SENTENCE (منقولٌ حرفيًّا من الاختبارِ التّشخيصيِّ)
+═══════════════════════════════════════════════════════════════ */
+.click-sentences-wrap {
+  margin: 14px 16px 0;
+}
+.click-sentences {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.click-sentence {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+}
+.click-sentence:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.12);
+}
+.click-sentence-letter {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 0 var(--color-primary-shadow);
+}
+.click-sentence-text {
+  flex: 1;
+  font-size: 20px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.click-sentence-check {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid var(--color-light-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: transparent;
+  font-size: 16px;
+  font-weight: 900;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.click-sentence.selected {
+  background: var(--color-secondary-light);
+  border-color: var(--color-primary);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.35);
+}
+.click-sentence.selected .click-sentence-check {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(132, 72, 22, 0.35);
+}
+.click-sentence.selected .click-sentence-check i {
+  animation: checkPop 0.3s ease;
+}
+.click-sentence.correct-sentence {
+  background: #f3f7e3 !important;
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20) !important;
+  pointer-events: none;
+}
+.click-sentence.correct-sentence .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.correct-sentence .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.correct-sentence .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+  box-shadow: 0 2px 6px rgba(107, 139, 31, 0.40);
+}
+.click-sentence.wrong-sentence {
+  background: #fbeeea !important;
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  animation: cardShake 0.5s;
+}
+.click-sentence.wrong-sentence .click-sentence-text {
+  color: var(--color-error);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.wrong-sentence .click-sentence-letter {
+  background: var(--color-error);
+  box-shadow: 0 2px 0 #7d2f1d;
+}
+.click-sentence.wrong-sentence .click-sentence-check {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: #fff;
+  font-size: 17px;
+  content: '✗';
+}
+.click-sentence.wrong-sentence .click-sentence-check i {
+  display: none;
+}
+.click-sentence.wrong-sentence .click-sentence-check::before {
+  content: '✗';
+  font-weight: 900;
+  font-size: 16px;
+}
+.click-sentence.revealed-sentence {
+  background: #f3f7e3 !important;
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(107, 139, 31, 0.20) !important;
+  pointer-events: none;
+  animation: pulse-correct 0.6s ease;
+}
+.click-sentence.revealed-sentence .click-sentence-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.click-sentence.revealed-sentence .click-sentence-letter {
+  background: var(--color-success);
+  box-shadow: 0 2px 0 #4d6618;
+}
+.click-sentence.revealed-sentence .click-sentence-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: #fff;
+  font-size: 17px;
+}
+.click-sentence.disabled-sentence {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.click-sentences-wrap .q-feedback {
+  margin-top: 14px;
+}
+@keyframes checkPop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+@media (max-width: 700px) {
+  .click-sentence-text { font-size: 18px; }
+  .click-sentence { padding: 14px 16px; gap: 12px; }
+  .click-sentence-letter { width: 32px; height: 32px; font-size: 16px; }
+}
+@media (max-width: 480px) {
+  .click-sentence-text { font-size: 16px; }
+  .click-sentence { padding: 12px 14px; gap: 10px; }
+  .click-sentence-letter { width: 30px; height: 30px; font-size: 15px; }
+}
+@media (hover: none) {
+  .click-sentence:hover {
+    transform: none;
+    box-shadow: none;
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   صندوقُ الجملِ المرجعيّةِ — قابلٌ للطّيِّ
+═══════════════════════════════════════════ */
+.ref-sentences-box {
+  margin: 14px 16px 0;
+  background: var(--color-secondary-light);
+  border: 2px solid var(--color-secondary);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: background 0.25s ease;
+}
+.ref-sentences-toggle {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 12px 18px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: right;
+  -webkit-tap-highlight-color: transparent;
+}
+.ref-sentences-toggle:hover {
+  background: rgba(237, 198, 111, 0.20);
+}
+.ref-sentences-toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.ref-sentences-arrow {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(132, 72, 22, 0.10);
+  color: var(--color-primary);
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, background 0.2s ease;
+}
+.ref-sentences-toggle:hover .ref-sentences-arrow {
+  background: rgba(132, 72, 22, 0.18);
+}
+.ref-sentences-box.is-open .ref-sentences-arrow {
+  transform: rotate(180deg);
+  background: var(--color-primary);
+  color: #fff;
+}
+.ref-sentences-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  background: #fff;
+}
+.ref-sentences-box.is-open .ref-sentences-content {
+  max-height: 600px;
+  padding: 16px 18px 18px;
+  border-top: 1.5px dashed var(--color-secondary);
+}
+.ref-sentences-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ref-sentence-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--color-secondary-light);
+  border-radius: 10px;
+  border: 1.5px solid var(--color-secondary);
+}
+.ref-sentence-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: var(--font-weight-extrabold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+.ref-sentence-text {
+  flex: 1;
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+
+@media (max-width: 700px) {
+  .ref-sentences-toggle { font-size: 15px; padding: 10px 14px; }
+  .ref-sentences-arrow { width: 26px; height: 26px; font-size: 11px; }
+  .ref-sentence-text { font-size: 15px; }
+  .ref-sentence-num { width: 24px; height: 24px; font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .ref-sentences-box { margin-left: 8px; margin-right: 8px; }
+  .ref-sentences-toggle { font-size: 14px; padding: 9px 12px; }
+  .ref-sentences-arrow { width: 24px; height: 24px; font-size: 11px; }
+  .ref-sentence-text { font-size: 14px; }
+  .ref-sentence-num { width: 22px; height: 22px; font-size: 11px; }
+  .ref-sentences-box.is-open .ref-sentences-content { padding: 12px 14px 14px; }
+}
+
+/* ═══════════════════════════════════════════
+   السّؤالُ السّادسُ — نَقرٌ على كلماتٍ داخلَ الجملةِ
+═══════════════════════════════════════════ */
+.q6-sentences-wrap {
+  margin: 14px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.q6-sentence-card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: 0 3px 12px rgba(132, 72, 22, 0.08);
+}
+.q6-sentence-instr {
+  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.q6-sentence-instr i {
+  font-size: 15px;
+  color: var(--color-secondary);
+}
+.q6-sentence-text {
+  display: block;
+  text-align: right;
+  font-size: 22px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: 2;
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 0;
+}
+.q6-word {
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  padding: 0 4px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: var(--font-weight-bold);
+  border: 1.5px solid transparent;
+  line-height: 1.4;
+}
+.q6-word:hover:not(.is-disabled):not(.is-correct):not(.is-revealed) {
+  background: rgba(237, 198, 111, 0.25);
+}
+.q6-word.is-correct {
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-color: var(--color-success);
+  cursor: default;
+  pointer-events: none;
+}
+.q6-word.is-wrong {
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: q6Shake 0.5s ease;
+}
+.q6-word.is-revealed {
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-color: var(--color-success);
+  cursor: default;
+  pointer-events: none;
+  animation: q6WordReveal 0.6s ease;
+}
+.q6-word.is-disabled {
+  cursor: default;
+  pointer-events: none;
+}
+@keyframes q6Shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+@keyframes q6WordReveal {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.q6-sentence-card.is-complete {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+}
+.q6-sentence-fb {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  display: none;
+}
+.q6-sentence-fb.show-correct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--color-success);
+}
+.q6-sentence-fb.show-wrong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--color-error);
+}
+.q6-sentence-fb.show-revealed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--color-primary);
+}
+
+@media (max-width: 700px) {
+  .q6-sentence-card { padding: 14px; }
+  .q6-sentence-instr { font-size: 14px; }
+  .q6-sentence-text { font-size: 19px; line-height: 1.9; padding: 12px 14px; }
+  .q6-word { padding: 0 3px; }
+}
+@media (max-width: 480px) {
+  .q6-sentences-wrap { margin-left: 8px; margin-right: 8px; }
+  .q6-sentence-card { padding: 12px; }
+  .q6-sentence-instr { font-size: 13px; }
+  .q6-sentence-text { font-size: 17px; line-height: 1.85; padding: 10px 12px; }
+  .q6-word { padding: 0 2px; }
+}
+
+/* ═══════════════════════════════════════════
+   السّؤالُ السّابعُ — صياغةُ خمسِ جُمَلٍ فعليّةٍ
+═══════════════════════════════════════════ */
+
+/* مرجعُ الفقرةِ */
+.q7-paragraph-ref {
+  margin: 14px 16px 0;
+  background: var(--color-paper);
+  border: 2px solid var(--color-secondary);
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-family: var(--font-family);
+}
+.q7-paragraph-ref-text {
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-reading);
+  text-align: justify;
+}
+
+/* صناديقُ الكتابةِ */
+.q7-writing-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+.q7-textarea-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.q7-textarea-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 15px;
+  font-weight: var(--font-weight-extrabold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+}
+.q7-textarea {
+  flex: 1;
+  width: 100%;
+  min-height: 56px;
+  padding: 12px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  line-height: var(--line-height-relaxed);
+  direction: rtl;
+}
+.q7-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.q7-textarea:disabled {
+  background: #fafafa;
+  cursor: default;
+}
+.q7-textarea.state-filled {
+  border-color: var(--color-success);
+  background: #fafff0;
+}
+
+/* زرُّ التّحقّقِ */
+.q7-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="task-app">
+
+    <!-- ═══ HEADER ═══ -->
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">التّقويمُ والتّأمّلُ</div>
+      </div>
+    </div>
+
+    <!-- ═══ Progress Bar ═══ -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <!-- ═══ Instruction Row (banner-style intro) ═══ -->
+    <div class="task-instr-row">
+      <button class="audio-btn" id="instrAudioBtn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <div class="instr-content">
+        <p class="task-instr-text" id="instrText">
+          <strong>أوّلًا:</strong> أقرأُ النّصَّ الآتيَ ثمَّ أجيبُ عمّا يليه.
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══ Slides Container ═══ -->
+    <div class="slides-container">
+
+      <!-- ━━━━━━ SLIDE 1: نصُّ القراءةِ + السّؤالُ الأوّلُ ━━━━━━ -->
+      <div class="slide active" data-slide="1">
+
+        <!-- بطاقةُ القراءةِ -->
+        <article class="reading-card" data-reading-card>
+          <div class="reading-text-area">
+            <div class="reading-paragraph unplayed" data-para="1">
+              <p class="para-text">للتّفرقةِ والاختلافِ آثارٌ سلبيّةٌ خطيرةٌ، منها: استكانةُ المجتمعِ، ودخولُهُ في حالةٍ من التّفكّكِ والانهيارِ، واستسلامُهُ لحالةٍ من التّنازعِ البَغيضِ، الأمرُ الّذي يترتّبُ عليهِ تجزئةُ المجتمعِ وانقسامُهُ، وتشجيعُ العدوِّ ليعبثَ بهِ بشتّى الوسائلِ، فتتوقّفُ مسيرةُ العملِ والبناءِ، وندخلُ في حالةٍ من الفوضى والضّياعِ لنخسرَ أثمنَ ما نعتزُّ بهِ، وهو وحدتُنا.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- شريطُ تحكّمِ القراءةِ -->
+        <div class="reading-controls">
+          <button class="btn-seek" type="button" id="readBackBtn" aria-label="إلى الوراء" title="إلى الوراء ٥ ثوانٍ">
+            <i class="fas fa-step-forward"></i>
+          </button>
+          <button class="btn-play" type="button" id="readPlayBtn">
+            <i class="fas fa-play"></i>
+            <span>تشغيلٌ</span>
+          </button>
+          <button class="btn-seek" type="button" id="readForwardBtn" aria-label="إلى الأمام" title="إلى الأمام ٥ ثوانٍ">
+            <i class="fas fa-step-backward"></i>
+          </button>
+          <div class="controls-spacer"></div>
+          <button class="btn-restart" type="button" id="readRestartBtn">
+            <i class="fas fa-redo"></i>
+            <span>إعادةٌ</span>
+          </button>
+        </div>
+
+        <!-- بطاقةُ السّؤالِ الأوّلِ -->
+        <div class="q-card" id="qCard-q1">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الأوّلُ:</strong> الموضوعُ الّذي تناقشُهُ الفقرةُ هو:
+            </p>
+          </div>
+          <div class="mcq-options" id="q1Options"></div>
+          <div class="q-feedback" id="fb-q1"></div>
+        </div>
+
+      </div>
+
+      <!-- ━━━━━━ SLIDE 2: السّؤالُ الثّاني (ترتيبُ العباراتِ) ━━━━━━ -->
+      <div class="slide" data-slide="2">
+        <div class="q-card" id="qCard-q2">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّاني:</strong> من خلالِ فهمي للنّصِّ، أرتّبُ العباراتِ الآتيةَ بِاختيارِ رقمِ التّرتيبِ المناسبِ لكلِّ عبارةٍ (من ١ إلى ٥).
+            </p>
+          </div>
+
+          <div class="q2t-table-wrap">
+            <table class="q2t-table">
+              <thead>
+                <tr>
+                  <th>العبارةُ</th>
+                  <th>ترتيبُها</th>
+                </tr>
+              </thead>
+              <tbody id="q2TableBody">
+                <!-- يُبنى ديناميكيًّا -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="q-feedback" id="fb-q2"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━ SLIDE 3: السؤال الثالث ━━━━━━ -->
+      <div class="slide" data-slide="3">
+        <div class="ref-sentences-box" data-ref-box>
+          <button type="button" class="ref-sentences-toggle" onclick="toggleRefBox(this)">
+            <span class="ref-sentences-toggle-label">
+              الجملُ المرجعيّةُ
+            </span>
+            <i class="fas fa-chevron-down ref-sentences-arrow"></i>
+          </button>
+          <div class="ref-sentences-content">
+            <ol class="ref-sentences-list">
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">١</span>
+                <span class="ref-sentence-text">يتفرّقُ المجتمعُ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٢</span>
+                <span class="ref-sentence-text">يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٣</span>
+                <span class="ref-sentence-text">يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٤</span>
+                <span class="ref-sentence-text">يعاني المجتمعُ منَ الفوضى والضّياعِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٥</span>
+                <span class="ref-sentence-text">يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="q-card" id="qCard-q3">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الثّالثُ:</strong> لُغويًّا، ما المشتركُ بينَ جميعِ الجملِ السّابقةِ؟
+            </p>
+          </div>
+          <div class="mcq-options" id="q3Options"></div>
+          <div class="q-feedback" id="fb-q3"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━ SLIDE 4: السؤال الرابع ━━━━━━ -->
+      <div class="slide" data-slide="4">
+        <div class="ref-sentences-box" data-ref-box>
+          <button type="button" class="ref-sentences-toggle" onclick="toggleRefBox(this)">
+            <span class="ref-sentences-toggle-label">
+              الجملُ المرجعيّةُ
+            </span>
+            <i class="fas fa-chevron-down ref-sentences-arrow"></i>
+          </button>
+          <div class="ref-sentences-content">
+            <ol class="ref-sentences-list">
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">١</span>
+                <span class="ref-sentence-text">يتفرّقُ المجتمعُ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٢</span>
+                <span class="ref-sentence-text">يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٣</span>
+                <span class="ref-sentence-text">يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٤</span>
+                <span class="ref-sentence-text">يعاني المجتمعُ منَ الفوضى والضّياعِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٥</span>
+                <span class="ref-sentence-text">يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="q-card" id="qCard-q4">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الرّابعُ:</strong> أستخرجُ من الجملِ الفعليّةِ السّابقةِ فعلَينِ متعدّيَينِ بِالنّقرِ عليهما.
+            </p>
+          </div>
+          <div class="click-sentences-wrap">
+            <div class="click-sentences" id="clickSentences-q4">
+              <!-- يُبنى ديناميكيًّا -->
+            </div>
+            <div class="q-feedback" id="fb-q4"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━ SLIDE 5: السؤال الخامس - أ ━━━━━━ -->
+      <div class="slide" data-slide="5">
+        <div class="ref-sentences-box" data-ref-box>
+          <button type="button" class="ref-sentences-toggle" onclick="toggleRefBox(this)">
+            <span class="ref-sentences-toggle-label">
+              الجملُ المرجعيّةُ
+            </span>
+            <i class="fas fa-chevron-down ref-sentences-arrow"></i>
+          </button>
+          <div class="ref-sentences-content">
+            <ol class="ref-sentences-list">
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">١</span>
+                <span class="ref-sentence-text">يتفرّقُ المجتمعُ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٢</span>
+                <span class="ref-sentence-text">يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٣</span>
+                <span class="ref-sentence-text">يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٤</span>
+                <span class="ref-sentence-text">يعاني المجتمعُ منَ الفوضى والضّياعِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٥</span>
+                <span class="ref-sentence-text">يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="q-card" id="qCard-q5">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الخامسُ — أ:</strong> أُضيفُ إلى الفعلِ <strong style="color: var(--color-primary);">«يعتزُّ»</strong> الهاءَ، فيصبحُ: <strong style="color: var(--color-primary);">«يعتزُّ بِهِ»</strong>. هل الفعلُ في هذهِ الحالةِ:
+            </p>
+          </div>
+          <div class="mcq-options" id="q5Options"></div>
+          <div class="q-feedback" id="fb-q5"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━ SLIDE 6: السؤال الخامس - ب ━━━━━━ -->
+      <div class="slide" data-slide="6">
+        <div class="ref-sentences-box" data-ref-box>
+          <button type="button" class="ref-sentences-toggle" onclick="toggleRefBox(this)">
+            <span class="ref-sentences-toggle-label">
+              الجملُ المرجعيّةُ
+            </span>
+            <i class="fas fa-chevron-down ref-sentences-arrow"></i>
+          </button>
+          <div class="ref-sentences-content">
+            <ol class="ref-sentences-list">
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">١</span>
+                <span class="ref-sentence-text">يتفرّقُ المجتمعُ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٢</span>
+                <span class="ref-sentence-text">يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٣</span>
+                <span class="ref-sentence-text">يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٤</span>
+                <span class="ref-sentence-text">يعاني المجتمعُ منَ الفوضى والضّياعِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٥</span>
+                <span class="ref-sentence-text">يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+        <div class="q-card" id="qCard-q6">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ الخامسُ — ب:</strong> أُضيفُ إلى الفعلِ <strong style="color: var(--color-primary);">«يعتزُّ»</strong> الكافَ، فيصبحُ: <strong style="color: var(--color-primary);">«يعتزُّكَ»</strong>. هل الفعلُ في هذهِ الحالةِ:
+            </p>
+          </div>
+          <div class="mcq-options" id="q6Options"></div>
+          <div class="q-feedback" id="fb-q6"></div>
+        </div>
+      </div>
+
+      <!-- ━━━━━━ SLIDE 7: السؤال السادس ━━━━━━ -->
+      <div class="slide" data-slide="7">
+
+        <!-- صندوقُ الجملِ المرجعيّةِ (نفسُ المرجعِ السّابقِ) -->
+        <div class="ref-sentences-box" data-ref-box>
+          <button type="button" class="ref-sentences-toggle" onclick="toggleRefBox(this)">
+            <span class="ref-sentences-toggle-label">
+              الجملُ المرجعيّةُ
+            </span>
+            <i class="fas fa-chevron-down ref-sentences-arrow"></i>
+          </button>
+          <div class="ref-sentences-content">
+            <ol class="ref-sentences-list">
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">١</span>
+                <span class="ref-sentence-text">يتفرّقُ المجتمعُ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٢</span>
+                <span class="ref-sentence-text">يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٣</span>
+                <span class="ref-sentence-text">يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٤</span>
+                <span class="ref-sentence-text">يعاني المجتمعُ منَ الفوضى والضّياعِ.</span>
+              </li>
+              <li class="ref-sentence-item">
+                <span class="ref-sentence-num">٥</span>
+                <span class="ref-sentence-text">يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="q-card" id="qCard-q7">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>السّؤالُ السّادسُ:</strong> أستخرجُ من العباراتِ الكلماتِ المبنيّةَ وفقَ ما هوَ مطلوبٌ بِالنّقرِ عليها.
+            </p>
+          </div>
+          <div class="q6-sentences-wrap" id="q6SentencesWrap">
+            <!-- يُبنى ديناميكيًّا -->
+          </div>
+          <div class="q-feedback" id="fb-q7"></div>
+        </div>
+
+      </div>
+
+      <!-- ━━━━━━ SLIDE 8: السؤال السابع (الكتابة) ━━━━━━ -->
+      <div class="slide" data-slide="8">
+
+        <!-- بطاقةُ الفقرةِ المرجعيّةِ -->
+        <div class="q7-paragraph-ref">
+          <p class="q7-paragraph-ref-text">
+            للتّفرقةِ والاختلافِ آثارٌ سلبيّةٌ خطيرةٌ، منها: استكانةُ المجتمعِ، ودخولُهُ في حالةٍ من التّفكّكِ والانهيارِ، واستسلامُهُ لحالةٍ من التّنازعِ البَغيضِ، الأمرُ الّذي يترتّبُ عليهِ تجزئةُ المجتمعِ وانقسامُهُ، وتشجيعُ العدوِّ ليعبثَ بهِ بشتّى الوسائلِ، فتتوقّفُ مسيرةُ العملِ والبناءِ، وندخلُ في حالةٍ من الفوضى والضّياعِ لنخسرَ أثمنَ ما نعتزُّ بهِ، وهو وحدتُنا.
+          </p>
+        </div>
+
+        <!-- بطاقةُ السّؤالِ -->
+        <div class="q-card" id="qCard-q8">
+          <div class="q-card-header">
+            <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
+              <i class="fas fa-volume-high"></i>
+            </button>
+            <p class="q-card-title">
+              <strong>ثانيًا:</strong> ألاحظُ أنَّ السّؤالَ الأوّلَ حوّلَ جميعَ الجملِ الاسميّةِ إلى جُمَلٍ فعليّةٍ، والآنَ لأُجرِّبَ ذلكَ وأقومُ بصياغةِ خمسِ جُمَلٍ فعليّةٍ من الفقرةِ السّابقةِ:
+            </p>
+          </div>
+
+          <div class="q7-writing-wrap" id="q7WritingWrap">
+            <!-- يُبنى ديناميكيًّا — 5 textareas مرقّمة -->
+          </div>
+
+          <div class="slide-controls" id="q8Controls">
+            <button class="btn-action btn-restart" onclick="resetQ8()" style="background: var(--color-secondary); color: var(--color-primary); box-shadow: 0 5px 0 var(--color-secondary-shadow);">
+              <i class="fas fa-redo"></i> إعادةٌ
+            </button>
+            <button class="btn-action btn-check btn-sm" id="checkQ8Btn" onclick="checkQ8()">
+              <i class="fas fa-check"></i> تحقّقْ
+            </button>
+          </div>
+
+          <div class="q-feedback" id="fb-q8"></div>
+        </div>
+
+        <!-- Modal للإجاباتِ النّموذجيّةِ -->
+        <div class="q7-answer-wrap" id="q8AnswerWrap"></div>
+
+      </div>
+
+    </div>
+    <!-- ═══ شاشة الإنهاء ═══ -->
+    <div class="success-screen" id="successScreen">
+      <div class="complete-wrap" id="completeWrap">
+        <div class="trophy-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+          <div class="trophy-glow"></div>
+        </div>
+        <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+        <div class="complete-restart">
+          <button class="btn-action btn-restart-finish" onclick="restartActivity()">
+            إعادةُ النّشاطِ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Navigation Bar ═══ -->
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;">
+          <i class="fas fa-arrow-right"></i> السّابقُ
+        </button>
+      </div>
+      <div class="nav-side">
+        <button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">
+          التّالي <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<script>
+  /* ══════════════════════════════════════════════════════════════
+     UTILITIES
+  ══════════════════════════════════════════════════════════════ */
+  function toArabic(num) {
+    const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    return num.toString().split('').map(d => arabic[d] || d).join('');
+  }
+  function toggleSimpleAudio(btn) { btn.classList.toggle('state-playing'); }
+
+  function isInZone(el, x, y) {
+    const r = el.getBoundingClientRect();
+    return x > r.left && x < r.right && y > r.top && y < r.bottom;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     READING (النمط الجديد - بدون ترقيم)
+  ══════════════════════════════════════════════════════════════ */
+  const WORD_DURATION_MS = 400;
+  const SEEK_WORDS = 12; // ~5 ثوانٍ
+
+  const readingState = {
+    words: [],         // كل كلمات النص: { element, paragraphIndex }
+    paragraphs: [],    // { element }
+    currentIdx: 0,
+    intervalId: null,
+    playing: false,
+    finished: false
+  };
+
+  function buildReadingModel() {
+    const paragraphElements = document.querySelectorAll('.reading-paragraph');
+    readingState.paragraphs = [];
+    readingState.words = [];
+
+    paragraphElements.forEach((paraEl, paraIdx) => {
+      const textEl = paraEl.querySelector('.para-text');
+      if (!textEl) return;
+      readingState.paragraphs.push({ element: paraEl });
+
+      const tokens = textEl.textContent.trim().replace(/\s+/g, ' ').split(' ').filter(Boolean);
+      textEl.textContent = '';
+      tokens.forEach((token, i) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = token;
+        textEl.appendChild(span);
+        readingState.words.push({ element: span, paragraphIndex: paraIdx });
+        if (i < tokens.length - 1) textEl.appendChild(document.createTextNode(' '));
+      });
+    });
+  }
+
+  function setReadingParagraphState(activeParaIdx) {
+    readingState.paragraphs.forEach((para, idx) => {
+      para.element.classList.remove('active', 'seen', 'unplayed');
+      if (activeParaIdx < 0) {
+        para.element.classList.add('unplayed');
+      } else if (idx < activeParaIdx) {
+        para.element.classList.add('seen');
+      } else if (idx === activeParaIdx) {
+        para.element.classList.add('active');
+      } else {
+        para.element.classList.add('unplayed');
+      }
+    });
+  }
+
+  function setAllReadingSeen() {
+    readingState.paragraphs.forEach(p => {
+      p.element.classList.remove('active', 'unplayed');
+      p.element.classList.add('seen');
+    });
+  }
+
+  function highlightWord(idx) {
+    readingState.words.forEach((w, i) => {
+      w.element.classList.remove('highlight');
+      // مش هنحط is-read لأنه ما عندنا الكلاس هاي بالنمط الجديد
+    });
+    if (idx >= 0 && idx < readingState.words.length) {
+      const w = readingState.words[idx];
+      w.element.classList.add('highlight');
+      setReadingParagraphState(w.paragraphIndex);
+      scrollWordIntoView(w.element);
+    }
+  }
+
+  function scrollWordIntoView(wordEl) {
+    const area = document.querySelector('.reading-text-area');
+    if (!area || !wordEl) return;
+    const containerRect = area.getBoundingClientRect();
+    const wordRect = wordEl.getBoundingClientRect();
+    const upper = containerRect.top + area.clientHeight * 0.28;
+    const lower = containerRect.top + area.clientHeight * 0.72;
+    if (wordRect.top >= upper && wordRect.bottom <= lower) return;
+    const targetTop = area.scrollTop + (wordRect.top - containerRect.top) - area.clientHeight * 0.42;
+    area.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+  }
+
+  function updateReadingButtons() {
+    const playBtn = document.getElementById('readPlayBtn');
+    const card = document.querySelector('.reading-card');
+    if (!playBtn) return;
+    const icon = playBtn.querySelector('i');
+    const label = playBtn.querySelector('span');
+    if (readingState.playing) {
+      playBtn.classList.add('is-playing');
+      if (icon) icon.className = 'fas fa-pause';
+      if (label) label.textContent = 'إيقافٌ';
+      if (card) card.classList.add('active');
+    } else {
+      playBtn.classList.remove('is-playing');
+      if (icon) icon.className = 'fas fa-play';
+      if (label) label.textContent = 'تشغيلٌ';
+    }
+    const backBtn = document.getElementById('readBackBtn');
+    const fwdBtn = document.getElementById('readForwardBtn');
+    if (backBtn) backBtn.disabled = readingState.currentIdx <= 0;
+    if (fwdBtn) fwdBtn.disabled = readingState.currentIdx >= readingState.words.length - 1;
+  }
+
+  function readingTick() {
+    if (readingState.currentIdx >= readingState.words.length) {
+      readingStop(true);
+      return;
+    }
+    highlightWord(readingState.currentIdx);
+    readingState.currentIdx++;
+    updateReadingButtons();
+  }
+
+  function readingPlay() {
+    if (readingState.playing) return;
+    if (readingState.finished || readingState.currentIdx >= readingState.words.length) {
+      readingState.currentIdx = 0;
+      readingState.finished = false;
+    }
+    readingState.playing = true;
+    readingTick();
+    readingState.intervalId = setInterval(readingTick, WORD_DURATION_MS);
+    updateReadingButtons();
+  }
+
+  function readingPause() {
+    if (readingState.intervalId) clearInterval(readingState.intervalId);
+    readingState.intervalId = null;
+    readingState.playing = false;
+    updateReadingButtons();
+  }
+
+  function readingStop(autoEnded) {
+    if (readingState.intervalId) clearInterval(readingState.intervalId);
+    readingState.intervalId = null;
+    readingState.playing = false;
+    if (autoEnded) {
+      readingState.finished = true;
+      readingState.words.forEach(w => w.element.classList.remove('highlight'));
+      setAllReadingSeen();
+    }
+    updateReadingButtons();
+  }
+
+  function readingToggle() {
+    if (readingState.playing) readingPause();
+    else readingPlay();
+  }
+
+  function readingSeek(deltaWords) {
+    const newIdx = Math.max(0, Math.min(readingState.words.length - 1, readingState.currentIdx + deltaWords));
+    readingState.currentIdx = newIdx;
+    readingState.finished = false;
+    highlightWord(newIdx);
+    updateReadingButtons();
+  }
+
+  function readingRestart() {
+    readingPause();
+    readingState.words.forEach(w => w.element.classList.remove('highlight'));
+    setReadingParagraphState(-1);
+    readingState.currentIdx = 0;
+    readingState.finished = false;
+    const area = document.querySelector('.reading-text-area');
+    if (area) area.scrollTop = 0;
+    readingPlay();
+  }
+
+  function initReading() {
+    buildReadingModel();
+    document.getElementById('readPlayBtn').addEventListener('click', readingToggle);
+    document.getElementById('readBackBtn').addEventListener('click', () => readingSeek(-SEEK_WORDS));
+    document.getElementById('readForwardBtn').addEventListener('click', () => readingSeek(SEEK_WORDS));
+    document.getElementById('readRestartBtn').addEventListener('click', readingRestart);
+    updateReadingButtons();
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ الأوّلُ — MCQ
+  ══════════════════════════════════════════════════════════════ */
+  const Q1_OPTIONS = [
+    'أهمّيةُ الوحدةِ',
+    'الآثارُ السّلبيّةُ للتّفرّقِ والاختلافِ',
+    'التّنوّعُ والتّعدّديّةُ',
+    'جميعُ ما ذُكِرَ'
+  ];
+  const Q1_CORRECT = 1;  // ب. الآثارُ السّلبيّةُ
+  const Q1_MAX_ATTEMPTS = 3;
+
+  const q1State = { attempts: 0, answered: false, isCorrect: false };
+
+  function buildQ1() {
+    const container = document.getElementById('q1Options');
+    if (!container) return;
+    const letters = ['أ', 'ب', 'ج', 'د'];
+    container.innerHTML = Q1_OPTIONS.map((opt, idx) => `
+      <label class="mcq-option-label" data-idx="${idx}">
+        <input type="radio" name="q1" value="${idx}" onchange="handleQ1Pick(${idx})">
+        <span class="mcq-option-letter">${letters[idx]}</span>
+        <span class="mcq-option-text">${opt}</span>
+      </label>
+    `).join('');
+  }
+
+  function handleQ1Pick(idx) {
+    if (q1State.answered) return;
+    if (q1State.attempts >= Q1_MAX_ATTEMPTS) return;
+
+    q1State.attempts++;
+    const card = document.getElementById('qCard-q1');
+    const labels = document.querySelectorAll('#q1Options .mcq-option-label');
+    const inputs = document.querySelectorAll('#q1Options input');
+    const fb = document.getElementById('fb-q1');
+
+    labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+    if (idx === Q1_CORRECT) {
+      q1State.answered = true;
+      q1State.isCorrect = true;
+      labels.forEach((l, i) => {
+        if (i === Q1_CORRECT) l.classList.add('correct-option');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      card.classList.remove('incorrect');
+      card.classList.add('correct');
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    } else {
+      labels[idx].classList.add('wrong-option');
+      card.classList.add('incorrect');
+      setTimeout(() => card.classList.remove('incorrect'), 600);
+
+      if (q1State.attempts >= Q1_MAX_ATTEMPTS) {
+        labels.forEach((l, i) => {
+          l.classList.remove('wrong-option');
+          if (i === Q1_CORRECT) l.classList.add('revealed');
+          inputs[i].disabled = true;
+          l.classList.add('disabled');
+        });
+        card.classList.remove('incorrect');
+        card.classList.add('correct');
+        q1State.answered = true;
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        if (typeof updateNavButtons === 'function') updateNavButtons();
+        if (typeof updateProgressBar === 'function') updateProgressBar();
+      } else {
+        fb.className = 'q-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        setTimeout(() => {
+          labels.forEach(l => l.classList.remove('wrong-option'));
+          inputs.forEach(i => { i.checked = false; });
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }, 1500);
+      }
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ الثّاني — ترتيبُ العباراتِ
+  ══════════════════════════════════════════════════════════════ */
+  const Q2_PHRASES = [
+    { id: 'p1', text: 'يتفرّقُ المجتمعُ.', correctRank: 1 },
+    { id: 'p2', text: 'يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.', correctRank: 2 },
+    { id: 'p3', text: 'يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.', correctRank: 3 },
+    { id: 'p4', text: 'يعاني المجتمعُ منَ الفوضى والضّياعِ.', correctRank: 4 },
+    { id: 'p5', text: 'يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.', correctRank: 5 }
+  ];
+  const Q2_MAX_ATTEMPTS = 3;
+
+  const q2State = {
+    rows: [
+      { attempts: 0, selected: null, status: null },
+      { attempts: 0, selected: null, status: null },
+      { attempts: 0, selected: null, status: null },
+      { attempts: 0, selected: null, status: null },
+      { attempts: 0, selected: null, status: null }
+    ],
+    completed: false,
+    displayOrder: []  // تَرتيبُ العَرضِ العشوائيُّ
+  };
+
+  function shuffleArr(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function buildQ2() {
+    const body = document.getElementById('q2TableBody');
+    if (!body) return;
+
+    // ترتيبٌ عشوائيٌّ للعَرضِ — مع التّأكّدِ أنّهُ مختلفٌ عن الصّحيحِ
+    let shuffled;
+    do {
+      shuffled = shuffleArr(Q2_PHRASES);
+    } while (shuffled.every((p, i) => p.correctRank === i + 1));
+    q2State.displayOrder = shuffled;
+
+    let html = '';
+    shuffled.forEach((phrase, displayIdx) => {
+      const rankOptions = [1, 2, 3, 4, 5].map(r => `
+        <li class="custom-dropdown-option" data-value="${r}" role="option">${toArabic(r)}</li>
+      `).join('');
+
+      html += `
+        <tr class="q2t-row" data-display-idx="${displayIdx}" data-phrase-id="${phrase.id}" data-correct-rank="${phrase.correctRank}">
+          <td class="q2t-phrase-cell">${phrase.text}</td>
+          <td class="q2t-select-cell">
+            <div class="custom-dropdown q2-rank-dropdown" data-display-idx="${displayIdx}">
+              <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="custom-dropdown-value">اختَرْ</span>
+                <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+              </button>
+              <ul class="custom-dropdown-menu" role="listbox">
+                ${rankOptions}
+              </ul>
+            </div>
+          </td>
+        </tr>
+      `;
+    });
+    body.innerHTML = html;
+
+    attachQ2DropdownHandlers();
+  }
+
+  function attachQ2DropdownHandlers() {
+    const body = document.getElementById('q2TableBody');
+    if (!body) return;
+
+    body.querySelectorAll('.q2-rank-dropdown').forEach(dd => {
+      const displayIdx = parseInt(dd.dataset.displayIdx);
+      const trigger = dd.querySelector('.custom-dropdown-trigger');
+      const valueSpan = dd.querySelector('.custom-dropdown-value');
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (dd.classList.contains('is-disabled')) return;
+        body.querySelectorAll('.q2-rank-dropdown.is-open').forEach(other => {
+          if (other !== dd) {
+            other.classList.remove('is-open');
+            const t = other.querySelector('.custom-dropdown-trigger');
+            if (t) t.setAttribute('aria-expanded', 'false');
+          }
+        });
+        const wasOpen = dd.classList.contains('is-open');
+        dd.classList.toggle('is-open');
+        trigger.setAttribute('aria-expanded', !wasOpen);
+      });
+
+      dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const rank = parseInt(opt.dataset.value);
+          const arabicNum = opt.textContent;
+          dd.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+          valueSpan.textContent = arabicNum;
+          handleQ2Selection(displayIdx, rank, valueSpan, dd);
+        });
+      });
+    });
+  }
+
+  function handleQ2Selection(displayIdx, chosenRank, valueSpan, dd) {
+    if (q2State.completed) return;
+    const rState = q2State.rows[displayIdx];
+    if (rState.status === 'correct' || rState.status === 'revealed') return;
+    if (rState.attempts >= Q2_MAX_ATTEMPTS) return;
+
+    rState.attempts++;
+    const phrase = q2State.displayOrder[displayIdx];
+    const isCorrect = chosenRank === phrase.correctRank;
+    const row = dd.closest('.dropdown-row');
+
+    row.classList.remove('correct-row', 'wrong-row', 'revealed-row');
+
+    if (isCorrect) {
+      rState.selected = chosenRank;
+      rState.status = 'correct';
+      row.classList.add('correct-row');
+      dd.classList.add('is-disabled');
+      checkQ2Completion();
+    } else {
+      row.classList.add('wrong-row');
+
+      if (rState.attempts >= Q2_MAX_ATTEMPTS) {
+        rState.selected = phrase.correctRank;
+        rState.status = 'revealed';
+        setTimeout(() => {
+          row.classList.remove('wrong-row');
+          row.classList.add('revealed-row');
+          valueSpan.textContent = toArabic(phrase.correctRank);
+          dd.classList.add('is-disabled');
+          checkQ2Completion();
+        }, 800);
+      } else {
+        setTimeout(() => {
+          row.classList.remove('wrong-row');
+          valueSpan.textContent = 'اختَرْ';
+        }, 1200);
+      }
+    }
+  }
+
+  function checkQ2Completion() {
+    const allDone = q2State.rows.every(r => r.status === 'correct' || r.status === 'revealed');
+    if (allDone && !q2State.completed) {
+      q2State.completed = true;
+      const fb = document.getElementById('fb-q2');
+      if (fb) {
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! رتّبتَ العباراتِ بشكلٍ صحيحٍ';
+      }
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    }
+  }
+
+  // إغلاقُ القوائمِ عندَ النّقرِ خارجَها
+  document.addEventListener('click', (e) => {
+    document.querySelectorAll('.q2-rank-dropdown.is-open').forEach(dd => {
+      if (!dd.contains(e.target)) {
+        dd.classList.remove('is-open');
+        const trigger = dd.querySelector('.custom-dropdown-trigger');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  // تشغيلٌ عندَ تحميلِ الصّفحةِ
+  buildQ2();
+
+  /* ══════════════════════════════════════════════════════════════
+     SUCCESS SCREEN
+  ══════════════════════════════════════════════════════════════ */
+  function showSuccessScreen() {
+    document.querySelector('.slides-container').style.display = 'none';
+    document.getElementById('successScreen').classList.add('show');
+    document.getElementById('taskNav').style.display = 'none';
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(launchConfetti, 400);
+  }
+
+  function launchConfetti() {
+    const wrap = document.getElementById('completeWrap');
+    const colors = ['#EDC66F', '#844816', '#808122', '#E6E6CD', '#a05820', '#FFF4E5'];
+    for (let i = 0; i < 36; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'confetti-dot';
+      const sz = 8 + Math.random() * 12;
+      dot.style.cssText = 'width:' + sz + 'px;height:' + sz + 'px;background:' +
+        colors[~~(Math.random() * colors.length)] +
+        ';left:' + (8 + Math.random() * 84) + '%;top:' + (-20 + Math.random() * 40) + 'px;' +
+        'animation-duration:' + (1.4 + Math.random() * 1.4) + 's;' +
+        'animation-delay:' + (Math.random() * 0.9) + 's';
+      wrap.appendChild(dot);
+      setTimeout(() => dot.remove(), 3500);
+    }
+  }
+
+  function restartActivity() {
+    location.reload();
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     NAVIGATION + SLIDES
+  ══════════════════════════════════════════════════════════════ */
+  let currentSlide = 1;
+  const TOTAL_SLIDES = 8;
+
+  function goToSlide(idx) {
+    if (idx < 1 || idx > TOTAL_SLIDES) return;
+    // إيقافُ القراءةِ عندَ مغادرةِ السّلايدِ الأوّلِ
+    if (currentSlide === 1 && readingState.playing) readingPause();
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
+    currentSlide = idx;
+    updateProgressBar();
+    updateNavButtons();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextSlide() {
+    if (currentSlide < TOTAL_SLIDES) {
+      goToSlide(currentSlide + 1);
+    } else {
+      showSuccessScreen();
+    }
+  }
+  function prevSlide() {
+    if (currentSlide > 1) goToSlide(currentSlide - 1);
+  }
+
+  function updateNavButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    prevBtn.style.visibility = currentSlide === 1 ? 'hidden' : '';
+
+    if (currentSlide === TOTAL_SLIDES) {
+      nextBtn.innerHTML = 'إنهاءُ النّشاطِ';
+    } else {
+      nextBtn.innerHTML = 'التّالي <i class="fas fa-arrow-left"></i>';
+    }
+
+    switch (currentSlide) {
+      case 1: nextBtn.disabled = false; /* TEMP_BYPASS: was !q1State.answered */ break;
+      case 2: nextBtn.disabled = false; /* TEMP_BYPASS: was !q2State.completed */ break;
+      case 3: nextBtn.disabled = false; /* TEMP_BYPASS: was !q3State.answered */ break;
+      case 4: nextBtn.disabled = false; /* TEMP_BYPASS: was !q4State.completed */ break;
+      case 5: nextBtn.disabled = false; /* TEMP_BYPASS: was !q5State.answered */ break;
+      case 6: nextBtn.disabled = false; /* TEMP_BYPASS: was !q6State.answered */ break;
+      case 7: nextBtn.disabled = false; /* TEMP_BYPASS: was !q7State.completed */ break;
+      case 8: nextBtn.disabled = false; /* TEMP_BYPASS: was !q8State.isCorrect */ break;
+    }
+  }
+
+  function updateProgressBar() {
+    // REVIEW: توزيعُ التّقدّمِ على السّلايداتِ الثّمانِ (لم تُحدَّدْ نِسبٌ دقيقةٌ في المهمّةِ)
+    let pct = 0;
+    if (currentSlide === 1) pct = q1State.answered ? 12 : 0;
+    else if (currentSlide === 2) pct = q2State.completed ? 25 : 14;
+    else if (currentSlide === 3) pct = q3State.answered ? 37 : 27;
+    else if (currentSlide === 4) pct = q4State.completed ? 50 : 40;
+    else if (currentSlide === 5) pct = q5State.answered ? 62 : 52;
+    else if (currentSlide === 6) pct = q6State.answered ? 75 : 65;
+    else if (currentSlide === 7) pct = q7State.completed ? 87 : 78;
+    else if (currentSlide === 8) pct = q8State.isCorrect ? 100 : 90;
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ الثّالثُ — MCQ (ما المشتركُ)
+  ══════════════════════════════════════════════════════════════ */
+  const Q3_OPTIONS = [
+    'جميعُها جُملٌ اسميّةٌ',
+    'جميعُها تشتملُ على مفعولٍ بهِ',
+    'جميعُها جُملٌ فعليّةٌ'
+  ];
+  const Q3_CORRECT = 2;  // ج
+  const q3State = { attempts: 0, answered: false, isCorrect: false };
+
+  function buildQ3() {
+    const container = document.getElementById('q3Options');
+    if (!container) return;
+    const letters = ['أ', 'ب', 'ج'];
+    container.innerHTML = Q3_OPTIONS.map((opt, idx) => `
+      <label class="mcq-option-label" data-idx="${idx}">
+        <input type="radio" name="q3" value="${idx}" onchange="handleMcqPick('q3', ${idx}, Q3_CORRECT, q3State)">
+        <span class="mcq-option-letter">${letters[idx]}</span>
+        <span class="mcq-option-text">${opt}</span>
+      </label>
+    `).join('');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ الرّابعُ — click على الأفعالِ المتعدّيةِ
+  ══════════════════════════════════════════════════════════════ */
+  const Q4_VERBS = [
+    { letter: 'أ', verb: 'يتفرّقُ',  isCorrect: false },
+    { letter: 'ب', verb: 'يستكينُ',  isCorrect: false },
+    { letter: 'ج', verb: 'يشجّعُ',   isCorrect: true  },
+    { letter: 'د', verb: 'يعاني',    isCorrect: false },
+    { letter: 'هـ', verb: 'يخسرُ',   isCorrect: true  }
+  ];
+  const Q4_MAX_ATTEMPTS = 3;
+  const q4State = { attempts: 0, completed: false, revealed: false, selected: new Set() };
+
+  function buildQ4() {
+    const container = document.getElementById('clickSentences-q4');
+    if (!container) return;
+    container.innerHTML = Q4_VERBS.map((v, idx) => `
+      <div class="click-sentence" data-idx="${idx}" data-correct="${v.isCorrect}">
+        <div class="click-sentence-letter">${v.letter}</div>
+        <div class="click-sentence-text">${v.verb}</div>
+        <div class="click-sentence-check"><i class="fas fa-check"></i></div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.click-sentence').forEach(card => {
+      card.addEventListener('click', () => handleQ4Tap(card));
+    });
+  }
+
+  function handleQ4Tap(card) {
+    if (q4State.completed || q4State.revealed) return;
+    if (card.classList.contains('correct-sentence')) return;
+
+    const idx = card.dataset.idx;
+    const isCorrect = card.dataset.correct === 'true';
+    const fb = document.getElementById('fb-q4');
+
+    if (isCorrect) {
+      card.classList.remove('wrong-sentence');
+      card.classList.add('correct-sentence');
+      q4State.selected.add(idx);
+
+      const totalCorrect = Q4_VERBS.filter(v => v.isCorrect).length;
+      if (q4State.selected.size === totalCorrect) {
+        q4State.completed = true;
+        if (fb) {
+          fb.className = 'q-feedback show-correct';
+          fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! اخترتَ الفعلَينِ المتعدّيَينِ';
+        }
+        if (typeof updateNavButtons === 'function') updateNavButtons();
+        if (typeof updateProgressBar === 'function') updateProgressBar();
+      }
+    } else {
+      q4State.attempts++;
+      card.classList.add('wrong-sentence');
+
+      if (q4State.attempts >= Q4_MAX_ATTEMPTS) {
+        q4State.revealed = true;
+        q4State.completed = true;
+        document.querySelectorAll('#clickSentences-q4 .click-sentence').forEach(c => {
+          const cIsCorrect = c.dataset.correct === 'true';
+          if (cIsCorrect) {
+            c.classList.remove('wrong-sentence');
+            c.classList.add('correct-sentence');
+          } else {
+            c.classList.remove('wrong-sentence');
+          }
+        });
+        if (fb) {
+          fb.className = 'q-feedback show-correct';
+          fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        }
+        if (typeof updateNavButtons === 'function') updateNavButtons();
+        if (typeof updateProgressBar === 'function') updateProgressBar();
+      } else {
+        if (fb) {
+          fb.className = 'q-feedback show-wrong';
+          fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        }
+        setTimeout(() => {
+          card.classList.remove('wrong-sentence');
+          if (fb && !q4State.completed) {
+            fb.className = 'q-feedback';
+            fb.innerHTML = '';
+          }
+        }, 1500);
+      }
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ الخامسُ — أ: يعتزُّ + الهاءُ (لازمٌ)
+  ══════════════════════════════════════════════════════════════ */
+  const Q5_OPTIONS = ['لازمٌ', 'متعدٍّ'];
+  const Q5_CORRECT = 0;  // لازم
+  const q5State = { attempts: 0, answered: false, isCorrect: false };
+
+  function buildQ5() {
+    const container = document.getElementById('q5Options');
+    if (!container) return;
+    const letters = ['أ', 'ب'];
+    container.innerHTML = Q5_OPTIONS.map((opt, idx) => `
+      <label class="mcq-option-label" data-idx="${idx}">
+        <input type="radio" name="q5" value="${idx}" onchange="handleMcqPick('q5', ${idx}, Q5_CORRECT, q5State)">
+        <span class="mcq-option-letter">${letters[idx]}</span>
+        <span class="mcq-option-text">${opt}</span>
+      </label>
+    `).join('');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ الخامسُ — ب: يعتزُّكَ (متعدٍ)
+  ══════════════════════════════════════════════════════════════ */
+  const Q6_OPTIONS = ['لازمٌ', 'متعدٍّ'];
+  const Q6_CORRECT = 1;  // متعدٍّ
+  const q6State = { attempts: 0, answered: false, isCorrect: false };
+
+  function buildQ6() {
+    const container = document.getElementById('q6Options');
+    if (!container) return;
+    const letters = ['أ', 'ب'];
+    container.innerHTML = Q6_OPTIONS.map((opt, idx) => `
+      <label class="mcq-option-label" data-idx="${idx}">
+        <input type="radio" name="q6" value="${idx}" onchange="handleMcqPick('q6', ${idx}, Q6_CORRECT, q6State)">
+        <span class="mcq-option-letter">${letters[idx]}</span>
+        <span class="mcq-option-text">${opt}</span>
+      </label>
+    `).join('');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     منطق MCQ موحّد لـ Q3, Q5, Q6 (3 محاولات)
+  ══════════════════════════════════════════════════════════════ */
+  function handleMcqPick(qName, idx, correctIdx, state) {
+    if (state.answered) return;
+    if (state.attempts >= 3) return;
+
+    state.attempts++;
+    const card = document.getElementById('qCard-' + qName);
+    const container = document.getElementById(qName + 'Options');
+    const labels = container.querySelectorAll('.mcq-option-label');
+    const inputs = container.querySelectorAll('input');
+    const fb = document.getElementById('fb-' + qName);
+
+    labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+    if (idx === correctIdx) {
+      state.answered = true;
+      state.isCorrect = true;
+      labels.forEach((l, i) => {
+        if (i === correctIdx) l.classList.add('correct-option');
+        inputs[i].disabled = true;
+        l.classList.add('disabled');
+      });
+      card.classList.remove('incorrect');
+      card.classList.add('correct');
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    } else {
+      labels[idx].classList.add('wrong-option');
+      card.classList.add('incorrect');
+      setTimeout(() => card.classList.remove('incorrect'), 600);
+
+      if (state.attempts >= 3) {
+        labels.forEach((l, i) => {
+          l.classList.remove('wrong-option');
+          if (i === correctIdx) l.classList.add('revealed');
+          inputs[i].disabled = true;
+          l.classList.add('disabled');
+        });
+        card.classList.remove('incorrect');
+        card.classList.add('correct');
+        state.answered = true;
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        if (typeof updateNavButtons === 'function') updateNavButtons();
+        if (typeof updateProgressBar === 'function') updateProgressBar();
+      } else {
+        fb.className = 'q-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        setTimeout(() => {
+          labels.forEach(l => l.classList.remove('wrong-option'));
+          inputs.forEach(i => { i.checked = false; });
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }, 1500);
+      }
+    }
+  }
+
+  // طيُّ/فتحُ صندوقِ الجملِ المرجعيّةِ
+  function toggleRefBox(btn) {
+    const box = btn.closest('.ref-sentences-box');
+    if (box) box.classList.toggle('is-open');
+  }
+
+  // تشغيلٌ عندَ تحميلِ الصّفحةِ
+  if (document.getElementById('q3Options')) buildQ3();
+  if (document.getElementById('clickSentences-q4')) buildQ4();
+  if (document.getElementById('q5Options')) buildQ5();
+  if (document.getElementById('q6Options')) buildQ6();
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ السّادسُ (سلايد ٧) — النّقرُ على الكلماتِ المبنيّةِ
+     // REVIEW: أُعيدت تسميةُ المعرّفاتِ من q6/Q6 إلى q7/Q7 لتجنّبِ التّعارضِ
+     //         مع سؤالِ الاختيارِ q6State/buildQ6 في السّلايدِ السّادسِ.
+  ══════════════════════════════════════════════════════════════ */
+  const Q7_SENTENCES = [
+    {
+      id: 's1',
+      instruction: 'أنقرْ على اسمٍ مبنيٍّ:',
+      words: [
+        { text: 'يستكينُ',  isCorrect: false },
+        { text: 'ذلكَ',     isCorrect: true  },
+        { text: 'المجتمعُ', isCorrect: false }
+      ],
+      correctCount: 1
+    },
+    {
+      id: 's2',
+      instruction: 'أنقرْ على حرفٍ مبنيٍّ:',
+      words: [
+        { text: 'يشجّعُ',   isCorrect: false },
+        { text: 'الانقسامُ', isCorrect: false },
+        { text: 'العدوَّ',  isCorrect: false },
+        { text: 'لِـ',       isCorrect: true  },
+        { text: 'لعبثِ',    isCorrect: false },
+        { text: 'بِـ',       isCorrect: true  },
+        { text: 'المجتمعِ', isCorrect: false }
+      ],
+      correctCount: 1,
+      acceptEither: true  // أيُّ حرفٍ من الاثنينِ مقبولٌ
+    },
+    {
+      id: 's3',
+      instruction: 'أنقرْ على حرفَينِ مبنيَّينِ:',
+      words: [
+        { text: 'يعاني',    isCorrect: false },
+        { text: 'المجتمعُ', isCorrect: false },
+        { text: 'منَ',      isCorrect: true  },
+        { text: 'الفوضى',  isCorrect: false },
+        { text: 'وَ',        isCorrect: true  },
+        { text: 'الضّياعِ', isCorrect: false }
+      ],
+      correctCount: 2
+    },
+    {
+      id: 's4',
+      instruction: 'أنقرْ على اسمٍ مبنيٍّ:',
+      words: [
+        { text: 'يخسرُ',    isCorrect: false },
+        { text: 'المجتمعُ', isCorrect: false },
+        { text: 'وحدتَهُ',  isCorrect: false },
+        { text: 'وَ',        isCorrect: false },
+        { text: 'هيَ',      isCorrect: true  },
+        { text: 'أثمنُ',    isCorrect: false },
+        { text: 'ما',       isCorrect: false },
+        { text: 'يعتزُّ',   isCorrect: false },
+        { text: 'بِهِ',      isCorrect: false }
+      ],
+      correctCount: 1
+    }
+  ];
+  const Q7_MAX_ATTEMPTS = 3;
+
+  const q7State = {
+    sentences: Q7_SENTENCES.map(() => ({ attempts: 0, completed: false, revealed: false, selected: new Set() })),
+    completed: false
+  };
+
+  function buildQ7() {
+    const wrap = document.getElementById('q6SentencesWrap');
+    if (!wrap) return;
+
+    wrap.innerHTML = Q7_SENTENCES.map((sent, sIdx) => `
+      <div class="q6-sentence-card" data-sent-idx="${sIdx}">
+        <div class="q6-sentence-instr">
+          <i class="fas fa-hand-pointer"></i>
+          ${sent.instruction}
+        </div>
+        <div class="q6-sentence-text">
+          ${sent.words.map((w, wIdx) => `
+            <span class="q6-word" data-sent-idx="${sIdx}" data-word-idx="${wIdx}" data-correct="${w.isCorrect}">${w.text}</span>
+          `).join('')}
+        </div>
+        <div class="q6-sentence-fb" id="q6-fb-${sIdx}"></div>
+      </div>
+    `).join('');
+
+    // ربطُ المعالجاتِ
+    wrap.querySelectorAll('.q6-word').forEach(word => {
+      word.addEventListener('click', () => handleQ7WordTap(word));
+    });
+  }
+
+  function handleQ7WordTap(wordEl) {
+    const sIdx = parseInt(wordEl.dataset.sentIdx);
+    const wIdx = parseInt(wordEl.dataset.wordIdx);
+    const isCorrect = wordEl.dataset.correct === 'true';
+    const sState = q7State.sentences[sIdx];
+    if (sState.completed || sState.revealed) return;
+    if (wordEl.classList.contains('is-disabled')) return;
+
+    const sent = Q7_SENTENCES[sIdx];
+    const card = document.querySelector(`.q6-sentence-card[data-sent-idx="${sIdx}"]`);
+    const fb = document.getElementById(`q6-fb-${sIdx}`);
+
+    if (isCorrect) {
+      // ✅ نقرةٌ على كلمةٍ صحيحةٍ
+      wordEl.classList.remove('is-wrong');
+      wordEl.classList.add('is-correct', 'is-disabled');
+      sState.selected.add(wIdx);
+
+      if (sState.selected.size === sent.correctCount) {
+        sState.completed = true;
+        card.classList.add('is-complete');
+        // أَقفلِ جميعَ الكلماتِ
+        card.querySelectorAll('.q6-word').forEach(w => w.classList.add('is-disabled'));
+        fb.className = 'q6-sentence-fb show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+        checkQ7AllComplete();
+      }
+    } else {
+      // ❌ نقرةٌ على كلمةٍ خاطئةٍ
+      sState.attempts++;
+      wordEl.classList.add('is-wrong');
+
+      if (sState.attempts >= Q7_MAX_ATTEMPTS) {
+        // كَشفُ الإجاباتِ
+        sState.revealed = true;
+        sState.completed = true;
+        card.querySelectorAll('.q6-word').forEach(w => {
+          const wIsCorrect = w.dataset.correct === 'true';
+          w.classList.remove('is-wrong');
+          if (wIsCorrect) w.classList.add('is-revealed');
+          w.classList.add('is-disabled');
+        });
+        card.classList.add('is-complete');
+        fb.className = 'q6-sentence-fb show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        checkQ7AllComplete();
+      } else {
+        fb.className = 'q6-sentence-fb show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        setTimeout(() => {
+          wordEl.classList.remove('is-wrong');
+          if (!sState.completed) {
+            fb.className = 'q6-sentence-fb';
+            fb.innerHTML = '';
+          }
+        }, 1500);
+      }
+    }
+  }
+
+  function checkQ7AllComplete() {
+    const allDone = q7State.sentences.every(s => s.completed);
+    if (allDone && !q7State.completed) {
+      q7State.completed = true;
+      const fb = document.getElementById('fb-q7');
+      if (fb) {
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! استخرجتَ الكلماتِ المبنيّةَ من جميعِ العباراتِ';
+      }
+      if (typeof updateNavButtons === 'function') updateNavButtons();
+      if (typeof updateProgressBar === 'function') updateProgressBar();
+    }
+  }
+
+  // تشغيلٌ عندَ تحميلِ الصّفحةِ
+  if (document.getElementById('q6SentencesWrap')) buildQ7();
+
+  /* ══════════════════════════════════════════════════════════════
+     السّؤالُ السّابعُ — صياغةُ خمسِ جُمَلٍ فعليّةٍ
+  ══════════════════════════════════════════════════════════════ */
+  const Q8_MODEL = {
+    1: {
+      title: 'الجملةُ الفعليّةُ الأولى',
+      answer: 'تنتجُ عنِ التّفرقةِ والاختلافِ آثارٌ سلبيّةٌ خطيرةٌ.'
+    },
+    2: {
+      title: 'الجملةُ الفعليّةُ الثّانيةُ',
+      answer: 'يستكينُ المجتمعُ ويدخلُ في حالةٍ من التّفكّكِ والانهيارِ.'
+    },
+    3: {
+      title: 'الجملةُ الفعليّةُ الثّالثةُ',
+      answer: 'يستسلمُ المجتمعُ لحالةٍ من التّنازعِ البَغيضِ.'
+    },
+    4: {
+      title: 'الجملةُ الفعليّةُ الرّابعةُ',
+      answer: 'يُشجِّعُ الانقسامُ العدوَّ ليعبثَ بِالمجتمعِ بِشتّى الوسائلِ.'
+    },
+    5: {
+      title: 'الجملةُ الفعليّةُ الخامسةُ',
+      answer: 'يخسرُ المجتمعُ أثمنَ ما يعتزُّ بِهِ، وهي الوحدةُ.'
+    }
+  };
+
+  const q8State = {
+    1: { text: '', wc: 0, checked: false },
+    2: { text: '', wc: 0, checked: false },
+    3: { text: '', wc: 0, checked: false },
+    4: { text: '', wc: 0, checked: false },
+    5: { text: '', wc: 0, checked: false },
+    isCorrect: false,
+    timeoutId: null
+  };
+
+  function buildQ8() {
+    const wrap = document.getElementById('q7WritingWrap');
+    if (!wrap) return;
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+      html += `
+        <div class="q7-textarea-row">
+          <span class="q7-textarea-num">${toArabic(i)}</span>
+          <textarea class="q7-textarea" id="ta-q8-${i}" rows="2" placeholder="اكتبْ الجملةَ الفعليّةَ هنا..." oninput="updateQ8Writing(this, ${i})"></textarea>
+        </div>
+      `;
+    }
+    wrap.innerHTML = html;
+  }
+
+  function updateQ8Writing(textarea, idx) {
+    const wc = textarea.value.trim().split(/\s+/).filter(w => w.length > 0).length;
+    q8State[idx].wc = wc;
+    q8State[idx].text = textarea.value.trim();
+
+    if (textarea.value.trim()) textarea.classList.add('state-filled');
+    else textarea.classList.remove('state-filled');
+  }
+
+  function checkQ8() {
+    if (q8State.isCorrect) return;
+    const fb = document.getElementById('fb-q8');
+    const MIN_WORDS = 5;
+
+    // فحصُ الكلماتِ في كلِّ صندوقٍ
+    let allOk = true;
+    for (let i = 1; i <= 5; i++) {
+      if (q8State[i].wc < MIN_WORDS) { allOk = false; break; }
+    }
+
+    if (!allOk) {
+      fb.className = 'q-feedback show-info';
+      fb.innerHTML = `<i class="fas fa-circle-info"></i> اكتبْ على الأقلِّ ${toArabic(MIN_WORDS)} كلماتٍ في كلِّ جملةٍ.`;
+      // رسالةٌ إرشاديّةٌ تختفي بعدَ 2000ms — تُمسَحُ فقط إن بقيتْ إرشاديّةً
+      setTimeout(() => {
+        if (fb.classList.contains('show-info')) {
+          fb.className = 'q-feedback';
+          fb.innerHTML = '';
+        }
+      }, 2000);
+      return;
+    }
+
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تمَّ تسجيلُ كتابتِكَ';
+
+    // تَعطيلُ كلِّ صناديقِ الكتابةِ
+    for (let i = 1; i <= 5; i++) {
+      const t = document.getElementById('ta-q8-' + i);
+      if (t) {
+        t.disabled = true;
+        t.classList.add('state-filled');
+      }
+      q8State[i].checked = true;
+    }
+
+    q8State.isCorrect = true;
+    document.getElementById('checkQ8Btn').disabled = true;
+    if (typeof updateNavButtons === 'function') updateNavButtons();
+    if (typeof updateProgressBar === 'function') updateProgressBar();
+
+    // مُؤقِّتُ كَشفِ الإجابةِ النّموذجيّةِ
+    q8State.timeoutId = setTimeout(() => {
+      showQ8AnswerModal();
+      fb.style.display = 'none';
+      fb.className = 'q-feedback';
+      fb.innerHTML = '';
+      q8State.timeoutId = null;
+    }, 3000);
+  }
+
+  function showQ8AnswerModal() {
+    const wrap = document.getElementById('q8AnswerWrap');
+    if (!wrap) return;
+
+    // بناءُ 5 خطواتٍ
+    let stepsHtml = '<div class="q7-modal-steps">';
+    for (let i = 1; i <= 5; i++) {
+      const userText = q8State[i].text || '— لمْ تكتبْ شيئًا —';
+      stepsHtml += `
+        <div class="q7-modal-step ${i === 1 ? 'active' : ''}" data-step="${i}">
+          <div class="q7-modal-title-wrap">
+            <button class="audio-btn q7-modal-audio" aria-label="استمعْ للإجابةِ"><i class="fas fa-volume-high"></i></button>
+            <div class="q7-modal-title">${Q8_MODEL[i].title}</div>
+          </div>
+          <div class="q7-answer-section">
+            <div class="q7-answer-label">
+              <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/cLOqhfvns725Nq4e.png" alt="">
+              إجابتُكَ
+            </div>
+            <div class="q7-answer-text">${userText}</div>
+          </div>
+          <div class="q7-answer-section suggested">
+            <div class="q7-answer-label">
+              <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt="">
+              الإجابةُ النّموذجيّةُ
+            </div>
+            <div class="q7-answer-text">${Q8_MODEL[i].answer}</div>
+          </div>
+        </div>
+      `;
+    }
+    stepsHtml += '</div>';
+
+    // الأسهمُ + النّقاطُ
+    const navHtml = `
+      <div class="q7-modal-nav">
+        <button class="q7-modal-arrow q7-arrow-prev" aria-label="السّابق" disabled><i class="fas fa-arrow-right"></i></button>
+        <div class="q7-modal-dots">
+          ${[1,2,3,4,5].map(n => `<span class="q7-modal-dot ${n===1?'active':''}" data-dot="${n}"></span>`).join('')}
+        </div>
+        <button class="q7-modal-arrow q7-arrow-next" aria-label="التّالي"><i class="fas fa-arrow-left"></i></button>
+      </div>
+    `;
+
+    wrap.innerHTML = `
+      <div class="q7-answer-modal">
+        <button class="q7-modal-close" aria-label="إغلاق"><i class="fas fa-times"></i></button>
+        ${stepsHtml}
+        ${navHtml}
+      </div>
+    `;
+
+    // ربطُ الأحداثِ
+    wrap.querySelector('.q7-modal-close').onclick = () => { wrap.style.display = 'none'; };
+    wrap.querySelectorAll('.q7-modal-audio').forEach(btn => {
+      btn.onclick = () => toggleSimpleAudio(btn);
+    });
+
+    const prevArrow = wrap.querySelector('.q7-arrow-prev');
+    const nextArrow = wrap.querySelector('.q7-arrow-next');
+    let currentStep = 1;
+    const TOTAL_STEPS = 5;
+
+    function showStep(step) {
+      if (step < 1 || step > TOTAL_STEPS) return;
+      currentStep = step;
+      wrap.querySelectorAll('.q7-modal-step').forEach(s => s.classList.remove('active'));
+      const targetEl = wrap.querySelector(`.q7-modal-step[data-step="${step}"]`);
+      if (targetEl) targetEl.classList.add('active');
+      wrap.querySelectorAll('.q7-modal-dot').forEach(d => d.classList.remove('active'));
+      const dot = wrap.querySelector(`.q7-modal-dot[data-dot="${step}"]`);
+      if (dot) dot.classList.add('active');
+      prevArrow.disabled = (step === 1);
+      nextArrow.disabled = (step === TOTAL_STEPS);
+    }
+
+    prevArrow.onclick = () => showStep(currentStep - 1);
+    nextArrow.onclick = () => showStep(currentStep + 1);
+    wrap.onclick = (e) => { if (e.target === wrap) wrap.style.display = 'none'; };
+
+    // إضافةُ زرٍّ مركزيٍّ تحتَ صناديقِ الكتابةِ لإعادةِ فتحِ اللوحةِ — لا نستبدلُ زرَّ التّحقّقِ
+    const writingWrap = document.getElementById('q7WritingWrap');
+    if (writingWrap && !document.querySelector('.q7-show-answer-btn')) {
+      const row = document.createElement('div');
+      row.className = 'q7-show-answer-row';
+      row.style.cssText = 'display:flex; justify-content:center; margin-top:14px;';
+      const showBtn = document.createElement('button');
+      showBtn.className = 'btn-action btn-check btn-sm q7-show-answer-btn';
+      showBtn.innerHTML = '<img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt="" style="width:18px;height:18px;object-fit:contain;margin-left:6px;vertical-align:middle;"> اطّلعْ على الإجاباتِ النّموذجيّةِ';
+      showBtn.onclick = () => { wrap.style.display = 'flex'; };
+      row.appendChild(showBtn);
+      writingWrap.insertAdjacentElement('afterend', row);
+    }
+
+    // افتحِ اللّوحةَ تلقائيًّا
+    wrap.style.display = 'flex';
+  }
+
+  function resetQ8() {
+    const fb = document.getElementById('fb-q8');
+
+    if (q8State.timeoutId) {
+      clearTimeout(q8State.timeoutId);
+      q8State.timeoutId = null;
+    }
+
+    for (let i = 1; i <= 5; i++) {
+      const t = document.getElementById('ta-q8-' + i);
+      if (t) {
+        t.value = '';
+        t.disabled = false;
+        t.classList.remove('state-filled');
+      }
+      q8State[i] = { text: '', wc: 0, checked: false };
+    }
+
+    const wrap = document.getElementById('q8AnswerWrap');
+    if (wrap) {
+      wrap.style.display = 'none';
+      wrap.onclick = null;
+      wrap.innerHTML = '';
+    }
+
+    // أزل الزرَّ المركزيَّ المشتركَ
+    const showRow = document.querySelector('.q7-show-answer-row');
+    if (showRow) showRow.remove();
+
+    if (fb) {
+      fb.style.display = '';
+      fb.className = 'q-feedback';
+      fb.innerHTML = '';
+    }
+
+    q8State.isCorrect = false;
+    document.getElementById('checkQ8Btn').disabled = false;
+
+    if (typeof updateNavButtons === 'function') updateNavButtons();
+    if (typeof updateProgressBar === 'function') updateProgressBar();
+  }
+
+  // تشغيلٌ عندَ تحميلِ الصّفحةِ
+  if (document.getElementById('q7WritingWrap')) buildQ8();
+
+  /* ══════════════════════════════════════════════════════════════
+     INIT
+  ══════════════════════════════════════════════════════════════ */
+  initReading();
+  buildQ1();
+  updateNavButtons();
+  updateProgressBar();
+</script>
+
+</body>
+</html>
