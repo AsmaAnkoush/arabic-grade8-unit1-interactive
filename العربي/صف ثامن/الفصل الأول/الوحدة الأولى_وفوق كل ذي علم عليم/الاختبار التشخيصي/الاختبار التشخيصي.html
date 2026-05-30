@@ -162,6 +162,7 @@ body {
   height: var(--audio-btn-size);
   width: var(--audio-btn-size);
   min-width: var(--audio-btn-size);
+  line-height: var(--audio-btn-size);
   border: none;
   border-radius: var(--audio-btn-radius);
   display: inline-flex;
@@ -480,7 +481,7 @@ body {
 
 .q-card-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   margin-bottom: 12px;
 }
@@ -1624,7 +1625,6 @@ body {
   gap: 10px;
   padding: 0 6px;
 }
-.review-title i { font-size: 20px; }
 
 .review-section {
   background: #fff;
@@ -1641,19 +1641,7 @@ body {
   padding-bottom: 10px;
   border-bottom: 1.5px dashed var(--color-primary-light);
 }
-.review-section-num {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: var(--font-weight-extrabold);
-  font-size: 16px;
-  flex-shrink: 0;
-}
+/* The section's audio button uses the standard .audio-btn class; no overrides needed */
 .review-section-title {
   flex: 1;
   font-size: 19px;
@@ -1830,7 +1818,7 @@ body {
   .review-cell-your { font-size: 14px; }
   .review-cell-correct { font-size: 15px; }
   .q-card-header {
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -1847,7 +1835,7 @@ body {
   .review-cell-your { font-size: 13px; }
   .review-cell-correct { font-size: 14px; }
   .q-card-header {
-    align-items: center;
+    align-items: flex-start;
   }
 }
 
@@ -2235,7 +2223,9 @@ body {
 
       <div class="results-review" id="resultsReview" style="display: none;">
         <div class="review-title">
-          <i class="fas fa-clipboard-check"></i>
+          <button type="button" class="audio-btn" aria-label="تشغيل صوت">
+            <i class="fas fa-volume-high"></i>
+          </button>
           مراجعةُ الإجاباتِ
         </div>
         <div id="reviewContainer"></div>
@@ -3338,7 +3328,9 @@ body {
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <div class="review-section-num">${sectionNum}</div>
+              <button type="button" class="audio-btn review-section-audio" aria-label="تشغيل صوت السؤال">
+                <i class="fas fa-volume-high"></i>
+              </button>
               <div class="review-section-title">${slide.title} &mdash; الاختيارُ من متعدّدٍ</div>
             </div>
         `;
@@ -3387,7 +3379,9 @@ body {
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <div class="review-section-num">${sectionNum}</div>
+              <button type="button" class="audio-btn review-section-audio" aria-label="تشغيل صوت السؤال">
+                <i class="fas fa-volume-high"></i>
+              </button>
               <div class="review-section-title">${slide.title} &mdash; النّقرُ على الإجاباتِ الصّحيحةِ</div>
             </div>
         `;
@@ -3445,7 +3439,9 @@ body {
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <div class="review-section-num">${sectionNum}</div>
+              <button type="button" class="audio-btn review-section-audio" aria-label="تشغيل صوت السؤال">
+                <i class="fas fa-volume-high"></i>
+              </button>
               <div class="review-section-title">${slide.title} &mdash; استخراجُ الفعلِ والفاعلِ والمفعولِ بهِ</div>
             </div>
         `;
