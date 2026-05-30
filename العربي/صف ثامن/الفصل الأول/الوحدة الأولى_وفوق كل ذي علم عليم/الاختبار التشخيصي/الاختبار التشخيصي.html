@@ -328,7 +328,7 @@ body {
   align-items: flex-start;
 }
 .intro-instructions-card .q-card-title {
-  text-align: justify;
+  text-align: start;
   line-height: var(--line-height-relaxed);
 }
 
@@ -594,9 +594,24 @@ body {
   font-family: var(--font-family);
   animation: fadeInFb 0.3s ease;
 }
-.q-feedback i { margin-left: 4px; }
+.q-feedback i {
+  margin-left: 6px;
+  font-size: 1em;
+  line-height: 1;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.q-feedback.show-correct i,
+.q-feedback.show-wrong i {
+  top: 0;
+  margin-left: 0;
+}
 .q-feedback.show-correct {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border-color: var(--color-success);
   background: #f3f7e3;
   color: var(--color-success);
@@ -609,7 +624,10 @@ body {
   color: var(--color-success);
 }
 .q-feedback.show-wrong {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border-color: var(--color-error);
   background: #fbeeea;
   color: var(--color-error);
@@ -1812,10 +1830,7 @@ body {
   .review-cell-your { font-size: 14px; }
   .review-cell-correct { font-size: 15px; }
   .q-card-header {
-    align-items: flex-start;
-  }
-  .q-card-header .audio-btn {
-    margin-top: 2px;
+    align-items: center;
   }
 }
 
@@ -1832,10 +1847,7 @@ body {
   .review-cell-your { font-size: 13px; }
   .review-cell-correct { font-size: 14px; }
   .q-card-header {
-    align-items: flex-start;
-  }
-  .q-card-header .audio-btn {
-    margin-top: 1px;
+    align-items: center;
   }
 }
 
@@ -2051,8 +2063,6 @@ body {
   .instr-hint { gap: 10px; }
   .instr-hint-img { width: 36px; height: 36px; }
   .instr-hint-text { font-size: 16px; }
-  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
-
   .q-card { padding: 14px; }
   .q-card-title { font-size: 17px; }
 
@@ -2131,8 +2141,8 @@ body {
     min-height: 48px;
   }
   .grammar-drop-zone { min-height: 52px; }
-  .audio-btn { min-width: 44px; min-height: 44px; }
 }
+
 </style>
 </head>
 <body>
@@ -2251,6 +2261,14 @@ body {
 </div>
 
 <script>
+  /* ══════════════════════════════════════════════════════════════
+     مفتاحُ التّجاوزِ المؤقّتُ — للتّجريبِ السّريعِ فقط
+     true  = تعطيلُ القفلِ (زرُّ "التّالي" مفعّلٌ دائمًا) — للتّجريبِ
+     false = القفلُ الطّبيعيُّ (يجبُ حلُّ السّؤالِ) — للنّشرِ
+     ⚠️ أعِدْه إلى false قبلَ النّشرِ
+  ══════════════════════════════════════════════════════════════ */
+  const BYPASS_GATING = false;
+
   /* ══════════════════════════════════════════════════════════════
      DATA
   ══════════════════════════════════════════════════════════════ */
@@ -2789,42 +2807,28 @@ body {
           dd.querySelector('.custom-dropdown-trigger').setAttribute('aria-expanded', 'false');
         }
       });
+      syncDropdownSpacer();
     });
   }
 
-  // Check if there's enough room below; if not, flip to drop-up
+  // Grow/shrink a bottom spacer so the page can scroll far enough to reveal
+  // a downward-opening menu whose bottom edge extends past the viewport.
+  function syncDropdownSpacer() {
+    const spacer = document.getElementById('dropdownScrollSpacer');
+    if (!spacer) return;
+    const openMenu = document.querySelector('.custom-dropdown.is-open .custom-dropdown-menu');
+    if (openMenu) {
+      const overflow = openMenu.getBoundingClientRect().bottom - window.innerHeight;
+      spacer.style.height = (overflow > 0 ? overflow + 24 : 0) + 'px';
+    } else {
+      spacer.style.height = '0';
+    }
+  }
+
+  // Always open downward — drop-up disabled; kept for call-site compatibility
   function checkDropdownDirection(dd) {
     if (!dd) return;
-    const trigger = dd.querySelector('.custom-dropdown-trigger');
-    const menu = dd.querySelector('.custom-dropdown-menu');
-    if (!trigger || !menu) return;
-
-    // Temporarily make the menu measurable
-    const wasOpen = dd.classList.contains('is-open');
-    const prevVis = menu.style.visibility;
-    const prevDisp = menu.style.display;
-    if (!wasOpen) {
-      menu.style.visibility = 'hidden';
-      menu.style.display = 'block';
-    }
-    const triggerRect = trigger.getBoundingClientRect();
-    const menuHeight = menu.scrollHeight;
-    const spaceBelow = window.innerHeight - triggerRect.bottom;
-    const spaceAbove = triggerRect.top;
-
-    // Restore styles if we forced visibility
-    if (!wasOpen) {
-      menu.style.visibility = prevVis;
-      menu.style.display = prevDisp;
-    }
-
-    // Add an 8px safety margin; require 80% of menu height to fit
-    const needed = Menu => Menu * 0.8 + 8;
-    if (spaceBelow < needed(menuHeight) && spaceAbove > spaceBelow) {
-      dd.classList.add('drop-up');
-    } else {
-      dd.classList.remove('drop-up');
-    }
+    dd.classList.remove('drop-up');
   }
 
   function renderDropdownTables(slideIdx) {
@@ -2865,6 +2869,15 @@ body {
         }
         dd.classList.toggle('is-open');
         trigger.setAttribute('aria-expanded', !wasOpen);
+        if (!wasOpen) {
+          const menu = dd.querySelector('.custom-dropdown-menu');
+          setTimeout(() => {
+            if (dd.classList.contains('is-open') && menu) {
+              syncDropdownSpacer();
+              menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 60);
+        }
       });
 
       // اختيار option
@@ -2877,6 +2890,7 @@ body {
           // أغلق الـ dropdown
           dd.classList.remove('is-open');
           trigger.setAttribute('aria-expanded', 'false');
+          syncDropdownSpacer();
 
           handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelText, valueSpan);
         });
@@ -2893,6 +2907,7 @@ body {
     if (state.attempts >= MAX_ATTEMPTS) return;
 
     state.attempts++;
+    syncDropdownSpacer();
     const row = dd.closest('.dropdown-row');
     const correctValue = row.dataset.correct;
     const isCorrect = selectedValue === correctValue;
@@ -3173,11 +3188,13 @@ body {
 
   /* التّحقّق من إكمال السّؤال الحاليّ فقط */
   function isCurrentSlideAnswered() {
+    if (BYPASS_GATING) return true;
     return isSlideAnswered(currentSlide);
   }
 
   /* التّحقّق من إكمال جميع أسئلة الاختبار */
   function isAllAnswered() {
+    if (BYPASS_GATING) return true;
     for (let i = 1; i <= TOTAL_SLIDES; i++) {
       if (!isSlideAnswered(i)) return false;
     }
@@ -3507,6 +3524,11 @@ body {
   buildAllSlides();
   // تفعيل السلايد الأول من البداية ليظهر باهت خلف بطاقة الترحيب
   document.querySelector('.slide[data-slide="1"]').classList.add('active');
+  // Spacer div — lets the page scroll far enough to expose a downward menu
+  const _ddSpacer = document.createElement('div');
+  _ddSpacer.id = 'dropdownScrollSpacer';
+  _ddSpacer.style.height = '0';
+  document.body.appendChild(_ddSpacer);
   // إغلاق القوائم المنسدلة عند النقر خارجَها — يُسجَّل مرّةً واحدةً
   initDropdownGlobalClose();
   // ترسيمُ كلِّ سلايدٍ حسب نوعِه (أيُّ عددٍ، أيُّ نوعٍ، أيُّ ترتيبٍ)
