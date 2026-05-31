@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار توثيق المكوّنات</title>
+
+<!-- Scheherazade New — Arabic font used by the project -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome 6 — icons used by both components -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+
+/* ══════════════════════════════════════════════════════════════════
+   ١. CSS Variables
+   SOURCE: dropdown-table-spec.md §٣.١  +  mcq-spec.md §٥.١
+   ⚠️ FLAGGED GAPS (not in specs — values from canonical HTML):
+      --color-primary-hover, --color-light-border,
+      --font-weight-semibold, --font-size-instructions, --line-height-normal
+══════════════════════════════════════════════════════════════════ */
+:root {
+  /* ── Colors (both specs) ── */
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-sand:             #C9B5A0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  /* ⚠️ NOT IN SPECS — from canonical HTML */
+  --color-primary-hover:    #9d5a22;
+  --color-light-border:     #C9B5A0;
+
+  /* ── Audio button (mcq-spec.md §٥.١) ── */
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+
+  /* ── Typography (both specs) ── */
+  --font-family:            'Scheherazade New', 'Scheherazade', serif;
+  --font-weight-bold:       700;   /* dropdown §٣.١ + mcq §٥.١ */
+  --font-weight-extrabold:  700;   /* same value in canonical source */
+  --line-height-relaxed:    1.8;   /* dropdown §٣.١ + mcq §٥.١ */
+  /* ⚠️ NOT IN DROPDOWN SPEC — from mcq-spec §٥.١ + canonical HTML */
+  --line-height-normal:     1.7;
+  /* ⚠️ NOT IN EITHER SPEC — from canonical HTML (.q-card-title uses it) */
+  --font-size-instructions: 24px;
+  /* ⚠️ NOT IN EITHER SPEC — from canonical HTML (.q-feedback uses it) */
+  --font-weight-semibold:   600;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٢. Base body + reset
+   ⚠️ FLAGGED: not documented in either spec — added for rendering
+══════════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: #faf6f0;
+  color: var(--color-ink);
+  padding: 32px 16px;
+  direction: rtl;
+  line-height: var(--line-height-normal);
+}
+
+/* Page wrapper */
+.test-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.test-page-title {
+  color: var(--color-primary);
+  text-align: center;
+  font-weight: var(--font-weight-extrabold);
+  font-size: 28px;
+  margin-bottom: 8px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--color-secondary);
+  font-family: var(--font-family);
+}
+.test-page-sub {
+  text-align: center;
+  font-size: 15px;
+  color: var(--color-primary-shadow);
+  margin-bottom: 32px;
+  font-family: var(--font-family);
+}
+.test-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  margin: 32px 16px 4px;
+  padding: 5px 14px;
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 100px;
+  font-family: var(--font-family);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٣. Audio Button
+   SOURCE: mcq-spec.md §٣.١ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); background: var(--color-primary-hover); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.05); }
+}
+@media (hover: none) {
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+  .audio-btn { min-width: 44px; min-height: 44px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٤. Question Card — q-card family
+   SOURCE: mcq-spec.md §٣.٢ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.q-card.q-card-correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
+}
+.q-card.q-card-wrong {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: qCardShake 0.5s;
+}
+@keyframes qCardShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+.q-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+  margin-left: 0;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+.q-card.hidden-reveal {
+  display: none;
+}
+.q-card.revealing {
+  animation: qCardReveal 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes qCardReveal {
+  0%   { opacity: 0; transform: translateY(24px) scale(0.95); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٥. MCQ Options
+   SOURCE: mcq-spec.md §٣.٣ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.mcq-options {
+  display: grid;
+  gap: 10px;
+}
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.checked-selection {
+  border-color: var(--color-primary);
+  border-width: 3px;
+  background: var(--color-secondary-light);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.25);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: optionPulseCorrect 0.6s ease;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text {
+  color: var(--color-error);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: optionPulseCorrect 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.disabled-option {
+  pointer-events: none;
+  cursor: default;
+}
+@keyframes optionPulseCorrect {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+@media (hover: none) {
+  .mcq-option-label:hover {
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٦. Feedback Box — .q-feedback
+   SOURCE: mcq-spec.md §٣.٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-top: 12px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeInFb 0.3s ease;
+}
+.q-feedback i {
+  margin-left: 6px;
+  font-size: 1em;
+  line-height: 1;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.q-feedback.show-correct i,
+.q-feedback.show-wrong i {
+  top: 0;
+  margin-left: 0;
+}
+.q-feedback.show-correct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+@keyframes fadeInFb {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٧. MCQ Responsive
+   SOURCE: mcq-spec.md §٣.٥ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .q-card { padding: 16px; }
+  .q-card-title { font-size: 19px; }
+  .mcq-option-text { font-size: 18px; }
+  .q-card-header { align-items: flex-start; }
+  .q-card-header .audio-btn { margin-top: 2px; }
+}
+@media (max-width: 480px) {
+  .q-card { padding: 14px; }
+  .q-card-title { font-size: 17px; }
+  .mcq-option-text { font-size: 16px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
+  .q-card-header { align-items: flex-start; }
+  .q-card-header .audio-btn { margin-top: 1px; }
+}
+@media (max-width: 360px) {
+  .q-card-title { font-size: 16px; }
+  .mcq-option-text { font-size: 15px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٨. Dropdown Container + Cards
+   SOURCE: dropdown-table-spec.md §٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.dropdown-tables-wrap {
+  margin: 14px 16px 0;
+}
+.dropdown-sentence-card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+  animation: fadeIn 0.4s ease;
+}
+.dropdown-sentence-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.dropdown-sentence-num {
+  font-size: 15px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 100px;
+  padding: 5px 16px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+.dropdown-sentence-text {
+  font-size: 24px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ٩. Dropdown Table
+   SOURCE: dropdown-table-spec.md §٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.dropdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-family);
+  margin-bottom: 16px;
+}
+.dropdown-table thead th {
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 17px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 12px 8px;
+  border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
+}
+.dropdown-row {
+  transition: background 0.3s ease;
+}
+.dropdown-row td {
+  padding: 10px;
+  border: 1.5px solid var(--color-sand);
+  text-align: center;
+  vertical-align: middle;
+}
+.dropdown-word-cell {
+  background: var(--color-secondary-light);
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
+}
+.dropdown-select-cell {
+  background: #fff;
+  padding: 12px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ١٠. Custom Dropdown Widget
+   SOURCE: dropdown-table-spec.md §٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 220px;
+  font-family: var(--font-family);
+}
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  background: #fff;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover {
+  border-color: var(--color-secondary);
+  background: #fffaf3;
+}
+.custom-dropdown.is-open .custom-dropdown-trigger {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30);
+}
+.custom-dropdown-value {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+}
+.custom-dropdown-arrow {
+  color: var(--color-primary);
+  font-size: 14px;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.custom-dropdown.is-open .custom-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  bottom: auto;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+  padding: 6px;
+  list-style: none;
+  margin: 0;
+  box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: min(280px, 50vh);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* Drop-up variant */
+.custom-dropdown.drop-up .custom-dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(8px);
+}
+.custom-dropdown.is-open.drop-up .custom-dropdown-menu {
+  transform: translateY(0);
+}
+.custom-dropdown.is-open .custom-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+.custom-dropdown.is-open:not(.drop-up) .custom-dropdown-menu {
+  transform: translateY(0);
+}
+/* Scrollbar — Firefox */
+.custom-dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+/* Scrollbar — WebKit */
+.custom-dropdown-menu::-webkit-scrollbar { width: 5px; }
+.custom-dropdown-menu::-webkit-scrollbar-track { background: transparent; margin: 6px 2px; }
+.custom-dropdown-menu::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 999px; transition: background 0.2s ease; }
+.custom-dropdown-menu::-webkit-scrollbar-thumb:hover { background: var(--color-primary-shadow); }
+.custom-dropdown-menu::-webkit-scrollbar-thumb:active { background: var(--color-primary-shadow); }
+/* Options */
+.custom-dropdown-option {
+  padding: 10px 14px;
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option {
+  margin-top: 2px;
+  border-top: 1px solid var(--color-primary-light);
+  border-radius: 0;
+}
+.custom-dropdown-option:first-child { border-radius: 8px 8px 0 0; }
+.custom-dropdown-option:last-child  { border-radius: 0 0 8px 8px; }
+.custom-dropdown-option:only-child  { border-radius: 8px; }
+.custom-dropdown-option:hover { background: var(--color-secondary-light); color: var(--color-primary); }
+.custom-dropdown-option.is-selected { background: var(--color-primary); color: #fff; }
+.custom-dropdown.is-disabled .custom-dropdown-trigger { cursor: default; pointer-events: none; }
+
+/* ══════════════════════════════════════════════════════════════════
+   ١١. Row States (correct / wrong / revealed)
+   SOURCE: dropdown-table-spec.md §٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.dropdown-row.correct-row { background: #f3f7e3; }
+.dropdown-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.dropdown-row.correct-row .custom-dropdown-arrow { color: var(--color-success); }
+
+.dropdown-row.wrong-row { background: #fbeeea; }
+.dropdown-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.dropdown-row.wrong-row .custom-dropdown-arrow { color: var(--color-error); }
+
+.dropdown-row.revealed-row { background: #f3f7e3; }
+.dropdown-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.dropdown-row.revealed-row .custom-dropdown-arrow { color: var(--color-success); }
+
+@keyframes dropdownShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ١٢. Dropdown Feedback + Nav
+   SOURCE: dropdown-table-spec.md §٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+.dropdown-sentence-fb {
+  margin: 12px 0;
+  min-height: 1px;
+}
+.dropdown-sentence-fb:empty { display: none; }
+
+/* ══════════════════════════════════════════════════════════════════
+   ١٣. Dropdown Responsive
+   SOURCE: dropdown-table-spec.md §٤ (verbatim)
+══════════════════════════════════════════════════════════════════ */
+@media (max-width: 700px) {
+  .dropdown-sentence-card { padding: 14px; }
+  .dropdown-sentence-text { font-size: 21px; }
+  .dropdown-table thead th { font-size: 16px; padding: 10px 6px; }
+  .dropdown-word-cell { font-size: 17px; }
+  .custom-dropdown { max-width: 200px; }
+  .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-menu { max-height: min(240px, 45vh); }
+}
+@media (max-width: 480px) {
+  .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
+  .dropdown-sentence-card { padding: 12px; }
+  .dropdown-sentence-text { font-size: 19px; }
+  .dropdown-sentence-num { font-size: 13px; padding: 4px 12px; }
+  .dropdown-table thead th { font-size: 14px; padding: 9px 4px; }
+  .dropdown-word-cell { font-size: 16px; padding: 9px 6px; }
+  .dropdown-select-cell { padding: 8px !important; }
+  .custom-dropdown { max-width: 100%; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-menu { max-height: min(200px, 40vh); }
+}
+
+</style>
+</head>
+<body>
+
+<div class="test-container">
+
+  <h1 class="test-page-title">
+    <i class="fas fa-flask" style="margin-left:10px;"></i>
+    اختبار توثيق المكوّنات
+  </h1>
+  <p class="test-page-sub">
+    يعرض هذا الملف نشاطَ جدولِ القوائمِ المنسدلةِ ونشاطَ الاختيارِ من متعدّدٍ
+    بالأصولِ البصريّةِ الكاملةِ للمشروعِ.
+  </p>
+
+  <!-- ══════════════════════════════════════════════════════════
+       السؤال الأول — جدول قوائم منسدلة
+       HTML structure: dropdown-table-spec.md §٢ + §٦
+  ══════════════════════════════════════════════════════════ -->
+  <div class="test-section-badge">
+    <i class="fas fa-table-cells"></i>
+    جدول القوائم المنسدلة (Dropdown Table)
+  </div>
+
+  <div class="q-card">
+    <div class="q-card-header">
+      <button class="audio-btn" onclick="toggleAudio(this)" aria-label="استمعْ للتّعليماتِ">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <p class="q-card-title">
+        <strong>السّؤالُ الأوّلُ:</strong>
+        أستخرجُ الفعلَ والفاعلَ والمفعولَ بهِ (إن وُجد) من الجملةِ الآتيةِ.
+      </p>
+    </div>
+  </div>
+
+  <div class="dropdown-tables-wrap">
+    <div class="dropdown-sentence-card">
+      <div class="dropdown-sentence-header">
+        <span class="dropdown-sentence-num">الجملة ١ من ١</span>
+        <div class="dropdown-sentence-text">يقرأُ الطّالبُ القصّةَ بهدوءٍ.</div>
+      </div>
+      <table class="dropdown-table">
+        <thead>
+          <tr>
+            <th>الكلمةُ</th>
+            <th>اختَرْ نوعَها</th>
+          </tr>
+        </thead>
+        <tbody id="dd-tbody"></tbody>
+      </table>
+      <div class="q-feedback dropdown-sentence-fb" id="fb-dd"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       السؤال الثاني — اختيار من متعدد
+       HTML structure: mcq-spec.md §٢
+  ══════════════════════════════════════════════════════════ -->
+  <div class="test-section-badge" style="margin-top: 40px;">
+    <i class="fas fa-circle-dot"></i>
+    الاختيار من متعدد (MCQ) — سؤالان بظهور تدريجي
+  </div>
+
+  <div id="mcq-container"></div>
+
+</div><!-- /test-container -->
+
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   CONSTANTS  (dropdown-table-spec.md §٥ + mcq-spec.md §٤)
+══════════════════════════════════════════════════════════════════ */
+const MAX_ATTEMPTS = 3;
+
+/* ══════════════════════════════════════════════════════════════════
+   UTILITY — Audio toggle  (mcq-spec.md §٤ — toggleSimpleAudio)
+══════════════════════════════════════════════════════════════════ */
+function toggleAudio(btn) {
+  btn.classList.toggle('state-playing');
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   UTILITY — Feedback helper (shared by both activities)
+   Preserves extra classes already on the element (dropdown-sentence-fb)
+══════════════════════════════════════════════════════════════════ */
+function showFeedback(fb, type, html, ms) {
+  const extra = fb.classList.contains('dropdown-sentence-fb') ? ' dropdown-sentence-fb' : '';
+  fb.className = 'q-feedback' + extra + ' show-' + type;
+  fb.innerHTML = html;
+  clearTimeout(fb._timer);
+  fb._timer = setTimeout(() => {
+    fb.className = 'q-feedback' + extra;
+    fb.innerHTML = '';
+  }, ms);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   UTILITY — Arabic numerals  (mcq-spec.md §٤ — toArabic)
+══════════════════════════════════════════════════════════════════ */
+function toArabic(n) {
+  return n.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   DROPDOWN TABLE
+   Logic: dropdown-table-spec.md §٥ (handleDropdownSelection)
+══════════════════════════════════════════════════════════════════ */
+const DD_WORDS = [
+  { word: 'يقرأُ',     correct: 'فعل' },
+  { word: 'الطّالبُ',  correct: 'فاعل' },
+  { word: 'القصّةَ',   correct: 'مفعول به' },
+  { word: 'بهدوءٍ',    correct: 'لا شيء مما ذُكر' }
+];
+const DD_OPTIONS = ['فعل', 'فاعل', 'مفعول به', 'لا شيء مما ذُكر'];
+const ddState = DD_WORDS.map(() => ({ attempts: 0, status: null }));
+
+function buildDropdownTable() {
+  document.getElementById('dd-tbody').innerHTML = DD_WORDS.map((row, idx) => `
+    <tr class="dropdown-row" data-row="${idx}">
+      <td class="dropdown-word-cell">${row.word}</td>
+      <td class="dropdown-select-cell">
+        <div class="custom-dropdown" data-row="${idx}">
+          <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+            <span class="custom-dropdown-value">اختَرْ</span>
+            <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
+          </button>
+          <ul class="custom-dropdown-menu" role="listbox">
+            ${DD_OPTIONS.map(opt =>
+              `<li class="custom-dropdown-option" data-value="${opt}" role="option">${opt}</li>`
+            ).join('')}
+          </ul>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+
+  /* Close any open dropdown on outside click — registered once */
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.custom-dropdown.is-open').forEach(dd => {
+      dd.classList.remove('is-open');
+      dd.querySelector('.custom-dropdown-trigger').setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  document.querySelectorAll('.custom-dropdown').forEach(dd => {
+    const trigger = dd.querySelector('.custom-dropdown-trigger');
+    const valSpan = dd.querySelector('.custom-dropdown-value');
+
+    /* Open / close */
+    trigger.addEventListener('click', e => {
+      e.stopPropagation();
+      if (dd.classList.contains('is-disabled')) return;
+      document.querySelectorAll('.custom-dropdown.is-open').forEach(other => {
+        if (other !== dd) {
+          other.classList.remove('is-open');
+          other.querySelector('.custom-dropdown-trigger').setAttribute('aria-expanded', 'false');
+        }
+      });
+      const wasOpen = dd.classList.contains('is-open');
+      dd.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', String(!wasOpen));
+    });
+
+    /* Option selection */
+    dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
+      opt.addEventListener('click', e => {
+        e.stopPropagation();
+        dd.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        handleDropdownSelection(parseInt(dd.dataset.row), opt.dataset.value, dd, valSpan);
+      });
+    });
+  });
+}
+
+/* handleDropdownSelection — dropdown-table-spec.md §٥ */
+function handleDropdownSelection(rowIdx, chosen, dd, valSpan) {
+  const st = ddState[rowIdx];
+  if (st.status === 'correct' || st.status === 'revealed') return;
+  if (st.attempts >= MAX_ATTEMPTS) return;
+  st.attempts++;
+
+  const correctVal = DD_WORDS[rowIdx].correct;
+  const isCorrect  = chosen === correctVal;
+  const row        = dd.closest('.dropdown-row');
+  const fb         = document.getElementById('fb-dd');
+
+  if (fb._fbTimeoutId) { clearTimeout(fb._fbTimeoutId); fb._fbTimeoutId = null; }
+
+  valSpan.textContent = chosen;
+  row.classList.remove('correct-row', 'wrong-row', 'revealed-row');
+
+  if (isCorrect) {
+    /* ✅ صح */
+    st.status = 'correct';
+    row.classList.add('correct-row');
+    dd.classList.add('is-disabled');
+    showFeedback(fb, 'correct',
+      '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ', 2500);
+
+  } else {
+    /* ❌ خطأ — reflow to restart animation */
+    row.classList.remove('wrong-row');
+    void row.offsetWidth;
+    row.classList.add('wrong-row');
+
+    if (st.attempts >= MAX_ATTEMPTS) {
+      /* 3 محاولات → كشف */
+      st.status = 'revealed';
+      showFeedback(fb, 'correct',
+        '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ', 3000);
+      setTimeout(() => {
+        row.classList.remove('wrong-row');
+        row.classList.add('revealed-row');
+        valSpan.textContent = correctVal;
+        dd.classList.add('is-disabled');
+      }, 3000);
+
+    } else {
+      /* أقل من 3 محاولات */
+      showFeedback(fb, 'wrong',
+        '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!', 1500);
+      setTimeout(() => {
+        row.classList.remove('wrong-row');
+        valSpan.textContent = 'اختَرْ';
+      }, 1500);
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MCQ
+   Logic: mcq-spec.md §٤ (handleMCQAnswer + revealNextMCQ)
+══════════════════════════════════════════════════════════════════ */
+const MCQ_DATA = [
+  {
+    q: '............... تغيُّرُ العلامةِ الموجودةِ في آخرِ الكلمةِ بتغيُّرِ العواملِ الدّاخلةِ عليها.',
+    options: ['أ. الإعرابُ', 'ب. البناءُ', 'ج. الإسنادُ'],
+    correct: 0
+  },
+  {
+    q: 'الضّمائرُ وأسماءُ الإشارةِ وأسماءُ الاستفهامِ جميعُها:',
+    options: ['أ. مُعربةٌ', 'ب. مبنيّةٌ', 'ج. مُشتقّةٌ'],
+    correct: 1
+  }
+];
+const mcqState = MCQ_DATA.map(() => ({ attempts: 0, answered: false }));
+
+function buildMCQ() {
+  const container = document.getElementById('mcq-container');
+  container.innerHTML = MCQ_DATA.map((q, qIdx) => `
+    <div class="q-card${qIdx > 0 ? ' hidden-reveal' : ''}" data-q-idx="${qIdx}">
+      <div class="q-card-header">
+        <button class="audio-btn" onclick="toggleAudio(this)" aria-label="استمع للسؤال">
+          <i class="fas fa-volume-high"></i>
+        </button>
+        <p class="q-card-title">
+          <span class="q-num-inline">${toArabic(qIdx + 1)}.</span> ${q.q}
+        </p>
+      </div>
+      <div class="mcq-options">
+        ${q.options.map((opt, i) => `
+          <label class="mcq-option-label">
+            <input type="radio" name="mcq-q${qIdx}" value="${i}">
+            <span class="mcq-option-text">${opt}</span>
+          </label>
+        `).join('')}
+      </div>
+      <div class="q-feedback" id="fb-mcq-${qIdx}"></div>
+    </div>
+  `).join('');
+
+  MCQ_DATA.forEach((qData, qIdx) => {
+    document.querySelectorAll(`input[name="mcq-q${qIdx}"]`).forEach(input => {
+      input.addEventListener('change', () => handleMCQAnswer(qIdx, input, qData));
+    });
+  });
+}
+
+/* handleMCQAnswer — mcq-spec.md §٤ */
+function handleMCQAnswer(qIdx, input, qData) {
+  const st = mcqState[qIdx];
+  if (st.answered || st.attempts >= MAX_ATTEMPTS) return;
+  st.attempts++;
+
+  const selectedIdx = parseInt(input.value);
+  const isCorrect   = selectedIdx === qData.correct;
+  const card        = input.closest('.q-card');
+  const labels      = card.querySelectorAll('.mcq-option-label');
+  const inputs      = card.querySelectorAll('input[type="radio"]');
+  const fb          = document.getElementById(`fb-mcq-${qIdx}`);
+
+  labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
+
+  if (isCorrect) {
+    /* ✅ إجابة صحيحة */
+    st.answered = true;
+    labels.forEach((label, i) => {
+      if (i === qData.correct) label.classList.add('correct-option');
+      inputs[i].disabled = true;
+      label.classList.add('disabled-option');
+    });
+    card.classList.add('q-card-correct');
+    fb.className = 'q-feedback show-correct';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+    setTimeout(() => { fb.className = 'q-feedback'; fb.innerHTML = ''; }, 2500);
+    revealNextMCQ(qIdx);
+
+  } else {
+    /* ❌ إجابة خاطئة */
+    labels.forEach((label, i) => {
+      if (i === selectedIdx) label.classList.add('wrong-option');
+    });
+    /* reflow to restart qCardShake */
+    card.classList.remove('q-card-wrong');
+    void card.offsetWidth;
+    card.classList.add('q-card-wrong');
+
+    if (st.attempts >= MAX_ATTEMPTS) {
+      /* 3 محاولات → كشف بعد 3000ms */
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+      setTimeout(() => {
+        st.answered = true;
+        labels.forEach((label, i) => {
+          label.classList.remove('wrong-option');
+          if (i === qData.correct) label.classList.add('revealed');
+          inputs[i].disabled = true;
+          label.classList.add('disabled-option');
+        });
+        card.classList.remove('q-card-wrong');
+        card.classList.add('q-card-correct');
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+        revealNextMCQ(qIdx);
+      }, 3000);
+
+    } else {
+      /* أقل من 3 محاولات */
+      fb.className = 'q-feedback show-wrong';
+      fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+      setTimeout(() => {
+        labels.forEach(l => l.classList.remove('wrong-option'));
+        inputs.forEach(inp => { inp.checked = false; });
+        card.classList.remove('q-card-wrong');
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+      }, 1500);
+    }
+  }
+}
+
+/* revealNextMCQ — mcq-spec.md §٤ */
+function revealNextMCQ(currentIdx) {
+  const next = document.querySelector(`.q-card[data-q-idx="${currentIdx + 1}"]`);
+  if (!next) return;
+  next.classList.remove('hidden-reveal');
+  next.classList.remove('revealing');
+  void next.offsetWidth;
+  next.classList.add('revealing');
+  setTimeout(() => next.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+}
+
+/* ══ Init ══ */
+buildDropdownTable();
+buildMCQ();
+</script>
+</body>
+</html>

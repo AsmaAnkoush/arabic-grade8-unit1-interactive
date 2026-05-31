@@ -40,26 +40,106 @@
 
 ---
 
-## ٣. متغيرات التصميم المطلوبة (Required CSS Variables)
+## ٣. متغيرات التصميم وأحجام الخطوط
 
-```css
-:root {
-  --color-primary:          #844816;
-  --color-primary-light:    #F3EDE8;
-  --color-primary-shadow:   #5e3210;
-  --color-secondary:        #EDC66F;
-  --color-secondary-light:  #FFF4E5;
-  --color-secondary-shadow: #c9a548;
-  --color-sand:             #C9B5A0;
-  --color-ink:              #3a2410;
-  --color-error:            #B7472D;
-  --color-success:          #6b8b1f;
-  --font-family:            'Scheherazade', serif;
-  --font-weight-bold:       700;
-  --font-weight-extrabold:  700;
-  --line-height-relaxed:    1.8;
-}
-```
+> جميع القيم أدناه مستخرجة مباشرةً من الاختبار التشخيصي.html — لا تغيّر أياً منها.
+
+### ٣.١ متغيرات الجذر (CSS Variables)
+
+| المتغير | القيمة | الغرض |
+|---|---|---|
+| `--color-primary` | `#844816` | البني الأساسي (header، حدود الكرت، نص) |
+| `--color-primary-light` | `#F3EDE8` | حدود الـ dropdown الافتراضية |
+| `--color-primary-shadow` | `#5e3210` | ظل الأزرار + حدود رأس الجدول |
+| `--color-secondary` | `#EDC66F` | الذهبي الفاتح (hover) |
+| `--color-secondary-light` | `#FFF4E5` | كريمي (خلفية عمود الكلمات) |
+| `--color-secondary-shadow` | `#c9a548` | ظل ذهبي |
+| `--color-sand` | `#C9B5A0` | بيج (حدود خلايا الجدول) |
+| `--color-ink` | `#3a2410` | لون النص الأساسي |
+| `--color-error` | `#B7472D` | أحمر (حالة الخطأ) |
+| `--color-success` | `#6b8b1f` | أخضر (حالة الصح + الكشف) |
+| `--font-family` | `'Scheherazade', serif` | خط المشروع الموحّد |
+| `--font-weight-bold` | `700` | الوزن الأساسي |
+| `--font-weight-extrabold` | `700` | وزن العناوين والحالات |
+| `--line-height-relaxed` | `1.8` | ارتفاع سطر النصوص الطويلة |
+
+### ٣.٢ أحجام الخطوط — تفصيلية (مهم جداً)
+
+| العنصر | اللابتوب (>700px) | ≤700px | ≤480px |
+|---|---|---|---|
+| `.dropdown-sentence-num` (تسمية "الجملة ١ من ٣") | **15px** | 15px | **13px** |
+| `.dropdown-sentence-text` (نص الجملة فوق الجدول) | **24px** | **21px** | **19px** |
+| `.dropdown-table thead th` (رأس الجدول) | **17px** | **16px** | **14px** |
+| `.dropdown-word-cell` (عمود الكلمات) | **19px** | **17px** | **16px** |
+| `.custom-dropdown-trigger` (زر القائمة) | **17px** | **16px** | **15px** |
+| `.custom-dropdown-option` (خيار في القائمة) | **17px** | **16px** | **15px** |
+| `.dropdown-sentence-nav .btn-action` (زرا السابق/التالي) | `font-size: 20px` | 18px | 16px |
+| `.dropdown-sentence-nav .btn-action i` (أيقونة السهم) | **18px** | **16px** | **15px** |
+
+### ٣.٣ أوزان الخط (font-weight)
+
+| العنصر | الوزن |
+|---|---|
+| `.dropdown-sentence-num` | `var(--font-weight-bold)` = 700 |
+| `.dropdown-sentence-text` | `var(--font-weight-extrabold)` = 700 |
+| `.dropdown-table thead th` | `var(--font-weight-extrabold)` = 700 |
+| `.dropdown-word-cell` | `var(--font-weight-extrabold)` = 700 |
+| `.custom-dropdown-trigger` | `var(--font-weight-bold)` = 700 |
+| `.custom-dropdown-option` | `var(--font-weight-bold)` = 700 |
+| `.correct-row .custom-dropdown-trigger` | `var(--font-weight-extrabold)` = 700 |
+| `.revealed-row .custom-dropdown-trigger` | `var(--font-weight-extrabold)` = 700 |
+
+### ٣.٤ ارتفاع السطر (line-height)
+
+| العنصر | القيمة |
+|---|---|
+| `.dropdown-sentence-text` (نص الجملة الطويل) | `var(--line-height-relaxed)` = 1.8 |
+| `.custom-dropdown-value` (القيمة المختارة) | `1.4` (قيمة صريحة) |
+
+### ٣.٥ مقاسات أخرى (padding، gap، radius)
+
+| العنصر | القيمة |
+|---|---|
+| `.dropdown-sentence-card` padding | `18px` (≤700px: `14px` / ≤480px: `12px`) |
+| `.dropdown-sentence-card` border-radius | `16px` |
+| `.dropdown-table` border-collapse | `collapse` |
+| `.dropdown-table thead th` padding | `12px 8px` (≤700px: `10px 6px` / ≤480px: `9px 4px`) |
+| `.dropdown-table thead th` border | `1.5px solid var(--color-primary-shadow)` |
+| `.dropdown-row td` padding | `10px` |
+| `.dropdown-row td` border | `1.5px solid var(--color-sand)` |
+| `.dropdown-word-cell` width | `45%` |
+| `.dropdown-select-cell` padding | `12px !important` (≤480px: `8px !important`) |
+| `.custom-dropdown` max-width | `220px` (≤700px: `200px` / ≤480px: `100%`) |
+| `.custom-dropdown-trigger` padding | `10px 14px` (≤700px: `9px 12px` / ≤480px: `9px 10px`) |
+| `.custom-dropdown-trigger` border | `2px solid var(--color-primary-light)` |
+| `.custom-dropdown-trigger` border-radius | `10px` |
+| `.custom-dropdown-menu` border-radius | `12px` |
+| `.custom-dropdown-menu` max-height | `min(280px, 50vh)` (≤700px: `min(240px, 45vh)` / ≤480px: `min(200px, 40vh)`) |
+| `.custom-dropdown-menu` z-index | `1000` |
+| `.custom-dropdown-menu` scrollbar-width | `5px` (WebKit) |
+| `.custom-dropdown-option` padding | `10px 14px` (≤700px: `9px 12px` / ≤480px: `9px 10px`) |
+| `.custom-dropdown-option` border-radius | `8px` (أول: 8px 8px 0 0 / أخير: 0 0 8px 8px) |
+| `.dropdown-sentence-nav .btn-action` size | `50×50px` (≤700px: `46×46px` / ≤480px: `44×44px`) |
+
+### ٣.٦ ألوان الـ states
+
+| الحالة | حدود الـ trigger | خلفية الصف | لون النص |
+|---|---|---|---|
+| افتراضي (base) | `2px solid var(--color-primary-light)` | `#fff` + كريمي للكلمات | `var(--color-ink)` = #3a2410 |
+| `.is-open` | `var(--color-primary)` + box-shadow ذهبي | (نفس) | (نفس) |
+| `.correct-row` | `3px solid var(--color-success)` | `#f3f7e3` (أخضر فاتح) | `var(--color-success)` = #6b8b1f extrabold |
+| `.wrong-row` | `3px solid var(--color-error)` + `dropdownShake` | `#fbeeea` (أحمر فاتح) | `var(--color-error)` = #B7472D |
+| `.revealed-row` | `3px solid var(--color-success)` + `pulse-correct` | `#f3f7e3` (أخضر فاتح) | `var(--color-success)` extrabold |
+| `.is-disabled` | (مقفل — cursor: default، pointer-events: none) | (نفس) | (نفس) |
+
+### ٣.٧ الأنيميشن
+
+| الاسم | يُطبَّق على | المدة | المنحنى |
+|---|---|---|---|
+| `dropdownShake` | `.wrong-row .custom-dropdown-trigger` | **0.5s** | ease |
+| `pulse-correct` | `.revealed-row .custom-dropdown-trigger` | **0.6s** | ease |
+| `nextBtnPulse` | `.btn-sentence-next:not(:disabled)` | **2s** | ease-in-out infinite |
+| `fadeIn` | `.dropdown-sentence-card` (عند الظهور) | **0.4s** | ease |
 
 ---
 
@@ -706,17 +786,17 @@ function handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelT
     state.status = 'correct';
     row.classList.add('correct-row');
     dd.classList.add('is-disabled');
-    // short "أحسنتَ!" toast — auto-clears unless sentence-complete overwrites it
+    // "أحسنتَ! إجابةٌ صحيحةٌ" toast — auto-clears unless sentence-complete overwrites it
     if (fb) {
       fb.className = 'q-feedback dropdown-sentence-fb show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ!';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
       fb._fbTimeoutId = setTimeout(() => {
         if (fb.classList.contains('show-correct') && !fb.dataset.persistent) {
           fb.className = 'q-feedback dropdown-sentence-fb';
           fb.innerHTML = '';
         }
         fb._fbTimeoutId = null;
-      }, 1500);
+      }, 2500);
     }
     checkSentenceComplete(slideIdx, sIdx);
 
@@ -740,7 +820,7 @@ function handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelT
             fb.innerHTML = '';
           }
           fb._fbTimeoutId = null;
-        }, 2500);
+        }, 3000);
       }
       // after 3000ms: switch row to revealed-row, show correct answer, lock
       setTimeout(() => {
@@ -755,7 +835,7 @@ function handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelT
       // fewer than 3 attempts: show "try again" toast, reset row after 1500ms
       if (fb) {
         fb.className = 'q-feedback dropdown-sentence-fb show-wrong';
-        fb.innerHTML = '<i class="fas fa-times-circle"></i> حاولْ مرّةً أخرى';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
       }
       setTimeout(() => {
         row.classList.remove('wrong-row');
@@ -979,16 +1059,16 @@ const Q3_LABELS = {
 - الـ dropdown trigger يصير أخضر (border + text)
 - السهم يصير أخضر (`.custom-dropdown-arrow`)
 - الـ dropdown يصير `.is-disabled` (لا يفتح مجدداً)
-- فيدباك تحت الجدول: `<i class="fas fa-check-circle"></i> أحسنتَ!` بكلاس `show-correct` لمدة 1500ms ثم يُمسح تلقائياً
+- فيدباك تحت الجدول: `<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ` بكلاس `show-correct` لمدة 2500ms ثم يُمسح تلقائياً
 - إذا كانت هذه آخر خانة في الجملة → تُطلَق `checkSentenceComplete()`
 
 ### عند اختيار خطأ (قبل 3 محاولات)
 - الصف يصير أحمر (`.wrong-row`) + `dropdownShake` animation (reflow يُعيد الأنيميشن في كل محاولة)
-- فيدباك: `<i class="fas fa-times-circle"></i> حاولْ مرّةً أخرى` بكلاس `show-wrong`
+- فيدباك: `<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!` بكلاس `show-wrong`
 - بعد 1500ms: الصف يرجع عادي + الـ dropdown value يرجع "اختَرْ" + الفيدباك يُمسح
 
 ### بعد 3 محاولات خاطئة
-- الفيدباك الفوري (يظهر مع آخر محاولة): `أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ` بكلاس `show-correct` لمدة 2500ms
+- الفيدباك الفوري (يظهر مع آخر محاولة): `أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ` بكلاس `show-correct` لمدة 3000ms
 - بعد **3000ms** (تأخير أطول): الصف ينتقل من `.wrong-row` إلى `.revealed-row` + pulse animation
 - الـ dropdown يعرض الإجابة الصحيحة + `.is-disabled`
 - تُطلَق `checkSentenceComplete()`
@@ -1012,9 +1092,9 @@ const Q3_LABELS = {
 
 | الحالة | المدة |
 |---|---|
-| Correct toast (`أحسنتَ!`) | 1500ms ثم auto-clear |
-| Wrong toast + row reset (`حاولْ مرّةً أخرى`) | 1500ms |
-| Revealed toast (`أحسنتَ على المحاولةِ!`) | 2500ms ثم auto-clear |
+| Correct toast (`أحسنتَ! إجابةٌ صحيحةٌ`) | 2500ms ثم auto-clear |
+| Wrong toast + row reset (`إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!`) | 1500ms |
+| Revealed toast (`أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ`) | 3000ms ثم auto-clear |
 | Reveal row delay (بعد 3 محاولات خاطئة) | 3000ms |
 | Sentence completion toast | دائم (persistent) — لا يُمسح |
 
@@ -1056,7 +1136,7 @@ const Q3_LABELS = {
 - الألوان (جميع قيم الـ CSS variables)
 - الـ animations (`dropdownShake`, `pulse-correct`, `nextBtnPulse`)
 - `MAX_ATTEMPTS` — دائماً 3
-- نصوص الفيدباك (أحسنتَ! / حاولْ مرّةً أخرى / أحسنتَ على المحاولةِ! / ممتاز! أكملتَ الجملةَ)
+- نصوص الفيدباك (أحسنتَ! إجابةٌ صحيحةٌ / إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى! / أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ / ممتاز! أكملتَ الجملةَ)
 - التوقيتات (1500ms / 2500ms / 3000ms)
 - Row state classes (`correct-row` / `wrong-row` / `revealed-row`)
 

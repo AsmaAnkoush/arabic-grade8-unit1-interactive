@@ -54,6 +54,7 @@
   --audio-btn-icon-size:    16px;
 }
 
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -124,7 +125,11 @@ body {
   cursor: not-allowed;
   opacity: 0.6;
 }
-
+@media (max-width: 768px){
+  #qContainer-1 .audio-btn{
+    margin-top: 0;
+  }
+}
 /* زرّ ابدأ الاختبار */
 .btn-start {
   background: var(--color-primary);
@@ -399,9 +404,8 @@ body {
    INSTRUCTION ROW
 ═══════════════════════════════════════════════════════════════ */
 .task-instr-row {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
+  display: flex;
+  align-items: flex-start;
   gap: 16px;
   background: var(--color-primary-light);
   border: 2px solid var(--color-primary-light);
@@ -409,6 +413,13 @@ body {
   border-radius: 15px;
   padding: 18px 22px;
   margin: 14px 16px 0;
+}
+.task-instr-row .instr-content {
+  flex: 1;
+  min-width: 0;
+}
+.task-instr-row .audio-btn {
+  margin-top: 5px;
 }
 .instr-content {
   display: flex;
@@ -481,9 +492,26 @@ body {
 
 .q-card-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   margin-bottom: 12px;
+}
+@media (max-width: 768px){
+
+  #qContainer-1 .q-card-header{
+    align-items:flex-start;
+  }
+
+  #qContainer-1 .q-card-header .audio-btn{
+    margin-top: 0;
+  }
+
+}
+.q-card-title {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  min-height: 36px; /* نفس ارتفاع السماعة */
 }
 .q-num-inline {
   color: var(--color-primary-shadow);
@@ -2191,7 +2219,7 @@ body {
       </button>
       <div class="instr-content">
         <p class="task-instr-text" id="instrText">
-          <strong>السّؤالُ الأوّلُ:</strong> أختارُ الإجابةَ الصّحيحةَ فيما يأتي.
+          <strong>السّؤالُ الأوّلُ:</strong> أقرأُ كلَّ عبارةٍ من العباراتِ الآتيةِ، ثمَّ أختارُ الإجابةَ الصّحيحةَ.
         </p>
         <div class="instr-hint" id="instrHint" style="display:none;">
           <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/i7t_Mq6Gv8mJq6Fm.png" alt="" class="instr-hint-img">
@@ -2223,7 +2251,7 @@ body {
 
       <div class="results-review" id="resultsReview" style="display: none;">
         <div class="review-title">
-          <button type="button" class="audio-btn" aria-label="تشغيل صوت">
+          <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت">
             <i class="fas fa-volume-high"></i>
           </button>
           مراجعةُ الإجاباتِ
@@ -2266,7 +2294,7 @@ body {
     1: {
       title: "السّؤالُ الأوّلُ",
       type: "mcq",
-      instr: "<strong>السّؤالُ الأوّلُ:</strong> أختارُ الإجابةَ الصّحيحةَ فيما يأتي.",
+      instr: "<strong>السّؤالُ الأوّلُ:</strong> أقرأُ كلَّ عبارةٍ من العباراتِ الآتيةِ، ثمَّ أختارُ الإجابةَ الصّحيحةَ.",
       questions: [
         {
           q: "............... تغيُّرُ العلامةِ الموجودةِ في آخرِ الكلمةِ؛ لتغيُّرِ العواملِ الدّاخلةِ عليها.",
@@ -2298,7 +2326,7 @@ body {
     2: {
       title: "السّؤالُ الثّاني",
       type: "click",
-      instr: "<strong>السّؤالُ الثّاني:</strong> أنقرُ على الجملِ الفعليّةِ فيما يأتي.",
+      instr: "<strong>السّؤالُ الثّاني:</strong> أقرأُ كلَّ جملةٍ من الجملِ الآتيةِ، ثمَّ أحدّدُ الجملَ الفعليّةَ بالنّقرِ عليها.",
       sentences: [
         { letter: "أ", text: "تبقى في الوادي بعضُ الحجارةِ.", isCorrect: true },
         { letter: "ب", text: "الصّعودُ إلى الجبالِ رياضةٌ مُمتعةٌ.", isCorrect: false },
@@ -3328,7 +3356,7 @@ body {
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <button type="button" class="audio-btn review-section-audio" aria-label="تشغيل صوت السؤال">
+              <button type="button" class="audio-btn review-section-audio" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت السؤال">
                 <i class="fas fa-volume-high"></i>
               </button>
               <div class="review-section-title">${slide.title} &mdash; الاختيارُ من متعدّدٍ</div>
@@ -3379,7 +3407,7 @@ body {
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <button type="button" class="audio-btn review-section-audio" aria-label="تشغيل صوت السؤال">
+              <button type="button" class="audio-btn review-section-audio" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت السؤال">
                 <i class="fas fa-volume-high"></i>
               </button>
               <div class="review-section-title">${slide.title} &mdash; النّقرُ على الإجاباتِ الصّحيحةِ</div>
@@ -3439,7 +3467,7 @@ body {
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <button type="button" class="audio-btn review-section-audio" aria-label="تشغيل صوت السؤال">
+              <button type="button" class="audio-btn review-section-audio" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت السؤال">
                 <i class="fas fa-volume-high"></i>
               </button>
               <div class="review-section-title">${slide.title} &mdash; استخراجُ الفعلِ والفاعلِ والمفعولِ بهِ</div>

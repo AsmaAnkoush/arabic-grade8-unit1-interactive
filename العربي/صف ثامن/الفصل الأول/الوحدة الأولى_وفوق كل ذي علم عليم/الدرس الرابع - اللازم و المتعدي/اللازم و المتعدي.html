@@ -49,9 +49,9 @@
 
   --letter-spacing-tight:   1.5px;
 
-  --audio-btn-size:         44px;
-  --audio-btn-radius:       11px;
-  --audio-btn-icon-size:    19px;
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -329,10 +329,10 @@ body {
 .q-feedback {
   display: none;
   margin: 18px auto 4px;
-  padding: 14px 22px;
-  border-radius: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
   max-width: 700px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: var(--font-weight-bold);
   line-height: 1.7;
   text-align: center;
@@ -1030,7 +1030,7 @@ body {
   margin-top: 12px;
   padding: 10px 16px;
   border-radius: 10px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: var(--font-weight-bold);
   line-height: 1.6;
   text-align: center;
@@ -1046,6 +1046,18 @@ body {
   font-size: 18px;
   margin-left: 6px;
   color: var(--color-success);
+  vertical-align: middle;
+}
+.q3-inline-feedback.show-wrong {
+  display: block;
+  background: linear-gradient(135deg, #fdecea 0%, #fad5d0 100%);
+  border: 1.5px solid var(--color-error);
+  color: var(--color-error);
+}
+.q3-inline-feedback.show-wrong i {
+  font-size: 18px;
+  margin-left: 6px;
+  color: var(--color-error);
   vertical-align: middle;
 }
 
@@ -1133,7 +1145,7 @@ body {
   width: 100%;
   padding: 10px 14px;
   font-family: var(--font-family);
-  font-size: 14px;
+  font-size: 17px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   background: #fff;
@@ -1174,6 +1186,7 @@ body {
 .custom-dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
+  bottom: auto;
   left: 0;
   right: 0;
   background: #fff;
@@ -1183,23 +1196,60 @@ body {
   list-style: none;
   margin: 0;
   box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
-  z-index: 100;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  max-height: 280px;
+  max-height: min(280px, 50vh);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* Firefox: themed thin scrollbar */
+.custom-dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+/* WebKit (Chrome, Safari, iOS) */
+.custom-dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 6px 2px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-shadow);
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary-shadow);
+}
+/* Drop-up variant: menu opens above the trigger when there's not enough space below */
+.custom-dropdown.drop-up .custom-dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(8px);
+}
+.custom-dropdown.is-open.drop-up .custom-dropdown-menu {
+  transform: translateY(0);
 }
 .custom-dropdown.is-open .custom-dropdown-menu {
   opacity: 1;
   visibility: visible;
+}
+/* Open transform — overridden by drop-up rule above */
+.custom-dropdown.is-open:not(.drop-up) .custom-dropdown-menu {
   transform: translateY(0);
 }
 .custom-dropdown-option {
   padding: 10px 14px;
   font-family: var(--font-family);
-  font-size: 14px;
+  font-size: 17px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   border-radius: 8px;
@@ -1325,6 +1375,8 @@ body {
   .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
   .dropdown-sentence-nav .btn-action { width: 46px; height: 46px; font-size: 18px; }
   .dropdown-sentence-nav .btn-action i { font-size: 16px; }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
+  .q3-inline-feedback { font-size: 16px; padding: 9px 12px; }
 }
 @media (max-width: 480px) {
   .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
@@ -1340,6 +1392,8 @@ body {
   .dropdown-sentence-nav { gap: 8px; }
   .dropdown-sentence-nav .btn-action { width: 44px; height: 44px; font-size: 16px; flex: 0 0 auto; padding: 0; gap: 0; }
   .dropdown-sentence-nav .btn-action i { font-size: 15px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
+  .q3-inline-feedback { font-size: 15px; padding: 8px 10px; }
 }
 
 /* MCQ نظامُ "ضعْ دائرة" الرّسميُّ في المشروعِ — مَنقولٌ من
@@ -1728,6 +1782,8 @@ body {
   .q-card-verse { font-size: 19px; padding: 12px 16px; }
   .q-card-verse.extract-sentence { line-height: 2.2; padding: 14px 16px; }
   .q-card-verse.extract-sentence .word { padding: 2px 8px; margin: 0 3px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+  .mcq-option-text { font-size: 17px; }
 
   .decompose-label { font-size: 16px; padding: 8px 12px; }
   .decompose-slot { min-height: 60px; }
@@ -1789,6 +1845,8 @@ body {
   .q-card-verse { font-size: 18px; padding: 11px 14px; }
   .q-card-verse.extract-sentence { line-height: 2; padding: 12px 14px; }
   .q-card-verse.extract-sentence .word { padding: 2px 6px; margin: 0 2px; }
+  .mcq-option-label { padding: 9px 11px; gap: 8px; }
+  .mcq-option-text { font-size: 15px; }
   .no-obj-icon { width: 34px; height: 34px; }
   .decompose-word { font-size: 17px; padding: 6px 12px; }
   .q3-sentence { font-size: 17px; line-height: 1.95; }
@@ -1859,7 +1917,7 @@ body {
   }
   .q-card-header { gap: 8px; margin-bottom: 8px; }
   .q-card-title {
-    font-size: 21px !important;
+    font-size: 18px !important;
     line-height: 1.6 !important;
   }
   .audio-btn {
@@ -1945,7 +2003,7 @@ body {
 /* للشاشات الأصغر جداً (< 380px) */
 @media (max-width: 380px) {
   .q-card { padding: 10px 8px; }
-  .q-card-title { font-size: 19px !important; line-height: 1.55 !important; }
+  .q-card-title { font-size: 16px !important; line-height: 1.55 !important; }
   .dropdown-sentence-text { font-size: 15px !important; }
   .dropdown-word-cell { font-size: 14px !important; }
   .custom-dropdown-trigger { font-size: 12px !important; padding: 7px 8px; }
@@ -2716,19 +2774,17 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-family);
-  border: 2px solid var(--color-primary);
-  border-radius: 0;
-  background: #fff;
+  margin-bottom: 16px;
 }
 
 .t1-table thead th {
   background: var(--color-primary);
   color: #fff;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: var(--font-weight-extrabold);
-  padding: 12px 10px;
-  text-align: center;
+  padding: 12px 8px;
   border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
 }
 
 .t1-row {
@@ -2769,32 +2825,30 @@ body {
 }
 
 .t1-row td {
-  padding: 12px 10px;
+  padding: 10px;
   border: 1.5px solid var(--color-sand);
+  text-align: center;
   vertical-align: middle;
 }
 
 .t1-sentence-cell {
   background: var(--color-secondary-light);
-  font-size: 22px;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-ink);
-  line-height: 1.9;
-  text-align: right;
-  width: 50%;
-  padding: 14px 16px !important;
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  width: 45%;
 }
 
 .t1-verb-cell {
   background: #fff;
   width: 25%;
-  padding: 10px !important;
+  padding: 12px !important;
 }
 
 .t1-type-cell {
   background: #fff;
   width: 25%;
-  padding: 10px !important;
+  padding: 12px !important;
 }
 
 /* حقلُ كتابةِ الفعلِ */
@@ -2833,7 +2887,7 @@ body {
 
 .t1-verb-input.correct {
   border-color: var(--color-success);
-  background: rgba(107, 139, 31, 0.10);
+  background: #f3f7e3;
   color: var(--color-success);
   font-weight: var(--font-weight-extrabold);
   pointer-events: none;
@@ -2841,7 +2895,7 @@ body {
 
 .t1-verb-input.revealed {
   border-color: var(--color-success);
-  background: rgba(107, 139, 31, 0.10);
+  background: #f3f7e3;
   color: var(--color-success);
   font-weight: var(--font-weight-extrabold);
   pointer-events: none;
@@ -2849,23 +2903,26 @@ body {
 
 .t1-verb-check {
   margin-top: 8px;
-  background: var(--color-primary);
+  background: var(--color-olive);
   color: #fff;
   border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
+  border-radius: 10px;
+  padding: 9px 18px;
   font-family: var(--font-family);
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
+  font-size: 16px;
+  font-weight: var(--font-weight-extrabold);
   cursor: pointer;
   width: 100%;
-  transition: background 0.2s ease;
+  box-shadow: 0 3px 0 var(--color-olive-shadow);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 
-.t1-verb-check:hover { background: var(--color-primary-hover); }
+.t1-verb-check:hover { background: var(--color-olive-hover); }
+.t1-verb-check:active { transform: translateY(1px); box-shadow: 0 2px 0 var(--color-olive-shadow); }
 
 .t1-verb-check.is-disabled {
-  background: #c0b09a;
+  background: #c0c19a;
+  box-shadow: 0 3px 0 #989a78;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -2873,7 +2930,7 @@ body {
 /* حالاتُ النّجاحِ/الخطأِ/الكشفِ لقائمةِ نوعِ الفعلِ في الجدولِ */
 .t1-type-dropdown.is-correct .custom-dropdown-trigger {
   border-color: var(--color-success);
-  border-width: 3px;
+  border-width: 2px;
   background-color: #f3f7e3;
   color: var(--color-success);
   font-weight: var(--font-weight-extrabold);
@@ -2893,7 +2950,7 @@ body {
 
 .t1-type-dropdown.is-revealed .custom-dropdown-trigger {
   border-color: var(--color-success);
-  border-width: 3px;
+  border-width: 2px;
   background-color: #f3f7e3;
   color: var(--color-success);
   font-weight: var(--font-weight-extrabold);
@@ -2906,25 +2963,42 @@ body {
 .t1-row-feedback {
   display: none;
   margin-top: 10px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.55;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
   text-align: center;
-  background: linear-gradient(135deg, #f2f8e6 0%, #e9f3d5 100%);
-  border: 1.5px solid var(--color-success);
-  color: #3d5a14;
+  background: #f3f7e3;
+  border: 3px solid var(--color-success);
+  color: var(--color-success);
+  font-family: var(--font-family);
   animation: chipPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.t1-row-feedback.show { display: block; }
+.t1-row-feedback.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
 
-.t1-row-feedback i {
-  font-size: 15px;
-  margin-left: 5px;
+.t1-row-feedback.show-correct {
+  border-color: var(--color-success);
+  background: #f3f7e3;
   color: var(--color-success);
+}
+.t1-row-feedback.show-wrong {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+}
+.t1-row-feedback i {
+  font-size: 1em;
+  margin-left: 0;
+  color: inherit;
   vertical-align: middle;
+  flex-shrink: 0;
 }
 
 .t1-feedback-cell {
@@ -2937,26 +3011,31 @@ body {
   padding: 0 10px 12px !important;
 }
 
-/* استجابة للموبايل */
-@media (max-width: 768px) {
+/* استجابة للموبايل — مُعايَرةٌ على نقاطِ كسرِ المرجعِ (700px / 480px) */
+@media (max-width: 700px) {
   .t1-table-wrap { margin: 10px 6px 0; }
-  .t1-table thead th { font-size: 13px; padding: 9px 5px; }
-  .t1-table thead th:first-child { width: auto; }
+  .t1-table thead th { font-size: 16px; padding: 10px 6px; }
   .t1-row td { padding: 9px 6px; }
-  .t1-sentence-cell { font-size: 19px; line-height: 1.75; width: 45%; padding: 12px 10px !important; }
-  .t1-verb-cell, .t1-type-cell { width: auto; padding: 7px !important; }
-  .t1-verb-input { font-size: 15px; padding: 7px 8px; }
-  .t1-verb-input::placeholder { font-size: 14px; }
-  .t1-type-dropdown .custom-dropdown-trigger { font-size: 15px; padding: 8px 10px; }
-  .t1-verb-check { font-size: 13px; padding: 7px 10px; }
-  .t1-row-feedback { font-size: 13px; padding: 7px 10px; }
+  .t1-sentence-cell { font-size: 17px; }
+  .t1-verb-cell, .t1-type-cell { width: auto; padding: 8px !important; }
+  .t1-verb-input { font-size: 16px; padding: 9px 12px; }
+  .t1-type-dropdown .custom-dropdown-trigger { font-size: 16px !important; padding: 9px 12px; }
+  .t1-type-dropdown .custom-dropdown-option { font-size: 16px !important; padding: 9px 12px; }
+  .t1-type-dropdown .custom-dropdown-menu { max-height: min(240px, 45vh); }
+  .t1-verb-check { font-size: 15px; padding: 8px 14px; }
+  .t1-row-feedback { font-size: 15px; padding: 10px 14px; }
 }
 
 @media (max-width: 480px) {
-  
-  .t1-sentence-cell { font-size: 17px; line-height: 1.65; padding: 10px 8px !important; }
-  .t1-verb-input { font-size: 13px; }
-  .t1-type-dropdown .custom-dropdown-trigger { font-size: 12px; padding: 7px 8px; }
+  .t1-table thead th { font-size: 14px; padding: 9px 4px; }
+  .t1-sentence-cell { font-size: 16px; }
+  .t1-verb-cell, .t1-type-cell { padding: 8px !important; }
+  .t1-verb-input { font-size: 15px; padding: 9px 10px; }
+  .t1-type-dropdown .custom-dropdown-trigger { font-size: 15px !important; padding: 9px 10px; }
+  .t1-type-dropdown .custom-dropdown-option { font-size: 15px !important; padding: 9px 10px; }
+  .t1-type-dropdown .custom-dropdown-menu { max-height: min(200px, 40vh); }
+  .t1-verb-check { font-size: 14px; padding: 7px 12px; }
+  .t1-row-feedback { font-size: 14px; padding: 9px 12px; }
 }
 
 </style>
@@ -3025,7 +3104,7 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الأوّلُ:</strong> أستخرجُ من العباراتِ الآتيةِ الأفعالَ، وأصنّفها إلى لازمٍ ومتعدٍ، وفقَ الجدول:
+              <strong>السّؤالُ الثّاني:</strong> أستخرجُ من العباراتِ الآتيةِ الأفعالَ، وأصنّفها إلى لازمٍ ومتعدٍ، وفقَ الجدول:
             </p>
           </div>
 
@@ -3046,7 +3125,7 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الثّاني:</strong> أضيفُ الضّميرَ المتّصلَ (الهاء) على الأفعالِ الّتي يمكنُ أن تتصلَ به مما يأتي:
+              <strong>السّؤالُ الثّالثُ:</strong> أضيفُ الضّميرَ المتّصلَ (الهاء) على الأفعالِ الّتي يمكنُ أن تتصلَ به مما يأتي:
             </p>
           </div>
 
@@ -3067,7 +3146,7 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الثّالثُ:</strong> أوظّفُ فعلًا لازمًا وفعلًا متعديًا من الأفعالِ السّابقةِ في جملةٍ من إنشائي.
+              <strong>السّؤالُ الرّابعُ:</strong> أوظّفُ فعلًا لازمًا وفعلًا متعديًا من الأفعالِ السّابقةِ في جملةٍ من إنشائي.
             </p>
           </div>
 
@@ -3464,6 +3543,20 @@ function handleQ3Answer(qIdx, choiceIdx) {
   const isCorrect = choiceIdx === correctIdx;
   const fb = document.getElementById('fbInline-q3-' + qIdx);
 
+  function hideQ3Fb(delay) {
+    if (!fb) return;
+    if (!window._q3FbTimers) window._q3FbTimers = {};
+    clearTimeout(window._q3FbTimers[qIdx]);
+    window._q3FbTimers[qIdx] = setTimeout(() => {
+      fb.style.opacity = '0';
+      setTimeout(() => {
+        fb.className = 'q3-inline-feedback';
+        fb.innerHTML = '';
+        fb.style.opacity = '';
+      }, 420);
+    }, delay);
+  }
+
   // امسحْ أيَّ حالاتٍ سابقةٍ
   labels.forEach(l => l.classList.remove('correct-option', 'wrong-option', 'revealed'));
 
@@ -3483,8 +3576,9 @@ function handleQ3Answer(qIdx, choiceIdx) {
       if (isNoObj) {
         fb.innerHTML = '<i class="fas fa-check-circle"></i>رائع، لا يوجد مفعول به هنا.';
       } else {
-        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! إجابةٌ صحيحةٌ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
       }
+      hideQ3Fb(2500);
     }
 
     progressQ3(qIdx);
@@ -3509,11 +3603,17 @@ function handleQ3Answer(qIdx, choiceIdx) {
       qState.isCorrect = true;
       if (fb) {
         fb.className = 'q3-inline-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        hideQ3Fb(2500);
       }
       progressQ3(qIdx);
     } else {
-      // محاولاتٌ متبقّيةٌ — لا فيدباكَ نصّيًّا (حدودُ الخيارِ الحمراءُ كافيةٌ)
+      // محاولاتٌ متبقّيةٌ — أظهرِ الفيدباكَ النّصّيَّ ثمَّ نظّفْه
+      if (fb) {
+        fb.className = 'q3-inline-feedback show-wrong';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        hideQ3Fb(1500);
+      }
       setTimeout(() => {
         labels.forEach(l => l.classList.remove('wrong-option'));
         inputs.forEach(i => { i.checked = false; });
@@ -3529,7 +3629,7 @@ function progressQ3(qIdx) {
     // لَحظةُ نجاحٍ قصيرةٌ، ثمَّ إخفاءُ السّؤالِ المحلولِ كليًّا (سؤالٌ واحدٌ في كلِّ
     // مرّةٍ) وكشفُ السّؤالِ التّالي مباشرةً تحتَه
     setTimeout(() => {
-      if (curQDiv) curQDiv.classList.add('is-collapsed');
+      // كشفٌ تراكميٌّ: تَبقى البطاقةُ المحلولةُ ظاهرةً، وتَظهرُ التّاليةُ تحتَها بنفسِ الصّفحةِ
       const nextQDiv = document.querySelector(`.q3-question[data-q="${nextQIdx}"]`);
       if (nextQDiv && !nextQDiv.classList.contains('revealed')) {
         nextQDiv.classList.add('revealed');
@@ -3860,10 +3960,10 @@ function updateNavButtons() {
   }
 
   switch (currentSlide) {
-    case 1: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !q3State.completed
-    case 2: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !t1State.completed
-    case 3: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !t2State.completed
-    case 4: nextBtn.disabled = false; break;   // TEMP_BYPASS: was !t3State.completed
+    case 1: nextBtn.disabled = !q3State.completed; break;
+    case 2: nextBtn.disabled = !t1State.completed; break;
+    case 3: nextBtn.disabled = !t2State.completed; break;
+    case 4: nextBtn.disabled = !t3State.completed; break;
   }
 }
 
@@ -3975,7 +4075,7 @@ function buildT1() {
   html += '<th>نوعُه من حيثُ اللّزومُ والتّعدّي</th>';
   html += '</tr></thead><tbody>';
   T1_ROWS.forEach((row, idx) => {
-    const hiddenClass = idx === 0 ? '' : ' is-hidden';
+    const hiddenClass = idx < 2 ? '' : ' is-hidden';
     html += `
       <tr class="t1-row${hiddenClass}" data-row="${idx}">
         <td class="t1-sentence-cell">${idx + 1} - ${row.sentence}</td>
@@ -3990,8 +4090,8 @@ function buildT1() {
               <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
             </button>
             <ul class="custom-dropdown-menu" role="listbox">
-              <li class="custom-dropdown-option" data-value="متعدٍ" role="option">متعدٍ</li>
               <li class="custom-dropdown-option" data-value="لازم" role="option">لازم</li>
+              <li class="custom-dropdown-option" data-value="متعدٍ" role="option">متعدٍ</li>
             </ul>
           </div>
         </td>
@@ -4052,6 +4152,30 @@ function buildT1() {
   });
 }
 
+function showT1Feedback(rowIdx, type, message, autoClearMs) {
+  const fbRow = document.querySelector(`.t1-row-feedback-row[data-row="${rowIdx}"]`);
+  const fbCell = fbRow ? fbRow.querySelector('.t1-feedback-cell') : null;
+  const fb = document.getElementById('t1Feedback-' + rowIdx);
+  if (!fb) return;
+  if (fbCell) fbCell.classList.add('has-feedback');
+  if (!window._t1FbClearTimers) window._t1FbClearTimers = {};
+  if (window._t1FbClearTimers[rowIdx]) {
+    clearTimeout(window._t1FbClearTimers[rowIdx]);
+    window._t1FbClearTimers[rowIdx] = null;
+  }
+  fb.className = 't1-row-feedback show ' + (type === 'wrong' ? 'show-wrong' : 'show-correct');
+  fb.innerHTML = message;
+  if (autoClearMs) {
+    window._t1FbClearTimers[rowIdx] = setTimeout(() => {
+      if (t1State.rows[rowIdx] && t1State.rows[rowIdx].done) return;
+      fb.className = 't1-row-feedback';
+      fb.innerHTML = '';
+      if (fbCell) fbCell.classList.remove('has-feedback');
+      window._t1FbClearTimers[rowIdx] = null;
+    }, autoClearMs);
+  }
+}
+
 function handleT1VerbCheck(rowIdx) {
   if (t1State.completed) return;
   const rState = t1State.rows[rowIdx];
@@ -4077,6 +4201,7 @@ function handleT1VerbCheck(rowIdx) {
     // فعّلِ القائمةَ المنسدلةَ
     const typeDropdown = wrap.querySelector(`.t1-type-dropdown[data-row="${rowIdx}"]`);
     if (typeDropdown) typeDropdown.classList.remove('is-disabled');
+    showT1Feedback(rowIdx, 'correct', '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ', 2500);
   } else {
     input.classList.remove('wrong');
     void input.offsetWidth;
@@ -4095,6 +4220,9 @@ function handleT1VerbCheck(rowIdx) {
       // فعّلِ القائمةَ المنسدلةَ
       const typeDropdown = wrap.querySelector(`.t1-type-dropdown[data-row="${rowIdx}"]`);
       if (typeDropdown) typeDropdown.classList.remove('is-disabled');
+      showT1Feedback(rowIdx, 'correct', '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ', 3000);
+    } else {
+      showT1Feedback(rowIdx, 'wrong', '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!', 1500);
     }
   }
 }
@@ -4139,6 +4267,7 @@ function handleT1TypeChange(rowIdx, chosenType) {
       dd.classList.add('is-revealed', 'is-disabled');
       completeT1Row(rowIdx, true);
     } else {
+      showT1Feedback(rowIdx, 'wrong', '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!', 1500);
       // أعِدْ النّصَّ إلى الفارغِ بعدَ لحظة
       setTimeout(() => {
         if (valueSpan) valueSpan.textContent = 'اختَرْ';
@@ -4161,11 +4290,11 @@ function completeT1Row(rowIdx, wasRevealed) {
   const fbCell = fbRow ? fbRow.querySelector('.t1-feedback-cell') : null;
   if (fb && fbCell) {
     fbCell.classList.add('has-feedback');
-    fb.classList.add('show');
+    fb.className = 't1-row-feedback show show-correct';
     if (wasRevealed) {
-      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
     } else {
-      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! إجابةٌ صحيحةٌ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
     }
   }
 
@@ -4173,38 +4302,45 @@ function completeT1Row(rowIdx, wasRevealed) {
   if (!window._t1FbTimers) window._t1FbTimers = {};
   clearTimeout(window._t1FbTimers[rowIdx]);
   window._t1FbTimers[rowIdx] = setTimeout(() => {
-    // امسحْ نصَّ الفيدباكِ قبلَ الإخفاءِ
+    // امسحْ نصَّ الفيدباكِ (الصّفُّ المحلولُ يَبقى ظاهرًا — كشفٌ تراكميٌّ)
     if (fb) {
-      fb.classList.remove('show');
+      fb.className = 't1-row-feedback';
       fb.innerHTML = '';
     }
     if (fbCell) fbCell.classList.remove('has-feedback');
 
-    // اخفِ الصّفَّ الحاليَّ بالكاملِ (الصّفُّ + صفُّ الفيدباكِ)
-    if (row) row.classList.add('is-collapsed');
-    if (fbRow) fbRow.classList.add('is-collapsed');
+    // كشفٌ زوجيٌّ: لا نَكشفُ الزّوجَ التّاليَ إلّا عندَ حلِّ زوجِ الصّفِّ الحاليِّ كاملًا
+    const PAIR = 2;
+    const pairStart = Math.floor(rowIdx / PAIR) * PAIR;
+    let pairDone = true;
+    for (let i = pairStart; i < pairStart + PAIR && i < T1_ROWS.length; i++) {
+      if (!(t1State.rows[i] && t1State.rows[i].done)) { pairDone = false; break; }
+    }
 
-    // اعرضِ الصّفَّ التّالي إن وُجدَ
-    const nextIdx = rowIdx + 1;
-    if (nextIdx < T1_ROWS.length) {
-      const nextRow = wrap.querySelector(`.t1-row[data-row="${nextIdx}"]`);
-      const nextFbRow = wrap.querySelector(`.t1-row-feedback-row[data-row="${nextIdx}"]`);
-      if (nextRow) {
-        nextRow.classList.remove('is-hidden');
-        nextRow.classList.add('is-revealing');
+    if (pairDone) {
+      const nextStart = pairStart + PAIR;
+      if (nextStart < T1_ROWS.length) {
+        let firstNext = null;
+        for (let i = nextStart; i < nextStart + PAIR && i < T1_ROWS.length; i++) {
+          const nextRow = wrap.querySelector(`.t1-row[data-row="${i}"]`);
+          const nextFbRow = wrap.querySelector(`.t1-row-feedback-row[data-row="${i}"]`);
+          if (nextRow) {
+            nextRow.classList.remove('is-hidden');
+            nextRow.classList.add('is-revealing');
+            if (!firstNext) firstNext = nextRow;
+          }
+          if (nextFbRow) nextFbRow.classList.remove('is-hidden');
+        }
+        t1State.currentRow = nextStart;
+        if (firstNext) {
+          setTimeout(() => { firstNext.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+        }
+      } else {
+        // آخرُ زوجٍ اكتملَ — كلُّ الجملِ ظاهرةٌ معًا
+        t1State.completed = true;
+        finalizeT1Review();
+        updateNavButtons();
       }
-      if (nextFbRow) nextFbRow.classList.remove('is-hidden');
-      t1State.currentRow = nextIdx;
-      if (nextRow) {
-        setTimeout(() => {
-          nextRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
-      }
-    } else {
-      // كلُّ الصّفوفِ اكتملتْ — راجعِ الجدولَ الكاملَ
-      t1State.completed = true;
-      finalizeT1Review();
-      updateNavButtons();
     }
     updateProgressBar();
   }, 2500);
@@ -4317,7 +4453,7 @@ function handleT2Answer(qIdx, choiceIdx) {
     qDiv.classList.add('correct');
     if (fb) {
       fb.className = 't2-inline-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! إجابةٌ صحيحةٌ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
       hideT2Fb(2500);
     }
     progressT2(qIdx);
@@ -4340,7 +4476,7 @@ function handleT2Answer(qIdx, choiceIdx) {
       qState.isCorrect = true;
       if (fb) {
         fb.className = 't2-inline-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
         hideT2Fb(2500);
       }
       progressT2(qIdx);

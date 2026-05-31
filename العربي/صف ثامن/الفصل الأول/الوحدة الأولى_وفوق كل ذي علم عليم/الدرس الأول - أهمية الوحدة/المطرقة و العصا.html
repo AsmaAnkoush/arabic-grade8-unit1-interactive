@@ -1452,7 +1452,7 @@ body.hammer-armed .bundle-img-wrap {
       const bundleCard = document.querySelector('.card[data-bundle="true"]');
       if (bundleCard) bundleCard.classList.add('all-broken');
       updateCardDots();
-      showGameFeedback('لقدْ عجزتَ عن كسرِ الحزمةِ! تفكّرْ في السّببِ، ثمَّ انتقلْ إلى الأسئلةِ.', 'correct', 0, { noIcon: true });
+      showGameFeedback('لقدْ عجزتَ عن كسرِ الحزمةِ! تفكّرْ في السّببِ، ثمَّ انتقلْ إلى الأسئلةِ.', 'correct', 0);
       if (allCardsDone) {
         gameState.gameComplete = true;
         updateNavButtons();
@@ -1673,7 +1673,7 @@ body.hammer-armed .bundle-img-wrap {
       if (qData.customFeedback && qData.customFeedback[selectedIdx]) {
         feedbackText = qData.customFeedback[selectedIdx];
       } else {
-        feedbackText = 'أحسنتَ! إجابةٌ صحيحةٌ.';
+        feedbackText = 'أحسنتَ! إجابةٌ صحيحةٌ';
       }
       fb.className = 'q-feedback show-correct';
       fb.innerHTML = `<i class="fas fa-check-circle"></i> ${feedbackText}`;
@@ -1697,7 +1697,7 @@ body.hammer-armed .bundle-img-wrap {
         card.classList.add('correct');
         qState.isDone = true;
         fb.className = 'q-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
         onQuestionDone(qIdx);
       } else {
         let feedbackText;
@@ -1740,7 +1740,7 @@ body.hammer-armed .bundle-img-wrap {
     if (idx === 1) {
       instrText.innerHTML = 'اضغطْ على المَطرقةِ لاستخدامِها، ثمَّ اضغطْ على العصيِّ لكسرِها!';
     } else if (idx === 2) {
-      instrText.innerHTML = 'أجبْ عنِ الأسئلةِ الآتيةِ بعدَ تجربةِ اللعبةِ.';
+      instrText.innerHTML = 'بعدَ تجربةِ اللعبةِ، أضعُ دائرةً حولَ الإجابةِ الصّحيحةَ في كلِّ سؤالٍ من الأسئلةِ الآتيةِ.';
     }
 
     updateProgressBar();

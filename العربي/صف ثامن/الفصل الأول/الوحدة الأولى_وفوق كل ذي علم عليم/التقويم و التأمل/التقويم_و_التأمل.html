@@ -1049,7 +1049,7 @@ body {
    (.task-instr-row / .task-instr-text) EXACTLY — same vertical alignment
    (top) and same button-to-text spacing. Typography tokens already match;
    responsive font sizes are matched inside the media queries below. */
-[data-slide="8"] .q-card-header { align-items: start; gap: 16px; }
+[data-slide="7"] .q-card-header { align-items: start; gap: 16px; }
 
 /* ═══════════════════════════════════════════════════════════════
    MCQ
@@ -2141,6 +2141,7 @@ body {
 
 @media (max-width: 700px) {
   body { padding: 16px 8px; }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
   .task-app { border-radius: 16px; border-width: 2px; }
   /* Mobile alignment: the audio button's 3D drop-shadow (box-shadow: 0 4px 0)
      pulls its visual mass downward, so the face optically sits high next to the
@@ -2149,9 +2150,9 @@ body {
      Size, shadow, colors, gap, and desktop layout are all unchanged. */
   .q-card-header .audio-btn { position: relative; top: 2px; }
   /* Q7: match Q6 (no centering nudge — instruction-row button is top-aligned) */
-  [data-slide="8"] .q-card-header .audio-btn { top: 0; }
+  [data-slide="7"] .q-card-header .audio-btn { top: 0; }
   .q-card-title { font-size: 19px; }
-  [data-slide="8"] .q-card-title { font-size: 19px; }
+  [data-slide="7"] .q-card-title { font-size: 19px; }
   /* MCQ slides: top-align speaker icon when title wraps to multiple lines */
   [data-slide="1"] .q-card-header,
   [data-slide="5"] .q-card-header {
@@ -2218,6 +2219,7 @@ body {
 
 @media (max-width: 480px) {
   body { padding: 10px 6px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
   .task-app { border-radius: 14px; }
   .task-header { padding: 10px 14px; }
   .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
@@ -2229,8 +2231,8 @@ body {
   .task-instr-text { font-size: 17px; line-height: 1.6; }
   /* Q7: match Q6 title responsive size + instruction-row spacing */
   .q-card-title { font-size: 17px; line-height: 1.6; }
-  [data-slide="8"] .q-card-title { font-size: 17px; line-height: 1.6; }
-  [data-slide="8"] .q-card-header { gap: 10px; }
+  [data-slide="7"] .q-card-title { font-size: 17px; line-height: 1.6; }
+  [data-slide="7"] .q-card-header { gap: 10px; }
   /* MCQ slides: top-align speaker icon (smaller nudge on tight screens) */
   [data-slide="1"] .q-card-header,
   [data-slide="5"] .q-card-header {
@@ -2445,6 +2447,7 @@ body {
 .custom-dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
+  bottom: auto;
   left: 0;
   right: 0;
   background: #fff;
@@ -2454,17 +2457,54 @@ body {
   list-style: none;
   margin: 0;
   box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
-  z-index: 100;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  max-height: 280px;
+  max-height: min(280px, 50vh);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* Firefox: themed thin scrollbar */
+.custom-dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+/* WebKit (Chrome, Safari, iOS) */
+.custom-dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 6px 2px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-shadow);
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary-shadow);
+}
+/* Drop-up variant */
+.custom-dropdown.drop-up .custom-dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(8px);
+}
+.custom-dropdown.is-open.drop-up .custom-dropdown-menu {
+  transform: translateY(0);
 }
 .custom-dropdown.is-open .custom-dropdown-menu {
   opacity: 1;
   visibility: visible;
+}
+/* Open transform — overridden by drop-up rule above */
+.custom-dropdown.is-open:not(.drop-up) .custom-dropdown-menu {
   transform: translateY(0);
 }
 .custom-dropdown-option {
@@ -2563,6 +2603,7 @@ body {
   .custom-dropdown { max-width: 200px; }
   .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
   .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-menu { max-height: min(240px, 45vh); }
 }
 @media (max-width: 480px) {
   .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
@@ -2575,6 +2616,7 @@ body {
   .custom-dropdown { max-width: 100%; }
   .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
   .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-menu { max-height: min(200px, 40vh); }
 }
 
 /* ═══════════════════════════════════════════
@@ -2588,54 +2630,98 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-family);
-  border: 2px solid var(--color-primary);
-  background: #fff;
+  margin-bottom: 16px;
 }
 .q2t-table thead th {
   background: var(--color-primary);
   color: #fff;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: var(--font-weight-extrabold);
-  padding: 12px 10px;
-  text-align: center;
+  padding: 12px 8px;
   border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
 }
 .q2t-row {
   transition: background 0.3s ease;
+  position: relative;
+}
+.q2t-row:has(.custom-dropdown.is-open) {
+  z-index: 9999;
 }
 .q2t-row td {
-  padding: 12px 10px;
+  padding: 10px;
   border: 1.5px solid var(--color-sand);
-  vertical-align: middle;
   text-align: center;
+  vertical-align: middle;
 }
 .q2t-phrase-cell {
   background: var(--color-secondary-light);
   font-size: 22px;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-ink);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
   width: 65%;
-  line-height: 1.9;
-  text-align: right;
-  padding: 14px 16px !important;
 }
 .q2t-select-cell {
   background: #fff;
   width: 35%;
-  padding: 10px !important;
+  padding: 12px !important;
+  position: relative;
+}
+
+/* حالاتُ صُفوفِ الجدولِ */
+.q2t-row.correct-row {
+  background: #f3f7e3;
+}
+.q2t-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q2t-row.correct-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+.q2t-row.wrong-row {
+  background: #fbeeea;
+}
+.q2t-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.q2t-row.wrong-row .custom-dropdown-arrow {
+  color: var(--color-error);
+}
+.q2t-row.revealed-row {
+  background: #f3f7e3;
+}
+.q2t-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.q2t-row.revealed-row .custom-dropdown-arrow {
+  color: var(--color-success);
 }
 
 /* تَجاوبٌ على الشّاشاتِ الضّيّقةِ */
 @media (max-width: 700px) {
   .q2t-table-wrap { margin: 10px 8px 0; }
-  .q2t-table thead th { font-size: 13px; padding: 9px 5px; }
+  .q2t-table thead th { font-size: 16px; padding: 10px 6px; }
   .q2t-row td { padding: 9px 6px; }
-  .q2t-phrase-cell { font-size: 19px; line-height: 1.75; padding: 12px 10px !important; }
-  .q2t-select-cell { padding: 7px !important; }
+  .q2t-phrase-cell { font-size: 19px; }
+  .q2t-select-cell { padding: 8px !important; }
 }
 @media (max-width: 480px) {
-  .q2t-phrase-cell { font-size: 17px; line-height: 1.65; padding: 10px 8px !important; }
-  .q2t-table thead th { font-size: 13px; }
+  .q2t-table thead th { font-size: 14px; padding: 9px 4px; }
+  .q2t-phrase-cell { font-size: 17px; }
+  .q2t-select-cell { padding: 8px !important; }
 }
 
 /* أَرقامُ التّرتيبِ — تَوضيحٌ خاصٌّ للسّؤالِ الثّاني */
@@ -2996,10 +3082,16 @@ body {
   font-size: 15px;
   color: var(--color-secondary);
 }
+.q6-sentence-instr img.q6-instr-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .q6-sentence-text {
   display: block;
   text-align: right;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   line-height: 2;
@@ -3020,6 +3112,19 @@ body {
   font-weight: var(--font-weight-bold);
   border: 1.5px solid transparent;
   line-height: 1.4;
+}
+.q6-word-rest {
+  display: inline;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
+  cursor: default;
+  user-select: none;
+}
+.q6-word-letter {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  border-radius: 3px;
 }
 .q6-word:hover:not(.is-disabled):not(.is-correct):not(.is-revealed) {
   background: rgba(237, 198, 111, 0.25);
@@ -3067,10 +3172,14 @@ body {
 }
 .q6-sentence-fb {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: var(--font-weight-bold);
   text-align: center;
   display: none;
+  border: 2px solid var(--color-light-border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: #fff;
 }
 .q6-sentence-fb.show-correct {
   display: flex;
@@ -3078,6 +3187,9 @@ body {
   justify-content: center;
   gap: 6px;
   color: var(--color-success);
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  border-width: 3px;
 }
 .q6-sentence-fb.show-wrong {
   display: flex;
@@ -3085,6 +3197,9 @@ body {
   justify-content: center;
   gap: 6px;
   color: var(--color-error);
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
 }
 .q6-sentence-fb.show-revealed {
   display: flex;
@@ -3092,19 +3207,22 @@ body {
   justify-content: center;
   gap: 6px;
   color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  border-width: 3px;
 }
 
 @media (max-width: 700px) {
   .q6-sentence-card { padding: 14px; }
   .q6-sentence-instr { font-size: 14px; }
-  .q6-sentence-text { font-size: 19px; line-height: 1.9; padding: 12px 14px; }
+  .q6-sentence-text { font-size: 21px; line-height: 1.95; padding: 12px 14px; }
   .q6-word { padding: 0 3px; }
 }
 @media (max-width: 480px) {
   .q6-sentences-wrap { margin-left: 8px; margin-right: 8px; }
   .q6-sentence-card { padding: 12px; }
   .q6-sentence-instr { font-size: 13px; }
-  .q6-sentence-text { font-size: 17px; line-height: 1.85; padding: 10px 12px; }
+  .q6-sentence-text { font-size: 19px; line-height: 1.9; padding: 10px 12px; }
   .q6-word { padding: 0 2px; }
 }
 
@@ -3114,7 +3232,7 @@ body {
 
 /* مرجعُ الفقرةِ */
 .q7-paragraph-ref {
-  margin: 14px 16px 0;
+  margin: 14px 0 0;
   background: var(--color-paper);
   border: 2px solid var(--color-secondary);
   border-radius: 14px;
@@ -3223,7 +3341,7 @@ body {
       </button>
       <div class="instr-content">
         <p class="task-instr-text" id="instrText">
-          <strong>أوّلًا:</strong> أقرأُ النّصَّ الآتيَ ثمَّ أجيبُ عمّا يليه.
+          <strong>السّؤالُ الأوّلُ:</strong> أقرأُ النّصَّ الآتيَ ثمَّ أجيبُ عمّا يليه.
         </p>
       </div>
     </div>
@@ -3269,7 +3387,7 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الأوّلُ:</strong> الموضوعُ الّذي تناقشُهُ الفقرةُ هو:
+              الموضوعُ الّذي تناقشُهُ الفقرةُ هو:
             </p>
           </div>
           <div class="mcq-options" id="q1Options"></div>
@@ -3448,64 +3566,30 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الخامسُ — أ:</strong> أُضيفُ إلى الفعلِ <strong style="color: var(--color-primary);">«يعتزُّ»</strong> الهاءَ، فيصبحُ: <strong style="color: var(--color-primary);">«يعتزُّ بِهِ»</strong>. هل الفعلُ في هذهِ الحالةِ:
+              <strong>السّؤالُ الخامسُ:</strong> أُضيفُ إلى الفعلِ <strong style="color: var(--color-primary);">«يعتزُّ»</strong> الهاءَ، فيصبحُ: <strong style="color: var(--color-primary);">«يعتزُّ بِهِ»</strong>. هل الفعلُ في هذهِ الحالةِ:
             </p>
           </div>
           <div class="mcq-options" id="q5Options"></div>
           <div class="q-feedback" id="fb-q5"></div>
         </div>
-      </div>
-
-      <!-- ━━━━━━ SLIDE 6: السؤال الخامس - ب ━━━━━━ -->
-      <div class="slide" data-slide="6">
-        <div class="ref-sentences-box" data-ref-box>
-          <button type="button" class="ref-sentences-toggle" onclick="toggleRefBox(this)">
-            <span class="ref-sentences-toggle-label">
-              الجملُ المرجعيّةُ
-            </span>
-            <i class="fas fa-chevron-down ref-sentences-arrow"></i>
-          </button>
-          <div class="ref-sentences-content">
-            <ol class="ref-sentences-list">
-              <li class="ref-sentence-item">
-                <span class="ref-sentence-num">١</span>
-                <span class="ref-sentence-text">يتفرّقُ المجتمعُ.</span>
-              </li>
-              <li class="ref-sentence-item">
-                <span class="ref-sentence-num">٢</span>
-                <span class="ref-sentence-text">يستكينُ ذلكَ المجتمعُ ويدخلُ في حالةٍ منَ التّفكّكِ.</span>
-              </li>
-              <li class="ref-sentence-item">
-                <span class="ref-sentence-num">٣</span>
-                <span class="ref-sentence-text">يشجّعُ الانقسامُ العدوَّ لِلعبثِ بِالمجتمعِ المفكّكِ.</span>
-              </li>
-              <li class="ref-sentence-item">
-                <span class="ref-sentence-num">٤</span>
-                <span class="ref-sentence-text">يعاني المجتمعُ منَ الفوضى والضّياعِ.</span>
-              </li>
-              <li class="ref-sentence-item">
-                <span class="ref-sentence-num">٥</span>
-                <span class="ref-sentence-text">يخسرُ المجتمعُ الوحدةَ وهيَ أثمنُ ما يعتزُّ بِهِ.</span>
-              </li>
-            </ol>
-          </div>
-        </div>
+        <div id="q5PartB" style="display:none;">
         <div class="q-card" id="qCard-q6">
           <div class="q-card-header">
             <button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمعْ للسّؤالِ">
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الخامسُ — ب:</strong> أُضيفُ إلى الفعلِ <strong style="color: var(--color-primary);">«يعتزُّ»</strong> الكافَ، فيصبحُ: <strong style="color: var(--color-primary);">«يعتزُّكَ»</strong>. هل الفعلُ في هذهِ الحالةِ:
+              <strong>السّؤالُ الخامسُ:</strong> أُضيفُ إلى الفعلِ <strong style="color: var(--color-primary);">«يعتزُّ»</strong> الكافَ، فيصبحُ: <strong style="color: var(--color-primary);">«يعتزُّكَ»</strong>. هل الفعلُ في هذهِ الحالةِ:
             </p>
           </div>
           <div class="mcq-options" id="q6Options"></div>
           <div class="q-feedback" id="fb-q6"></div>
         </div>
+        </div>
       </div>
 
-      <!-- ━━━━━━ SLIDE 7: السؤال السادس ━━━━━━ -->
-      <div class="slide" data-slide="7">
+      <!-- ━━━━━━ السؤالُ السادسُ ━━━━━━ -->
+      <div class="slide" data-slide="6">
 
         <!-- صندوقُ الجملِ المرجعيّةِ (نفسُ المرجعِ السّابقِ) -->
         <div class="ref-sentences-box" data-ref-box>
@@ -3559,14 +3643,7 @@ body {
       </div>
 
       <!-- ━━━━━━ SLIDE 8: السؤال السابع (الكتابة) ━━━━━━ -->
-      <div class="slide" data-slide="8">
-
-        <!-- بطاقةُ الفقرةِ المرجعيّةِ -->
-        <div class="q7-paragraph-ref">
-          <p class="q7-paragraph-ref-text">
-            للتّفرقةِ والاختلافِ آثارٌ سلبيّةٌ خطيرةٌ، منها: استكانةُ المجتمعِ، ودخولُهُ في حالةٍ من التّفكّكِ والانهيارِ، واستسلامُهُ لحالةٍ من التّنازعِ البَغيضِ، الأمرُ الّذي يترتّبُ عليهِ تجزئةُ المجتمعِ وانقسامُهُ، وتشجيعُ العدوِّ ليعبثَ بهِ بشتّى الوسائلِ، فتتوقّفُ مسيرةُ العملِ والبناءِ، وندخلُ في حالةٍ من الفوضى والضّياعِ لنخسرَ أثمنَ ما نعتزُّ بهِ، وهو وحدتُنا.
-          </p>
-        </div>
+      <div class="slide" data-slide="7">
 
         <!-- بطاقةُ السّؤالِ -->
         <div class="q-card" id="qCard-q8">
@@ -3575,9 +3652,16 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>ثانيًا:</strong> ألاحظُ أنَّ السّؤالَ الأوّلَ حوّلَ جميعَ الجملِ الاسميّةِ إلى جُمَلٍ فعليّةٍ، والآنَ لأُجرِّبَ ذلكَ وأقومُ بصياغةِ خمسِ جُمَلٍ فعليّةٍ من الفقرةِ السّابقةِ:
+              <strong>السّؤالُ السّابعُ:</strong> ألاحظُ أنَّ السّؤالَ الأوّلَ حوّلَ جميعَ الجملِ الاسميّةِ إلى جُمَلٍ فعليّةٍ، والآنَ لأُجرِّبَ ذلكَ وأقومُ بصياغةِ خمسِ جُمَلٍ فعليّةٍ من الفقرةِ السّابقةِ:
             </p>
           </div>
+
+          <!-- الفقرةُ المرجعيّةُ (بعدَ السّؤالِ) -->
+          <div class="q7-paragraph-ref">
+          <p class="q7-paragraph-ref-text">
+            للتّفرقةِ والاختلافِ آثارٌ سلبيّةٌ خطيرةٌ، منها: استكانةُ المجتمعِ، ودخولُهُ في حالةٍ من التّفكّكِ والانهيارِ، واستسلامُهُ لحالةٍ من التّنازعِ البَغيضِ، الأمرُ الّذي يترتّبُ عليهِ تجزئةُ المجتمعِ وانقسامُهُ، وتشجيعُ العدوِّ ليعبثَ بهِ بشتّى الوسائلِ، فتتوقّفُ مسيرةُ العملِ والبناءِ، وندخلُ في حالةٍ من الفوضى والضّياعِ لنخسرَ أثمنَ ما نعتزُّ بهِ، وهو وحدتُنا.
+          </p>
+        </div>
 
           <div class="q7-writing-wrap" id="q7WritingWrap">
             <!-- يُبنى ديناميكيًّا — 5 textareas مرقّمة -->
@@ -3610,9 +3694,9 @@ body {
         </div>
         <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
         <div class="complete-restart">
-          <button class="btn-action btn-restart-finish" onclick="restartActivity()">
-            إعادةُ النّشاطِ
-          </button>
+          <button class="btn-action btn-restart" onclick="restartActivity()">
+  <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+</button>
         </div>
       </div>
     </div>
@@ -3881,6 +3965,7 @@ body {
       card.classList.add('correct');
       fb.className = 'q-feedback show-correct';
       fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+      setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 2500);
       if (typeof updateNavButtons === 'function') updateNavButtons();
       if (typeof updateProgressBar === 'function') updateProgressBar();
     } else {
@@ -3900,6 +3985,7 @@ body {
         q1State.answered = true;
         fb.className = 'q-feedback show-correct';
         fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 3000);
         if (typeof updateNavButtons === 'function') updateNavButtons();
         if (typeof updateProgressBar === 'function') updateProgressBar();
       } else {
@@ -4009,6 +4095,17 @@ body {
         const wasOpen = dd.classList.contains('is-open');
         dd.classList.toggle('is-open');
         trigger.setAttribute('aria-expanded', !wasOpen);
+        if (!wasOpen) {
+          const menu = dd.querySelector('.custom-dropdown-menu');
+          setTimeout(() => {
+            if (dd.classList.contains('is-open') && menu) {
+              syncDropdownSpacer();
+              menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 60);
+        } else {
+          syncDropdownSpacer();
+        }
       });
 
       dd.querySelectorAll('.custom-dropdown-option').forEach(opt => {
@@ -4018,11 +4115,34 @@ body {
           const arabicNum = opt.textContent;
           dd.classList.remove('is-open');
           trigger.setAttribute('aria-expanded', 'false');
+          syncDropdownSpacer();
           valueSpan.textContent = arabicNum;
           handleQ2Selection(displayIdx, rank, valueSpan, dd);
         });
       });
     });
+  }
+
+  function showQ2Feedback(type, message, autoClearMs) {
+    const fb = document.getElementById('fb-q2');
+    if (!fb) return;
+    // إذا اكتمل السؤال — رسالة الإكمال لها الأولوية
+    if (q2State.completed) return;
+    // أزل أي مؤقّت تنظيف سابق
+    if (window._q2FbClearTimer) {
+      clearTimeout(window._q2FbClearTimer);
+      window._q2FbClearTimer = null;
+    }
+    fb.className = 'q-feedback ' + (type === 'wrong' ? 'show-wrong' : 'show-correct');
+    fb.innerHTML = message;
+    if (autoClearMs) {
+      window._q2FbClearTimer = setTimeout(() => {
+        if (q2State.completed) return;
+        fb.className = 'q-feedback';
+        fb.innerHTML = '';
+        window._q2FbClearTimer = null;
+      }, autoClearMs);
+    }
   }
 
   function handleQ2Selection(displayIdx, chosenRank, valueSpan, dd) {
@@ -4034,7 +4154,7 @@ body {
     rState.attempts++;
     const phrase = q2State.displayOrder[displayIdx];
     const isCorrect = chosenRank === phrase.correctRank;
-    const row = dd.closest('.dropdown-row');
+    const row = dd.closest('.q2t-row');
 
     row.classList.remove('correct-row', 'wrong-row', 'revealed-row');
 
@@ -4042,28 +4162,49 @@ body {
       rState.selected = chosenRank;
       rState.status = 'correct';
       row.classList.add('correct-row');
+      valueSpan.textContent = toArabic(chosenRank);
       dd.classList.add('is-disabled');
       checkQ2Completion();
+      refreshQ2Values();
+      if (!q2State.completed) {
+        showQ2Feedback('correct', '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ', 2500);
+      }
     } else {
       row.classList.add('wrong-row');
 
       if (rState.attempts >= Q2_MAX_ATTEMPTS) {
         rState.selected = phrase.correctRank;
         rState.status = 'revealed';
+        showQ2Feedback('correct', '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ', 3000);
         setTimeout(() => {
           row.classList.remove('wrong-row');
           row.classList.add('revealed-row');
           valueSpan.textContent = toArabic(phrase.correctRank);
           dd.classList.add('is-disabled');
           checkQ2Completion();
-        }, 800);
+          refreshQ2Values();
+        }, 3000);
       } else {
+        showQ2Feedback('wrong', '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!', 1500);
         setTimeout(() => {
           row.classList.remove('wrong-row');
           valueSpan.textContent = 'اختَرْ';
-        }, 1200);
+        }, 1500);
       }
     }
+  }
+
+  function refreshQ2Values() {
+    document.querySelectorAll('.q2-rank-dropdown').forEach(dd => {
+      const di = parseInt(dd.dataset.displayIdx);
+      const rs = q2State.rows[di];
+      if (rs && (rs.status === 'correct' || rs.status === 'revealed') && rs.selected != null) {
+        const vs = dd.querySelector('.custom-dropdown-value');
+        if (vs && vs.textContent.trim() !== toArabic(rs.selected)) {
+          vs.textContent = toArabic(rs.selected);
+        }
+      }
+    });
   }
 
   function checkQ2Completion() {
@@ -4089,6 +4230,7 @@ body {
         if (trigger) trigger.setAttribute('aria-expanded', 'false');
       }
     });
+    syncDropdownSpacer();
   });
 
   // تشغيلٌ عندَ تحميلِ الصّفحةِ
@@ -4131,7 +4273,7 @@ body {
      NAVIGATION + SLIDES
   ══════════════════════════════════════════════════════════════ */
   let currentSlide = 1;
-  const TOTAL_SLIDES = 8;
+  const TOTAL_SLIDES = 7;
 
   function goToSlide(idx) {
     if (idx < 1 || idx > TOTAL_SLIDES) return;
@@ -4140,6 +4282,9 @@ body {
     document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
     document.querySelector(`.slide[data-slide="${idx}"]`).classList.add('active');
     currentSlide = idx;
+    // بانرُ التّعليماتِ (السّؤالُ الأوّلُ: أقرأ النّصَّ) يظهرُ فقط في الصّفحةِ الأولى
+    const _instrRow = document.querySelector('.task-instr-row');
+    if (_instrRow) _instrRow.style.display = (idx === 1) ? '' : 'none';
     updateProgressBar();
     updateNavButtons();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4168,28 +4313,26 @@ body {
     }
 
     switch (currentSlide) {
-      case 1: nextBtn.disabled = false; /* TEMP_BYPASS: was !q1State.answered */ break;
-      case 2: nextBtn.disabled = false; /* TEMP_BYPASS: was !q2State.completed */ break;
-      case 3: nextBtn.disabled = false; /* TEMP_BYPASS: was !q3State.answered */ break;
-      case 4: nextBtn.disabled = false; /* TEMP_BYPASS: was !q4State.completed */ break;
-      case 5: nextBtn.disabled = false; /* TEMP_BYPASS: was !q5State.answered */ break;
-      case 6: nextBtn.disabled = false; /* TEMP_BYPASS: was !q6State.answered */ break;
-      case 7: nextBtn.disabled = false; /* TEMP_BYPASS: was !q7State.completed */ break;
-      case 8: nextBtn.disabled = false; /* TEMP_BYPASS: was !q8State.isCorrect */ break;
+      case 1: nextBtn.disabled = !q1State.answered; break;
+      case 2: nextBtn.disabled = !q2State.completed; break;
+      case 3: nextBtn.disabled = !q3State.answered; break;
+      case 4: nextBtn.disabled = !q4State.completed; break;
+      case 5: nextBtn.disabled = !(q5State.answered && q6State.answered); break;
+      case 6: nextBtn.disabled = !q7State.completed; break;
+      case 7: nextBtn.disabled = !q8State.isCorrect; break;
     }
   }
 
   function updateProgressBar() {
     // REVIEW: توزيعُ التّقدّمِ على السّلايداتِ الثّمانِ (لم تُحدَّدْ نِسبٌ دقيقةٌ في المهمّةِ)
     let pct = 0;
-    if (currentSlide === 1) pct = q1State.answered ? 12 : 0;
-    else if (currentSlide === 2) pct = q2State.completed ? 25 : 14;
-    else if (currentSlide === 3) pct = q3State.answered ? 37 : 27;
-    else if (currentSlide === 4) pct = q4State.completed ? 50 : 40;
-    else if (currentSlide === 5) pct = q5State.answered ? 62 : 52;
-    else if (currentSlide === 6) pct = q6State.answered ? 75 : 65;
-    else if (currentSlide === 7) pct = q7State.completed ? 87 : 78;
-    else if (currentSlide === 8) pct = q8State.isCorrect ? 100 : 90;
+    if (currentSlide === 1) pct = q1State.answered ? 14 : 0;
+    else if (currentSlide === 2) pct = q2State.completed ? 28 : 14;
+    else if (currentSlide === 3) pct = q3State.answered ? 42 : 28;
+    else if (currentSlide === 4) pct = q4State.completed ? 57 : 42;
+    else if (currentSlide === 5) pct = (q5State.answered && q6State.answered) ? 71 : 57;
+    else if (currentSlide === 6) pct = q7State.completed ? 85 : 71;
+    else if (currentSlide === 7) pct = q8State.isCorrect ? 100 : 85;
     document.getElementById('progressFill').style.width = pct + '%';
   }
 
@@ -4375,6 +4518,7 @@ body {
       card.classList.add('correct');
       fb.className = 'q-feedback show-correct';
       fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+      setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 2500);
       if (typeof updateNavButtons === 'function') updateNavButtons();
       if (typeof updateProgressBar === 'function') updateProgressBar();
     } else {
@@ -4394,6 +4538,7 @@ body {
         state.answered = true;
         fb.className = 'q-feedback show-correct';
         fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 3000);
         if (typeof updateNavButtons === 'function') updateNavButtons();
         if (typeof updateProgressBar === 'function') updateProgressBar();
       } else {
@@ -4405,6 +4550,14 @@ body {
           fb.className = 'q-feedback';
           fb.innerHTML = '';
         }, 1500);
+      }
+    }
+
+    if (qName === 'q5' && state.answered) {
+      const pb = document.getElementById('q5PartB');
+      if (pb && pb.style.display === 'none') {
+        pb.style.display = '';
+        setTimeout(() => pb.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
       }
     }
   }
@@ -4439,18 +4592,15 @@ body {
     },
     {
       id: 's2',
-      instruction: 'أنقرْ على حرفٍ مبنيٍّ:',
+      instruction: 'أنقرْ على كلمتَينِ فيهِما حرفانِ مبنيّانِ:',
       words: [
         { text: 'يشجّعُ',   isCorrect: false },
         { text: 'الانقسامُ', isCorrect: false },
         { text: 'العدوَّ',  isCorrect: false },
-        { text: 'لِـ',       isCorrect: true  },
-        { text: 'لعبثِ',    isCorrect: false },
-        { text: 'بِـ',       isCorrect: true  },
-        { text: 'المجتمعِ', isCorrect: false }
+        { text: 'لِلعبثِ',   isCorrect: true  },
+        { text: 'بِالمجتمعِ', isCorrect: true  }
       ],
-      correctCount: 1,
-      acceptEither: true  // أيُّ حرفٍ من الاثنينِ مقبولٌ
+      correctCount: 2
     },
     {
       id: 's3',
@@ -4496,7 +4646,7 @@ body {
     wrap.innerHTML = Q7_SENTENCES.map((sent, sIdx) => `
       <div class="q6-sentence-card" data-sent-idx="${sIdx}">
         <div class="q6-sentence-instr">
-          <i class="fas fa-hand-pointer"></i>
+          <img class="q6-instr-img" src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/aVXVk4J4GI9yrkKy.png" alt="">
           ${sent.instruction}
         </div>
         <div class="q6-sentence-text">
@@ -4539,6 +4689,7 @@ body {
         card.querySelectorAll('.q6-word').forEach(w => w.classList.add('is-disabled'));
         fb.className = 'q6-sentence-fb show-correct';
         fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+        setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q6-sentence-fb'; fb.innerHTML = ''; } }, 2500);
         checkQ7AllComplete();
       }
     } else {
@@ -4559,6 +4710,7 @@ body {
         card.classList.add('is-complete');
         fb.className = 'q6-sentence-fb show-correct';
         fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+        setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q6-sentence-fb'; fb.innerHTML = ''; } }, 3000);
         checkQ7AllComplete();
       } else {
         fb.className = 'q6-sentence-fb show-wrong';
@@ -4849,6 +5001,23 @@ body {
   /* ══════════════════════════════════════════════════════════════
      INIT
   ══════════════════════════════════════════════════════════════ */
+  function syncDropdownSpacer() {
+    let spacer = document.getElementById('dropdownScrollSpacer');
+    if (!spacer) {
+      spacer = document.createElement('div');
+      spacer.id = 'dropdownScrollSpacer';
+      spacer.style.height = '0';
+      document.body.appendChild(spacer);
+    }
+    const openMenu = document.querySelector('.q2-rank-dropdown.is-open .custom-dropdown-menu');
+    if (openMenu) {
+      const overflow = openMenu.getBoundingClientRect().bottom - window.innerHeight;
+      spacer.style.height = (overflow > 0 ? overflow + 24 : 0) + 'px';
+    } else {
+      spacer.style.height = '0';
+    }
+  }
+
   initReading();
   buildQ1();
   updateNavButtons();

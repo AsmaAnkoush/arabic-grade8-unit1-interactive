@@ -372,7 +372,7 @@ body {
   border-radius: 14px;
   padding: 14px 18px;
   margin: 14px 16px 0;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-ink);
   text-align: center;
@@ -1363,6 +1363,7 @@ body {
   .classify-bank, .grammar-table, .section-sub-title {
     margin-left: 10px; margin-right: 10px;
   }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
   .task-nav { padding: 12px; }
   .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
   .task-header { padding: 12px 18px; }
@@ -1387,6 +1388,9 @@ body {
   .concept-rule-icon { width: 24px; height: 24px; margin-top: 2px; }
   .concept-rule-text { font-size: 16px; line-height: 1.75; }
 
+  .tf-row { flex-direction: column; align-items: stretch; gap: 10px; padding: 10px 12px; }
+  .tf-options { justify-content: center; }
+  #q2Sentence { font-size: 18px; }
   .tf-statement { font-size: 18px; }
   .tf-icon { width: 40px; height: 40px; font-size: 18px; }
   .tf-row-feedback { font-size: 16px; padding: 11px 14px; }
@@ -1457,6 +1461,7 @@ body {
 @media (max-width: 480px) {
   body { padding: 10px 6px; }
   .task-app { border-radius: 14px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
   .task-header { padding: 10px 14px; }
   .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
   .task-header-img-wrap { width: 64px; height: 64px; }
@@ -1490,6 +1495,7 @@ body {
   .tf-row { padding: 10px 12px; gap: 10px; }
   .tf-statement { font-size: 17px; }
   .tf-icon { width: 38px; height: 38px; font-size: 17px; }
+  #q2Sentence { font-size: 16px; }
   .tf-row-feedback { font-size: 15px; padding: 10px 12px; }
 
   .classify-chip { font-size: 16px; padding: 8px 12px; }
@@ -1748,17 +1754,16 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-family);
-  border: 2px solid var(--color-primary);
-  background: #fff;
+  margin-bottom: 16px;
 }
 .q3t-table thead th {
   background: var(--color-primary);
   color: #fff;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: var(--font-weight-extrabold);
-  padding: 12px 10px;
-  text-align: center;
+  padding: 12px 8px;
   border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
 }
 .q3t-row { transition: opacity 0.4s ease, background 0.3s ease; }
 .q3t-row.is-hidden { display: none; }
@@ -1770,19 +1775,18 @@ body {
 .q3t-row-feedback-row.is-hidden { display: none; }
 .q3t-row.row-done { background: rgba(107, 139, 31, 0.06); }
 .q3t-row td {
-  padding: 12px 10px;
+  padding: 10px;
   border: 1.5px solid var(--color-sand);
+  text-align: center;
   vertical-align: middle;
 }
 .q3t-sentence-cell {
   background: var(--color-secondary-light);
   font-size: 22px;
-  font-weight: var(--font-weight-bold);
-  color: var(--color-ink);
-  line-height: 1.9;
-  text-align: right;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
   width: 50%;
-  padding: 14px 16px !important;
+  white-space: nowrap; /* كلُّ جملةٍ بسطرٍ واحدٍ — لا التفافَ غيرَ منتظمٍ */
 }
 .q3t-type-cell { background: #fff; width: 25%; padding: 10px !important; }
 .q3t-mark-cell { background: #fff; width: 25%; padding: 10px !important; }
@@ -1797,9 +1801,9 @@ body {
 }
 .custom-dropdown-trigger {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-family: var(--font-family);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   background: #fff;
@@ -1842,6 +1846,7 @@ body {
 .custom-dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
+  bottom: auto;
   left: 0;
   right: 0;
   background: #fff;
@@ -1851,14 +1856,22 @@ body {
   list-style: none;
   margin: 0;
   box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
-  z-index: 100;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  max-height: 280px;
+  max-height: min(280px, 50vh);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
 }
+.custom-dropdown-menu::-webkit-scrollbar { width: 5px; }
+.custom-dropdown-menu::-webkit-scrollbar-track { background: transparent; margin: 6px 2px; }
+.custom-dropdown-menu::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 999px; }
+.custom-dropdown-menu::-webkit-scrollbar-thumb:hover { background: var(--color-primary-shadow); }
+.custom-dropdown-menu::-webkit-scrollbar-thumb:active { background: var(--color-primary-shadow); }
 .custom-dropdown.is-open .custom-dropdown-menu {
   opacity: 1;
   visibility: visible;
@@ -1874,9 +1887,9 @@ body {
   transform: translateY(0);
 }
 .custom-dropdown-option {
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-family: var(--font-family);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   border-radius: 8px;
@@ -1911,7 +1924,7 @@ body {
 .q3t-type-dropdown.is-correct .custom-dropdown-trigger,
 .q3t-mark-dropdown.is-correct .custom-dropdown-trigger {
   border-color: var(--color-success);
-  border-width: 3px;
+  border-width: 2px;
   background-color: #f3f7e3;
   color: var(--color-success);
   font-weight: var(--font-weight-extrabold);
@@ -1921,7 +1934,7 @@ body {
 .q3t-type-dropdown.is-wrong .custom-dropdown-trigger,
 .q3t-mark-dropdown.is-wrong .custom-dropdown-trigger {
   border-color: var(--color-error);
-  border-width: 3px;
+  border-width: 2px;
   background-color: #fbeeea;
   color: var(--color-error);
   animation: chipShake 0.5s;
@@ -1933,45 +1946,45 @@ body {
    Q3 — فيدباك الصّفِّ: responsive
 ═══════════════════════════════════════════ */
 .q3t-row-feedback-row {
-  background: transparent;
+  display: none !important;
 }
 .q3t-feedback-cell {
-  padding: 0 16px !important;
-  border: none !important;
-  background: transparent !important;
-  text-align: center;
+  display: none !important;
 }
 .q3t-row-feedback {
   display: none;
-  max-width: 720px;
-  width: auto;
-  box-sizing: border-box;
-  padding: 10px 18px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: var(--font-weight-bold);
-  line-height: 1.5;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
   text-align: center;
-  margin: 8px auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
 }
 .q3t-row-feedback i {
-  margin-left: 6px;
-  font-size: 16px;
+  font-size: 1em;
+  line-height: 1;
   vertical-align: middle;
+  flex-shrink: 0;
 }
 .q3t-row-feedback.show-correct {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 3px solid var(--color-success);
   background: #f3f7e3;
   color: var(--color-success);
-  border: 1.5px solid var(--color-success);
 }
 .q3t-row-feedback.show-wrong {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 3px solid var(--color-error);
   background: #fbeeea;
   color: var(--color-error);
-  border: 1.5px solid var(--color-error);
 }
 .q3t-row-feedback.show-info {
   display: block;
@@ -2007,37 +2020,25 @@ body {
 
 @media (max-width: 700px) {
   .q3t-table-wrap { margin: 10px 6px 0; }
-  .q3t-table thead th { font-size: 13px; padding: 9px 5px; }
+  .q3t-table thead th { font-size: 16px; padding: 10px 6px; }
   .q3t-row td { padding: 9px 6px; }
-  .q3t-sentence-cell { font-size: 19px; line-height: 1.75; width: 45%; padding: 12px 10px !important; }
-  .q3t-type-cell, .q3t-mark-cell { width: auto; padding: 7px !important; }
+  .q3t-sentence-cell { font-size: 19px; }
+  .q3t-type-cell, .q3t-mark-cell { width: auto; padding: 8px !important; }
   .custom-dropdown { max-width: 100%; }
-  .custom-dropdown-trigger { font-size: 15px; padding: 8px 10px; }
-  .custom-dropdown-option { font-size: 15px; padding: 8px 10px; }
-  .q3t-row-feedback {
-    font-size: 13px;
-    padding: 8px 12px;
-    line-height: 1.45;
-    margin: 6px auto;
-    max-width: 100%;
-  }
-  .q3t-row-feedback i {
-    font-size: 14px;
-    margin-left: 5px;
-  }
+  .custom-dropdown-trigger { font-size: 17px; padding: 10px 13px; }
+  .custom-dropdown-option { font-size: 17px; padding: 10px 13px; }
+  .custom-dropdown-menu { max-height: min(240px, 45vh); }
+  .q3t-row-feedback { font-size: 15px; padding: 10px 14px; }
   .q3t-feedback-cell { padding: 0 8px !important; }
 }
 @media (max-width: 480px) {
-  .q3t-sentence-cell { font-size: 17px; line-height: 1.65; padding: 10px 8px !important; }
-  .custom-dropdown-trigger { font-size: 12px; padding: 7px 8px; }
-  .custom-dropdown-option { font-size: 12px; padding: 7px 8px; }
-  .q3t-row-feedback {
-    font-size: 12px;
-    padding: 7px 10px;
-    line-height: 1.4;
-    margin: 5px auto;
-    max-width: 100%;
-  }
+  .q3t-table thead th { font-size: 14px; padding: 9px 4px; }
+  .q3t-sentence-cell { font-size: 17px; }
+  .q3t-type-cell, .q3t-mark-cell { padding: 8px !important; }
+  .custom-dropdown-trigger { font-size: 15px; padding: 9px 11px; }
+  .custom-dropdown-option { font-size: 15px; padding: 9px 11px; }
+  .custom-dropdown-menu { max-height: min(200px, 40vh); }
+  .q3t-row-feedback { font-size: 14px; padding: 9px 12px; }
   .q3t-row-feedback i {
     font-size: 13px;
     margin-left: 4px;
@@ -2150,10 +2151,11 @@ body {
 }
 .q2-classify-table {
   width: 100%;
-  border-collapse: collapse;  /* ← هذا يُلغي الفراغاتِ بينَ الحدودِ */
+  border-collapse: collapse;
   border-spacing: 0;
   font-family: var(--font-family);
   margin: 0;
+  border: 2px solid var(--color-primary);
 }
 
 /* الرّأسُ */
@@ -2161,24 +2163,19 @@ body {
   background: var(--color-primary);
   color: #fff;
   font-weight: var(--font-weight-extrabold);
-  font-size: 16px;
-  padding: 10px 12px;
+  font-size: 17px;
+  padding: 12px 8px;
   text-align: center;
-  border-bottom: var(--q2t-border);
-  border-left: var(--q2t-border);
-}
-.q2-classify-table thead th:last-child {
-  border-left: none;  /* لا يوجدُ عمودٌ بعدَ آخرِ خليّةٍ */
+  border: 1.5px solid var(--color-primary-shadow);
 }
 
 /* الجسمُ */
 .q2-classify-table tbody td {
-  padding: 12px;
+  padding: 10px;
   background: #fff;
   text-align: center;
   vertical-align: middle;
-  border-bottom: var(--q2t-border);
-  border-left: var(--q2t-border);
+  border: 1.5px solid var(--color-sand);
   position: relative;
   overflow: visible;
 }
@@ -2187,12 +2184,6 @@ body {
 }
 .q2-classify-table tbody {
   position: relative;
-}
-.q2-classify-table tbody td:last-child {
-  border-left: none;
-}
-.q2-classify-table tbody tr:last-child td {
-  border-bottom: none;  /* الحدُّ السّفليُّ للجدولِ يأتي من الحاويةِ */
 }
 
 /* كَشفٌ تَدريجيٌّ: كلمتانِ في كلِّ مرّةٍ */
@@ -2207,7 +2198,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 .q2-classify-word {
-  font-size: 19px;
+  font-size: 22px;
   font-weight: var(--font-weight-extrabold);
   color: var(--color-primary);
 }
@@ -2218,17 +2209,17 @@ body {
 .q2c-dropdown {
   position: relative;
   width: 100%;
-  max-width: 180px;
+  max-width: 220px;
   margin: 0 auto;
   font-family: var(--font-family);
 }
 .q2c-dropdown-trigger {
   width: 100%;
   background: #fff;
-  border: 1.5px solid var(--color-light-border);
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 15px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 19px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   display: flex;
@@ -2269,8 +2260,8 @@ body {
 .q2c-dropdown.is-open .q2c-dropdown-menu { display: block; }
 
 .q2c-dropdown-option {
-  padding: 8px 12px;
-  font-size: 14px;
+  padding: 12px 16px;
+  font-size: 19px;
   font-weight: var(--font-weight-bold);
   color: var(--color-ink);
   cursor: pointer;
@@ -2298,26 +2289,29 @@ body {
 
 @media (max-width: 700px) {
   .q2c-dropdown { max-width: 150px; }
-  .q2c-dropdown-trigger { font-size: 14px; padding: 7px 10px; }
-  .q2c-dropdown-option { font-size: 13px; padding: 7px 10px; }
+  .q2c-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
+  .q2c-dropdown-option { font-size: 16px; padding: 9px 12px; }
   .q2c-dropdown-arrow { font-size: 10px; }
 }
 @media (max-width: 480px) {
   .q2c-dropdown { max-width: 120px; }
-  .q2c-dropdown-trigger { font-size: 13px; padding: 6px 8px; }
-  .q2c-dropdown-option { font-size: 12px; padding: 6px 8px; }
+  .q2c-dropdown-trigger { font-size: 15px; padding: 8px 10px; }
+  .q2c-dropdown-option { font-size: 15px; padding: 8px 10px; }
   .q2c-dropdown-arrow { font-size: 9px; }
 }
 @media (max-width: 360px) {
   .q2c-dropdown { max-width: 100px; }
-  .q2c-dropdown-trigger { font-size: 12px; padding: 5px 7px; }
-  .q2c-dropdown-option { font-size: 11px; padding: 5px 7px; }
+  .q2c-dropdown-trigger { font-size: 14px; padding: 7px 9px; }
+  .q2c-dropdown-option { font-size: 14px; padding: 7px 9px; }
 }
 
 /* أحجامُ الأعمدةِ — تَمنعُ انكماشَ عمودِ القائمةِ المنسدلةِ على الجوّالِ */
 .q2-classify-table thead th:first-child,
 .q2-classify-table tbody td:first-child {
   width: 40%;
+}
+.q2-classify-table tbody td:first-child {
+  background: var(--color-secondary-light);
 }
 .q2-classify-table thead th:last-child,
 .q2-classify-table tbody td:last-child {
@@ -2390,7 +2384,7 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السّؤالُ الأوّلُ:</strong> أضعُ إشارةَ (✓) أمامَ العبارةِ الصّحيحةِ، وإشارةَ (✗) أمامَ العبارةِ الخاطئةِ.
+              <strong>السّؤالُ الأوّلُ:</strong> أحدِّدُ الصَّوابَ أوِ الخطأَ في العباراتِ الآتيةِ:
             </p>
           </div>
 
@@ -2482,7 +2476,7 @@ body {
             </div>
             <div class="tf-row-feedback stage-reveal" id="fb-q1-3">
               <i class="fas fa-circle-check"></i>
-              <span>أحسنتَ! إجابةٌ صحيحةٌ.</span>
+              <span>أحسنتَ! إجابةٌ صحيحةٌ</span>
             </div>
           </div>
 
@@ -2675,7 +2669,7 @@ function handleQ1Answer(rowIdx, userAnswer, inputEl) {
         q1State.allCorrect = true;
         card.classList.add('correct');
         cardFb.className = 'q-feedback show-correct';
-        cardFb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجاباتِ الصّحيحةِ.';
+        cardFb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجاباتِ الصّحيحةِ';
         updateNavButtons();
         updateProgressBar();
       }
@@ -2773,19 +2767,9 @@ function handleQ2WordClick(wordEl) {
     wordEl.classList.add('is-correct');
     q2State.extracted[cid] = true;
 
-    const remaining = getRemainingBuiltCount();
-    if (remaining > 0 && fb) {
-      // فيدباك تَشجيعيٌّ مع العدِّ التَّنازليِّ — مؤشّرُ تقدُّمٍ إيجابيٌّ لا تحذيرُ محاولاتٍ
-      let msg;
-      if (remaining === 1) {
-        msg = 'أحسنتَ! تَبقّتْ كلمةٌ مبنيّةٌ واحدةٌ.';
-      } else if (remaining === 2) {
-        msg = 'أحسنتَ! تَبقّتْ كلمتانِ مبنيّتانِ.';
-      } else {
-        msg = `أحسنتَ! تَبقّتْ ${toArabicDigits(remaining)} كلماتٍ مبنيّةٍ.`;
-      }
+    if (fb) {
       fb.className = 'q-feedback show-correct';
-      fb.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
       setTimeout(() => {
         if (fb && !q2State.completed) {
           fb.className = 'q-feedback';
@@ -2804,19 +2788,22 @@ function handleQ2WordClick(wordEl) {
     if (q2State.wrongClicks >= Q2_MAX_ATTEMPTS) {
       if (fb) {
         fb.className = 'q-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i> سَنُظهرُ الكلماتِ المبنيّةَ. تَأمَّلْها جيّدًا.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
       }
+      // وميضٌ أحمرُ سريعٌ للكلمةِ الغلط ثمَّ ترجعُ طبيعيّةً (لا تَبقى حمراءَ)
+      setTimeout(() => { wordEl.classList.remove('is-wrong'); }, 600);
       setTimeout(() => {
         revealAllQ2BuiltWords();
-        if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
       }, 3000);
     } else {
       if (fb) {
         fb.className = 'q-feedback show-wrong';
-        fb.innerHTML = '<i class="fas fa-times-circle"></i> هذِهِ الكلمةُ ليستْ مَبنيّةً. حاولْ مرّةً أخرى.';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
       }
+      // الكلمةُ الغلط: وميضٌ أحمرُ سريعٌ ثمَّ ترجعُ طبيعيّةً (لا تَبقى حمراءَ)
+      setTimeout(() => { wordEl.classList.remove('is-wrong'); }, 600);
       setTimeout(() => {
-        wordEl.classList.remove('is-wrong');
         if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
       }, 1500);
     }
@@ -2892,7 +2879,7 @@ function buildQ2ClassifyTable() {
         <td>
           <div class="q2c-dropdown" data-cid="${w.cid}">
             <button type="button" class="q2c-dropdown-trigger">
-              <span class="q2c-dropdown-value">اخْتَرْ النّوعَ</span>
+              <span class="q2c-dropdown-value">اخْتَرْ</span>
               <i class="fas fa-chevron-down q2c-dropdown-arrow"></i>
             </button>
             <div class="q2c-dropdown-menu">
@@ -2913,12 +2900,25 @@ function buildQ2ClassifyTable() {
       e.stopPropagation();
       if (dd.classList.contains('is-correct')) return;
       wrap.querySelectorAll('.q2c-dropdown.is-open').forEach(o => { if (o !== dd) o.classList.remove('is-open'); });
+      const wasOpen = dd.classList.contains('is-open');
       dd.classList.toggle('is-open');
+      if (!wasOpen) {
+        const menu = dd.querySelector('.q2c-dropdown-menu');
+        setTimeout(() => {
+          if (dd.classList.contains('is-open') && menu) {
+            syncDropdownSpacer();
+            menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 60);
+      } else {
+        syncDropdownSpacer();
+      }
     });
     dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
       opt.addEventListener('click', () => {
         handleQ2ClassifyPick(dd, opt.dataset.value);
         dd.classList.remove('is-open');
+        syncDropdownSpacer();
       });
     });
   });
@@ -2927,6 +2927,7 @@ function buildQ2ClassifyTable() {
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.q2c-dropdown')) {
       document.querySelectorAll('.q2c-dropdown.is-open').forEach(d => d.classList.remove('is-open'));
+      syncDropdownSpacer();
     }
   });
 }
@@ -2948,6 +2949,13 @@ function handleQ2ClassifyPick(dropdown, value) {
     dropdown.classList.remove('is-wrong');
     dropdown.classList.add('is-correct');
     q2State.typeAnswered[cid] = true;
+    if (fb) {
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
+      setTimeout(() => {
+        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
+      }, 2500);
+    }
     checkRevealNextQ2Group();
     maybeCompleteQ2();
   } else {
@@ -2956,22 +2964,27 @@ function handleQ2ClassifyPick(dropdown, value) {
     dropdown.classList.add('is-wrong');
 
     if (q2State.typeAttempts[cid] >= Q2_MAX_ATTEMPTS) {
+      if (fb) {
+        fb.className = 'q-feedback show-correct';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
+      }
       setTimeout(() => {
         dropdown.classList.remove('is-wrong');
         dropdown.classList.add('is-correct');
         if (valueLabel) valueLabel.textContent = wordData.type;
         q2State.typeAnswered[cid] = true;
+        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
         checkRevealNextQ2Group();
         maybeCompleteQ2();
-      }, 1500);
+      }, 3000);
     } else {
       if (fb) {
         fb.className = 'q-feedback show-wrong';
-        fb.innerHTML = '<i class="fas fa-times-circle"></i> نوعٌ غيرُ صحيحٍ. حاولْ مرّةً أخرى!';
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
       }
       setTimeout(() => {
         dropdown.classList.remove('is-wrong');
-        if (valueLabel) valueLabel.textContent = 'اخْتَرْ النّوعَ';
+        if (valueLabel) valueLabel.textContent = 'اخْتَرْ';
         if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
       }, 1500);
     }
@@ -2992,15 +3005,6 @@ function checkRevealNextQ2Group() {
     document.querySelectorAll(`.q2c-row[data-group="${q2State.currentGroup}"]`).forEach(row => {
       row.classList.remove('is-hidden');
     });
-    // فيدباك تَشجيعيٌّ
-    const fb = document.getElementById('fb-q2');
-    if (fb && !q2State.completed) {
-      fb.className = 'q-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! تابعْ مع الكلمتينِ التّاليتينِ.';
-      setTimeout(() => {
-        if (fb && !q2State.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
-      }, 2500);
-    }
   }, 700);
 }
 
@@ -3044,6 +3048,18 @@ const q3State = {
   }))
 };
 
+function syncDropdownSpacer() {
+  const spacer = document.getElementById('dropdownScrollSpacer');
+  if (!spacer) return;
+  const openMenu = document.querySelector('.custom-dropdown.is-open .custom-dropdown-menu, .q2c-dropdown.is-open .q2c-dropdown-menu');
+  if (openMenu) {
+    const overflow = openMenu.getBoundingClientRect().bottom - window.innerHeight;
+    spacer.style.height = (overflow > 0 ? overflow + 24 : 0) + 'px';
+  } else {
+    spacer.style.height = '0';
+  }
+}
+
 function buildQ3Table() {
   const wrap = document.getElementById('q3TableWrap');
   if (!wrap) return;
@@ -3062,7 +3078,7 @@ function buildQ3Table() {
         <td class="q3t-type-cell">
           <div class="custom-dropdown q3t-type-dropdown" data-row="${idx}">
             <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
-              <span class="custom-dropdown-value">اخْتَرْ النّوعَ</span>
+              <span class="custom-dropdown-value">اخْتَرْ</span>
               <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
             </button>
             <ul class="custom-dropdown-menu" role="listbox">
@@ -3073,7 +3089,7 @@ function buildQ3Table() {
         <td class="q3t-mark-cell">
           <div class="custom-dropdown q3t-mark-dropdown is-disabled" data-row="${idx}">
             <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
-              <span class="custom-dropdown-value">اخْتَرْ العلامةَ</span>
+              <span class="custom-dropdown-value">اخْتَرْ</span>
               <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
             </button>
             <ul class="custom-dropdown-menu" role="listbox">
@@ -3112,22 +3128,18 @@ function buildQ3Table() {
       dd.classList.toggle('is-open');
       trigger.setAttribute('aria-expanded', !wasOpen);
 
-      // Check available space and flip direction if needed
+      // دائمًا تفتحُ القائمةُ لتحت — لا فتحَ لفوقَ إطلاقًا
+      dd.classList.remove('drop-up');
       if (!wasOpen) {
         const menu = dd.querySelector('.custom-dropdown-menu');
-        if (menu) {
-          const triggerRect = trigger.getBoundingClientRect();
-          const spaceBelow = window.innerHeight - triggerRect.bottom;
-          const spaceAbove = triggerRect.top;
-          const menuHeight = menu.scrollHeight || 200;
-          if (spaceBelow < menuHeight + 16 && spaceAbove > spaceBelow) {
-            dd.classList.add('drop-up');
-          } else {
-            dd.classList.remove('drop-up');
+        setTimeout(() => {
+          if (dd.classList.contains('is-open') && menu) {
+            syncDropdownSpacer();
+            menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }
-        }
+        }, 60);
       } else {
-        dd.classList.remove('drop-up');
+        syncDropdownSpacer();
       }
     });
 
@@ -3137,6 +3149,7 @@ function buildQ3Table() {
         const value = opt.dataset.value;
         dd.classList.remove('is-open', 'drop-up');
         trigger.setAttribute('aria-expanded', 'false');
+        syncDropdownSpacer();
         if (isType) {
           handleQ3TypePick(rowIdx, value);
         } else {
@@ -3153,6 +3166,7 @@ function buildQ3Table() {
       const t = dd.querySelector('.custom-dropdown-trigger');
       if (t) t.setAttribute('aria-expanded', 'false');
     });
+    syncDropdownSpacer();
   });
 }
 
@@ -3164,7 +3178,7 @@ function handleQ3TypePick(rowIdx, value) {
   const wrap = document.getElementById('q3TableWrap');
   const dd = wrap.querySelector(`.q3t-type-dropdown[data-row="${rowIdx}"]`);
   const valueLabel = dd.querySelector('.custom-dropdown-value');
-  const fb = document.getElementById(`q3Feedback-${rowIdx}`);
+  const fb = document.getElementById('fb-q3');
   const expected = Q3_ROWS[rowIdx].type;
   const isCorrect = (value === expected);
 
@@ -3177,10 +3191,10 @@ function handleQ3TypePick(rowIdx, value) {
     const markDd = wrap.querySelector(`.q3t-mark-dropdown[data-row="${rowIdx}"]`);
     if (markDd) markDd.classList.remove('is-disabled');
     if (fb) {
-      fb.className = 'q3t-row-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! حدِّدِ العلامةَ الآنَ.';
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
     }
-    setTimeout(() => { if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; } }, 2500);
+    setTimeout(() => { if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 2500);
   } else {
     dd.classList.remove('is-correct');
     void dd.offsetWidth;
@@ -3195,20 +3209,20 @@ function handleQ3TypePick(rowIdx, value) {
         const markDd = wrap.querySelector(`.q3t-mark-dropdown[data-row="${rowIdx}"]`);
         if (markDd) markDd.classList.remove('is-disabled');
         if (fb) {
-          fb.className = 'q3t-row-feedback show-correct';
-          fb.innerHTML = `<i class="fas fa-check-circle"></i> الإجابةُ الصّحيحةُ: ${expected}.`;
+          fb.className = 'q-feedback show-correct';
+          fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
         }
-        setTimeout(() => { if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; } }, 3000);
-      }, 1500);
+        setTimeout(() => { if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 3000);
+      }, 3000);
     } else {
       if (fb) {
-        fb.className = 'q3t-row-feedback show-wrong';
+        fb.className = 'q-feedback show-wrong';
         fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
       }
       setTimeout(() => {
         dd.classList.remove('is-wrong');
-        valueLabel.textContent = 'اخْتَرْ النّوعَ';
-        if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+        valueLabel.textContent = 'اخْتَرْ';
+        if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
       }, 1500);
     }
   }
@@ -3222,7 +3236,7 @@ function handleQ3MarkPick(rowIdx, value) {
   const wrap = document.getElementById('q3TableWrap');
   const dd = wrap.querySelector(`.q3t-mark-dropdown[data-row="${rowIdx}"]`);
   const valueLabel = dd.querySelector('.custom-dropdown-value');
-  const fb = document.getElementById(`q3Feedback-${rowIdx}`);
+  const fb = document.getElementById('fb-q3');
   const expected = Q3_ROWS[rowIdx].mark;
   const isCorrect = (value === expected);
 
@@ -3234,11 +3248,11 @@ function handleQ3MarkPick(rowIdx, value) {
     rs.markAnswered = true;
     rs.completed = true;
     if (fb) {
-      fb.className = 'q3t-row-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! أكملتَ هذا الفعلَ.';
+      fb.className = 'q-feedback show-correct';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
     }
     setTimeout(() => {
-      if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+      if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
       revealNextQ3Row(rowIdx);
     }, 2500);
   } else {
@@ -3254,23 +3268,23 @@ function handleQ3MarkPick(rowIdx, value) {
         rs.markAnswered = true;
         rs.completed = true;
         if (fb) {
-          fb.className = 'q3t-row-feedback show-correct';
-          fb.innerHTML = `<i class="fas fa-check-circle"></i> الإجابةُ الصّحيحةُ: ${expected}.`;
+          fb.className = 'q-feedback show-correct';
+          fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
         }
         setTimeout(() => {
-          if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+          if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
           revealNextQ3Row(rowIdx);
         }, 3000);
-      }, 1500);
+      }, 3000);
     } else {
       if (fb) {
-        fb.className = 'q3t-row-feedback show-wrong';
+        fb.className = 'q-feedback show-wrong';
         fb.innerHTML = '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
       }
       setTimeout(() => {
         dd.classList.remove('is-wrong');
-        valueLabel.textContent = 'اخْتَرْ العلامةَ';
-        if (fb) { fb.className = 'q3t-row-feedback'; fb.innerHTML = ''; }
+        valueLabel.textContent = 'اخْتَرْ';
+        if (fb) { fb.className = 'q-feedback'; fb.innerHTML = ''; }
       }, 1500);
     }
   }
@@ -3400,9 +3414,9 @@ function updateNavButtons() {
   }
 
   switch (currentSlide) {
-    case 1: nextBtn.disabled = false; /* TEMP_BYPASS: was !q1State.allCorrect */ break;
-    case 2: nextBtn.disabled = false; /* TEMP_BYPASS: was !q2State.completed */ break;
-    case 3: nextBtn.disabled = false; /* TEMP_BYPASS: was !q3State.completed */ break;
+    case 1: nextBtn.disabled = !q1State.allCorrect; break;
+    case 2: nextBtn.disabled = !q2State.completed; break;
+    case 3: nextBtn.disabled = !q3State.completed; break;
   }
 }
 
@@ -3446,6 +3460,48 @@ resetActivityInputs();
 initQ1();
 buildQ2Sentence();
 buildQ3Table();
+
+/* ════════════════════════════════════════════════════════════════
+   ضمانةٌ صارمةٌ: أيُّ قائمةٍ منسدلةٍ تُصبحُ صحيحةً (is-correct) يجبُ أن
+   تَعرضَ الجوابَ الصّحيحَ على الزّرِّ، ويستحيلُ أن تَبقى "اخْتَرْ".
+   تَعملُ على كلِّ الأسئلةِ (النّوع/العلامة في Q3، والتّصنيف في Q2) عبرَ
+   مُراقِبٍ يُصلِحُ أيَّ خانةٍ خضراءَ بقيتْ تَعرضُ النّصَّ النّائبَ.
+═══════════════════════════════════════════════════════════════ */
+function _ensureDropdownAnswer(dd) {
+  if (!dd || dd.nodeType !== 1 || !dd.classList.contains('is-correct')) return;
+  const label = dd.querySelector('.custom-dropdown-value, .q2c-dropdown-value');
+  if (!label) return;
+  const txt = (label.textContent || '').trim();
+  const placeholders = ['اخْتَرْ', 'اخترْ', 'اختر', 'اختَرْ', ''];
+  if (!placeholders.includes(txt)) return; // فيها جوابٌ حقيقيٌّ أصلًا
+  let ans = '';
+  const row = parseInt(dd.dataset.row);
+  if (dd.classList.contains('q3t-type-dropdown') && !isNaN(row)) ans = (Q3_ROWS[row] || {}).type || '';
+  else if (dd.classList.contains('q3t-mark-dropdown') && !isNaN(row)) ans = (Q3_ROWS[row] || {}).mark || '';
+  else if (dd.classList.contains('q2c-dropdown') && typeof Q2_WORDS !== 'undefined') {
+    const w = Q2_WORDS.find(x => x.cid === dd.dataset.cid);
+    ans = w ? w.type : '';
+  }
+  if (ans) label.textContent = ans;
+}
+(function () {
+  const obs = new MutationObserver(muts => {
+    for (const m of muts) {
+      const t = m.target;
+      if (t && t.nodeType === 1 && (t.classList.contains('custom-dropdown') || t.classList.contains('q2c-dropdown'))) {
+        _ensureDropdownAnswer(t);
+      }
+    }
+  });
+  obs.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();
+
+// Spacer: يسمح للصفحة بالتمدّد كي تظهر القائمة المنسدلة كاملةً دون قصٍّ في رايز
+const _ddSpacer = document.createElement('div');
+_ddSpacer.id = 'dropdownScrollSpacer';
+_ddSpacer.style.height = '0';
+document.body.appendChild(_ddSpacer);
+
 updateNavButtons();
 updateProgressBar();
 

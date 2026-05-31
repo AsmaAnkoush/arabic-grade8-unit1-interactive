@@ -70,7 +70,7 @@
 body {
   font-family: var(--font-family);
   background: var(--color-bg);
-  padding: 32px 16px;
+  padding: 32px 16px 44px;
   direction: rtl;
 }
 .page-wrap {
@@ -180,6 +180,7 @@ body {
   border: 3px solid var(--color-primary);
   border-radius: 20px;
   font-family: var(--font-family);
+  padding-bottom: 6px; /* فراغٌ بينَ آخرِ عنصرٍ والبوردرِ السفليِّ ليُرسمَ بوضوحٍ */
   /* visible (was hidden): يسمحُ للقائمة المنسدلة بالظهور كاملةً دون قصٍّ.
      الرأسُ يدوّرُ زواياه العليا بنفسِه (border-radius: 17px 17px 0 0). */
   overflow: visible;
@@ -706,7 +707,7 @@ body {
   border-radius: 14px;
   padding: 14px 18px;
   margin: 14px 16px 0;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: var(--font-weight-semibold);
   color: var(--color-ink);
   text-align: center;
@@ -1895,19 +1896,20 @@ body {
    RESPONSIVE
 ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 1080px) and (min-width: 701px) {
-  body { padding: 24px 16px; }
+  body { padding: 24px 16px 44px; }
   .task-header-img-wrap { width: 92px; height: 92px; }
   .task-header-img { width: 66px; height: 66px; }
 }
 
 @media (max-width: 700px) {
-  body { padding: 16px 8px; }
+  body { padding: 16px 8px 40px; }
   .task-app { border-radius: 16px; border-width: 2px; }
   .task-instr-row, .passage-block, .verse-card, .match-expr-bank,
   .classify-bank, .classify-categories, .extract-panel, .q-feedback,
   .match-pairs-grid, .click-sentences-wrap {
     margin-left: 10px; margin-right: 10px;
   }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
   .task-nav { padding: 12px; }
   .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
   .task-header { padding: 12px 18px; }
@@ -1966,7 +1968,7 @@ body {
 }
 
 @media (max-width: 480px) {
-  body { padding: 10px 6px; }
+  body { padding: 10px 6px 36px; }
   .task-app { border-radius: 14px; }
   .task-header { padding: 10px 14px; }
   .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
@@ -1978,6 +1980,7 @@ body {
   .match-pairs-grid, .click-sentences-wrap {
     margin-left: 8px; margin-right: 8px;
   }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
   .task-instr-row { padding: 12px 14px; gap: 10px; }
   .task-instr-text { font-size: 17px; line-height: 1.6; }
   .instr-hint-img { width: 32px; height: 32px; }
@@ -3568,7 +3571,7 @@ function handleQ1Answer(selectedIdx) {
     card.classList.remove('incorrect');
     card.classList.add('correct');
     fb.className = 'q-feedback show-correct';
-    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+    fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
     updateNavButtons();
     updateProgressBar();
   } else {
@@ -3589,7 +3592,7 @@ function handleQ1Answer(selectedIdx) {
       card.classList.add('correct');
       q1State.isCorrect = true;
       fb.className = 'q-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
       updateNavButtons();
       updateProgressBar();
     } else {
@@ -3681,6 +3684,18 @@ function maybeRevealNextQ2a() {
   });
 }
 
+function syncDropdownSpacer() {
+  const spacer = document.getElementById('dropdownScrollSpacer');
+  if (!spacer) return;
+  const openMenu = document.querySelector('.q2c-dropdown.is-open .q2c-dropdown-menu');
+  if (openMenu) {
+    const overflow = openMenu.getBoundingClientRect().bottom - window.innerHeight;
+    spacer.style.height = (overflow > 0 ? overflow + 24 : 0) + 'px';
+  } else {
+    spacer.style.height = '0';
+  }
+}
+
 function initQ2aDropdowns() {
   document.addEventListener('click', (e) => {
     document.querySelectorAll('.q2c-dropdown.is-open').forEach(dd => {
@@ -3689,6 +3704,7 @@ function initQ2aDropdowns() {
         dd.querySelector('.q2c-dropdown-trigger').setAttribute('aria-expanded', 'false');
       }
     });
+    syncDropdownSpacer();
   });
 
   document.querySelectorAll('.q2c-dropdown').forEach(dd => {
@@ -3708,6 +3724,17 @@ function initQ2aDropdowns() {
       const wasOpen = dd.classList.contains('is-open');
       dd.classList.toggle('is-open');
       trigger.setAttribute('aria-expanded', !wasOpen);
+      if (!wasOpen) {
+        const menu = dd.querySelector('.q2c-dropdown-menu');
+        setTimeout(() => {
+          if (dd.classList.contains('is-open') && menu) {
+            syncDropdownSpacer();
+            menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 60);
+      } else {
+        syncDropdownSpacer();
+      }
     });
 
     dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
@@ -3717,6 +3744,7 @@ function initQ2aDropdowns() {
         const labelText = Q2A_LABELS[selectedValue];
         dd.classList.remove('is-open');
         trigger.setAttribute('aria-expanded', 'false');
+        syncDropdownSpacer();
         handleQ2aSelection(dd, cid, selectedValue, labelText, valueSpan);
       });
     });
@@ -4119,6 +4147,17 @@ function initQ3Dropdowns() {
       const wasOpen = dd.classList.contains('is-open');
       dd.classList.toggle('is-open');
       trigger.setAttribute('aria-expanded', !wasOpen);
+      if (!wasOpen) {
+        const menu = dd.querySelector('.q2c-dropdown-menu');
+        setTimeout(() => {
+          if (dd.classList.contains('is-open') && menu) {
+            syncDropdownSpacer();
+            menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        }, 60);
+      } else {
+        syncDropdownSpacer();
+      }
     });
 
     dd.querySelectorAll('.q2c-dropdown-option').forEach(opt => {
@@ -4128,6 +4167,7 @@ function initQ3Dropdowns() {
         const labelText = Q3C_LABELS[selectedValue];
         dd.classList.remove('is-open');
         trigger.setAttribute('aria-expanded', 'false');
+        syncDropdownSpacer();
         handleQ3Selection(dd, cid, selectedValue, labelText, valueSpan);
       });
     });
@@ -4536,15 +4576,17 @@ function placeQ6Chip(chip, slot) {
     fb.className = 'q-feedback show-correct';
     fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! توصيلٌ صحيحٌ.';
 
-    // كشفٌ تدريجيٌّ: لو حُلّت الدفعةُ المرئيّةُ، أظهرِ الدفعةَ التاليةَ
-    maybeRevealNextQ6();
-
     if (Object.keys(q6State.placed).length === Q6_PAIRS.length) {
+      // اكتملَ السّؤالُ كلُّه — أظهرِ الفيدباكَ، ثمَّ بعدَ لحظةٍ اعرضْ كلَّ الكلماتِ للمراجعةِ
       q6State.completed = true;
       fb.innerHTML = '<i class="fas fa-check-circle"></i> ممتازٌ! وصلتَ جميعَ الكلماتِ بمعانيها.';
       updateNavButtons();
       updateProgressBar();
+      setTimeout(() => { maybeRevealNextQ6(); }, 700);
     } else {
+      // أظهرِ الفيدباكَ أوّلًا، ثمَّ بعدَ لحظةٍ بدّلِ الدّفعةَ (إن اكتملتِ الحاليّةُ)
+      // حتّى لا يختفيَ الفيدباكُ فجأةً عندَ تبديلِ الدّفعةِ وتنتقلَ الشّاشةُ قبلَ رؤيتِه.
+      setTimeout(() => { if (!q6State.completed) maybeRevealNextQ6(); }, 900);
       setTimeout(() => {
         if (!q6State.completed) {
           fb.className = 'q-feedback';
@@ -4740,6 +4782,12 @@ buildQ6();
 initQ6Drag();
 initQ1();
 initQ4();
+// Spacer: lets the page scroll far enough to expose a downward-opening dropdown
+// menu whose bottom edge extends past the viewport (prevents clipping in Rise).
+const _ddSpacer = document.createElement('div');
+_ddSpacer.id = 'dropdownScrollSpacer';
+_ddSpacer.style.height = '0';
+document.body.appendChild(_ddSpacer);
 updateNavButtons();
 updateProgressBar();
 </script>

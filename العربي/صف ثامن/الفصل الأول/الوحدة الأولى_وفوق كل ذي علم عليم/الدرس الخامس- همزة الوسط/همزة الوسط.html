@@ -460,26 +460,29 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--font-family);
-  border: 2px solid var(--color-primary);
-  background: #fff;
+  margin-bottom: 16px;
 }
 .q1t-table thead th {
   background: var(--color-primary);
   color: #fff;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: var(--font-weight-extrabold);
-  padding: 12px 10px;
-  text-align: center;
+  padding: 12px 8px;
   border: 1.5px solid var(--color-primary-shadow);
+  text-align: center;
 }
 .q1t-row {
   transition: background 0.3s ease;
+  position: relative;
+}
+.q1t-row:has(.custom-dropdown.is-open) {
+  z-index: 9999;
 }
 .q1t-row td {
-  padding: 12px 10px;
+  padding: 10px;
   border: 1.5px solid var(--color-sand);
-  vertical-align: middle;
   text-align: center;
+  vertical-align: middle;
 }
 .q1t-rank-cell {
   background: var(--color-secondary-light);
@@ -487,25 +490,67 @@ body {
   font-weight: var(--font-weight-extrabold);
   color: var(--color-primary);
   width: 45%;
-  line-height: 1.7;
 }
 .q1t-select-cell {
   background: #fff;
   width: 55%;
-  padding: 10px !important;
+  padding: 12px !important;
+  position: relative;
+}
+
+/* حالاتُ صُفوفِ الجدولِ (تُطبَّقُ على trigger القائمةِ المنسدلةِ) */
+.q1t-row.correct-row {
+  background: #f3f7e3;
+}
+.q1t-row.correct-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.q1t-row.correct-row .custom-dropdown-arrow {
+  color: var(--color-success);
+}
+.q1t-row.wrong-row {
+  background: #fbeeea;
+}
+.q1t-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error);
+  border-width: 3px;
+  background: #fbeeea;
+  color: var(--color-error);
+  animation: dropdownShake 0.5s ease;
+}
+.q1t-row.wrong-row .custom-dropdown-arrow {
+  color: var(--color-error);
+}
+.q1t-row.revealed-row {
+  background: #f3f7e3;
+}
+.q1t-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success);
+  border-width: 3px;
+  background: #f3f7e3;
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+  animation: pulse-correct 0.6s ease;
+}
+.q1t-row.revealed-row .custom-dropdown-arrow {
+  color: var(--color-success);
 }
 
 /* تَجاوبٌ على الشّاشاتِ الضّيّقةِ */
 @media (max-width: 700px) {
   .q1t-table-wrap { margin: 10px 8px 0; }
-  .q1t-table thead th { font-size: 14px; padding: 10px 6px; }
+  .q1t-table thead th { font-size: 16px; padding: 10px 6px; }
   .q1t-row td { padding: 9px 6px; }
-  .q1t-rank-cell { font-size: 16px; }
-  .q1t-select-cell { padding: 7px !important; }
+  .q1t-rank-cell { font-size: 17px; }
+  .q1t-select-cell { padding: 8px !important; }
 }
 @media (max-width: 480px) {
-  .q1t-rank-cell { font-size: 15px; }
-  .q1t-table thead th { font-size: 13px; }
+  .q1t-table thead th { font-size: 14px; padding: 9px 4px; }
+  .q1t-rank-cell { font-size: 16px; }
 }
 
 /* ═══════════════════════════════════════════
@@ -610,6 +655,7 @@ body {
 .custom-dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
+  bottom: auto;
   left: 0;
   right: 0;
   background: #fff;
@@ -619,17 +665,54 @@ body {
   list-style: none;
   margin: 0;
   box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
-  z-index: 100;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  max-height: 280px;
+  max-height: min(280px, 50vh);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+/* Firefox: themed thin scrollbar */
+.custom-dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) transparent;
+}
+/* WebKit (Chrome, Safari, iOS) */
+.custom-dropdown-menu::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 6px 2px;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-shadow);
+}
+.custom-dropdown-menu::-webkit-scrollbar-thumb:active {
+  background: var(--color-primary-shadow);
+}
+/* Drop-up variant */
+.custom-dropdown.drop-up .custom-dropdown-menu {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform: translateY(8px);
+}
+.custom-dropdown.is-open.drop-up .custom-dropdown-menu {
+  transform: translateY(0);
 }
 .custom-dropdown.is-open .custom-dropdown-menu {
   opacity: 1;
   visibility: visible;
+}
+/* Open transform — overridden by drop-up rule above */
+.custom-dropdown.is-open:not(.drop-up) .custom-dropdown-menu {
   transform: translateY(0);
 }
 .custom-dropdown-option {
@@ -740,6 +823,7 @@ body {
   .custom-dropdown { max-width: 200px; }
   .custom-dropdown-trigger { font-size: 16px; padding: 9px 12px; }
   .custom-dropdown-option { font-size: 16px; padding: 9px 12px; }
+  .custom-dropdown-menu { max-height: min(240px, 45vh); }
 }
 @media (max-width: 480px) {
   .dropdown-tables-wrap { margin-left: 8px; margin-right: 8px; }
@@ -750,6 +834,7 @@ body {
   .custom-dropdown { max-width: 100%; }
   .custom-dropdown-trigger { font-size: 15px; padding: 9px 10px; }
   .custom-dropdown-option { font-size: 15px; padding: 9px 10px; }
+  .custom-dropdown-menu { max-height: min(200px, 40vh); }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1870,7 +1955,7 @@ function buildQ1() {
         <td class="q1t-select-cell">
           <div class="custom-dropdown q1-harakah-dropdown" data-rank="${rank}">
             <button type="button" class="custom-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
-              <span class="custom-dropdown-value">اختَرْ الحركةَ</span>
+              <span class="custom-dropdown-value">اختَرْ</span>
               <i class="fas fa-chevron-down custom-dropdown-arrow"></i>
             </button>
             <ul class="custom-dropdown-menu" role="listbox">
@@ -1925,6 +2010,29 @@ function attachQ1DropdownHandlers() {
   });
 }
 
+function showQ1Feedback(type, message, autoClearMs) {
+  const fb = document.getElementById('fb-q1');
+  if (!fb) return;
+  // إذا اكتمل السؤال — رسالة الإكمال لها الأولوية، لا تستبدلها
+  if (q1State.completed) return;
+  // أزل أي مؤقّت تنظيف سابق
+  if (window._q1FbClearTimer) {
+    clearTimeout(window._q1FbClearTimer);
+    window._q1FbClearTimer = null;
+  }
+  fb.className = 'q-feedback ' + (type === 'wrong' ? 'show-wrong' : 'show-correct');
+  fb.innerHTML = message;
+  if (autoClearMs) {
+    window._q1FbClearTimer = setTimeout(() => {
+      // لا تمسح إذا اكتمل السؤال خلال الفترة
+      if (q1State.completed) return;
+      fb.className = 'q-feedback';
+      fb.innerHTML = '';
+      window._q1FbClearTimer = null;
+    }, autoClearMs);
+  }
+}
+
 function handleQ1Selection(rank, harakahId, valueSpan, dd) {
   if (q1State.completed) return;
   const rState = q1State.rows[rank - 1];
@@ -1934,7 +2042,7 @@ function handleQ1Selection(rank, harakahId, valueSpan, dd) {
   rState.attempts++;
   const expectedHarakah = Q1_HARAKAT.find(h => h.rank === rank);
   const isCorrect = harakahId === expectedHarakah.id;
-  const row = dd.closest('.dropdown-row');
+  const row = dd.closest('.q1t-row');
 
   // امسحْ الحالاتِ السّابقةَ
   row.classList.remove('correct-row', 'wrong-row', 'revealed-row');
@@ -1945,6 +2053,9 @@ function handleQ1Selection(rank, harakahId, valueSpan, dd) {
     row.classList.add('correct-row');
     dd.classList.add('is-disabled');
     checkQ1Completion();
+    if (!q1State.completed) {
+      showQ1Feedback('correct', '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ', 2500);
+    }
   } else {
     row.classList.add('wrong-row');
 
@@ -1952,19 +2063,21 @@ function handleQ1Selection(rank, harakahId, valueSpan, dd) {
       // ٣ محاولاتٍ → اكشفِ الإجابةَ الصّحيحةَ
       rState.selected = expectedHarakah.id;
       rState.status = 'revealed';
+      showQ1Feedback('correct', '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ', 3000);
       setTimeout(() => {
         row.classList.remove('wrong-row');
         row.classList.add('revealed-row');
         valueSpan.textContent = expectedHarakah.name;
         dd.classList.add('is-disabled');
         checkQ1Completion();
-      }, 800);
+      }, 3000);
     } else {
-      // محاولاتٌ متبقّيةٌ — أعِدْ القائمةَ إلى "اختَرْ" بعدَ لحظة
+      // محاولاتٌ متبقّيةٌ — رسالة خطأ + أعِدْ القائمةَ إلى "اختَرْ" بعدَ ١٫٥ ثانية
+      showQ1Feedback('wrong', '<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!', 1500);
       setTimeout(() => {
         row.classList.remove('wrong-row');
-        valueSpan.textContent = 'اختَرْ الحركةَ';
-      }, 1200);
+        valueSpan.textContent = 'اختَرْ';
+      }, 1500);
     }
   }
 }
@@ -1976,7 +2089,7 @@ function checkQ1Completion() {
     const fb = document.getElementById('fb-q1');
     if (fb) {
       fb.className = 'q-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i>أحسنتَ! رتّبتَ الحركات بشكلٍ صحيحٍ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! رتّبتَ الحركاتِ بشكلٍ صحيحٍ';
     }
     if (typeof updateNavButtons === 'function') updateNavButtons();
     if (typeof updateProgressBar === 'function') updateProgressBar();
@@ -2070,7 +2183,7 @@ function handleQ2Pick(qIdx, choiceIdx) {
     });
     qDiv.classList.remove('incorrect');
     qDiv.classList.add('correct');
-    showQ2InlineFeedback(qIdx, 'correct', 'أحسنتَ! إجابةٌ صحيحةٌ.');
+    showQ2InlineFeedback(qIdx, 'correct', 'أحسنتَ! إجابةٌ صحيحةٌ');
     progressQ2(qIdx);
   } else {
     labels.forEach((l, i) => {
@@ -2085,7 +2198,7 @@ function handleQ2Pick(qIdx, choiceIdx) {
       });
       qState.answered = true;
       qDiv.classList.add('correct');
-      showQ2InlineFeedback(qIdx, 'revealed', 'أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.');
+      showQ2InlineFeedback(qIdx, 'revealed', 'أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ');
       progressQ2(qIdx);
     } else {
       showQ2InlineFeedback(qIdx, 'wrong', 'إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!');

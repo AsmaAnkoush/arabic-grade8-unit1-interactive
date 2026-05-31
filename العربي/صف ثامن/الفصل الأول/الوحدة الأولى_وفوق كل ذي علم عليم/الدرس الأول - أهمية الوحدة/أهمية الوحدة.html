@@ -70,7 +70,7 @@
 body {
   font-family: var(--font-family);
   background: var(--color-bg);
-  padding: 32px 16px;
+  padding: 20px 16px 44px;
   direction: rtl;
 }
 .page-wrap {
@@ -172,6 +172,7 @@ body {
   border: 3px solid var(--color-primary);
   border-radius: 20px;
   font-family: var(--font-family);
+  padding-bottom: 6px; /* gap between last child and bottom border so the border renders clearly */
   /* overflow: hidden مقصودٌ عدمُ وضعِه — حتّى لا تُقطعَ قوائمُ الـ dropdown عندَ الفتحِ.
      الزّوايا المُدوّرةُ محفوظةٌ عبرَ border-radius هنا + border-radius للهيدر (17px 17px 0 0). */
 }
@@ -259,8 +260,8 @@ body {
   border: 2px solid var(--color-primary-light);
   border-right: 5px solid var(--color-primary);
   border-radius: 15px;
-  padding: 18px 22px;
-  margin: 14px 16px 0;
+  padding: 12px 22px;
+  margin: 10px 16px 0;
 }
 .instr-content {
   display: flex;
@@ -321,7 +322,7 @@ body {
 
 .reading-text-area {
   background: var(--color-paper);
-  max-height: clamp(240px, 38vh, 360px);
+  max-height: clamp(200px, 34vh, 300px);
   overflow-y: auto;
   padding: 14px 22px 16px;
   position: relative;
@@ -424,8 +425,8 @@ body {
   gap: clamp(8px, 2.5vw, 12px);
   justify-content: center;
   align-items: center;
-  padding: 12px 14px 18px;
-  margin: -14px 16px 14px;
+  padding: 10px 14px 14px;
+  margin: -10px 16px 10px;
   position: relative;
   z-index: 5;
 }
@@ -966,14 +967,20 @@ body {
   animation: fadeIn 0.3s ease;
 }
 .q-feedback.show-correct {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border-color: var(--color-success);
   background: #f3f7e3;
   color: var(--color-success);
   border-width: 3px;
 }
 .q-feedback.show-wrong {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border-color: var(--color-error);
   background: #fbeeea;
   color: var(--color-error);
@@ -1351,7 +1358,13 @@ body {
   font-weight: var(--font-weight-extrabold);
   transition: all 0.2s ease;
   box-shadow: 0 2px 0 rgba(132, 72, 22, 0.10);
+  /* الأيقونةُ تُعرَضُ في سياقِ LTR ومعزولةٌ عن اتجاهِ RTL المحيطِ، فلا تنقلبُ أفقيًّا داخلَ Rise على الجوّالِ */
+  direction: ltr;
+  unicode-bidi: isolate;
 }
+/* ضمانٌ إضافيٌّ: لا انعكاسَ على الأيقونةِ نفسِها (إلغاءُ أيِّ transform مقلوبٍ موروثٍ) */
+.tf-icon i,
+.tf-icon svg { transform: none !important; }
 .tf-option:hover .tf-icon {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(132, 72, 22, 0.15);
@@ -1691,7 +1704,7 @@ body {
   min-width: 220px;
 }
 
-/* Custom dropdown */
+/* Custom dropdown — قائمةٌ عائمةٌ (floating) تنفتحُ للأسفلِ فوقَ المحتوى */
 .q6-dropdown {
   position: relative;
   display: inline-block;
@@ -1741,6 +1754,8 @@ body {
 .q6-dropdown.is-open .q6-dropdown-arrow {
   transform: rotate(180deg);
 }
+/* القائمةُ عائمةٌ: مطلقةٌ فوقَ المحتوى، تنفتحُ للأسفلِ فقط (لا تنقلبُ للأعلى).
+   مغلقةً لا تشغلُ مساحةً (opacity/visibility) فلا يتغيّرُ ارتفاعُ البطاقةِ. */
 .q6-dropdown-menu {
   position: absolute;
   top: calc(100% + 4px);
@@ -1753,12 +1768,15 @@ body {
   list-style: none;
   margin: 0;
   box-shadow: 0 8px 24px rgba(132, 72, 22, 0.20);
-  z-index: 100;
+  z-index: 1000;
+  bottom: auto;            /* تنفتحُ للأسفلِ فقط — لا انقلابَ للأعلى */
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-  max-height: 280px;
+  /* تمريرٌ داخليٌّ احتياطيٌّ فقط للقوائمِ الطّويلةِ جدًّا؛ مع مُباعِدِ الأسفلِ
+     (dropdownScrollSpacer) تتّسعُ الصّفحةُ فتظهرُ القائمةُ كاملةً دونَ اقتطاعٍ. */
+  max-height: min(280px, 50vh);
   overflow-y: auto;
 }
 .q6-dropdown.is-open .q6-dropdown-menu {
@@ -1803,75 +1821,9 @@ body {
   pointer-events: none;
 }
 
-/* حالات الكرت */
-.q6-card.correct-card {
-  border-color: var(--color-success);
-  border-width: 3px;
-  background: #f7faea;
-  box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18);
-}
-.q6-card.correct-card .q6-card-letter {
-  background: var(--color-success);
-  box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35);
-}
-.q6-card.correct-card .q6-card-text {
-  color: var(--color-success);
-}
-.q6-card.correct-card .q6-dropdown-trigger {
-  border-color: var(--color-success);
-  border-width: 3px;
-  background: #f3f7e3;
-  color: var(--color-success);
-  font-weight: var(--font-weight-extrabold);
-}
-.q6-card.correct-card .q6-dropdown-arrow {
-  color: var(--color-success);
-}
-.q6-card.wrong-card {
-  border-color: var(--color-error);
-  border-width: 3px;
-  background: #fbeeea;
-  animation: chipShake 0.5s ease;
-}
-.q6-card.wrong-card .q6-dropdown-trigger {
-  border-color: var(--color-error);
-  border-width: 3px;
-  background: #fbeeea;
-  color: var(--color-error);
-}
-.q6-card.wrong-card .q6-dropdown-arrow {
-  color: var(--color-error);
-}
-.q6-card.revealed-card {
-  border-color: var(--color-success);
-  border-width: 3px;
-  background: #f7faea;
-  box-shadow: 0 4px 14px rgba(107, 139, 31, 0.18);
-  animation: pulse-q6-correct 0.6s ease;
-}
-.q6-card.revealed-card .q6-card-letter {
-  background: var(--color-success);
-  box-shadow: 0 2px 4px rgba(107, 139, 31, 0.35);
-}
-.q6-card.revealed-card .q6-card-text {
-  color: var(--color-success);
-}
-.q6-card.revealed-card .q6-dropdown-trigger {
-  border-color: var(--color-success);
-  border-width: 3px;
-  background: #f3f7e3;
-  color: var(--color-success);
-  font-weight: var(--font-weight-extrabold);
-}
-.q6-card.revealed-card .q6-dropdown-arrow {
-  color: var(--color-success);
-}
-@keyframes pulse-q6-correct {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-
-@media (max-width: 700px) {
+/* الهواتف (≤640px): البطاقةُ عمودٌ واحدٌ بعرضٍ كاملٍ، لا تمريرَ أفقيٌّ حتّى 320px،
+   ومنطقةُ لمسٍ ≥44px. القائمةُ تبقى عائمةً (absolute) — لا تتحوّلُ للتّدفّقِ. */
+@media (max-width: 640px) {
   .q6-card {
     padding: 14px;
     gap: 12px;
@@ -1883,21 +1835,18 @@ body {
   .q6-card-letter { grid-area: letter; width: 34px; height: 34px; font-size: 15px; }
   .q6-card-text { grid-area: text; font-size: 17px; }
   .q6-card-select { grid-area: select; min-width: 0; width: 100%; margin-top: 4px; }
-  .q6-dropdown-trigger { font-size: 16px; padding: 10px 14px; }
-  /* Mobile fix: keep the chevron + text inline as one centered, compact group.
-     The value no longer stretches full-width (flex:1), so the text stops
-     detaching/wrapping under the icon. RTL order & all styling unchanged. */
-  .q6-dropdown-trigger { justify-content: center; }
+  /* النّصُّ + السّهمُ يبقيان مجموعةً واحدةً وسطيّةً مُتراصّةً */
+  .q6-dropdown-trigger { font-size: 16px; padding: 12px 14px; min-height: 44px; justify-content: center; }
   .q6-dropdown-value { flex: 0 1 auto; }
-  .q6-dropdown-option { font-size: 16px; padding: 10px 14px; }
+  .q6-dropdown-option { font-size: 16px; padding: 12px 14px; min-height: 44px; }
 }
 @media (max-width: 480px) {
   .q6-cards-wrap { margin-left: 8px; margin-right: 8px; gap: 10px; }
   .q6-card { padding: 12px; gap: 10px; }
   .q6-card-letter { width: 30px; height: 30px; font-size: 14px; }
   .q6-card-text { font-size: 16px; line-height: 1.7; }
-  .q6-dropdown-trigger { font-size: 15px; padding: 9px 12px; }
-  .q6-dropdown-option { font-size: 15px; padding: 9px 12px; }
+  .q6-dropdown-trigger { font-size: 15px; padding: 12px 12px; min-height: 44px; }
+  .q6-dropdown-option { font-size: 15px; padding: 12px 12px; min-height: 44px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2388,9 +2337,9 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  padding: 16px;
+  padding: 12px 16px;
   background: transparent;
-  margin-top: 18px;
+  margin-top: 12px;
 }
 .nav-side { display: flex; gap: 10px; }
 
@@ -2398,13 +2347,13 @@ body {
    RESPONSIVE
 ═══════════════════════════════════════════════════════════════ */
 @media (max-width: 1080px) and (min-width: 701px) {
-  body { padding: 24px 16px; }
+  body { padding: 14px 16px 40px; }
   .task-header-img-wrap { width: 92px; height: 92px; }
   .task-header-img { width: 66px; height: 66px; }
 }
 
 @media (max-width: 700px) {
-  body { padding: 16px 8px; }
+  body { padding: 10px 8px 36px; }
   .task-app { border-radius: 16px; border-width: 2px; }
   .click-sentence-text { font-size: 18px; }
   .click-sentence { padding: 14px 16px; gap: 12px; }
@@ -2419,22 +2368,34 @@ body {
   [data-slide="7"] .q-card-header .audio-btn { top: 0; }
   [data-slide="7"] .q-card-title { font-size: 19px; }
   .task-instr-row, .reading-card, .reading-controls, .match-expr-bank, .bundle-target-panel, .q-feedback { margin-left: 10px; margin-right: 10px; }
-  .task-nav { padding: 12px; }
-  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
-  .task-header { padding: 12px 18px; }
+  .task-nav { padding: 10px 12px; }
+  .btn-action { min-width: auto; padding: 10px 18px; font-size: 19px; }
+  .task-header { padding: 12px 18px; font-size: 26px; }
   .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
   .task-header-img-wrap { width: 76px; height: 76px; }
   .task-header-img { width: 54px; height: 54px; }
   .task-header-title { font-size: 26px !important; }
-  .task-instr-text { font-size: 19px; }
+  .task-instr-text { font-size: 20px; }
+  .q-card-title { font-size: 20px; }
+  .mcq-option-text { font-size: 18px; }
+  .tf-statement { font-size: 17px; }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
+  .q-feedback.show-correct,
+  .q-feedback.show-wrong {
+    align-items: flex-start;
+  }
+  .q-feedback i {
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
   .instr-hint { gap: 10px; }
   .instr-hint-img { width: 36px; height: 36px; }
   .instr-hint-text { font-size: 16px; }
-  .reading-text-area { max-height: 320px; padding: 16px 18px 20px; }
+  .reading-text-area { max-height: 260px; padding: 16px 18px 20px; }
   .reading-text-area::before { bottom: 20px; right: 18px; top: 16px; }
   .reading-paragraph { margin-bottom: 0; padding: 4px 14px 4px 10px; }
   .para-text { line-height: 1.95; text-align: right; font-size: 18px; }
-  .reading-controls { padding: 10px 12px 14px; gap: 8px; }
+  .reading-controls { padding: 8px 12px 12px; gap: 8px; }
   .match-chip { font-size: 17px; padding: 10px 14px; min-height: 44px; }
   .bundle-target-row { grid-template-columns: 1fr; gap: 12px; }
   .bundle-target-img { width: 110px; }
@@ -2445,6 +2406,9 @@ body {
   .concept-slot { font-size: 17px; min-height: 56px; }
   .concept-slot.filled { font-size: 18px; }
   .concept-slots-3 { gap: 12px; }
+  /* branches gap must match slots gap so the crossbar aligns with slot centres */
+  .concept-tree-branches { gap: 12px; }
+  .concept-tree-branches::before { right: calc((100% - 24px) / 6); left: calc((100% - 24px) / 6); }
   .classify-categories { grid-template-columns: 1fr; gap: 10px; }
   .classify-category { min-height: 150px; }
   .q7-pair { margin-bottom: 0; }
@@ -2488,6 +2452,46 @@ body {
   }
 }
 
+/* ── Q2 concept-map: keep full 3-column branching structure on phones ────────
+   NEVER stack to a single column — the concept map must look like a concept
+   map at all widths.  Gaps, font-sizes, and padding scale down with clamp()
+   so the branching layout fits from 320px upward without horizontal scroll.
+   Branches + connector crossbar remain visible; their gap always matches the
+   slots gap so the arrows land on the correct slot centres.               */
+@media (max-width: 640px) {
+  /* Panel + chip-bank: tight side margins to maximise usable width */
+  .concept-map-panel { padding: 10px 8px; margin-left: 6px; margin-right: 6px; }
+  .match-expr-bank   { margin-left: 6px; margin-right: 6px; }
+
+  /* Header box */
+  .concept-box       { font-size: clamp(12px, 3.2vw, 16px); padding: 7px clamp(8px, 2vw, 14px); max-width: 100%; }
+
+  /* Tree: restore normal block flow (undo any flex hacks from prior sessions) */
+  .concept-tree      { display: block; height: auto; }
+  .concept-tree::after { content: none; display: none; } /* remove old CSS arrowhead */
+  .concept-tree-trunk { height: 14px; }
+
+  /* Branches: keep visible, gap = 8px, update crossbar formula accordingly */
+  .concept-tree-branches        { display: grid; gap: 8px; }
+  .concept-tree-branches::before { right: calc((100% - 16px) / 6); left: calc((100% - 16px) / 6); }
+  .concept-tree-branch-svg       { height: 20px; }
+
+  /* Three-slot row: stays 3 columns, smaller gap */
+  .concept-slots-3   { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .concept-slot-wide { max-width: 100%; }
+
+  /* Slots: clamp font-size so it scales with viewport */
+  .concept-slot        { font-size: clamp(11px, 3vw, 15px); min-height: 44px; padding: clamp(5px, 1.2vw, 8px) clamp(4px, 1vw, 10px); }
+  .concept-slot.filled { font-size: clamp(12px, 3.2vw, 16px); }
+
+  /* Stage arrows */
+  .line-vertical { height: 18px; }
+
+  /* Chip bank */
+  .match-chips-area { padding: 10px 8px; gap: 8px; flex-wrap: wrap; }
+  .match-chip       { font-size: clamp(13px, 3.5vw, 16px); padding: 8px 10px; min-height: 44px; }
+}
+
 @media (max-width: 560px) {
   .btn-play, .btn-restart { font-size: 15px; min-width: 100px; padding: 10px 14px; }
   .btn-seek { width: 42px; height: 42px; min-width: 42px; font-size: 16px; }
@@ -2495,50 +2499,64 @@ body {
 }
 
 @media (max-width: 480px) {
-  body { padding: 10px 6px; }
+  body { padding: 8px 6px 32px; }
   .task-app { border-radius: 14px; }
   .click-sentence-text { font-size: 16px; }
   .click-sentence { padding: 12px 14px; gap: 10px; }
   .click-sentence-letter { width: 30px; height: 30px; font-size: 15px; }
-  .task-header { padding: 10px 14px; }
+  .task-header { padding: 10px 14px; font-size: 22px; }
   .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
   .task-header-img-wrap { width: 64px; height: 64px; }
   .task-header-img { width: 46px; height: 46px; }
   .task-header-title { font-size: 22px !important; }
   .task-instr-row, .reading-card, .reading-controls, .match-expr-bank, .bundle-target-panel, .q-feedback { margin-left: 8px; margin-right: 8px; }
   .task-instr-row { padding: 12px 14px; gap: 10px; }
-  .task-instr-text { font-size: 17px; line-height: 1.6; }
+  .task-instr-text { font-size: 18px; line-height: 1.8; }
+  .q-card-title { font-size: 18px; }
+  .mcq-option-text { font-size: 16px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
+  .q-feedback.show-correct,
+  .q-feedback.show-wrong {
+    align-items: flex-start;
+  }
+  .q-feedback i {
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
   /* Q7: match Q6 title responsive size + instruction-row spacing */
   [data-slide="7"] .q-card-title { font-size: 17px; line-height: 1.6; }
   [data-slide="7"] .q-card-header { gap: 10px; }
   .instr-hint-img { width: 32px; height: 32px; }
   .instr-hint-text { font-size: 15px; }
   .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
-  .reading-text-area { max-height: 260px; padding: 12px 12px 15px; }
+  .reading-text-area { max-height: 210px; padding: 12px 12px 15px; }
   .reading-paragraph { margin-bottom: 0; padding: 4px 10px; }
   .para-text { font-size: 17px; line-height: 1.85; }
-  .reading-controls { gap: 6px; padding: 10px 8px 14px; flex-wrap: nowrap; }
+  .reading-controls { gap: 6px; padding: 8px 8px 10px; flex-wrap: nowrap; }
   .btn-play, .btn-restart { font-size: 14px; min-width: 88px; padding: 9px 10px; gap: 4px; }
   .btn-seek { width: 38px; height: 38px; min-width: 38px; font-size: 14px; }
   .controls-spacer { display: none; }
-  .match-chip { font-size: 16px; padding: 9px 12px; }
-  .match-chips-area { padding: 14px 16px; gap: 10px; }
+  .match-chip { font-size: 15px; padding: 9px 10px; min-height: 44px; }
+  .match-chips-area { padding: 12px 10px; gap: 8px; }
   .bundle-target-panel { padding: 12px; }
   .bundle-target-row { padding: 12px; min-height: auto; }
   .bundle-target-img { width: 90px; }
   .match-drop-zone { min-height: 110px; padding: 10px; }
   .zone-chip { font-size: 15px; padding: 6px 10px; }
-  .concept-map-panel { padding: 18px 12px; margin-left: 8px; margin-right: 8px; }
-  .concept-box { font-size: 16px; padding: 10px 14px; }
-  .concept-slots-3 { grid-template-columns: 1fr; gap: 10px; }
-  .concept-tree { display: block; height: 22px; }
-  .concept-tree-trunk { height: 22px; }
-  .concept-tree-branches { display: none; }
-  .line-vertical { height: 20px; }
-  .concept-slot { font-size: 16px; min-height: 50px; padding: 9px 12px; }
-  .concept-slot.filled { font-size: 17px; }
+  .concept-map-panel { padding: 8px 6px; margin-left: 4px; margin-right: 4px; }
+  .concept-box { font-size: clamp(11px, 3vw, 14px); padding: 6px 8px; }
+  /* Keep 3 columns — slots gap 6px, branches gap must match */
+  .concept-slots-3 { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .concept-tree { display: block; height: auto; }
+  .concept-tree-trunk { height: 12px; }
+  .concept-tree-branches { display: grid; gap: 6px; }
+  .concept-tree-branches::before { right: calc((100% - 12px) / 6); left: calc((100% - 12px) / 6); }
+  .concept-tree-branch-svg { height: 18px; }
+  .line-vertical { height: 16px; }
+  .concept-slot { font-size: clamp(10px, 2.8vw, 13px); min-height: 40px; padding: clamp(4px, 1vw, 7px) clamp(3px, 0.8vw, 8px); }
+  .concept-slot.filled { font-size: clamp(11px, 3vw, 14px); }
   .tf-row { gap: 10px; padding: 10px 12px; flex-direction: column; align-items: stretch; }
-  .tf-statement { font-size: 17px; }
+  .tf-statement { font-size: 15px; }
   .tf-icon { width: 40px; height: 40px; font-size: 18px; }
   .tf-options { justify-content: center; }
   .classify-categories { grid-template-columns: 1fr; gap: 10px; margin-left: 8px; margin-right: 8px; }
@@ -2561,10 +2579,10 @@ body {
   .q7-modal-title { font-size: 14px; }
   .q7-modal-arrow { width: 30px; height: 30px; }
   .q7-modal-arrow i { font-size: 11px; }
-  .task-nav { padding: 10px; gap: 8px; flex-direction: row; flex-wrap: nowrap; }
+  .task-nav { padding: 8px 10px; gap: 8px; flex-direction: row; flex-wrap: nowrap; }
   .nav-side { flex: 1; min-width: 0; }
   .nav-side .btn-action { width: 100%; min-width: 0; }
-  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+  .btn-action { font-size: 17px; padding: 9px 14px; gap: 4px; }
   .slide-controls { flex-direction: row; flex-wrap: nowrap; gap: 10px; }
   .slide-controls .btn-action { flex: 1; min-width: 0; width: auto; }
   /* محاذاةُ زرِّ السّمّاعةِ لأعلى النّصِّ: سلايد 4 (Q3+Q4) وسلايد 5 (Q5). */
@@ -2600,6 +2618,15 @@ body {
   .task-header-title { font-size: 18px !important; }
   .para-text { font-size: 16px; }
   .q7-textarea { font-size: 16px; min-height: 90px; }
+  /* Q2 concept-map: minimum sizes for 320px phones, still 3 columns */
+  .concept-map-panel  { padding: 6px 4px; margin-left: 2px; margin-right: 2px; }
+  .concept-box        { font-size: 10px; padding: 5px 6px; }
+  .concept-slots-3    { gap: 4px; }
+  .concept-tree-branches        { gap: 4px; }
+  .concept-tree-branches::before { right: calc((100% - 8px) / 6); left: calc((100% - 8px) / 6); }
+  .concept-slot       { font-size: 10px; min-height: 36px; padding: 4px 3px; }
+  .concept-slot.filled { font-size: 11px; }
+  .concept-slot-placeholder { font-size: 9px; }
 }
 
 @media (hover: none) {
@@ -2896,8 +2923,8 @@ body {
               <i class="fas fa-volume-high"></i>
             </button>
             <p class="q-card-title">
-              <strong>السُّؤالُ الخامسُ:</strong> أضعُ إشارةَ (√) أمامَ العبارةِ الصّحيحةِ وإشارةَ (✗) أمامَ العبارةِ الخاطئةِ فيما يأتي:
-            </p>
+  <strong>السُّؤالُ الخامسُ:</strong> أحدِّدُ الصَّوابَ أوِ الخطأَ في العباراتِ الآتيةِ:
+</p>
           </div>
 
           <div class="tf-row" data-tf-idx="0" data-tf-correct="true">
@@ -3036,9 +3063,9 @@ body {
         </div>
         <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
         <div class="complete-restart">
-          <button class="btn-action btn-restart-finish" onclick="restartActivity()">
-            إعادةُ النّشاطِ
-          </button>
+         <button class="btn-action btn-restart-finish" onclick="restartActivity()">
+  <i class="fas fa-redo"></i> إعادةُ النّشاطِ
+</button>
         </div>
       </div>
     </div>
@@ -3576,7 +3603,7 @@ body {
       q2State.placedCount[slotLevel]++;
 
       fb.className = 'q-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
 
       revealNextStageIfReady(slotLevel);
 
@@ -3665,7 +3692,7 @@ body {
       card.classList.remove('incorrect');
       card.classList.add('correct');
       fb.className = 'q-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
       updateNavButtons();
       updateProgressBar();
       // إخفاءُ صندوقِ الفيدباك بعدَ التّوقيتِ الموحَّدِ (البطاقةُ تبقى خضراءَ)
@@ -3701,7 +3728,7 @@ body {
         card.classList.add('correct');
         q3State.isCorrect = true;
         fb.className = 'q-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
         updateNavButtons();
         updateProgressBar();
         // إخفاءُ صندوقِ الفيدباك بعدَ توقيتِ الكَشفِ الموحَّدِ (الخيارُ المكشوفُ يبقى أخضرَ)
@@ -3764,7 +3791,7 @@ body {
       card.classList.remove('incorrect');
       card.classList.add('correct');
       fb.className = 'q-feedback show-correct';
-      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+      fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
       updateNavButtons();
       updateProgressBar();
       // إخفاءُ صندوقِ الفيدباك بعدَ التّوقيتِ الموحَّدِ (البطاقةُ تبقى خضراءَ)
@@ -3792,7 +3819,7 @@ body {
         card.classList.add('correct');
         q4State.isCorrect = true;
         fb.className = 'q-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجابةِ الصّحيحةِ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجابةِ الصّحيحةِ';
         updateNavButtons();
         updateProgressBar();
         // إخفاءُ صندوقِ الفيدباك بعدَ توقيتِ الكَشفِ الموحَّدِ (الخيارُ المكشوفُ يبقى أخضرَ)
@@ -3862,7 +3889,7 @@ body {
         updateProgressBar();
       } else {
         fb.className = 'q-feedback show-correct';
-        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ.';
+        fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! إجابةٌ صحيحةٌ';
         setTimeout(() => {
           if (!q5State.isCorrect) {
             fb.className = 'q-feedback';
@@ -3891,7 +3918,7 @@ body {
         if (allDone) {
           q5State.isCorrect = true;
           fb.className = 'q-feedback show-correct';
-          fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرّفْ على الإجاباتِ الصّحيحةِ.';
+          fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ! تعرَّفْ على الإجاباتِ الصّحيحةِ';
           updateNavButtons();
           updateProgressBar();
         } else {
@@ -4009,7 +4036,29 @@ body {
     });
   }
 
+  // يُكبّرُ/يُصغّرُ مُباعِدًا أسفلَ الصّفحةِ ليُتاحَ التّمريرُ بما يكفي لإظهارِ قائمةٍ
+  // تنفتحُ للأسفلِ تجاوزَتْ حافّتُها أسفلَ المنفذِ (viewport) — منقولٌ من الاختبارِ التّشخيصيِّ.
+  function syncDropdownSpacer() {
+    const spacer = document.getElementById('dropdownScrollSpacer');
+    if (!spacer) return;
+    const openMenu = document.querySelector('.q6-dropdown.is-open .q6-dropdown-menu');
+    if (openMenu) {
+      const overflow = openMenu.getBoundingClientRect().bottom - window.innerHeight;
+      spacer.style.height = (overflow > 0 ? overflow + 24 : 0) + 'px';
+    } else {
+      spacer.style.height = '0';
+    }
+  }
+
   function initQ6Dropdowns() {
+    // مُباعِدُ التّمريرِ في أسفلِ الصّفحةِ — يُنشأُ مرّةً واحدةً
+    if (!document.getElementById('dropdownScrollSpacer')) {
+      const _ddSpacer = document.createElement('div');
+      _ddSpacer.id = 'dropdownScrollSpacer';
+      _ddSpacer.style.height = '0';
+      document.body.appendChild(_ddSpacer);
+    }
+
     // إغلاق أي dropdown مفتوح عند الضغط برا
     document.addEventListener('click', (e) => {
       document.querySelectorAll('.q6-dropdown.is-open').forEach(dd => {
@@ -4018,6 +4067,7 @@ body {
           dd.querySelector('.q6-dropdown-trigger').setAttribute('aria-expanded', 'false');
         }
       });
+      syncDropdownSpacer();
     });
 
     document.querySelectorAll('.q6-dropdown').forEach(dd => {
@@ -4039,6 +4089,17 @@ body {
         const wasOpen = dd.classList.contains('is-open');
         dd.classList.toggle('is-open');
         trigger.setAttribute('aria-expanded', !wasOpen);
+
+        if (!wasOpen) {
+          // فُتِحت الآنَ: وسّعِ المُباعِدَ ثمّ مرّرِ القائمةَ إلى داخلِ المنظورِ
+          const menu = dd.querySelector('.q6-dropdown-menu');
+          setTimeout(() => {
+            if (dd.classList.contains('is-open') && menu) {
+              syncDropdownSpacer();
+              menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 60);
+        }
       });
 
       // اختيار option
@@ -4050,6 +4111,7 @@ body {
 
           dd.classList.remove('is-open');
           trigger.setAttribute('aria-expanded', 'false');
+          syncDropdownSpacer();
 
           handleQ6Selection(dd, cid, selectedValue, labelText, valueSpan);
         });
@@ -4513,6 +4575,25 @@ body {
   initQ7();
   updateNavButtons();
   updateProgressBar();
+
+  /* ── Auto-resize for Articulate Rise iframe embed ──────────────────
+     Reports the document's true scroll-height to the parent frame so
+     Rise can expand the embed block to fit all content.  Safe to run
+     in normal browser tabs too (window.parent === window guard). */
+  (function () {
+    if (window.parent === window) return;
+    function sendHeight() {
+      const h = Math.max(document.body.scrollHeight,
+                         document.documentElement.scrollHeight);
+      window.parent.postMessage({ height: h }, '*');
+    }
+    sendHeight();
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(sendHeight).observe(document.body);
+    } else {
+      window.addEventListener('resize', sendHeight);
+    }
+  }());
 </script>
 
 </body>
