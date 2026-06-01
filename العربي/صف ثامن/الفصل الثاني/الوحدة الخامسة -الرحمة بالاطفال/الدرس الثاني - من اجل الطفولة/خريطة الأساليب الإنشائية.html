@@ -2649,10 +2649,7 @@ body {
 .concept-tree.tree-4 { max-width: 820px; }
 .concept-tree-branches.branches-4 { grid-template-columns: repeat(4,1fr); }
 .concept-tree-branches.branches-4::before { right: calc((100% - 48px)/8); left: calc((100% - 48px)/8); }
-.concept-trunk { display:block; width:14px; height:18px; margin:0 auto; overflow:visible; }
-.concept-types-4 { position:relative; display:grid; grid-template-columns: repeat(4,1fr); gap:16px; max-width:820px; margin:0 auto; }
-.concept-types-4::before { content:''; position:absolute; top:0; right:calc((100% - 48px)/8); left:calc((100% - 48px)/8); height:3px; background:var(--color-primary); }
-.branch-arrow { display:block; width:14px; height:22px; align-self:center; overflow:visible; margin-bottom:2px; }
+.concept-types-4 { display:grid; grid-template-columns: repeat(4,1fr); gap:16px; max-width:820px; margin:0 auto; }
 .ctype-col { display:flex; flex-direction:column; gap:6px; }
 .ctype-box { background:var(--color-primary); color:#fff; border:2px solid var(--color-primary-shadow); border-radius:10px; padding:9px 6px; text-align:center; font-weight:var(--font-weight-extrabold); font-size:17px; box-shadow:0 2px 6px rgba(132,72,22,0.18); }
 .p2hide { display:none !important; }
@@ -2668,7 +2665,7 @@ body {
   .concept-tree.tree-4 { display:block; height:auto; max-width:100%; }
   .concept-tree-trunk { height:14px; }
   .concept-tree-branches.branches-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; height:18px; }
-  .concept-types-4::before { right:calc((100% - 18px)/8); left:calc((100% - 18px)/8); }
+  .concept-tree-branches.branches-4::before { right:calc((100% - 18px)/8); left:calc((100% - 18px)/8); }
   .concept-tree-branch-svg { height:18px; }
   .concept-types-4 { grid-template-columns:repeat(4,1fr); gap:6px; max-width:100%; }
   .ctype-box { font-size:clamp(12px,3vw,15px); padding:7px 3px; }
@@ -2681,7 +2678,7 @@ body {
   .concept-map-panel { padding:8px 5px; }
   .concept-tree.tree-4 { display:block; }
   .concept-tree-branches.branches-4 { grid-template-columns:repeat(4,1fr); gap:4px; }
-  .concept-types-4::before { right:calc((100% - 12px)/8); left:calc((100% - 12px)/8); }
+  .concept-tree-branches.branches-4::before { right:calc((100% - 12px)/8); left:calc((100% - 12px)/8); }
   .concept-types-4 { grid-template-columns:repeat(4,1fr); gap:4px; }
   .ctype-box { font-size:clamp(11px,2.8vw,13px); padding:6px 2px; }
   .ctype-sub { font-size:clamp(12px,3vw,14px); }
@@ -2708,10 +2705,17 @@ body {
 
   <div class="concept-map-panel">
     <div class="concept-box">الأُسلوبُ الإنشائيُّ</div>
-    <svg class="concept-trunk" viewBox="0 0 14 18" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="18" stroke="#844816" stroke-width="3"/></svg>
+    <div class="concept-tree tree-4">
+      <svg class="concept-tree-trunk" viewBox="0 0 14 18" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="18" stroke="#844816" stroke-width="3"/></svg>
+      <div class="concept-tree-branches branches-4">
+        <svg class="concept-tree-branch-svg" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
+        <svg class="concept-tree-branch-svg" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
+        <svg class="concept-tree-branch-svg" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
+        <svg class="concept-tree-branch-svg" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
+      </div>
+    </div>
     <div class="concept-types-4">
               <div class="ctype-col">
-                <svg class="branch-arrow" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
                 <div class="ctype-box">تعليلٌ</div>
                 <div class="ctype-sub">وأداتُه</div>
                 <div class="concept-slot ctype-ada" data-correct-cid="a-laam"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>الأداةُ</span></div>
@@ -2719,7 +2723,6 @@ body {
                 <div class="concept-slot ctype-phrase p2hide" data-correct-cid="p-laam"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>العبارةُ</span></div>
               </div>
               <div class="ctype-col">
-                <svg class="branch-arrow" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
                 <div class="ctype-box">شرطٌ</div>
                 <div class="ctype-sub">وأداتُه</div>
                 <div class="concept-slot ctype-ada" data-correct-cid="a-lawla"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>الأداةُ</span></div>
@@ -2727,7 +2730,6 @@ body {
                 <div class="concept-slot ctype-phrase p2hide" data-correct-cid="p-lawla"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>العبارةُ</span></div>
               </div>
               <div class="ctype-col">
-                <svg class="branch-arrow" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
                 <div class="ctype-box">نفيٌ</div>
                 <div class="ctype-sub">وأداتُه</div>
                 <div class="concept-slot ctype-ada" data-correct-cid="a-lam"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>الأداةُ</span></div>
@@ -2735,7 +2737,6 @@ body {
                 <div class="concept-slot ctype-phrase p2hide" data-correct-cid="p-lam"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>العبارةُ</span></div>
               </div>
               <div class="ctype-col">
-                <svg class="branch-arrow" viewBox="0 0 14 22" preserveAspectRatio="xMidYMin meet" aria-hidden="true"><line x1="7" y1="0" x2="7" y2="14" stroke="#844816" stroke-width="3"/><polygon points="1,14 13,14 7,22" fill="#844816"/></svg>
                 <div class="ctype-box">توكيدٌ</div>
                 <div class="ctype-sub">وأداتُه</div>
                 <div class="concept-slot ctype-ada" data-correct-cid="a-inna"><span class="concept-slot-placeholder"><i class="fas fa-hand-pointer"></i>الأداةُ</span></div>
@@ -2747,10 +2748,14 @@ body {
 
   <div class="q-feedback" id="fb"></div>
 
+  <div class="task-nav" id="taskNav" style="display:none; justify-content:center;">
+    <button class="btn-action btn-nav" id="finishBtn" onclick="showSuccess()">إنهاءُ النّشاطِ</button>
+  </div>
+
   <div class="success-screen" id="successScreen">
     <div class="complete-wrap" id="completeWrap">
       <div class="trophy-wrap"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img"><div class="trophy-glow"></div></div>
-      <div class="complete-title">أحسنتَ! أكملْتَ خريطةَ الأساليبِ</div>
+      <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
       <div class="complete-restart"><button class="btn-action btn-restart" onclick="restartActivity()"><i class="fas fa-redo"></i> إعادةُ النّشاطِ</button></div>
     </div>
   </div>
@@ -3165,7 +3170,8 @@ body {
       } else if(state.placedPhrase===TOTAL_PHRASE){
         state.completed = true;
         fb.innerHTML='<i class="fas fa-check-circle"></i> ممتازٌ! أكملْتَ خريطةَ الأساليبِ بشكلٍ صحيحٍ.';
-        setTimeout(showSuccess, 800);
+        document.getElementById("taskNav").style.display="flex";
+        document.getElementById("taskNav").scrollIntoView({behavior:"smooth",block:"center"});
       } else {
         setTimeout(()=>{ if(!state.completed){ fb.className="q-feedback"; fb.innerHTML=""; } }, 2000);
       }
@@ -3181,6 +3187,7 @@ body {
     document.querySelector(".match-expr-bank").style.display="none";
     document.querySelector(".task-instr-row").style.display="none";
     document.getElementById("fb").style.display="none";
+    document.getElementById("taskNav").style.display="none";
     document.getElementById("successScreen").classList.add("show");
     document.getElementById("progressFill").style.width="100%";
     document.getElementById("successScreen").scrollIntoView({behavior:"smooth",block:"start"});
