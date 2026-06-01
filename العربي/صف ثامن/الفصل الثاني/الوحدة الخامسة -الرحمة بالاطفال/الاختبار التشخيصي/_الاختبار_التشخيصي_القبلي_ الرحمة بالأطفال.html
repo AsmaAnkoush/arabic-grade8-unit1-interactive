@@ -49,9 +49,9 @@
   --color-secondary-hover:  #f2d489;
   --color-olive-hover:      #9c9d3a;
 
-  --audio-btn-size:         44px;
-  --audio-btn-radius:       11px;
-  --audio-btn-icon-size:    19px;
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -159,6 +159,7 @@ body {
   height: var(--audio-btn-size);
   width: var(--audio-btn-size);
   min-width: var(--audio-btn-size);
+  line-height: var(--audio-btn-size);
   border: none;
   border-radius: var(--audio-btn-radius);
   display: inline-flex;
@@ -324,7 +325,7 @@ body {
   align-items: flex-start;
 }
 .intro-instructions-card .q-card-title {
-  text-align: justify;
+  text-align: start;
   line-height: var(--line-height-relaxed);
 }
 
@@ -477,7 +478,7 @@ body {
 .q-card-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin-bottom: 12px;
 }
 .q-num-inline {
@@ -1953,6 +1954,7 @@ body {
 
   .q-card { padding: 16px; }
   .q-card-title { font-size: 19px; }
+  .q-card-header { align-items: flex-start; }
   .mcq-option-text { font-size: 18px; }
 
   .click-sentence-text { font-size: 18px; }
@@ -1991,7 +1993,6 @@ body {
   .instr-hint { gap: 10px; }
   .instr-hint-img { width: 36px; height: 36px; }
   .instr-hint-text { font-size: 16px; }
-  .audio-btn { width: 40px; height: 40px; min-width: 40px; font-size: 18px; }
 
   .q-card { padding: 14px; }
   .q-card-title { font-size: 17px; }
@@ -2071,7 +2072,6 @@ body {
     min-height: 48px;
   }
   .grammar-drop-zone { min-height: 52px; }
-  .audio-btn { min-width: 44px; min-height: 44px; }
 }
 .verb-highlight {
   color: var(--color-success);
@@ -2137,7 +2137,7 @@ body {
       </button>
       <div class="instr-content">
         <p class="task-instr-text" id="instrText">
-          <strong>السّؤالُ الأوّلُ:</strong> أختارُ الإجابةَ الصّحيحةَ فيما يأتي.
+          <strong>السّؤالُ الأوّلُ:</strong> أقرأُ كلَّ عبارةٍ من العباراتِ الآتيةِ، ثمَّ أختارُ الإجابةَ الصّحيحةَ.
         </p>
         <div class="instr-hint" id="instrHint" style="display:none;">
           <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/i7t_Mq6Gv8mJq6Fm.png" alt="" class="instr-hint-img">
@@ -2169,7 +2169,9 @@ body {
 
       <div class="results-review" id="resultsReview" style="display: none;">
         <div class="review-title">
-          <i class="fas fa-clipboard-check"></i>
+          <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت">
+            <i class="fas fa-volume-high"></i>
+          </button>
           مراجعةُ الإجاباتِ
         </div>
         <div id="reviewContainer"></div>
@@ -2202,7 +2204,7 @@ body {
   1: {
     title: "السّؤالُ الأوّلُ",
     type: "mcq",
-    instr: "<strong>السّؤالُ الأوّلُ:</strong> أختارُ الإجابةَ الصّحيحةَ فيما يأتي.",
+    instr: "<strong>السّؤالُ الأوّلُ:</strong> أقرأُ كلَّ عبارةٍ من العباراتِ الآتيةِ، ثمَّ أختارُ الإجابةَ الصّحيحةَ.",
     questions: [
       {
         q: "قالَ لي أخي: «أنا أرسمُ لوحةً»، ولم أفهم، هل يقصد:",
@@ -2581,7 +2583,7 @@ const TOTAL_SLIDES = 3;
             setTimeout(() => {
               fb.className = 'q-feedback';
               fb.innerHTML = '';
-            }, 1500);
+            }, 2500);
 
             // إظهار السؤال التالي تلقائياً
             revealNextMCQ(slideIdx, qIdx);
@@ -2607,6 +2609,7 @@ const TOTAL_SLIDES = 3;
               card.classList.add('q-card-correct');
               fb.className = 'q-feedback show-correct';
               fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ على المحاولةِ!';
+              setTimeout(() => { if (fb.classList.contains('show-correct')) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 3000);
               revealNextMCQ(slideIdx, qIdx);
               updateNavButtons();
             } else {
@@ -2677,6 +2680,7 @@ const TOTAL_SLIDES = 3;
             // فيه إجابات صحيحة كمان
             fb.className = 'q-feedback show-correct';
             fb.innerHTML = '<i class="fas fa-check-circle"></i> أحسنتَ! هناكَ إجابةٌ أخرى صحيحةٌ، تابعْ.';
+            setTimeout(() => { if (fb.classList.contains('show-correct') && !state.completed) { fb.className = 'q-feedback'; fb.innerHTML = ''; } }, 2500);
           }
           updateNavButtons();
         } else {
@@ -2734,6 +2738,23 @@ const TOTAL_SLIDES = 3;
     none: 'لا شيء مما ذُكر'
   };
 
+  function syncDropdownSpacer() {
+    let spacer = document.getElementById('dropdownScrollSpacer');
+    if (!spacer) {
+      spacer = document.createElement('div');
+      spacer.id = 'dropdownScrollSpacer';
+      spacer.style.height = '0';
+      document.body.appendChild(spacer);
+    }
+    const openMenu = document.querySelector('.custom-dropdown.is-open .custom-dropdown-menu');
+    if (openMenu) {
+      const overflow = openMenu.getBoundingClientRect().bottom - window.innerHeight;
+      spacer.style.height = (overflow > 0 ? overflow + 24 : 0) + 'px';
+    } else {
+      spacer.style.height = '0';
+    }
+  }
+
   // إغلاق أي dropdown مفتوح عند الضغط خارجَه — يُسجَّل مرّةً واحدةً لكلّ الصّفحة
   function initDropdownGlobalClose() {
     document.addEventListener('click', (e) => {
@@ -2743,6 +2764,7 @@ const TOTAL_SLIDES = 3;
           dd.querySelector('.custom-dropdown-trigger').setAttribute('aria-expanded', 'false');
         }
       });
+      syncDropdownSpacer();
     });
   }
 
@@ -2780,6 +2802,17 @@ const TOTAL_SLIDES = 3;
         const wasOpen = dd.classList.contains('is-open');
         dd.classList.toggle('is-open');
         trigger.setAttribute('aria-expanded', !wasOpen);
+        if (!wasOpen) {
+          const menu = dd.querySelector('.custom-dropdown-menu');
+          setTimeout(() => {
+            if (dd.classList.contains('is-open') && menu) {
+              syncDropdownSpacer();
+              menu.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 60);
+        } else {
+          syncDropdownSpacer();
+        }
       });
 
       // اختيار option
@@ -2792,6 +2825,7 @@ const TOTAL_SLIDES = 3;
           // أغلق الـ dropdown
           dd.classList.remove('is-open');
           trigger.setAttribute('aria-expanded', 'false');
+          syncDropdownSpacer();
 
           handleDropdownSelection(slideIdx, dd, sIdx, wIdx, selectedValue, labelText, valueSpan);
         });
@@ -3126,7 +3160,9 @@ const TOTAL_SLIDES = 3;
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <div class="review-section-num">${sectionNum}</div>
+              <button type="button" class="audio-btn review-section-audio" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت السؤال">
+                <i class="fas fa-volume-high"></i>
+              </button>
               <div class="review-section-title">${slide.title} &mdash; الاختيارُ من متعدّدٍ</div>
             </div>
         `;
@@ -3175,7 +3211,9 @@ const TOTAL_SLIDES = 3;
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <div class="review-section-num">${sectionNum}</div>
+              <button type="button" class="audio-btn review-section-audio" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت السؤال">
+                <i class="fas fa-volume-high"></i>
+              </button>
               <div class="review-section-title">${slide.title} &mdash; النّقرُ على الإجاباتِ الصّحيحةِ</div>
             </div>
         `;
@@ -3233,7 +3271,9 @@ const TOTAL_SLIDES = 3;
         html += `
           <div class="review-section">
             <div class="review-section-header">
-              <div class="review-section-num">${sectionNum}</div>
+              <button type="button" class="audio-btn review-section-audio" onclick="toggleSimpleAudio(this)" aria-label="تشغيل صوت السؤال">
+                <i class="fas fa-volume-high"></i>
+              </button>
               <div class="review-section-title">${slide.title} &mdash; استخراجُ الفعلِ والفاعلِ والمفعولِ بهِ</div>
             </div>
         `;

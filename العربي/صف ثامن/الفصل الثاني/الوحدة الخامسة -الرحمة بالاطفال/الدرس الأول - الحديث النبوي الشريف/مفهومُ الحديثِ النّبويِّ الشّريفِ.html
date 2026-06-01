@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مفهومُ الحديثِ النّبويِّ الشّريفِ</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+  --font-size-instructions: 24px;
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --letter-spacing-tight:   1.5px;
+
+  --color-primary-hover:    #9d5a22;
+  --color-secondary-hover:  #f2d489;
+  --color-olive-hover:      #9c9d3a;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover  { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDES
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME AREA (Slide 1) - بطاقتين متوازنتين جنب بعض
+═══════════════════════════════════════════════════════════════ */
+.game-area {
+  margin: 14px 16px 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  position: relative;
+}
+
+/* الحاوية الرئيسية: بطاقة المطرقة + بطاقة العصي */
+.card-with-hammer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+  gap: 16px 16px;
+  align-items: stretch;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* بطاقة المطرقة - تشغل الصف الأول فقط */
+.hammer-card {
+  grid-row: 1;
+  grid-column: 1;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.hammer-card.active {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30), 0 4px 12px rgba(132, 72, 22, 0.08);
+}
+
+.hammer-instr {
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 4px;
+  animation: instrFade 1.8s ease-in-out infinite;
+  transition: color 0.3s ease;
+}
+@keyframes instrFade {
+  0%, 100% { opacity: 0.75; }
+  50%      { opacity: 1; }
+}
+body.hammer-armed .hammer-instr {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* بطاقة العصي - تشغل الصف الأول، العمود الثاني */
+.card-main {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* عداد البطاقات المنجزة */
+.game-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.status-label {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+.status-circle {
+  background: var(--color-primary);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 3px 0 var(--color-primary-shadow), 0 4px 12px rgba(132, 72, 22, 0.25);
+  border: 3px solid #fff;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 0;
+  transition: all 0.3s ease;
+}
+.status-circle.updated {
+  animation: statusBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes statusBounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); background: var(--color-success); box-shadow: 0 3px 0 #4d6618, 0 4px 16px rgba(107, 139, 31, 0.4); }
+  100% { transform: scale(1); }
+}
+
+/* شبكة البطاقات - عرض بطاقة واحدة في كل وقت */
+.cards-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+}
+.cards-grid .card {
+  display: none;
+  width: 100%;
+  min-height: 360px;
+  padding: 34px 14px 18px;
+}
+.cards-grid .card.is-active {
+  display: flex;
+  flex: 1;
+  animation: cardSlideIn 0.4s ease;
+}
+@keyframes cardSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* مؤشر تقدم البطاقات - الصف الثاني من grid، تحت بطاقة العصي */
+.cards-progress {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+}
+.card-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-sand);
+  transition: all 0.3s ease;
+}
+.card-dot.active {
+  background: var(--color-primary);
+  transform: scale(1.4);
+  box-shadow: 0 0 0 3px rgba(132, 72, 22, 0.2);
+}
+.card-dot.done {
+  background: var(--color-success);
+}
+
+.card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.08);
+}
+.card.bundle-shake,
+.bundle-img-wrap.bundle-shake {
+  animation: bundleShake 0.5s ease;
+}
+@keyframes bundleShake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  20% { transform: translateX(-6px) rotate(-2deg); }
+  40% { transform: translateX(6px) rotate(2deg); }
+  60% { transform: translateX(-4px) rotate(-1deg); }
+  80% { transform: translateX(4px) rotate(1deg); }
+}
+.card.all-broken {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  border-width: 3px;
+}
+
+.card-label {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 26px;
+  font-weight: var(--font-weight-extrabold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow), 0 4px 10px rgba(132, 72, 22, 0.20);
+  border: 3px solid #fff;
+  flex-shrink: 0;
+  z-index: 5;
+  font-family: var(--font-family);
+}
+.card.all-broken .card-label {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618, 0 4px 10px rgba(107, 139, 31, 0.25);
+}
+
+.card-sticks-area {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 4px 0;
+}
+
+/* العصا */
+.stick {
+  width: 38px;
+  height: 180px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+.stick img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.stick.size-sm { height: 160px; }
+.stick.size-md { height: 180px; }
+.stick.size-lg { height: 200px; }
+.stick.rot-1 { transform: rotate(-8deg); }
+.stick.rot-2 { transform: rotate(6deg); }
+.stick.rot-3 { transform: rotate(-3deg); }
+.stick.rot-4 { transform: rotate(10deg); }
+.stick.rot-5 { transform: rotate(-12deg); }
+.stick.rot-6 { transform: rotate(4deg); }
+
+/* العصا المكسورة */
+.stick.broken { pointer-events: none; }
+.stick.broken .stick-half-top,
+.stick.broken .stick-half-bottom {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  overflow: hidden;
+}
+.stick.broken .stick-half-top { top: 0; animation: stickBreakTop 0.6s ease-out forwards; }
+.stick.broken .stick-half-bottom { bottom: 0; animation: stickBreakBottom 0.6s ease-out forwards; }
+.stick.broken .stick-half-top img { width: 100%; height: 200%; object-position: top; }
+.stick.broken .stick-half-bottom img { width: 100%; height: 200%; object-position: bottom; }
+@keyframes stickBreakTop {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(-14px, 10px) rotate(-20deg); opacity: 0.45; }
+}
+@keyframes stickBreakBottom {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(14px, 14px) rotate(22deg); opacity: 0.45; }
+}
+
+/* الحزمة - صورة جاهزة */
+.bundle-img-wrap {
+  width: 100%;
+  max-width: 145px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+.bundle-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  filter: drop-shadow(0 3px 8px rgba(132, 72, 22, 0.20));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HAMMER (click-to-activate)
+═══════════════════════════════════════════════════════════════ */
+.hammer {
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 8px rgba(132, 72, 22, 0.25));
+  position: relative;
+  z-index: 100;
+  border-radius: 50%;
+  padding: 6px;
+  animation: hammerIdle 2.4s ease-in-out infinite;
+}
+@keyframes hammerIdle {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-6px) rotate(2deg); }
+}
+.hammer:hover { transform: scale(1.08) rotate(-5deg); }
+.hammer:active { transform: scale(0.95); }
+.hammer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  display: block;
+}
+.hammer.active {
+  animation: hammerPulse 1.6s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.35) 0%, transparent 70%);
+  filter: drop-shadow(0 0 12px rgba(237, 198, 111, 0.7)) drop-shadow(0 4px 8px rgba(132, 72, 22, 0.35));
+}
+.hammer.active:hover { transform: scale(1.12) rotate(-8deg); }
+@keyframes hammerPulse {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50%      { transform: scale(1.08) rotate(3deg); }
+}
+
+.hammer-flying {
+  position: fixed;
+  width: 130px;
+  height: 130px;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.35s cubic-bezier(0.5, 0, 0.5, 1.3);
+  filter: drop-shadow(0 8px 16px rgba(132, 72, 22, 0.4));
+}
+.hammer-flying img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.hammer-flying.striking { transform: rotate(70deg) scale(1.15); }
+.hammer-flying.bounce-back { transform: rotate(-30deg) scale(0.85); }
+
+body.hammer-armed .stick:not(.broken),
+body.hammer-armed .bundle-img-wrap {
+  cursor: pointer;
+  animation: stickInviting 1.5s ease-in-out infinite;
+}
+@keyframes stickInviting {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.15) drop-shadow(0 0 4px rgba(237, 198, 111, 0.5)); }
+}
+
+/* تأثير الضربة */
+.hit-effect {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  font-size: 38px;
+  color: var(--color-secondary-shadow);
+  font-weight: 900;
+  animation: hitFlash 0.5s ease-out forwards;
+  z-index: 9998;
+}
+@keyframes hitFlash {
+  0%   { opacity: 1; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION CARD (Slide 2)
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.q-revealed {
+  animation: qCardReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes qCardReveal {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: shake 0.5s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+  margin-left: 0;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+
+/* MCQ */
+.mcq-options { display: grid; gap: 10px; }
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text { color: var(--color-error); }
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* FEEDBACK */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+  border-width: 3px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Feedback خاص باللعبة (خارج الكرت) */
+#gameFeedback {
+  margin: 14px 16px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  display: none;
+  width: 100%;
+}
+.success-screen.show { display: block; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 280px;
+  height: 280px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.55) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 36px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(280px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .q-card, .game-area, #gameFeedback { margin-left: 10px; margin-right: 10px; }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 24px !important; }
+
+  .task-instr-text { font-size: 19px; }
+  .q-card { padding: 16px; }
+  .q-card-title { font-size: 19px; }
+  .mcq-option-text { font-size: 18px; }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
+
+  .card-with-hammer { grid-template-columns: 1fr 1.8fr; gap: 12px; }
+  .hammer-card { padding: 16px 12px; gap: 14px; }
+  .hammer { width: 110px; height: 110px; }
+  .hammer-instr { font-size: 17px; }
+  .cards-grid .card { min-height: 310px; padding: 32px 8px 14px; }
+  .card { padding: 8px 6px; }
+  .card-label { width: 46px; height: 46px; font-size: 22px; top: -20px; }
+  .stick { width: 32px; height: 160px; }
+  .stick.size-sm { height: 140px; }
+  .stick.size-md { height: 160px; }
+  .stick.size-lg { height: 178px; }
+  .bundle-img-wrap { max-width: 125px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+  /* محاذاةُ زرِّ السّمّاعةِ لأعلى عنوانِ السّؤالِ على الجوّالِ (سلايد 2 — أسئلةُ MCQ) */
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 20px !important; }
+
+  .task-instr-row, .q-card, .game-area, #gameFeedback { margin-left: 8px; margin-right: 8px; }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 16px; line-height: 1.6; }
+
+  .q-card { padding: 14px; }
+  .q-card-title { font-size: 17px; line-height: 1.6; }
+  .mcq-option-text { font-size: 16px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
+
+  .card-with-hammer { grid-template-columns: 1fr 1.5fr; gap: 8px; }
+  .hammer-card { padding: 12px 8px; gap: 10px; }
+  .hammer { width: 90px; height: 90px; }
+  .hammer-instr { font-size: 14px; line-height: 1.4; }
+  .cards-grid .card { min-height: 260px; padding: 28px 8px 12px; }
+  .card { padding: 6px 4px; }
+  .card-label { width: 40px; height: 40px; font-size: 19px; top: -17px; border-width: 2.5px; }
+  .card-sticks-area { gap: 2px; }
+  .stick { width: 26px; height: 135px; }
+  .stick.size-sm { height: 118px; }
+  .stick.size-md { height: 135px; }
+  .stick.size-lg { height: 150px; }
+  .bundle-img-wrap { max-width: 105px; }
+  .card-dot { width: 10px; height: 10px; }
+  .status-label { font-size: 14px; }
+  .status-circle { width: 38px; height: 38px; font-size: 17px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+
+  .trophy-img { width: 220px; height: 220px; }
+  .trophy-glow { width: 280px; height: 280px; }
+  .complete-title { font-size: 28px; margin-top: 20px; }
+  .complete-wrap { padding: 40px 20px; }
+  /* محاذاةُ زرِّ السّمّاعةِ لأعلى عنوانِ السّؤالِ على الجوّالِ (سلايد 2 — أسئلةُ MCQ) */
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .q-card-title { font-size: 16px; }
+  .mcq-option-text { font-size: 15px; }
+  .btn-action { font-size: 13px; padding: 9px 8px; }
+}
+
+@media (hover: none) {
+  .mcq-option-label:hover {
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+  .hammer:hover { transform: none; }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+}
+
+/* ═══════════ HADITH ACTIVITY ═══════════ */
+.intro-img-wrap { text-align: center; margin: 18px auto 0; max-width: 560px; }
+.intro-img { width: 100%; height: auto; display: block; border: 3px solid var(--color-secondary); border-radius: 22px; box-shadow: 0 4px 14px rgba(132,72,22,0.12); box-sizing: border-box; }
+.reveal-block { display: none; }
+.reveal-block.show { display: block; animation: qCardReveal 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+.def-center.reveal-block { display: none; }
+.def-center.reveal-block.show { display: flex; }
+.answer-card {
+  display: none; align-items: center; justify-content: center; gap: 16px;
+  background: var(--color-secondary-light);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 16px; padding: 16px 26px; margin: 18px 0 0;
+  box-shadow: 0 4px 14px rgba(132,72,22,0.10); text-align: center;
+}
+.answer-card.show { display: flex; animation: fadeIn 0.6s ease; }
+.answer-text { font-size: 24px; font-weight: var(--font-weight-bold); color: var(--color-primary); line-height: var(--line-height-relaxed); }
+.answer-deco { color: var(--color-secondary-shadow); font-size: 18px; flex-shrink: 0; }
+.story-text { font-size: 22px; color: var(--color-ink); font-weight: var(--font-weight-semibold); line-height: var(--line-height-relaxed); margin: 0; }
+.def-box { background: var(--color-secondary-light); border: 2.5px solid var(--color-secondary); border-right: 6px solid var(--color-primary); border-radius: 18px; padding: 18px 20px; margin: 14px 16px 0; box-shadow: 0 4px 16px rgba(132,72,22,0.12); }
+.def-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.def-icon { font-size: 28px; }
+.def-icon-img { width: 44px; height: auto; flex-shrink: 0; }
+.def-center .def-icon-img { width: 74px; display: block; margin: 0 auto 12px; }
+.def-center .def-audio { margin: 0; flex-shrink: 0; }
+.def-label { font-size: 17px; font-weight: var(--font-weight-extrabold); color: var(--color-primary); opacity: 0.85; }
+.def-text { font-size: 23px; font-weight: var(--font-weight-bold); color: var(--color-ink); line-height: var(--line-height-relaxed); margin: 0; }
+.def-center { display: flex; align-items: flex-start; gap: 14px; background: #fffdf8; border: 3px solid var(--color-primary); border-radius: 22px; padding: 26px 24px; margin: 24px 16px; box-shadow: 0 8px 26px rgba(132,72,22,0.15); }
+.def-center .def-icon { font-size: 46px; display: block; margin-bottom: 10px; }
+.def-center .def-text { flex: 1; font-size: 30px; color: var(--color-primary); line-height: var(--line-height-relaxed); }
+.def-center.final .def-text { font-size: 33px; }
+.def-new { color: var(--color-success); }
+.task-card { display: flex; align-items: flex-start; gap: 14px; background: var(--color-secondary-light); border: 2px solid var(--color-primary); border-radius: 18px; padding: 22px 22px; margin: 24px 16px; box-shadow: 0 4px 14px rgba(132,72,22,0.10); }
+.task-icon { font-size: 44px; margin-bottom: 8px; }
+.task-text { flex: 1; font-size: 23px; font-weight: var(--font-weight-bold); color: var(--color-ink); line-height: var(--line-height-relaxed); margin: 0; text-align: right; }
+@media (max-width: 700px) {
+  .def-box, .def-center, .task-card { margin-left: 10px; margin-right: 10px; }
+  .answer-text { font-size: 20px; } .answer-card { padding: 14px 18px; gap: 12px; } .intro-img-wrap { margin: 16px auto 0; } .story-text { font-size: 19px; }
+  .def-text { font-size: 20px; } .def-center .def-text { font-size: 24px; } .def-center.final .def-text { font-size: 26px; }
+  .task-text { font-size: 20px; } .task-icon { font-size: 38px; } .def-center .def-icon { font-size: 40px; } .def-center .def-icon-img { width: 62px; }
+}
+@media (max-width: 480px) {
+  .def-box, .def-center, .task-card { margin-left: 8px; margin-right: 8px; }
+  .answer-text { font-size: 18px; } .answer-deco { font-size: 15px; } .intro-img-wrap { margin: 14px auto 0; } .story-text { font-size: 17px; }
+  .def-text { font-size: 18px; } .def-center .def-text { font-size: 20px; } .def-center.final .def-text { font-size: 22px; }
+  .def-label { font-size: 15px; } .def-icon { font-size: 24px; } .def-center .def-icon { font-size: 34px; } .def-icon-img { width: 36px; } .def-center .def-icon-img { width: 56px; }
+  .task-text { font-size: 18px; } .task-icon { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="task-app">
+    <div class="task-header">
+      <div class="task-header-content">
+        <div class="task-header-img-wrap">
+          <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img">
+        </div>
+        <div class="task-header-title">مفهومُ الحديثِ النّبويِّ الشّريفِ</div>
+      </div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+    <div class="slides-container">
+      <div class="slide active" data-slide="1">
+        <div class="q-card" id="introCard">
+          <div class="q-card-header">
+            <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+            <p class="q-card-title">ماذا يَخطُرُ في بالِي عندما أسمعُ كلمةَ «حديثٍ»؟</p>
+          </div>
+
+          <div class="intro-img-wrap">
+            <img src="https://articulateusercontent.com/rise/courses/oApl5HiU-fyahVmKmFCNXqwZFbvk9he7/poGAsr-iv0Tyl_7F.jpg" alt="طفلٌ يفكّر" class="intro-img">
+          </div>
+
+          <div class="answer-card" id="introThink">
+            <i class="fas fa-quote-right answer-deco"></i>
+            <span class="answer-text">قد تقولُ إنّهُ كلامٌ.</span>
+            <i class="fas fa-quote-left answer-deco"></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide" data-slide="2">
+        <div class="q-card" id="q1Card">
+          <div class="q-card-header">
+            <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للسؤال"><i class="fas fa-volume-high"></i></button>
+            <p class="q-card-title">وللكلامِ قائلٌ، فلو قُلْنا «هذا كلامُ سُعادَ»، فماذا نقصِدُ؟</p>
+          </div>
+          <div class="mcq-options">
+            <label class="mcq-option-label"><input type="radio" name="q1" value="0"><span class="mcq-option-text">أ. كلامٌ سَمِعَتْهُ سُعادُ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q1" value="1"><span class="mcq-option-text">ب. كلامٌ قالَتْهُ سُعادُ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q1" value="2"><span class="mcq-option-text">ج. كلامٌ قيلَ عن سُعادَ</span></label>
+          </div>
+          <div class="q-feedback" id="fb-q1"></div>
+        </div>
+        <div class="q-card reveal-block" id="q2Card">
+          <div class="q-card-header">
+            <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للسؤال"><i class="fas fa-volume-high"></i></button>
+            <p class="q-card-title">إذنْ فهو كلامٌ قالَتْهُ سُعادُ، وبالتّالي رُويَ عنها، ولو قلنا «هذا حديثٌ نبويٌّ»، فهو كلامٌ:</p>
+          </div>
+          <div class="mcq-options">
+            <label class="mcq-option-label"><input type="radio" name="q2" value="0"><span class="mcq-option-text">أ. يُروى عن النّبيِّ محمدْ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q2" value="1"><span class="mcq-option-text">ب. نُعبّرُ فيهِ عن حُبّنا للنّبيِّ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q2" value="2"><span class="mcq-option-text">ج. قالَهُ أصحابُ النّبيِّ</span></label>
+          </div>
+          <div class="q-feedback" id="fb-q2"></div>
+        </div>
+        <div class="def-center reveal-block" id="defScreen2">
+          <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+          <p class="def-text">الحديثُ النّبويُّ هو كلُّ ما رُويَ عن النّبيِّ من قولٍ…</p>
+        </div>
+      </div>
+      <div class="slide" data-slide="3">
+        <div class="q-card">
+          <div class="q-card-header">
+            <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+            <p class="story-text">ولكنْ، هل الحديثُ هو فقط ما يُروى كلامًا؟<br>
+            لأتخيّلْ أنّني بينما كنتُ أتمشّى مع أبي، قامَ بإزالةِ حجرٍ عن الطّريقِ، أليسَ بهذا الفعلِ يقولُ لي شيئًا وإنْ لم ينطِقْهُ بلسانِهِ؟</p>
+          </div>
+        </div>
+        <div class="q-card" id="q3Card">
+          <div class="q-card-header">
+            <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للسؤال"><i class="fas fa-volume-high"></i></button>
+            <p class="q-card-title">ماذا تُضيفُ هذهِ القصّةُ للحديثِ؟</p>
+          </div>
+          <div class="mcq-options">
+            <label class="mcq-option-label"><input type="radio" name="q3" value="0"><span class="mcq-option-text">أ. القولُ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q3" value="1"><span class="mcq-option-text">ب. الفعلُ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q3" value="2"><span class="mcq-option-text">ج. الصّفةُ</span></label>
+          </div>
+          <div class="q-feedback" id="fb-q3"></div>
+        </div>
+        <div class="def-center reveal-block" id="defScreen3">
+          <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+          <p class="def-text">الحديثُ النّبويُّ هو كلُّ ما رُويَ عن النّبيِّ من قولٍ أو فعلٍ…</p>
+        </div>
+      </div>
+      <div class="slide" data-slide="4">
+        <div class="q-card" id="q4Card">
+          <div class="q-card-header">
+            <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+            <p class="story-text">ولو كانتْ صفةُ أبي الدّائمةُ هي الصِّدقَ، ألا ينصَحُني بالصِّدقِ وإنْ لم ينطِقْهُ كلامًا؟ فماذا نُضيفُ إلى مفهومِ الحديثِ؟</p>
+          </div>
+          <div class="mcq-options">
+            <label class="mcq-option-label"><input type="radio" name="q4" value="0"><span class="mcq-option-text">أ. القولُ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q4" value="1"><span class="mcq-option-text">ب. الفعلُ</span></label>
+            <label class="mcq-option-label"><input type="radio" name="q4" value="2"><span class="mcq-option-text">ج. الصّفةُ</span></label>
+          </div>
+          <div class="q-feedback" id="fb-q4"></div>
+        </div>
+        <div class="def-center final reveal-block" id="defScreen4">
+          <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+          <p class="def-text">الحديثُ النّبويُّ هو كلُّ ما رُويَ عن النّبيِّ من قولٍ أو فعلٍ أو تقريرٍ أو صفةٍ.</p>
+        </div>
+      </div>
+      <div class="slide" data-slide="5">
+        <div class="task-card">
+          <button type="button" class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button>
+          <p class="task-text">أبحثُ في الإنترنتِ عن معنى «التّقريرِ» وأشارِكُ ذلكَ مع أحدِ أفرادِ أُسرتي.</p>
+        </div>
+      </div>
+      <div class="success-screen" id="successScreen">
+        <div class="complete-wrap" id="completeWrap">
+          <div class="trophy-wrap">
+            <img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img">
+            <div class="trophy-glow"></div>
+          </div>
+          <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+          <div class="complete-restart"><button class="btn-action btn-restart" onclick="restartActivity()"><i class="fas fa-redo"></i> إعادةُ النّشاطِ</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="task-nav" id="taskNav">
+      <div class="nav-side"><button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;"><i class="fas fa-arrow-right"></i> السّابقُ</button></div>
+      <div class="nav-side"><button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()"><i class="fas fa-arrow-left"></i></button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toArabic(num){ const a=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩']; return num.toString().split('').map(d=>a[d]||d).join(''); }
+  function toggleSimpleAudio(btn){ btn.classList.toggle('state-playing'); }
+
+  const TOTAL_SLIDES = 5;
+  const MAX_ATTEMPTS = 3;
+  let currentSlide = 1;
+  const qState = { q1:{a:0,done:false}, q2:{a:0,done:false}, q3:{a:0,done:false}, q4:{a:0,done:false} };
+  const QCORRECT = { q1:1, q2:0, q3:1, q4:2 };
+  const QFB = {
+    q1:'أحسنتَ، فعندما نَنسُبُ الكلامَ إلى شخصٍ فإنّنا نقصِدُ أنّهُ قالَهُ.',
+    q2:'أحسنتَ! إجابةٌ صحيحةٌ.',
+    q3:'أحسنتَ! الفعلُ نوعٌ من الحديثِ.',
+    q4:'أحسنتَ! الصّفةُ كذلكَ من الحديثِ.'
+  };
+
+  function goToSlide(idx){
+    if(idx<1 || idx>TOTAL_SLIDES) return;
+    document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+    document.querySelector('.slide[data-slide="'+idx+'"]').classList.add('active');
+    currentSlide=idx;
+    updateProgressBar(); updateNavButtons();
+    window.scrollTo({top:0,behavior:'smooth'});
+    if(idx===1) triggerIntro();
+  }
+  function nextSlide(){ if(currentSlide<TOTAL_SLIDES) goToSlide(currentSlide+1); else finishActivity(); }
+  function prevSlide(){ if(currentSlide>1) goToSlide(currentSlide-1); }
+
+  let introRevealed = false;
+  function isSlideAnswered(idx){
+    if(idx===1) return introRevealed;
+    if(idx===2) return qState.q1.done && qState.q2.done;
+    if(idx===3) return qState.q3.done;
+    if(idx===4) return qState.q4.done;
+    return true;
+  }
+  function updateNavButtons(){
+    const prevBtn=document.getElementById('prevBtn'), nextBtn=document.getElementById('nextBtn');
+    prevBtn.style.visibility = (currentSlide===1) ? 'hidden' : 'visible';
+    nextBtn.innerHTML = (currentSlide===TOTAL_SLIDES) ? 'إنهاءُ النّشاطِ' : 'التّالي <i class="fas fa-arrow-left"></i>';
+    nextBtn.disabled = !isSlideAnswered(currentSlide);
+  }
+  function updateProgressBar(){ document.getElementById('progressFill').style.width = Math.round((currentSlide/TOTAL_SLIDES)*100)+'%'; }
+
+  function initMcq(qname){
+    document.querySelectorAll('input[name="'+qname+'"]').forEach(inp=>{
+      inp.addEventListener('change', ()=>handleMcq(qname, parseInt(inp.value)));
+    });
+  }
+  function revealEl(id){ const el=document.getElementById(id); if(!el) return; el.classList.add('show'); setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'nearest'}),90); }
+
+  function handleMcq(qname, sel){
+    const st=qState[qname];
+    if(st.done || st.a>=MAX_ATTEMPTS) return;
+    st.a++;
+    const card=document.getElementById(qname+'Card');
+    const labels=card.querySelectorAll('.mcq-option-label');
+    const inputs=card.querySelectorAll('input[type="radio"]');
+    const fb=document.getElementById('fb-'+qname);
+    const correct=QCORRECT[qname];
+    labels.forEach(l=>l.classList.remove('correct-option','wrong-option','revealed'));
+    if(sel===correct){
+      st.done=true;
+      labels.forEach((l,i)=>{ if(i===correct) l.classList.add('correct-option'); inputs[i].disabled=true; l.classList.add('disabled'); });
+      card.classList.remove('incorrect'); card.classList.add('correct');
+      fb.className='q-feedback show-correct';
+      fb.innerHTML='<i class="fas fa-check-circle"></i> '+QFB[qname];
+      onAnswered(qname);
+      setTimeout(()=>{ if(fb){ fb.className='q-feedback'; fb.innerHTML=''; } }, 2500);
+    } else {
+      labels.forEach((l,i)=>{ if(i===sel) l.classList.add('wrong-option'); });
+      card.classList.add('incorrect');
+      if(st.a>=MAX_ATTEMPTS){
+        st.done=true;
+        labels.forEach((l,i)=>{ l.classList.remove('wrong-option'); if(i===correct) l.classList.add('revealed'); inputs[i].disabled=true; l.classList.add('disabled'); });
+        card.classList.remove('incorrect'); card.classList.add('correct');
+        fb.className='q-feedback show-correct';
+        fb.innerHTML='<i class="fas fa-check-circle"></i> '+QFB[qname];
+        onAnswered(qname);
+        setTimeout(()=>{ if(fb){ fb.className='q-feedback'; fb.innerHTML=''; } }, 3000);
+      } else {
+        fb.className='q-feedback show-wrong';
+        fb.innerHTML='<i class="fas fa-times-circle"></i> إجابةٌ غيرُ صحيحةٍ. حاولْ مرّةً أخرى!';
+        setTimeout(()=>{
+          labels.forEach(l=>l.classList.remove('wrong-option'));
+          inputs.forEach(x=>{ x.checked=false; });
+          card.classList.remove('incorrect');
+          fb.className='q-feedback'; fb.innerHTML='';
+        }, 1500);
+      }
+    }
+  }
+  function onAnswered(qname){
+    if(qname==='q1'){ revealEl('q2Card'); }
+    else if(qname==='q2'){ revealEl('defScreen2'); }
+    else if(qname==='q3'){ revealEl('defScreen3'); }
+    else if(qname==='q4'){ revealEl('defScreen4'); }
+    updateNavButtons();
+  }
+
+  let introDone=false;
+  function triggerIntro(){ if(introDone) return; introDone=true; setTimeout(()=>{ document.getElementById('introThink').classList.add('show'); introRevealed=true; updateNavButtons(); }, 2500); }
+
+  function finishActivity(){
+    document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+    document.getElementById('taskNav').style.display='none';
+    document.getElementById('progressFill').style.width='100%';
+    const screen=document.getElementById('successScreen');
+    screen.classList.add('show'); screen.scrollIntoView({behavior:'smooth',block:'start'});
+    setTimeout(launchConfetti,400);
+  }
+  function launchConfetti(){
+    const wrap=document.getElementById('completeWrap'); if(!wrap) return;
+    const colors=['#EDC66F','#844816','#808122','#E6E6CD','#a05820','#FFF4E5'];
+    for(let i=0;i<36;i++){
+      const dot=document.createElement('div'); dot.className='confetti-dot';
+      const sz=8+Math.random()*12;
+      dot.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+colors[~~(Math.random()*colors.length)]+';left:'+(8+Math.random()*84)+'%;top:'+(-20+Math.random()*40)+'px;animation-duration:'+(1.4+Math.random()*1.4)+'s;animation-delay:'+(Math.random()*0.9)+'s';
+      wrap.appendChild(dot); setTimeout(()=>dot.remove(),3500);
+    }
+  }
+  function restartActivity(){ location.reload(); }
+
+  ['q1','q2','q3','q4'].forEach(initMcq);
+  updateNavButtons(); updateProgressBar(); triggerIntro();
+</script>
+</body>
+</html>

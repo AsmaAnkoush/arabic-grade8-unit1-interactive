@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ماذا أرادَ الشّاعرُ أن يحقّقَ؟</title>
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --color-primary:          #844816;
+  --color-primary-light:    #F3EDE8;
+  --color-primary-shadow:   #5e3210;
+  --color-secondary:        #EDC66F;
+  --color-secondary-light:  #FFF4E5;
+  --color-secondary-shadow: #c9a548;
+  --color-olive:            #808122;
+  --color-olive-light:      #E6E6CD;
+  --color-olive-shadow:     #5d5e18;
+  --color-sand:             #C9B5A0;
+  --color-bg:               #faf6f0;
+  --color-ink:              #3a2410;
+  --color-error:            #B7472D;
+  --color-success:          #6b8b1f;
+  --color-light-border:     #C9B5A0;
+  --color-paper:            #fbf5e9;
+
+  --font-family:            'Scheherazade', serif;
+  --font-size-instructions: 24px;
+  --font-weight-semibold:   600;
+  --font-weight-bold:       700;
+  --font-weight-extrabold:  700;
+  --line-height-tight:      1.6;
+  --line-height-normal:     1.7;
+  --line-height-relaxed:    1.8;
+  --letter-spacing-tight:   1.5px;
+
+  --color-primary-hover:    #9d5a22;
+  --color-secondary-hover:  #f2d489;
+  --color-olive-hover:      #9c9d3a;
+
+  --audio-btn-size:         36px;
+  --audio-btn-radius:       9px;
+  --audio-btn-icon-size:    16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  padding: 32px 16px;
+  direction: rtl;
+}
+.page-wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════════ */
+.btn-action {
+  font-family: var(--font-family);
+  font-size: 23px;
+  font-weight: var(--font-weight-extrabold);
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  min-width: 140px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s ease;
+  line-height: var(--line-height-tight);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-restart {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+  box-shadow: 0 5px 0 var(--color-secondary-shadow);
+}
+.btn-restart:hover  { background: var(--color-secondary-hover); }
+.btn-restart:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-secondary-shadow); }
+
+.btn-nav {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 5px 0 var(--color-primary-shadow);
+}
+.btn-nav:hover { background: var(--color-primary-hover); }
+.btn-nav:active { transform: translateY(2px); box-shadow: 0 3px 0 var(--color-primary-shadow); }
+.btn-nav:disabled {
+  background: #d4c4b3; color: #fff;
+  box-shadow: 0 5px 0 #b8a896;
+  cursor: not-allowed; opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AUDIO BUTTON
+═══════════════════════════════════════════════════════════════ */
+.audio-btn {
+  background: var(--color-primary);
+  height: var(--audio-btn-size);
+  width: var(--audio-btn-size);
+  min-width: var(--audio-btn-size);
+  border: none;
+  border-radius: var(--audio-btn-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: var(--audio-btn-icon-size);
+  flex-shrink: 0;
+  box-shadow: 0 3px 0 var(--color-primary-shadow);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.audio-btn:hover  { transform: scale(1.05); }
+.audio-btn:active { transform: scale(0.97); box-shadow: 0 2px 0 var(--color-primary-shadow); }
+.audio-btn.state-playing {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618;
+  animation: audioPulse 1.5s ease-in-out infinite;
+}
+@keyframes audioPulse {
+  0%, 100% { box-shadow: 0 3px 0 #4d6618, 0 0 0 0 rgba(107, 139, 31, 0.5); }
+  50%      { box-shadow: 0 3px 0 #4d6618, 0 0 0 10px rgba(107, 139, 31, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   APP SHELL
+═══════════════════════════════════════════════════════════════ */
+.task-app {
+  width: 100%;
+  background: #fff;
+  border: 3px solid var(--color-primary);
+  border-radius: 20px;
+  font-family: var(--font-family);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER + Progress Bar
+═══════════════════════════════════════════════════════════════ */
+.task-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 24px;
+  font-size: clamp(24px, 4.5vw, 34px);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--letter-spacing-tight);
+  border-radius: 17px 17px 0 0;
+}
+.task-header-content {
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+.task-header-title {
+  text-align: center;
+  grid-column: 2;
+  line-height: var(--line-height-tight);
+}
+.task-header-img-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  grid-column: 1;
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-header-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: radial-gradient(circle, #fff 60%, var(--color-secondary-light) 100%);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) inset;
+}
+.task-header-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  z-index: 0;
+  box-shadow: 0 0 0 2px rgba(237, 198, 111, 0.3);
+}
+.task-header-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+}
+
+.progress-bar-wrap {
+  background: var(--color-olive-light);
+  height: 6px;
+  width: 100%;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INSTRUCTION ROW
+═══════════════════════════════════════════════════════════════ */
+.task-instr-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 16px;
+  background: var(--color-primary-light);
+  border: 2px solid var(--color-primary-light);
+  border-right: 5px solid var(--color-primary);
+  border-radius: 15px;
+  padding: 18px 22px;
+  margin: 14px 16px 0;
+}
+.instr-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.task-instr-text {
+  font-size: var(--font-size-instructions);
+  color: var(--color-ink);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+.task-instr-text strong { color: var(--color-primary); }
+
+/* ═══════════════════════════════════════════════════════════════
+   SLIDES
+═══════════════════════════════════════════════════════════════ */
+.slide { display: none; }
+.slide.active {
+  display: block;
+  animation: slideFadeIn 0.4s ease;
+}
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GAME AREA (Slide 1) - بطاقتين متوازنتين جنب بعض
+═══════════════════════════════════════════════════════════════ */
+.game-area {
+  margin: 14px 16px 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  position: relative;
+}
+
+/* الحاوية الرئيسية: بطاقة المطرقة + بطاقة العصي */
+.card-with-hammer {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr auto;
+  gap: 16px 16px;
+  align-items: stretch;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* بطاقة المطرقة - تشغل الصف الأول فقط */
+.hammer-card {
+  grid-row: 1;
+  grid-column: 1;
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.hammer-card.active {
+  background: var(--color-secondary-light);
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(237, 198, 111, 0.30), 0 4px 12px rgba(132, 72, 22, 0.08);
+}
+
+.hammer-instr {
+  font-size: 19px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  text-align: center;
+  line-height: 1.5;
+  padding: 0 4px;
+  animation: instrFade 1.8s ease-in-out infinite;
+  transition: color 0.3s ease;
+}
+@keyframes instrFade {
+  0%, 100% { opacity: 0.75; }
+  50%      { opacity: 1; }
+}
+body.hammer-armed .hammer-instr {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+
+/* بطاقة العصي - تشغل الصف الأول، العمود الثاني */
+.card-main {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+/* عداد البطاقات المنجزة */
+.game-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.status-label {
+  font-size: 18px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+}
+.status-circle {
+  background: var(--color-primary);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: var(--font-weight-extrabold);
+  box-shadow: 0 3px 0 var(--color-primary-shadow), 0 4px 12px rgba(132, 72, 22, 0.25);
+  border: 3px solid #fff;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 0;
+  transition: all 0.3s ease;
+}
+.status-circle.updated {
+  animation: statusBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes statusBounce {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); background: var(--color-success); box-shadow: 0 3px 0 #4d6618, 0 4px 16px rgba(107, 139, 31, 0.4); }
+  100% { transform: scale(1); }
+}
+
+/* شبكة البطاقات - عرض بطاقة واحدة في كل وقت */
+.cards-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+}
+.cards-grid .card {
+  display: none;
+  width: 100%;
+  min-height: 360px;
+  padding: 34px 14px 18px;
+}
+.cards-grid .card.is-active {
+  display: flex;
+  flex: 1;
+  animation: cardSlideIn 0.4s ease;
+}
+@keyframes cardSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* مؤشر تقدم البطاقات - الصف الثاني من grid، تحت بطاقة العصي */
+.cards-progress {
+  grid-row: 2;
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0;
+}
+.card-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-sand);
+  transition: all 0.3s ease;
+}
+.card-dot.active {
+  background: var(--color-primary);
+  transform: scale(1.4);
+  box-shadow: 0 0 0 3px rgba(132, 72, 22, 0.2);
+}
+.card-dot.done {
+  background: var(--color-success);
+}
+
+.card {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  border-radius: 14px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(132, 72, 22, 0.08);
+}
+.card.bundle-shake,
+.bundle-img-wrap.bundle-shake {
+  animation: bundleShake 0.5s ease;
+}
+@keyframes bundleShake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  20% { transform: translateX(-6px) rotate(-2deg); }
+  40% { transform: translateX(6px) rotate(2deg); }
+  60% { transform: translateX(-4px) rotate(-1deg); }
+  80% { transform: translateX(4px) rotate(1deg); }
+}
+.card.all-broken {
+  background: #f3f7e3;
+  border-color: var(--color-success);
+  border-width: 3px;
+}
+
+.card-label {
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 26px;
+  font-weight: var(--font-weight-extrabold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 0 var(--color-primary-shadow), 0 4px 10px rgba(132, 72, 22, 0.20);
+  border: 3px solid #fff;
+  flex-shrink: 0;
+  z-index: 5;
+  font-family: var(--font-family);
+}
+.card.all-broken .card-label {
+  background: var(--color-success);
+  box-shadow: 0 3px 0 #4d6618, 0 4px 10px rgba(107, 139, 31, 0.25);
+}
+
+.card-sticks-area {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 4px 0;
+}
+
+/* العصا */
+.stick {
+  width: 38px;
+  height: 180px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  position: relative;
+  flex-shrink: 0;
+}
+.stick img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.stick.size-sm { height: 160px; }
+.stick.size-md { height: 180px; }
+.stick.size-lg { height: 200px; }
+.stick.rot-1 { transform: rotate(-8deg); }
+.stick.rot-2 { transform: rotate(6deg); }
+.stick.rot-3 { transform: rotate(-3deg); }
+.stick.rot-4 { transform: rotate(10deg); }
+.stick.rot-5 { transform: rotate(-12deg); }
+.stick.rot-6 { transform: rotate(4deg); }
+
+/* العصا المكسورة */
+.stick.broken { pointer-events: none; }
+.stick.broken .stick-half-top,
+.stick.broken .stick-half-bottom {
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  left: 0;
+  overflow: hidden;
+}
+.stick.broken .stick-half-top { top: 0; animation: stickBreakTop 0.6s ease-out forwards; }
+.stick.broken .stick-half-bottom { bottom: 0; animation: stickBreakBottom 0.6s ease-out forwards; }
+.stick.broken .stick-half-top img { width: 100%; height: 200%; object-position: top; }
+.stick.broken .stick-half-bottom img { width: 100%; height: 200%; object-position: bottom; }
+@keyframes stickBreakTop {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(-14px, 10px) rotate(-20deg); opacity: 0.45; }
+}
+@keyframes stickBreakBottom {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(14px, 14px) rotate(22deg); opacity: 0.45; }
+}
+
+/* الحزمة - صورة جاهزة */
+.bundle-img-wrap {
+  width: 100%;
+  max-width: 145px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+.bundle-img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  filter: drop-shadow(0 3px 8px rgba(132, 72, 22, 0.20));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HAMMER (click-to-activate)
+═══════════════════════════════════════════════════════════════ */
+.hammer {
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 8px rgba(132, 72, 22, 0.25));
+  position: relative;
+  z-index: 100;
+  border-radius: 50%;
+  padding: 6px;
+  animation: hammerIdle 2.4s ease-in-out infinite;
+}
+@keyframes hammerIdle {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-6px) rotate(2deg); }
+}
+.hammer:hover { transform: scale(1.08) rotate(-5deg); }
+.hammer:active { transform: scale(0.95); }
+.hammer img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  display: block;
+}
+.hammer.active {
+  animation: hammerPulse 1.6s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.35) 0%, transparent 70%);
+  filter: drop-shadow(0 0 12px rgba(237, 198, 111, 0.7)) drop-shadow(0 4px 8px rgba(132, 72, 22, 0.35));
+}
+.hammer.active:hover { transform: scale(1.12) rotate(-8deg); }
+@keyframes hammerPulse {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50%      { transform: scale(1.08) rotate(3deg); }
+}
+
+.hammer-flying {
+  position: fixed;
+  width: 130px;
+  height: 130px;
+  pointer-events: none;
+  z-index: 9999;
+  transition: all 0.35s cubic-bezier(0.5, 0, 0.5, 1.3);
+  filter: drop-shadow(0 8px 16px rgba(132, 72, 22, 0.4));
+}
+.hammer-flying img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.hammer-flying.striking { transform: rotate(70deg) scale(1.15); }
+.hammer-flying.bounce-back { transform: rotate(-30deg) scale(0.85); }
+
+body.hammer-armed .stick:not(.broken),
+body.hammer-armed .bundle-img-wrap {
+  cursor: pointer;
+  animation: stickInviting 1.5s ease-in-out infinite;
+}
+@keyframes stickInviting {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.15) drop-shadow(0 0 4px rgba(237, 198, 111, 0.5)); }
+}
+
+/* تأثير الضربة */
+.hit-effect {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  font-size: 38px;
+  color: var(--color-secondary-shadow);
+  font-weight: 900;
+  animation: hitFlash 0.5s ease-out forwards;
+  z-index: 9998;
+}
+@keyframes hitFlash {
+  0%   { opacity: 1; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   QUESTION CARD (Slide 2)
+═══════════════════════════════════════════════════════════════ */
+.q-card {
+  background: #fffdf8;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  padding: 16px 18px;
+  margin: 14px 16px 0;
+  transition: border-color 0.3s, background 0.3s;
+  box-shadow: 0 4px 16px rgba(132, 72, 22, 0.10);
+}
+.q-card.q-revealed {
+  animation: qCardReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes qCardReveal {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.q-card.correct { border-color: var(--color-success); background: #f3f7e3; border-width: 3px; }
+.q-card.incorrect {
+  border-color: var(--color-error);
+  background: #fbeeea;
+  border-width: 3px;
+  animation: shake 0.5s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.q-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.q-num-inline {
+  color: var(--color-primary-shadow);
+  font-weight: var(--font-weight-extrabold);
+  font-size: 1.2em;
+  margin-left: 0;
+}
+.q-card-title {
+  font-size: var(--font-size-instructions);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-ink);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  flex: 1;
+}
+
+/* MCQ */
+.mcq-options { display: grid; gap: 10px; }
+.mcq-option-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-primary-light);
+  border-radius: 14px;
+  background: #fffaf3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family);
+}
+.mcq-option-label:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-secondary);
+}
+.mcq-option-label input[type="radio"] {
+  accent-color: var(--color-primary);
+  transform: scale(1.15);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.mcq-option-text {
+  font-size: 20px;
+  color: var(--color-ink);
+  line-height: var(--line-height-normal);
+}
+.mcq-option-label.correct-option {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+}
+.mcq-option-label.correct-option .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+.mcq-option-label.wrong-option {
+  border-color: var(--color-error) !important;
+  border-width: 3px !important;
+  background: #fbeeea !important;
+}
+.mcq-option-label.wrong-option .mcq-option-text { color: var(--color-error); }
+.mcq-option-label.disabled { pointer-events: none; opacity: 0.7; }
+.mcq-option-label.revealed {
+  border-color: var(--color-success) !important;
+  border-width: 3px !important;
+  background: #f3f7e3 !important;
+  animation: pulse-correct 0.6s ease;
+}
+.mcq-option-label.revealed .mcq-option-text {
+  color: var(--color-success);
+  font-weight: var(--font-weight-extrabold);
+}
+@keyframes pulse-correct {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+/* FEEDBACK */
+.q-feedback {
+  background: #fff;
+  border: 2px solid var(--color-light-border);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-top: 14px;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-ink);
+  text-align: center;
+  line-height: var(--line-height-normal);
+  display: none;
+  font-family: var(--font-family);
+  animation: fadeIn 0.3s ease;
+}
+.q-feedback.show-correct {
+  display: block;
+  border-color: var(--color-success);
+  background: #f3f7e3;
+  color: var(--color-success);
+  border-width: 3px;
+}
+.q-feedback.show-wrong {
+  display: block;
+  border-color: var(--color-error);
+  background: #fbeeea;
+  color: var(--color-error);
+  border-width: 3px;
+}
+.q-feedback.show-info {
+  display: block;
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-light);
+  color: var(--color-ink);
+  border-width: 3px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Feedback خاص باللعبة (خارج الكرت) */
+#gameFeedback {
+  margin: 14px 16px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAVIGATION BAR
+═══════════════════════════════════════════════════════════════ */
+.task-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: transparent;
+  margin-top: 18px;
+}
+.nav-side { display: flex; gap: 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════════════════════ */
+.success-screen {
+  display: none;
+  width: 100%;
+}
+.success-screen.show { display: block; }
+.complete-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.trophy-wrap {
+  position: relative;
+  margin-bottom: 12px;
+  animation: popIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+.trophy-img {
+  width: 280px;
+  height: 280px;
+  object-fit: contain;
+  display: block;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 8px 20px rgba(132, 72, 22, 0.25));
+}
+.trophy-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 198, 111, 0.55) 0%, transparent 70%);
+  animation: glowPulse 2s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50%      { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.complete-title {
+  font-size: 36px;
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  margin-top: 24px;
+  margin-bottom: 8px;
+  font-family: var(--font-family);
+  line-height: var(--line-height-tight);
+}
+.complete-restart {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.confetti-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(280px) rotate(720deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 1080px) and (min-width: 701px) {
+  body { padding: 24px 16px; }
+  .task-header-img-wrap { width: 92px; height: 92px; }
+  .task-header-img { width: 66px; height: 66px; }
+}
+
+@media (max-width: 700px) {
+  body { padding: 16px 8px; }
+  .task-app { border-radius: 16px; border-width: 2px; }
+  .task-instr-row, .q-card, .game-area, #gameFeedback { margin-left: 10px; margin-right: 10px; }
+  .task-nav { padding: 12px; }
+  .btn-action { min-width: auto; padding: 12px 16px; font-size: 16px; }
+  .task-header { padding: 12px 18px; }
+  .task-header-content { grid-template-columns: 78px 1fr 78px; gap: 10px; }
+  .task-header-img-wrap { width: 76px; height: 76px; }
+  .task-header-img { width: 54px; height: 54px; }
+  .task-header-title { font-size: 24px !important; }
+
+  .task-instr-text { font-size: 19px; }
+  .q-card { padding: 16px; }
+  .q-card-title { font-size: 19px; }
+  .mcq-option-text { font-size: 18px; }
+  .q-feedback { font-size: 18px; padding: 12px 14px; }
+
+  .card-with-hammer { grid-template-columns: 1fr 1.8fr; gap: 12px; }
+  .hammer-card { padding: 16px 12px; gap: 14px; }
+  .hammer { width: 110px; height: 110px; }
+  .hammer-instr { font-size: 17px; }
+  .cards-grid .card { min-height: 310px; padding: 32px 8px 14px; }
+  .card { padding: 8px 6px; }
+  .card-label { width: 46px; height: 46px; font-size: 22px; top: -20px; }
+  .stick { width: 32px; height: 160px; }
+  .stick.size-sm { height: 140px; }
+  .stick.size-md { height: 160px; }
+  .stick.size-lg { height: 178px; }
+  .bundle-img-wrap { max-width: 125px; }
+
+  .nav-side { flex: 1; }
+  .nav-side .btn-action { width: 100%; }
+  /* محاذاةُ زرِّ السّمّاعةِ لأعلى عنوانِ السّؤالِ على الجوّالِ (سلايد 2 — أسئلةُ MCQ) */
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 2px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  body { padding: 10px 6px; }
+  .task-app { border-radius: 14px; }
+  .task-header { padding: 10px 14px; }
+  .task-header-content { grid-template-columns: 64px 1fr 64px; gap: 8px; }
+  .task-header-img-wrap { width: 64px; height: 64px; }
+  .task-header-img { width: 46px; height: 46px; }
+  .task-header-title { font-size: 20px !important; }
+
+  .task-instr-row, .q-card, .game-area, #gameFeedback { margin-left: 8px; margin-right: 8px; }
+  .task-instr-row { padding: 12px 14px; gap: 10px; }
+  .task-instr-text { font-size: 16px; line-height: 1.6; }
+
+  .q-card { padding: 14px; }
+  .q-card-title { font-size: 17px; line-height: 1.6; }
+  .mcq-option-text { font-size: 16px; }
+  .mcq-option-label { padding: 10px 12px; gap: 10px; }
+  .q-feedback { font-size: 15px; padding: 10px 12px; }
+
+  .card-with-hammer { grid-template-columns: 1fr 1.5fr; gap: 8px; }
+  .hammer-card { padding: 12px 8px; gap: 10px; }
+  .hammer { width: 90px; height: 90px; }
+  .hammer-instr { font-size: 14px; line-height: 1.4; }
+  .cards-grid .card { min-height: 260px; padding: 28px 8px 12px; }
+  .card { padding: 6px 4px; }
+  .card-label { width: 40px; height: 40px; font-size: 19px; top: -17px; border-width: 2.5px; }
+  .card-sticks-area { gap: 2px; }
+  .stick { width: 26px; height: 135px; }
+  .stick.size-sm { height: 118px; }
+  .stick.size-md { height: 135px; }
+  .stick.size-lg { height: 150px; }
+  .bundle-img-wrap { max-width: 105px; }
+  .card-dot { width: 10px; height: 10px; }
+  .status-label { font-size: 14px; }
+  .status-circle { width: 38px; height: 38px; font-size: 17px; }
+
+  .task-nav {
+    padding: 10px;
+    gap: 8px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .nav-side { flex: 1; min-width: 0; }
+  .nav-side .btn-action { width: 100%; min-width: 0; }
+  .btn-action { font-size: 14px; padding: 10px 10px; gap: 4px; }
+
+  .trophy-img { width: 220px; height: 220px; }
+  .trophy-glow { width: 280px; height: 280px; }
+  .complete-title { font-size: 28px; margin-top: 20px; }
+  .complete-wrap { padding: 40px 20px; }
+  /* محاذاةُ زرِّ السّمّاعةِ لأعلى عنوانِ السّؤالِ على الجوّالِ (سلايد 2 — أسئلةُ MCQ) */
+  [data-slide="2"] .q-card-header {
+    align-items: flex-start !important;
+  }
+  [data-slide="2"] .q-card-header .audio-btn {
+    margin-top: 1px;
+  }
+  [data-slide="2"] .q-card-header .q-card-title {
+    padding-top: 1px;
+  }
+}
+
+@media (max-width: 360px) {
+  .task-header-content { grid-template-columns: 56px 1fr 56px; }
+  .task-header-img-wrap { width: 56px; height: 56px; }
+  .task-header-img { width: 40px; height: 40px; }
+  .task-header-title { font-size: 18px !important; }
+  .q-card-title { font-size: 16px; }
+  .mcq-option-text { font-size: 15px; }
+  .btn-action { font-size: 13px; padding: 9px 8px; }
+}
+
+@media (hover: none) {
+  .mcq-option-label:hover {
+    background: #fffaf3;
+    border-color: var(--color-primary-light);
+  }
+  .hammer:hover { transform: none; }
+  .audio-btn:hover { transform: none; background: var(--color-primary); }
+}
+
+/* ═══════════ أفكار الأحاديث النبوية ═══════════ */
+.ideas-instruction {
+  font-size: 22px; font-weight: var(--font-weight-bold); color: var(--color-ink);
+  line-height: var(--line-height-relaxed); margin: 0;
+}
+.idea-bank {
+  background: #f6ead7;
+  border: 2px solid var(--color-primary);
+  border-radius: 16px; padding: 12px 14px; margin: 14px 0 0;
+}
+.idea-bank-title {
+  display: flex; align-items: center; gap: 6px; margin: 0 0 10px;
+  font-size: 16px; font-weight: var(--font-weight-extrabold); color: var(--color-primary);
+}
+.idea-bank-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 9px; }
+.idea-chip2 {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--color-secondary-light); border: 1.5px solid var(--color-primary);
+  border-radius: 16px; padding: 8px 12px; box-shadow: 0 2px 6px rgba(132,72,22,0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.idea-chip2:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(132,72,22,0.16); }
+.idea-num {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--color-primary); color: #fff; font-weight: var(--font-weight-extrabold);
+  font-size: 14px; display: inline-flex; align-items: center; justify-content: center;
+}
+.idea-chip2-text { font-size: 15px; font-weight: var(--font-weight-bold); color: var(--color-ink); line-height: 1.5; }
+@media (max-width: 700px) { .idea-bank-grid { grid-template-columns: repeat(2, 1fr); } .idea-chip2-text { font-size: 14px; } }
+@media (max-width: 480px) { .idea-bank-grid { grid-template-columns: 1fr; } .idea-bank { padding: 10px 12px; } }
+
+.ideas-pool {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  gap: 16px; margin: 24px 8px 0; padding: 22px 14px;
+  background: var(--color-secondary-light);
+  border: 2px dashed var(--color-secondary);
+  border-radius: 18px;
+}
+.idea-chip {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #fffdf8; color: var(--color-ink);
+  border: 2px solid var(--color-primary);
+  border-radius: 14px; padding: 14px 18px;
+  font-size: 19px; font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-relaxed);
+  box-shadow: 0 4px 12px rgba(132,72,22,0.12);
+  cursor: grab; max-width: 100%;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.idea-chip:hover { transform: translateY(-3px); box-shadow: 0 7px 18px rgba(132,72,22,0.2); }
+.idea-chip .chip-grip { color: var(--color-secondary-shadow); font-size: 16px; flex-shrink: 0; }
+
+
+@media (max-width: 700px) {
+  .ideas-instruction { font-size: 19px; }
+  .idea-chip { font-size: 17px; padding: 12px 15px; }
+  .ideas-pool { gap: 12px; margin-left: 4px; margin-right: 4px; }
+}
+@media (max-width: 480px) {
+  .ideas-instruction { font-size: 17px; }
+  .idea-chip { font-size: 15px; padding: 11px 13px; width: 100%; justify-content: center; transform: none !important; }
+  .ideas-pool { padding: 16px 10px; }
+}
+
+.gloss {
+  position: relative; color: var(--color-primary); font-weight: var(--font-weight-extrabold);
+  cursor: pointer; border-bottom: 2px dotted var(--color-secondary-shadow);
+  padding: 0 1px; -webkit-tap-highlight-color: transparent;
+}
+.gloss::after {
+  content: "\f028"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+  font-size: 9px; color: var(--color-secondary-shadow);
+  position: relative; top: -9px; right: 1px; margin: 0 1px;
+}
+.gloss:hover { background: var(--color-secondary-light); border-radius: 4px; }
+.gloss.gloss-active { background: var(--color-secondary); color: var(--color-primary); border-radius: 4px; }
+.gloss-tip {
+  position: absolute; display: none; z-index: 3000;
+  background: var(--color-primary); color: #fff; padding: 9px 14px; border-radius: 12px;
+  font-size: 16px; font-weight: var(--font-weight-bold); line-height: 1.6;
+  box-shadow: 0 8px 24px rgba(132,72,22,0.35); max-width: 260px; text-align: center;
+}
+.gloss-tip strong { color: var(--color-secondary); }
+.gloss-tip::after {
+  content: ""; position: absolute; top: -7px; right: 50%; transform: translateX(50%);
+  border-left: 7px solid transparent; border-right: 7px solid transparent;
+  border-bottom: 7px solid var(--color-primary);
+}
+/* ═══════════ جدول الدروب داون (أفكار الأحاديث) ═══════════ */
+@keyframes dropdownShake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-5px);} 40%,80%{transform:translateX(5px);} }
+
+.ht-wrap { margin: 8px 4px 0; }
+.ht-table { width: 100%; border-collapse: collapse; font-family: var(--font-family); }
+.ht-table thead th {
+  background: var(--color-primary); color: #fff; font-size: 17px;
+  font-weight: var(--font-weight-extrabold); padding: 12px 8px;
+  border: 1.5px solid var(--color-primary-shadow); text-align: center;
+}
+.ht-row { transition: background 0.3s ease; }
+.ht-row.hidden-row { display: none; }
+.ht-row td {
+  padding: 12px; border: 2px solid var(--color-secondary); vertical-align: middle;
+}
+.ht-hadith-cell {
+  background: var(--color-secondary-light); color: var(--color-ink);
+  font-size: 18px; font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-relaxed); text-align: right; width: 62%;
+}
+.ht-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%;
+  background: var(--color-primary); color: #fff; font-weight: var(--font-weight-extrabold);
+  font-size: 16px; margin-left: 8px; vertical-align: middle;
+}
+.ht-narr { color: var(--color-secondary-shadow); font-weight: var(--font-weight-bold); font-size: 15px; }
+.ht-select-cell { background: #fff; padding: 12px !important; text-align: center; }
+
+/* القائمة المنسدلة المخصّصة (منقولة من همزة الوسط) */
+.custom-dropdown { position: relative; display: inline-block; width: 100%; max-width: 260px; font-family: var(--font-family); }
+.custom-dropdown-trigger {
+  width: 100%; padding: 10px 14px; font-family: var(--font-family); font-size: 16px;
+  font-weight: var(--font-weight-bold); color: var(--color-ink); background: #fff;
+  border: 2px solid var(--color-primary-light); border-radius: 10px; cursor: pointer;
+  outline: none; transition: all 0.2s ease; direction: rtl; display: flex;
+  align-items: center; justify-content: space-between; gap: 8px; -webkit-tap-highlight-color: transparent;
+}
+.custom-dropdown-trigger:hover { border-color: var(--color-secondary); background: #fffaf3; }
+.custom-dropdown.is-open .custom-dropdown-trigger { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(237,198,111,0.30); }
+.custom-dropdown-value { flex: 1; text-align: center; line-height: 1.4; }
+.custom-dropdown-arrow { color: var(--color-primary); font-size: 14px; transition: transform 0.25s ease; flex-shrink: 0; }
+.custom-dropdown.is-open .custom-dropdown-arrow { transform: rotate(180deg); }
+.custom-dropdown-menu {
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #fff;
+  border: 2px solid var(--color-primary); border-radius: 12px; padding: 6px; list-style: none;
+  margin: 0; box-shadow: 0 8px 24px rgba(132,72,22,0.20); z-index: 1000; opacity: 0;
+  visibility: hidden; transform: translateY(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  max-height: min(300px, 55vh); overflow-y: auto; -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin; scrollbar-color: var(--color-primary) transparent;
+}
+.custom-dropdown-menu::-webkit-scrollbar { width: 5px; }
+.custom-dropdown-menu::-webkit-scrollbar-track { background: transparent; margin: 6px 2px; }
+.custom-dropdown-menu::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 999px; }
+.custom-dropdown.is-open .custom-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.custom-dropdown-option {
+  padding: 10px 14px; font-family: var(--font-family); font-size: 16px;
+  font-weight: var(--font-weight-bold); color: var(--color-ink); border-radius: 8px;
+  cursor: pointer; text-align: center; transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.custom-dropdown-option + .custom-dropdown-option { margin-top: 2px; border-top: 1px solid var(--color-primary-light); border-radius: 0; }
+.custom-dropdown-option:hover { background: var(--color-secondary-light); color: var(--color-primary); }
+.custom-dropdown.is-disabled .custom-dropdown-trigger { cursor: default; pointer-events: none; }
+
+/* حالات الصف */
+.ht-row.correct-row, .ht-row.revealed-row { background: #f3f7e3; }
+.ht-row.correct-row .ht-hadith-cell, .ht-row.revealed-row .ht-hadith-cell { background: #eef3dd; }
+.ht-row.correct-row .custom-dropdown-trigger, .ht-row.revealed-row .custom-dropdown-trigger {
+  border-color: var(--color-success); border-width: 3px; background: #f3f7e3;
+  color: var(--color-success); font-weight: var(--font-weight-extrabold);
+}
+.ht-row.revealed-row .custom-dropdown-trigger { animation: pulse-correct 0.6s ease; }
+.ht-row.correct-row .custom-dropdown-arrow, .ht-row.revealed-row .custom-dropdown-arrow { color: var(--color-success); }
+.ht-row.wrong-row { background: #fbeeea; }
+.ht-row.wrong-row .custom-dropdown-trigger {
+  border-color: var(--color-error); border-width: 3px; background: #fbeeea;
+  color: var(--color-error); animation: dropdownShake 0.5s ease;
+}
+.ht-row.wrong-row .custom-dropdown-arrow { color: var(--color-error); }
+
+.stage-hint { text-align: center; font-size: 16px; color: var(--color-primary); font-weight: var(--font-weight-bold); margin: 0 0 12px; opacity: 0.85; }
+
+@media (max-width: 700px) {
+  .ht-table thead th { font-size: 15px; padding: 10px 5px; }
+  .ht-hadith-cell { font-size: 16px; }
+  .custom-dropdown-trigger { font-size: 14px; padding: 9px 10px; }
+  .custom-dropdown-option { font-size: 14px; }
+  .ht-wrap { margin-left: 2px; margin-right: 2px; }
+  .ht-row td { padding: 9px; }
+}
+@media (max-width: 480px) {
+  .ht-table, .ht-table thead, .ht-table tbody, .ht-table tr, .ht-table td, .ht-table th { display: block; }
+  .ht-table thead { display: none; }
+  .ht-row { margin-bottom: 14px; border: 2px solid var(--color-primary); border-radius: 12px; overflow: hidden; }
+  .ht-row td { width: 100% !important; border: none !important; border-bottom: 1.5px solid var(--color-secondary) !important; }
+  .ht-hadith-cell { font-size: 15px; }
+  .custom-dropdown { max-width: 100%; }
+  .ht-select-cell { border-bottom: none !important; }
+}
+
+/* ═══════════ تصنيف حقوق الطفل ═══════════ */
+.cat-hint { text-align:center; font-size:15px; color:var(--color-primary); font-weight:var(--font-weight-bold); margin:0 0 12px; opacity:0.85; }
+.ht-stmt-cell { background: var(--color-secondary-light); color: var(--color-ink); font-size: 18px; font-weight: var(--font-weight-bold); text-align: right; width: 55%; }
+.ht-stmt-cell .ht-num { background: var(--color-primary); }
+/* تلوين الأعمدة الثلاثة في القائمة */
+.cat-legend { display:flex; flex-wrap:wrap; justify-content:center; gap:8px 18px; margin:2px 0 14px; }
+.cat-key { display:inline-flex; align-items:center; gap:6px; font-size:15px; font-weight:var(--font-weight-bold); color:var(--color-ink); }
+.cat-dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+.cat-dot.c1 { background:#6b8b1f; } .cat-dot.c2 { background:var(--color-secondary); } .cat-dot.c3 { background:#b5651d; }
+
+/* شاشة تسجيل الحقوق */
+.rights-card { background:#fffdf8; border:2px solid var(--color-primary); border-radius:16px; padding:18px; box-shadow:0 4px 14px rgba(132,72,22,0.10); }
+.rights-intro { font-size:18px; font-weight:var(--font-weight-bold); color:var(--color-ink); line-height:var(--line-height-relaxed); margin:0 0 14px; }
+.rights-list { background:var(--color-secondary-light); border:1.5px dashed var(--color-secondary); border-radius:12px; padding:12px 14px; margin:0 0 16px; }
+.rights-list-title { font-size:14px; font-weight:var(--font-weight-extrabold); color:var(--color-primary); margin:0 0 8px; opacity:0.85; }
+.rights-list ul { margin:0; padding-right:20px; }
+.rights-list li { font-size:15px; color:var(--color-ink); font-weight:var(--font-weight-bold); line-height:1.9; }
+.rights-write-label { font-size:16px; font-weight:var(--font-weight-bold); color:var(--color-primary); margin:0 0 8px; display:block; }
+.rights-textarea { width:100%; min-height:120px; box-sizing:border-box; font-family:var(--font-family); font-size:16px; font-weight:var(--font-weight-bold); color:var(--color-ink); background:#fff; border:2px solid var(--color-primary-light); border-radius:12px; padding:12px 14px; resize:vertical; direction:rtl; line-height:1.8; outline:none; transition:border-color 0.2s ease; }
+.rights-textarea:focus { border-color:var(--color-primary); box-shadow:0 0 0 3px rgba(237,198,111,0.3); }
+@media (max-width:700px){ .ht-stmt-cell{font-size:16px;} .rights-intro{font-size:16px;} }
+@media (max-width:480px){ .ht-stmt-cell{font-size:15px;} }
+
+/* ═══════════ كتابة الحقوق + الإجابة النموذجيّة (منقول من أهمية الوحدة) ═══════════ */
+.rw-controls { display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap; }
+.btn-check { background: var(--color-olive, #808122); color:#fff; border:none; cursor:pointer; box-shadow:0 5px 0 var(--color-olive-shadow,#5f6018); }
+.btn-check:hover { filter:brightness(1.05); }
+.btn-check:active { transform:translateY(2px); box-shadow:0 3px 0 var(--color-olive-shadow,#5f6018); }
+.btn-check:disabled { opacity:0.55; cursor:default; pointer-events:none; }
+.btn-sm { font-size:17px !important; padding:10px 20px !important; }
+
+.rw-textarea {
+  width:100%; min-height:140px; box-sizing:border-box; border:2px solid var(--color-primary-light);
+  border-radius:14px; padding:14px 16px; font-family:var(--font-family); font-size:20px;
+  font-weight:var(--font-weight-semibold); color:var(--color-ink); background:#fff;
+  line-height:var(--line-height-relaxed); outline:none; resize:vertical; display:block;
+  text-align:right; direction:rtl; transition:border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.rw-textarea::placeholder { color:var(--color-light-border); font-weight:var(--font-weight-semibold); }
+.rw-textarea:focus { border-color:var(--color-secondary); box-shadow:0 0 0 3px rgba(237,198,111,0.22); background:#fffaf0; }
+.rw-textarea.state-filled { border-color:var(--color-primary); background:#fff; }
+.rw-textarea:disabled { background:var(--color-primary-light); color:var(--color-ink); opacity:0.85; }
+
+.rw-show-answer-btn {
+  margin-top:14px; align-self:center; background:var(--color-primary)!important; color:#fff!important;
+  font-size:18px!important; font-weight:var(--font-weight-extrabold)!important; padding:10px 18px!important;
+  border-radius:12px!important; box-shadow:0 5px 0 var(--color-primary-shadow)!important; min-width:140px!important;
+  border:none!important; animation:showAnswerAttract 2.4s ease-in-out infinite;
+}
+.rw-show-answer-btn:hover { background:var(--color-primary-hover)!important; }
+.rw-show-answer-btn:active { transform:translateY(2px); box-shadow:0 3px 0 var(--color-primary-shadow)!important; }
+.rw-show-answer-btn img { width:22px; height:22px; object-fit:contain; margin-left:6px; flex-shrink:0; }
+@keyframes showAnswerAttract { 0%,100%{box-shadow:0 5px 0 var(--color-primary-shadow),0 0 0 0 rgba(132,72,22,0.30);} 50%{box-shadow:0 5px 0 var(--color-primary-shadow),0 0 0 10px rgba(132,72,22,0);} }
+@keyframes popIn { from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);} }
+
+.rw-answer-wrap {
+  position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(58,36,16,0.65);
+  z-index:9999; display:none; align-items:center; justify-content:center; padding:20px; margin:0;
+  flex-direction:column; animation:fadeIn 0.3s ease; overflow-y:auto; box-sizing:border-box;
+}
+.rw-answer-wrap[style*="flex"] { display:flex !important; }
+.rw-answer-modal {
+  background:#fffdf8; border:3px solid var(--color-primary); border-radius:20px; padding:18px 18px 20px;
+  max-width:560px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.35);
+  position:relative; display:flex; flex-direction:column; gap:16px; animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-sizing:border-box; direction:ltr; scrollbar-width:thin; scrollbar-color:var(--color-primary) var(--color-primary-light);
+}
+.rw-answer-modal > * { direction:rtl; }
+.rw-answer-modal::-webkit-scrollbar { width:9px; }
+.rw-answer-modal::-webkit-scrollbar-track { background:var(--color-primary-light); border-radius:999px; margin:6px 0; }
+.rw-answer-modal::-webkit-scrollbar-thumb { background:linear-gradient(to bottom,var(--color-secondary),var(--color-primary)); border:2px solid var(--color-primary-light); border-radius:999px; }
+.rw-modal-close {
+  position:absolute; top:12px; left:12px; width:38px; height:38px; border-radius:50%; background:var(--color-primary);
+  color:#fff; border:2px solid #fff; font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 3px 0 var(--color-primary-shadow); transition:all 0.2s ease; z-index:2;
+}
+.rw-modal-close:hover { background:var(--color-error); transform:scale(1.08) rotate(90deg); }
+.rw-modal-title-wrap { display:flex; align-items:center; gap:12px; padding:6px 16px 12px 50px; border-bottom:2px dashed var(--color-primary-light); margin-bottom:4px; flex-shrink:0; direction:rtl; }
+.rw-modal-title { font-size:18px; font-weight:var(--font-weight-extrabold); color:var(--color-primary); text-align:right; line-height:1.4; flex:1; }
+.rw-answer-section { background:#fff; border:1.5px solid var(--color-primary-light); border-radius:12px; overflow:hidden; width:100%; box-sizing:border-box; }
+.rw-answer-section.suggested { border:2px solid var(--color-primary); background:linear-gradient(135deg,#fffaf3 0%,#fff 100%); box-shadow:0 4px 14px rgba(132,72,22,0.10); }
+.rw-answer-label {
+  display:flex; align-items:center; justify-content:center; gap:8px; background:var(--color-secondary);
+  color:var(--color-primary); font-size:17px; font-weight:var(--font-weight-extrabold); padding:8px 12px;
+  line-height:1.3; width:100%; text-align:center; border-bottom:2px solid var(--color-secondary-shadow); box-sizing:border-box;
+}
+.rw-answer-section.suggested .rw-answer-label { background:linear-gradient(135deg,var(--color-primary) 0%,var(--color-primary-shadow) 100%); color:#fff; border-bottom:2px solid var(--color-primary-shadow); }
+.rw-answer-label i { font-size:16px; flex-shrink:0; }
+.rw-answer-label img { width:20px; height:20px; object-fit:contain; flex-shrink:0; display:block; margin:0; }
+.rw-answer-section.suggested .rw-answer-label i { color:var(--color-secondary); }
+.rw-answer-text {
+  font-family:var(--font-family); font-size:16px; color:var(--color-ink); line-height:var(--line-height-relaxed);
+  font-weight:var(--font-weight-bold); padding:12px 14px; text-align:right; white-space:pre-wrap;
+  word-wrap:break-word; width:100%; box-sizing:border-box; display:block;
+}
+.rw-answer-text:empty::before { content:'— لمْ تكتبْ شيئًا —'; color:var(--color-sand,#b9a888); font-style:italic; font-weight:var(--font-weight-semibold); }
+.rw-answer-text ul { margin:0; padding-right:22px; }
+.rw-answer-text li { margin-bottom:6px; }
+@media (max-width:700px){
+  .rw-textarea { font-size:18px; min-height:130px; }
+  .rw-answer-modal { padding:14px; }
+  .rw-modal-title { font-size:15px; }
+  .rw-answer-text { font-size:14px; padding:10px 12px; }
+  .rw-answer-label { font-size:14px; padding:6px 11px; }
+}
+@media (max-width:480px){
+  .rw-textarea { font-size:16px; min-height:110px; }
+  .rw-answer-label { font-size:13px; }
+  .rw-answer-text { font-size:13px; }
+}
+
+
+/* ═══════════ نشاط: ماذا أراد الشاعر ═══════════ */
+.read-card { background: var(--color-secondary-light); border: 2px solid var(--color-primary); border-radius: 16px; padding: 18px 20px; margin: 14px 0; box-shadow: 0 4px 14px rgba(132,72,22,0.10); }
+.read-card-title { display:inline-block; background: var(--color-primary); color:#fff; font-size:15px; font-weight:var(--font-weight-extrabold); padding:5px 16px; border-radius:999px; margin-bottom:12px; }
+.read-card-text { font-size:18px; font-weight:var(--font-weight-semibold); color:var(--color-ink); line-height:2; text-align:justify; margin:0; }
+.read-card-text .hl { color:var(--color-primary); font-weight:var(--font-weight-extrabold); }
+
+.wq-block { margin: 14px 0 0; }
+.wq-block .rw-textarea { min-height: 52px; padding: 11px 14px; }
+#moreBox { min-height: 112px; }
+.rw-rights-chips { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-start; }
+.rw-rights-chips span { background:var(--color-secondary-light); border:1.5px solid var(--color-secondary); border-radius:999px; padding:7px 14px; font-size:15px; font-weight:var(--font-weight-bold); color:var(--color-primary); line-height:1.3; }
+@media (max-width:480px){ .rw-rights-chips span { font-size:13px; padding:6px 11px; } }
+.wq-q { font-size:18px; font-weight:var(--font-weight-bold); color:var(--color-ink); line-height:var(--line-height-relaxed); margin:0 0 8px; display:flex; gap:8px; }
+.wq-q .wq-num { flex-shrink:0; width:34px; height:34px; border-radius:50%; background:var(--color-primary); color:#fff; font-weight:var(--font-weight-extrabold); font-size:18px; display:inline-flex; align-items:center; justify-content:center; }
+
+/* لوحة متعددة الخطوات */
+.rw-modal-steps { display:flex; flex-direction:column; gap:12px; }
+.rw-modal-step { display:none; flex-direction:column; gap:12px; }
+.rw-modal-step.active { display:flex; animation:stepFadeIn 0.4s ease; }
+@keyframes stepFadeIn { from{opacity:0;transform:translateX(-12px);} to{opacity:1;transform:translateX(0);} }
+.rw-modal-nav { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:12px; padding:0 4px; }
+.rw-modal-arrow { width:34px; height:34px; border-radius:50%; background:var(--color-primary); color:#fff; border:none; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 0 var(--color-primary-shadow); transition:all 0.2s ease; flex-shrink:0; }
+.rw-modal-arrow:hover:not(:disabled){ background:var(--color-primary-hover); }
+.rw-modal-arrow:disabled{ opacity:0.3; cursor:not-allowed; pointer-events:none; }
+.rw-modal-arrow i { font-size:13px; }
+.rw-modal-dots { display:flex; justify-content:center; gap:8px; }
+.rw-modal-dot { width:10px; height:10px; border-radius:50%; background:var(--color-primary-light); transition:all 0.3s ease; }
+.rw-modal-dot.active { background:var(--color-primary); transform:scale(1.3); }
+.rw-q-in-step { font-size:16px; font-weight:var(--font-weight-bold); color:var(--color-primary); text-align:right; line-height:1.5; padding:0 2px; }
+
+/* أتفق / لا أتفق (بدون تصحيح) */
+.ag-row { display:flex; align-items:center; gap:14px; padding:12px 14px; border:2px solid var(--color-primary-light); border-radius:14px; background:#fffaf3; margin-bottom:10px; transition:all 0.25s ease; }
+.ag-row:last-of-type { margin-bottom:0; }
+.ag-row.answered { border-color:var(--color-primary); background:#fff; }
+.ag-statement { flex:1; font-size:18px; font-weight:var(--font-weight-bold); color:var(--color-ink); line-height:var(--line-height-relaxed); }
+.ag-num { color:var(--color-primary); font-weight:var(--font-weight-extrabold); font-size:1.1em; margin-left:4px; }
+.ag-options { display:flex; gap:8px; flex-shrink:0; }
+.ag-btn { font-family:var(--font-family); font-size:16px; font-weight:var(--font-weight-bold); color:var(--color-primary); background:var(--color-secondary-light, #FFF4E5); border:2px solid var(--color-secondary-shadow, #c9a548); border-radius:10px; padding:8px 18px; cursor:pointer; transition:all 0.18s ease; white-space:nowrap; -webkit-tap-highlight-color:transparent; }
+.ag-btn:hover:not(.sel-agree):not(.sel-disagree) { background:#fff; }
+.ag-btn.sel-agree { background:var(--color-success, #6b8b1f); border-color:var(--color-success, #6b8b1f); color:#fff; box-shadow:0 3px 0 #4d6618; }
+.ag-btn.sel-disagree { background:var(--color-error, #B7472D); border-color:var(--color-error, #B7472D); color:#fff; box-shadow:0 3px 0 #8f3322; }
+@media (max-width:700px){ .read-card-text{font-size:16px;} .ag-statement{font-size:16px;} .wq-q{font-size:16px;} .ag-btn{font-size:14px;padding:7px 11px;} }
+@media (max-width:480px){ .read-card-text{font-size:15px;} .ag-row{flex-direction:column;align-items:stretch;gap:10px;} .ag-options{justify-content:center;} .ag-statement{font-size:15px;} }
+</style>
+</head>
+<body>
+<div class="page-wrap"><div class="task-app">
+  <div class="task-header"><div class="task-header-content">
+    <div class="task-header-img-wrap"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/NfZmtbFMxZSSqCPC.png" alt="" class="task-header-img"></div>
+    <div class="task-header-title">ماذا أرادَ الشّاعرُ أن يحقّقَ؟ وكيفَ؟</div>
+  </div></div>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="slides-container">
+
+    <!-- ١: النبذة + أسئلة كتابة -->
+    <div class="slide active" data-slide="1">
+      <div class="q-card">
+        <div class="q-card-header"><button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع للتعليمات"><i class="fas fa-volume-high"></i></button><p class="q-card-title"><strong>السّؤالُ الأوّلُ:</strong> أقرأُ ما هو مكتوبٌ في البطاقةِ التّاليةِ قراءةً صامتةً، ثمَّ أُجيبُ عن الأسئلةِ الّتي تليها:</p></div>
+        <div class="read-card"><p class="read-card-text">بَدَوِيُّ الجَبَلِ هوَ <span class="hl">محمّد سليمان الأحمد</span> (١٩٠٥م – ١٩٨١م)، مِنْ أعلامِ الشِّعرِ المعاصرِ في سوريا. عَمِلَ في الحَقلِ السِّياسيِّ، وشارَكَ في النِّضالِ ضِدَّ فرنسا. <span class="hl">بدويُّ الجبلِ</span> لقبٌ أطلقَهُ عليهِ <span class="hl">يوسفُ العيسى</span> صاحبُ مجلّةِ (الألف باء). مِنْ أعمالِهِ: البواكيرُ، والأعمالُ الكاملةُ.</p></div>
+        <div class="wq-block">
+          <p class="wq-q"><span class="wq-num">١</span>ما اسمُ الشّاعرِ الّذي كتبَ قصيدةَ «مِنْ أجلِ الطّفولةِ»؟</p>
+          <textarea class="rw-textarea" id="wq-0" placeholder="أكتبُ إجابتي هنا…" oninput="updateWQ(this,0)"></textarea>
+        </div>        <div class="wq-block">
+          <p class="wq-q"><span class="wq-num">٢</span>في أيِّ عامٍ وُلِدَ الشّاعرُ؟ وفي أيِّ عامٍ توفّيَ؟</p>
+          <textarea class="rw-textarea" id="wq-1" placeholder="أكتبُ إجابتي هنا…" oninput="updateWQ(this,1)"></textarea>
+        </div>        <div class="wq-block">
+          <p class="wq-q"><span class="wq-num">٣</span>ما لقبُ الشّاعرِ؟ ومَنِ الّذي أطلقَ عليهِ هذا اللقبَ؟</p>
+          <textarea class="rw-textarea" id="wq-2" placeholder="أكتبُ إجابتي هنا…" oninput="updateWQ(this,2)"></textarea>
+        </div>
+        <div class="rw-answer-wrap" id="wq-answer" style="display:none;"></div>
+        <div class="q-feedback" id="fb-wq"></div>
+      </div>
+      <div class="slide-controls rw-controls">
+        <button class="btn-action btn-restart" onclick="resetWQ()" style="background:var(--color-secondary);color:var(--color-primary);box-shadow:0 5px 0 var(--color-secondary-shadow);"><i class="fas fa-redo"></i> إعادةٌ</button>
+        <button class="btn-action btn-check btn-sm" id="checkWQBtn" onclick="checkWQ()"><i class="fas fa-check"></i> تحقّقْ</button>
+      </div>
+    </div>
+
+    <!-- ٢: أتفق / لا أتفق -->
+    <div class="slide" data-slide="2">
+      <div class="q-card">
+        <div class="q-card-header"><button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button><p class="q-card-title"><strong>السّؤالُ الثّاني:</strong> إذنْ فنحنُ أمامَ قصيدةٍ للشّاعرِ محمّدِ سليمانِ الأحمدِ والملقّبِ ببدويِّ الجبلِ، ولكنْ قبلَ الدخولِ إلى القصيدةِ لأقرأُ الفقرةَ التّاليةَ وأُجيبُ عمّا يليها:</p></div>
+        <div class="read-card"><p class="read-card-text">يُسجِّلُ الشّاعرُ في هذهِ الأبياتِ المختارةِ مشاعرَ الحُبِّ الصّادقِ، والرّحمةِ، والفرحِ تُجاهَ طفلٍ مِنْ عائلتِهِ، رأى في عُيونِهِ كلَّ أطفالِ بلادِهِ، ويختتمُ الأبياتَ بالدّعاءِ بأنْ يَعُمَّ الأرضَ الخيرُ والسّعادةُ والأمنُ؛ كرامةً لكلِّ طفلٍ في العالمِ، ومِنْ هنا جاءتْ عاطفتُهُ مُفعَمةً بالإنسانيّةِ.</p></div>
+        <p class="ideas-instruction" style="margin-top:14px;"><strong>السّؤالُ:</strong> لقراءةِ أيِّ عملٍ أدبيٍّ من المهمِّ أن أسألَ: ماذا أرادَ الكاتبُ أو الشّاعرُ أن يحقِّقَ؟ وكيفَ حقَّقَهُ؟ ومن خلالِ الفقرةِ يُجيبُ الشّاعرُ على الشِّقِّ الأوّلِ من السّؤالِ، وهو سؤالُ (ماذا)، فماذا أرادَ الشّاعرُ أن يحقِّقَ؟ وما هي أبرزُ الأفكارِ الّتي حاولَ التّعبيرَ عنها؟ أختارُ «أتّفقُ» أو «لا أتّفقُ» أمامَ كلِّ فكرةٍ ممّا يلي:</p>
+        <div style="margin-top:12px;">
+          <div class="ag-row" data-ag="0">
+            <div class="ag-statement"><span class="ag-num">١.</span>أرادَ أن يعبّرَ عن حُبِّهِ لطفلٍ مِنْ عائلتِهِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(0,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(0,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>          <div class="ag-row" data-ag="1">
+            <div class="ag-statement"><span class="ag-num">٢.</span>أرادَ أن يعبّرَ عن فرحِهِ تُجاهَ الطّفلِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(1,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(1,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>          <div class="ag-row" data-ag="2">
+            <div class="ag-statement"><span class="ag-num">٣.</span>أرادَ أن يعبّرَ عن سَلبِ الحروبِ لحقوقِ الطّفلِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(2,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(2,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>          <div class="ag-row" data-ag="3">
+            <div class="ag-statement"><span class="ag-num">٤.</span>أرادَ أن يعبّرَ عن كلِّ أطفالِ بلادِهِ مِنْ خلالِ هذا الطّفلِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(3,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(3,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>          <div class="ag-row" data-ag="4">
+            <div class="ag-statement"><span class="ag-num">٥.</span>أرادَ أن يعبّرَ عن أثرِ المجاعةِ على الأطفالِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(4,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(4,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>          <div class="ag-row" data-ag="5">
+            <div class="ag-statement"><span class="ag-num">٦.</span>أرادَ أن يعبّرَ عن عمالةِ الأطفالِ وآثارِها السّلبيّةِ على العائلاتِ والأطفالِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(5,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(5,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>          <div class="ag-row" data-ag="6">
+            <div class="ag-statement"><span class="ag-num">٧.</span>أرادَ أن يعبّرَ عن الاهتمامِ بالطّفلِ وإحاطتِهِ بالأمانِ.</div>
+            <div class="ag-options">
+              <button type="button" class="ag-btn" onclick="pickAg(6,'agree',this)">أتّفقُ</button>
+              <button type="button" class="ag-btn" onclick="pickAg(6,'disagree',this)">لا أتّفقُ</button>
+            </div>
+          </div>
+        </div>
+        <div class="q-feedback" id="fb-ag"></div>
+      </div>
+    </div>
+
+    <!-- ٣: إضافة حقوق -->
+    <div class="slide" data-slide="3">
+      <div class="q-card">
+        <div class="q-card-header"><button class="audio-btn" onclick="toggleSimpleAudio(this)" aria-label="استمع"><i class="fas fa-volume-high"></i></button><p class="q-card-title">قبلَ الانتقالِ إلى شرحِ الأبياتِ: هل هناكَ حقوقُ أطفالٍ أخرى أودُّ إضافتَها إلى القائمةِ؟</p></div>
+        <div class="wq-block"><textarea class="rw-textarea" id="moreBox" placeholder="أكتبُ هنا حقوقًا إضافيّةً…" oninput="updateMore(this)"></textarea></div>
+        <div class="rw-answer-wrap" id="more-answer" style="display:none;"></div>
+        <div class="q-feedback" id="fb-more"></div>
+      </div>
+      <div class="slide-controls rw-controls">
+        <button class="btn-action btn-restart" onclick="resetMore()" style="background:var(--color-secondary);color:var(--color-primary);box-shadow:0 5px 0 var(--color-secondary-shadow);"><i class="fas fa-redo"></i> إعادةٌ</button>
+        <button class="btn-action btn-check btn-sm" id="checkMoreBtn" onclick="checkMore()"><i class="fas fa-check"></i> تحقّقْ</button>
+      </div>
+    </div>
+
+    <div class="success-screen" id="successScreen"><div class="complete-wrap" id="completeWrap">
+      <div class="trophy-wrap"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/-9zDOKRj6NhMp2LU.png" alt="" class="trophy-img"><div class="trophy-glow"></div></div>
+      <div class="complete-title">أحسنتَ! أتممتَ النّشاطَ</div>
+      <div class="complete-restart"><button class="btn-action btn-restart" onclick="restartActivity()"><i class="fas fa-redo"></i> إعادةُ النّشاطِ</button></div>
+    </div></div>
+  </div>
+  <div class="task-nav" id="taskNav">
+    <div class="nav-side"><button class="btn-action btn-nav" id="prevBtn" onclick="prevSlide()" style="visibility:hidden;"><i class="fas fa-arrow-right"></i> السّابقُ</button></div>
+    <div class="nav-side"><button class="btn-action btn-nav" id="nextBtn" onclick="nextSlide()">التّالي <i class="fas fa-arrow-left"></i></button></div>
+  </div>
+</div></div>
+<script>
+
+function toArabic(n){const a=['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];return n.toString().split('').map(d=>a[d]||d).join('');}
+function toggleSimpleAudio(btn){btn.classList.toggle('state-playing');}
+
+const TOTAL_SLIDES=3; let currentSlide=1;
+function goToSlide(idx){
+  if(idx<1||idx>TOTAL_SLIDES) return;
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  document.querySelector('.slide[data-slide="'+idx+'"]').classList.add('active');
+  currentSlide=idx; updateProgressBar(); updateNavButtons(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextSlide(){ if(currentSlide<TOTAL_SLIDES) goToSlide(currentSlide+1); else finishActivity(); }
+function prevSlide(){ if(currentSlide>1) goToSlide(currentSlide-1); }
+function isSlideAnswered(idx){ if(idx===1) return wqMeta.checked; if(idx===2) return Object.keys(agState).length>=7; if(idx===3) return moreState.checked; return true; }
+function updateNavButtons(){
+  const p=document.getElementById('prevBtn'),n=document.getElementById('nextBtn');
+  p.style.visibility=(currentSlide===1)?'hidden':'visible';
+  n.innerHTML=(currentSlide===TOTAL_SLIDES)?'إنهاءُ النّشاطِ':'التّالي <i class="fas fa-arrow-left"></i>';
+  n.disabled=!isSlideAnswered(currentSlide);
+}
+function screensDone(){ let d=0; if(typeof wqMeta!=='undefined'&&wqMeta.checked) d++; if(typeof agState!=='undefined'&&Object.keys(agState).length>=7) d++; if(typeof moreState!=='undefined'&&moreState.checked) d++; return d; }
+function updateProgressBar(){ document.getElementById('progressFill').style.width=Math.round((screensDone()/TOTAL_SLIDES)*100)+'%'; }
+
+/* ═══ شاشة ١: كتابة النبذة + الإجابة النموذجيّة (متعددة الخطوات) ═══ */
+const WQ_MODEL = [{"q": "ما اسمُ الشّاعرِ الّذي كتبَ قصيدةَ «مِنْ أجلِ الطّفولةِ»؟", "model": "محمّد سليمان الأحمد."}, {"q": "في أيِّ عامٍ وُلِدَ الشّاعرُ؟ وفي أيِّ عامٍ توفّيَ؟", "model": "وُلِدَ عامَ ١٩٠٥م، وتوفّيَ عامَ ١٩٨١م."}, {"q": "ما لقبُ الشّاعرِ؟ ومَنِ الّذي أطلقَ عليهِ هذا اللقبَ؟", "model": "لقبُهُ «بدويُّ الجبلِ»، وأطلقَهُ عليهِ يوسفُ العيسى صاحبُ مجلّةِ (الألف باء)."}];
+const wqState = WQ_MODEL.map(()=>({text:'',wc:0}));
+const wqMeta = { checked:false, timeoutId:null };
+function wc(s){ return s.trim().split(/\s+/).filter(w=>w.length>0).length; }
+function updateWQ(ta,i){ wqState[i].wc=wc(ta.value); wqState[i].text=ta.value.trim(); if(ta.value.trim()) ta.classList.add('state-filled'); else ta.classList.remove('state-filled'); }
+function checkWQ(){
+  const fb=document.getElementById('fb-wq');
+  const empty=wqState.some(s=>s.text.length===0);
+  if(empty){
+    fb.className='q-feedback show-info'; fb.innerHTML='<i class="fas fa-circle-info"></i> أُجيبُ عن كلِّ الأسئلةِ قبلَ التّحقّقِ.';
+    setTimeout(()=>{ if(fb.classList.contains('show-info')){ fb.className='q-feedback'; fb.innerHTML=''; } },2000);
+    return;
+  }
+  fb.className='q-feedback show-correct'; fb.innerHTML='<i class="fas fa-check-circle"></i> أحسنتَ! تمَّ تسجيلُ إجاباتِكَ.';
+  WQ_MODEL.forEach((w,i)=>{ const t=document.getElementById('wq-'+i); t.disabled=true; });
+  document.getElementById('checkWQBtn').disabled=true;
+  wqMeta.checked=true; updateProgressBar(); updateNavButtons();
+  wqMeta.timeoutId=setTimeout(()=>{
+    WQ_MODEL.forEach((w,i)=>{ const t=document.getElementById('wq-'+i); if(t) t.style.display='none'; });
+    const wrap=document.getElementById('wq-answer');
+    const TOTAL=WQ_MODEL.length;
+    let steps='<div class="rw-modal-steps">';
+    for(let i=0;i<TOTAL;i++){
+      const u=wqState[i].text||'— لمْ تكتبْ شيئًا —';
+      steps+='<div class="rw-modal-step '+(i===0?'active':'')+'" data-step="'+i+'">'
+        +'<div class="rw-modal-title-wrap"><button class="audio-btn rw-modal-audio" aria-label="استمعْ"><i class="fas fa-volume-high"></i></button><div class="rw-modal-title">'+WQ_MODEL[i].q+'</div></div>'
+        +'<div class="rw-answer-section"><div class="rw-answer-label"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/cLOqhfvns725Nq4e.png" alt=""> إجابتُكَ</div><div class="rw-answer-text">'+u+'</div></div>'
+        +'<div class="rw-answer-section suggested"><div class="rw-answer-label"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt=""> الإجابةُ النّموذجيّةُ</div><div class="rw-answer-text">'+WQ_MODEL[i].model+'</div></div>'
+        +'</div>';
+    }
+    steps+='</div>';
+    let dots=''; for(let i=0;i<TOTAL;i++){ dots+='<span class="rw-modal-dot '+(i===0?'active':'')+'" data-dot="'+i+'"></span>'; }
+    const nav='<div class="rw-modal-nav"><button class="rw-modal-arrow rw-prev" disabled><i class="fas fa-arrow-right"></i></button><div class="rw-modal-dots">'+dots+'</div><button class="rw-modal-arrow rw-next"><i class="fas fa-arrow-left"></i></button></div>';
+    wrap.innerHTML='<div class="rw-answer-modal"><button class="rw-modal-close" aria-label="إغلاق"><i class="fas fa-times"></i></button>'+steps+nav+'</div>';
+    wrap.querySelector('.rw-modal-close').onclick=()=>{ wrap.style.display='none'; };
+    wrap.querySelectorAll('.rw-modal-audio').forEach(b=>b.onclick=()=>toggleSimpleAudio(b));
+    wrap.onclick=(e)=>{ if(e.target===wrap) wrap.style.display='none'; };
+    const prev=wrap.querySelector('.rw-prev'), next=wrap.querySelector('.rw-next'); let cur=0;
+    function show(st){ if(st<0||st>=TOTAL) return; cur=st;
+      wrap.querySelectorAll('.rw-modal-step').forEach(s=>s.classList.remove('active'));
+      wrap.querySelector('.rw-modal-step[data-step="'+st+'"]').classList.add('active');
+      wrap.querySelectorAll('.rw-modal-dot').forEach(d=>d.classList.remove('active'));
+      wrap.querySelector('.rw-modal-dot[data-dot="'+st+'"]').classList.add('active');
+      prev.disabled=(st===0); next.disabled=(st===TOTAL-1);
+    }
+    prev.onclick=()=>show(cur-1); next.onclick=()=>show(cur+1);
+    const card=document.querySelector('.slide[data-slide="1"] .q-card');
+    if(card && !document.querySelector('.rw-show-answer-btn')){
+      const row=document.createElement('div'); row.style.cssText='display:flex;justify-content:center;';
+      const btn=document.createElement('button'); btn.className='btn-action btn-check btn-sm rw-show-answer-btn';
+      btn.innerHTML='<img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt=""> اطّلعْ على الإجاباتِ النّموذجيّةِ';
+      btn.onclick=()=>{ wrap.style.display='flex'; }; row.appendChild(btn); card.appendChild(row);
+    }
+    wrap.style.display='flex';
+    fb.style.display='none'; fb.className='q-feedback'; fb.innerHTML='';
+    wqMeta.timeoutId=null;
+  },2000);
+}
+function resetWQ(){
+  const fb=document.getElementById('fb-wq');
+  if(wqMeta.timeoutId){ clearTimeout(wqMeta.timeoutId); wqMeta.timeoutId=null; }
+  WQ_MODEL.forEach((w,i)=>{ const t=document.getElementById('wq-'+i); t.value=''; t.disabled=false; t.style.display=''; t.classList.remove('state-filled'); wqState[i]={text:'',wc:0}; });
+  document.querySelectorAll('.wq-block').forEach(b=>b.style.display='');
+  const wrap=document.getElementById('wq-answer'); if(wrap){ wrap.style.display='none'; wrap.onclick=null; wrap.innerHTML=''; }
+  const sb=document.querySelector('.rw-show-answer-btn'); if(sb) sb.parentElement.remove();
+  document.getElementById('checkWQBtn').disabled=false; wqMeta.checked=false;
+  fb.style.display=''; fb.className='q-feedback'; fb.innerHTML=''; updateProgressBar(); updateNavButtons();
+}
+
+/* ═══ شاشة ٢: أتفق / لا أتفق (بدون تصحيح) ═══ */
+const agState={};
+function pickAg(idx,val,btn){
+  agState[idx]=val;
+  const row=document.querySelector('.ag-row[data-ag="'+idx+'"]');
+  row.querySelectorAll('.ag-btn').forEach(b=>b.classList.remove('sel-agree','sel-disagree'));
+  btn.classList.add(val==='agree' ? 'sel-agree' : 'sel-disagree'); row.classList.add('answered'); updateProgressBar(); updateNavButtons();
+}
+
+/* ═══ شاشة ٣: إضافة حقوق ═══ */
+const moreState={text:'',wc:0,checked:false,timeoutId:null};
+const MORE_MODEL = { title:'حقوقُ الطّفلِ الّتي تعرّفتُ عليها', answer:'<div class="rw-rights-chips"><span>إرشادُ الأطفالِ إلى طريقِ الخيرِ</span><span>تقديمُ المحبّةِ للأطفالِ</span><span>الرحمةُ بالأطفالِ</span><span>العنايةُ بالأمّهاتِ</span><span>العطفُ على الأطفالِ</span><span>مراعاةُ نفسيّةِ الطفلِ</span></div>' };
+function updateMore(ta){ moreState.wc=wc(ta.value); moreState.text=ta.value.trim(); if(ta.value.trim()) ta.classList.add('state-filled'); else ta.classList.remove('state-filled'); }
+function checkMore(){
+  const fb=document.getElementById('fb-more'), ta=document.getElementById('moreBox');
+  if(moreState.text.length===0){
+    fb.className='q-feedback show-info'; fb.innerHTML='<i class="fas fa-circle-info"></i> أكتبُ حقًّا واحدًا على الأقلِّ.';
+    setTimeout(()=>{ if(fb.classList.contains('show-info')){ fb.className='q-feedback'; fb.innerHTML=''; } },2000);
+    return;
+  }
+  fb.className='q-feedback show-correct'; fb.innerHTML='<i class="fas fa-check-circle"></i> أحسنتَ! تمَّ تسجيلُ إضافتِكَ.';
+  ta.disabled=true; document.getElementById('checkMoreBtn').disabled=true; moreState.checked=true; updateProgressBar(); updateNavButtons();
+  moreState.timeoutId=setTimeout(()=>{
+    ta.style.display='none';
+    const wrap=document.getElementById('more-answer');
+    const u=moreState.text||'— لمْ تكتبْ شيئًا —';
+    wrap.innerHTML='<div class="rw-answer-modal">'
+      + '<button class="rw-modal-close" aria-label="إغلاق"><i class="fas fa-times"></i></button>'
+      + '<div class="rw-modal-title-wrap"><button class="audio-btn rw-modal-audio" aria-label="استمعْ"><i class="fas fa-volume-high"></i></button><div class="rw-modal-title">'+MORE_MODEL.title+'</div></div>'
+      + '<div class="rw-answer-section"><div class="rw-answer-label"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/cLOqhfvns725Nq4e.png" alt=""> إجابتُكَ</div><div class="rw-answer-text">'+u+'</div></div>'
+      + '<div class="rw-answer-section suggested"><div class="rw-answer-label"><img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt=""> الإجابةُ النّموذجيّةُ</div><div class="rw-answer-text">'+MORE_MODEL.answer+'</div></div>'
+      + '</div>';
+    wrap.querySelector('.rw-modal-close').onclick=()=>{ wrap.style.display='none'; };
+    wrap.querySelectorAll('.rw-modal-audio').forEach(b=>b.onclick=()=>toggleSimpleAudio(b));
+    wrap.onclick=(e)=>{ if(e.target===wrap) wrap.style.display='none'; };
+    const card=document.querySelector('.slide[data-slide="3"] .q-card');
+    if(card && !document.querySelector('.more-show-answer-btn')){
+      const row=document.createElement('div'); row.style.cssText='display:flex;justify-content:center;';
+      const btn=document.createElement('button'); btn.className='btn-action btn-check btn-sm rw-show-answer-btn more-show-answer-btn';
+      btn.innerHTML='<img src="https://articulateusercontent.com/rise/courses/o2MV3bpwSmll8mZVQtS0sr77Ag3O0DBN/8P8OUGkS4ysDD9eL.png" alt=""> اطّلعْ على الإجابةِ النّموذجيّةِ';
+      btn.onclick=()=>{ wrap.style.display='flex'; }; row.appendChild(btn); card.appendChild(row);
+    }
+    wrap.style.display='flex';
+    fb.style.display='none'; fb.className='q-feedback'; fb.innerHTML='';
+    moreState.timeoutId=null;
+  },2000);
+}
+function resetMore(){
+  const fb=document.getElementById('fb-more'), ta=document.getElementById('moreBox');
+  if(moreState.timeoutId){ clearTimeout(moreState.timeoutId); moreState.timeoutId=null; }
+  ta.value=''; ta.disabled=false; ta.style.display=''; ta.classList.remove('state-filled');
+  const wrap=document.getElementById('more-answer'); if(wrap){ wrap.style.display='none'; wrap.onclick=null; wrap.innerHTML=''; }
+  const sb=document.querySelector('.more-show-answer-btn'); if(sb) sb.parentElement.remove();
+  document.getElementById('checkMoreBtn').disabled=false;
+  moreState.text=''; moreState.wc=0; moreState.checked=false;
+  fb.style.display=''; fb.className='q-feedback'; fb.innerHTML=''; updateProgressBar(); updateNavButtons();
+}
+
+function finishActivity(){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  document.getElementById('taskNav').style.display='none'; document.getElementById('progressFill').style.width='100%';
+  const sc=document.getElementById('successScreen'); sc.classList.add('show'); sc.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(launchConfetti,400);
+}
+function launchConfetti(){
+  const wrap=document.getElementById('completeWrap'); if(!wrap) return;
+  const colors=['#EDC66F','#844816','#808122','#E6E6CD','#a05820','#FFF4E5'];
+  for(let i=0;i<36;i++){ const dot=document.createElement('div'); dot.className='confetti-dot'; const sz=8+Math.random()*12;
+    dot.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+colors[~~(Math.random()*colors.length)]+';left:'+(8+Math.random()*84)+'%;top:'+(-20+Math.random()*40)+'px;animation-duration:'+(1.4+Math.random()*1.4)+'s;animation-delay:'+(Math.random()*0.9)+'s';
+    wrap.appendChild(dot); setTimeout(()=>dot.remove(),3500); }
+}
+function restartActivity(){ location.reload(); }
+
+updateNavButtons(); updateProgressBar();
+</script>
+</body>
+</html>
